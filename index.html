@@ -34,9 +34,10 @@
         <div class="container">
             <div class="hero-content">
                 <h2>How can we help you today?</h2><br>
-                <!--#########################################################
-                <p>Search our knowledge base or submit a support ticket.</p>
-                #############################################################-->
+
+                <!--Date and time section-->
+                <p id="datetime"></p>
+                
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Search for articles or solutions...">
                     <button onclick="searchKnowledgeBase()">Search</button>
@@ -74,8 +75,29 @@
     </footer>
 
     <script src="script.js"></script>
+<!--Date and Time-->
+      <script>
+    function updateDateTime() {
+      // Get the current date and time
+      const now = new Date();
+
+      // Format the date and time
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDateTime = `Today is: ${now.toLocaleDateString(undefined, options)}, Time: ${now.toLocaleTimeString()}`;
+
+      // Update the HTML element
+      document.getElementById("datetime").innerHTML = formattedDateTime;
+    }
+
+    // Update the time every second (1000 milliseconds)
+    setInterval(updateDateTime, 1000);
+
+    // Call the function once to display the time immediately
+    updateDateTime();
+  </script>    
 </body>
 </html>
+
 
 
 

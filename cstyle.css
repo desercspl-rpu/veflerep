@@ -1,12 +1,1 @@
-*{padding: 0px; margin: 0px; font-family: 'Times New Roman', Times, serif; font-weight: 900;}
-h1{text-align: center; margin-top: 50px;}
-p{text-align: center; height: 1px; display: block;}
-.container{margin-top: 100px; border-radius: 10px; text-align: center;}
-#add{height: 80px; width: 80px;}
-#mai{height: 70px; width: 90px;}
-#wha{height: 80px; width: 90px;}
-#sms{height: 80px; width: 80px;}
-#pho{height: 80px; width: 90px;}
-a{text-decoration: none; color: green;}
-a:hover{color: blue; transition: 1s; font-size: x-large;}
-.col-md-6
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Desk Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using a common font for a professional look -->
+    <link href="https://docs.google.com/forms/d/e/1FAIpQLSdU5Zzfafct2z5jyKi_8lGv8LSToAgC7284ph88SS_dMF21rw/viewform?usp=dialog" rel="stylesheet">
+</head>
+<body id="slidb">
+    <div class="contslid">
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>Support Portal</h1>
+            </div>
+            <nav class="nav-links">
+                <!--#############################################################
+                <a href="index.html">Home</a>
+                <a href="#submit">Submit Ticket</a>
+                <a href="#knowledge">Knowledge Base</a>
+                <a href="#status">Ticket Status</a>
+                #############################################################--> 
+                <!-- <select id="loc" name="loc">
+                    <option value="Pune">Pune</option>
+                    <option value="Sangli">Sangli</option>
+                    <option value="Kolhapur">Kolhapur</option>
+                    <option value="Karad">Karad</option>
+                    <option value="Nashik">Nashik</option>
+                    <option value="Goa">Goa</option>
+                </select> -->
+                <a href="contact.html">Contact Us</a>     
+            </nav>
+        </div>
+    </header>
+    <!-- Main Hero Section -->
+    <section class="hero-section">
+
+                <!--<marquee behavior="scroll" direction="left" scrollamount="5">
+            This is a paragraph that automatically slides from right to left across the page. You can customize the speed and direction using the marquee attributes.
+                </marquee>-->
+
+        <div class="container">
+            <div class="hero-content">
+                <h2>How can we help you today?</h2>
+
+                <!--Date and time section-->
+                <p id="datetime"></p>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for articles or solutions...">
+                    <button onclick="searchKnowledgeBase()">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content / Action Cards -->
+
+    <main class="container content-section">
+        <div class="card" id="submit">
+            <h3>Report by Crew</h3>
+            <p>Tripsheet, Odometer, Incident Reporting, Vehicle and Equipment Checks etc.</p>
+            <a href="Crew.html" class="btn-primary">Daily Report</a>
+        </div>
+
+        <div class="card" id="knowledge">
+            <h3>Operation Team</h3>
+            <p>Kindly submit reports such as the CIT training, Physical verified CCTV Report.</p>
+            <a href="ops.html" class="btn-primary">Monthly Report</a>
+        </div>
+
+        <div class="card" id="status">
+            <h3>E-Learning</h3>
+            <p>UAN Creation and Any updation in ESIC etc.</p>
+            <a href="lear.html" class="btn-primary">Learn</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Checkmate Services Private Limited | Help Desk Portal</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<!--Date and Time-->
+      <script>
+    function updateDateTime() {
+      // Get the current date and time
+      const now = new Date();
+
+      // Format the date and time
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDateTime = `Today is: ${now.toLocaleDateString(undefined, options)}, Time: ${now.toLocaleTimeString()}`;
+
+      // Update the HTML element
+      document.getElementById("datetime").innerHTML = formattedDateTime;
+    }
+
+    // Update the time every second (1000 milliseconds)
+    setInterval(updateDateTime, 1000);
+
+    // Call the function once to display the time immediately
+    updateDateTime();
+  </script>    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

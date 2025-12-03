@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ops Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using a common font for a professional look -->
+    <link href="https://docs.google.com/forms/d/e/1FAIpQLSdU5Zzfafct2z5jyKi_8lGv8LSToAgC7284ph88SS_dMF21rw/viewform?usp=dialog" rel="stylesheet">
+</head>
+<body id="slidb">
+    <div class="contslid">
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>Operations Portal</h1>
+            </div>
+            <nav class="nav-links">
+                
+                <a href="index.html">Home</a>
+                <!--#############################################################
+                <a href="#submit">Submit Ticket</a>
+                <a href="#knowledge">Knowledge Base</a>
+                <a href="#status">Ticket Status</a>
+                #############################################################--> 
+                <a href="contact.html">Contact Us</a>     
+            </nav>
+        </div>
+    </header>
+    <!-- Main Section -->
+    <section class="hero-section">
+
+                <marquee behavior="scroll" direction="left" scrollamount="5">
+                    <!-- Thank you form Submission to Mr -->
+                </marquee>
+
+        <div class="container">
+            <div class="hero-content">
+                <h2>How can we help you today?</h2>
+
+                <!--Date and time section-->
+                <p id="datetime"></p>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for articles or solutions...">
+                    <button onclick="searchKnowledgeBase()">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Action Cards -->
+
+    <main class="container content-section">
+        <div class="card" id="submit">
+            <h3>CCTV Report</h3>
+            <p>Kindly submit the physical verified CCTV report with attachment of the vehicle.</p>
+            <a href=" " class="btn-primary">Report</a>
+        </div>
+
+        <div class="card" id="****">
+            <h3>Crew Training Report</h3>
+            <p>Kindly submit the training report related to CIT Crew</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSzdWxxs37RgPcaTH18OttaRPPWj2JDNWIfi1TFjt_QMfOiw/viewform" class="btn-primary">Report</a>
+        </div>
+
+        <div class="card" id="status">
+            <h3>Operation Support</h3>
+            <p>Kindly Submit your Query.</p>
+            <a href=" " class="btn-primary">Submit</a>
+        </div>
+
+        <!-- <div class="card" id="knowledge">
+            <h3>Stationary Requierment</h3>
+            <p>Kindly submit your requierment of the stationary</p>
+            <a href=" " class="btn-primary">Submit</a>
+        </div> -->
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Checkmate Services Private Limited | Help Desk Portal</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<!--Date and Time-->
+      <script>
+    function updateDateTime() {
+      // Get the current date and time
+      const now = new Date();
+
+      // Format the date and time
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDateTime = `Today is: ${now.toLocaleDateString(undefined, options)}, Time: ${now.toLocaleTimeString()}`;
+
+      // Update the HTML element
+      document.getElementById("datetime").innerHTML = formattedDateTime;
+    }
+
+    // Update the time every second (1000 milliseconds)
+    setInterval(updateDateTime, 1000);
+
+    // Call the function once to display the time immediately
+    updateDateTime();
+  </script>    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

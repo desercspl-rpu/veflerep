@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using a common font for a professional look -->
+    <link href="https://docs.google.com/forms/d/e/1FAIpQLSdU5Zzfafct2z5jyKi_8lGv8LSToAgC7284ph88SS_dMF21rw/viewform?usp=dialog" rel="stylesheet">
+</head>
+<body id="slidb">
+    <div class="contslid">
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>E-Learning</h1>
+            </div>
+            <nav class="nav-links">
+                
+                <a href="index.html">Home</a>
+                <!--#############################################################
+                <a href="#submit">Submit Ticket</a>
+                <a href="#knowledge">Knowledge Base</a>
+                <a href="#status">Ticket Status</a>
+                #############################################################--> 
+                <a href="contact.html">Contact Us</a>     
+            </nav>
+        </div>
+    </header>
+    <!-- Main Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h2>How can we help you today?</h2>
+
+                <!--Date and time section-->
+                <p id="datetime"></p>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for articles or solutions...">
+                    <button onclick="searchKnowledgeBase()">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Action Cards -->
+
+    <main class="container content-section">
+        <div class="card" id="submit">
+            <h3>UAN Creation</h3>
+            <p>How to install app and Create UAN.</p>
+            <a href="https://checkmateindia-my.sharepoint.com/:v:/g/personal/pune_it_checkmateservices_com/IQCDtuX84NjfQ6ycINhzIQtaAShuUtA8BO1mDZBJOxau_pU?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=ECYcff" class="btn-primary">Lean</a>
+        </div>
+
+        <!-- <div class="card" id="****">
+            <h3>Trip Sheet</h3>
+            <p>Kindly submit the trip kilometers after completing the vehicle trip.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScQdjOEzYQFG23KA-0iiLEaCSpMNg592i5JFaTJaLlQi1Ic7A/viewform?usp=publish-editor" class="btn-primary">Daily Report</a>
+        </div>
+
+        <div class="card" id="knowledge">
+            <h3>Odometer Report</h3>
+            <p>Kindly submit the Odometer reading after arrived the vehicle.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdi07YcKBdu-3PWpacBN76aThFIs6vLbjchZbBgAd9mfZTpgw/viewform?usp=publish-editor" class="btn-primary">Daily Report</a>
+        </div>
+
+        <div class="card" id="status">
+            <h3>Crew Member</h3>
+            <p>If you have any issues, please let me know, and I will assist you soon.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfqISin0jkmMPryzhumxiixw4SVuJN-2eyrYEf0WPytTHYQJA/viewform?usp=header" class="btn-primary">Submit</a>
+        </div> -->
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Checkmate Services Private Limited | Help Desk Portal</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<!--Date and Time-->
+      <script>
+    function updateDateTime() {
+      // Get the current date and time
+      const now = new Date();
+
+      // Format the date and time
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDateTime = `Today is: ${now.toLocaleDateString(undefined, options)}, Time: ${now.toLocaleTimeString()}`;
+
+      // Update the HTML element
+      document.getElementById("datetime").innerHTML = formattedDateTime;
+    }
+
+    // Update the time every second (1000 milliseconds)
+    setInterval(updateDateTime, 1000);
+
+    // Call the function once to display the time immediately
+    updateDateTime();
+  </script>    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

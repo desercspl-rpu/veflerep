@@ -1,0 +1,148 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CCTV Report</title>
+        <link rel="icon" type="image/png" href="gu.png"/>
+        <link rel="icon" href="cclo.png">
+        <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.inta {
+    margin-bottom: 15px;
+    width: calc(100%);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+        </style>
+    </head>
+    <body">
+            <form class="form-container" method="POST" action="https://script.google.com/macros/s/AKfycbz6vlekw3JyZrecqPaCd66AgmwyYKryoGjMAu-sV7j9bRdXC7hCaagP6SqEt0z4GQrmEg/exec">
+          <h3>Report Submit By Crew</h3>
+            <label for="Date" class="last">Date</label>
+            <input class="inta" type="date" id="Date" name="Date" required>
+            
+            <label for="vehdpdn" class="last">Vehicle Number</label>
+    <select class="inta" id="vehdpdn" name="Vehicle Number" required>
+            <option value="Good" selected>Select vehicle number</option>
+            <option value="UP 32 VN 1064">UP 32 VN 1064</option>
+            <option value="MH 48 BM 0953">MH 48 BM 0953</option>
+            <option value="MH 12 YQ 1293">MH 12 YQ 1293</option>
+            <option value="MH 12 YB 2072">MH 12 YB 2072</option>
+            <option value="MH 12 YB 2071">MH 12 YB 2071</option>
+            <option value="MH 12 WJ 4184">MH 12 WJ 4184</option>
+            <option value="MH 12 WJ 4183">MH 12 WJ 4183</option>
+            <option value="MH 12 WJ 1412">MH 12 WJ 1412</option>
+            <option value="MH 12 UM 9088">MH 12 UM 9088</option>
+            <option value="MH 12 UM 9087">MH 12 UM 9087</option>
+            <option value="MH 12 UM 8723">MH 12 UM 8723</option>
+            <option value="MH 12 UM 8134">MH 12 UM 8134</option>
+            <option value="MH 12 UM 8133">MH 12 UM 8133</option>
+            <option value="MH 12 UM 8132">MH 12 UM 8132</option>
+            <option value="MH 12 UM 5651">MH 12 UM 5651</option>
+            <option value="MH 12 UM 5650">MH 12 UM 5650</option>
+            <option value="MH 12 UM 4726">MH 12 UM 4726</option>
+            <option value="MH 12 TV 5998">MH 12 TV 5998</option>
+            <option value="MH 12 TV 5822">MH 12 TV 5822</option>
+            <option value="MH 12 TV 2334">MH 12 TV 2334</option>
+            <option value="MH 12 TV 2332">MH 12 TV 2332</option>
+            <option value="MH 12 TV 2331">MH 12 TV 2331</option>
+            <option value="MH 12 RN 2442">MH 12 RN 2442</option>
+            <option value="MH 12 QW 8678">MH 12 QW 8678</option>
+            <option value="GJ 06 BT 3824">GJ 06 BT 3824</option>
+            <option value="GA 07 T3 3831">GA 07 T3 3831</option>
+            <option value="GA 07 T2 2114">GA 07 T2 2114</option>
+            <option value="GA 07 T2 2113">GA 07 T2 2113</option>
+            <option value="GA 07 T2 2111">GA 07 T2 2111</option>
+    </select>
+
+            <label for="Name" class="last">Name</label>
+            <input class="inta" type="text" id="Name" name="Name" placeholder="Enter your name" required>
+
+            <label for="Number" class="last">Mobile Number</label>
+            <input class="inta" type="Number" id="Number" name="Mobile Number" placeholder="Enter your mobile number" required>
+
+            <label for="camdpdn" class="last">Front Camera</label>
+    <select class="inta" id="camcon" name="Front Camera" required>
+                <option value="Good" selected>Select Condition</option>
+                <option value="Good">Good</option>
+                <option value="Bad">Bad</option>
+    </select>
+
+                <label for="camdpdn" class="last">Cabin Camera</label>
+    <select class="inta" id="camcon" name="Cabin Camera" required>
+                <option value="Good" selected>Select Condition</option>
+                <option value="Good">Good</option>
+                <option value="Bad">Bad</option>
+    </select>
+
+                <label for="camdpdn" class="last">Vault Camera</label>
+    <select class="inta" id="camcon" name="Vault Camera" required>
+                <option value="Good" selected>Select Condition</option>
+                <option value="Good">Good</option>
+                <option value="Bad">Bad</option>
+    </select>
+
+                <label for="camdpdn" class="last">Back Camera</label>
+    <select class="inta" id="camcon" name="Back Camera" required>
+                <option value="Good" selected>Select Condition</option>
+                <option value="Good">Good</option>
+                <option value="Bad">Bad</option>
+    </select>
+
+            <label for="Remark" class="last">Remark</label>
+            <textarea class="inta" id="rem" name="Remark" rows="4" cols="25"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+    </html>

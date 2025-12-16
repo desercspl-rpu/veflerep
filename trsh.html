@@ -1,0 +1,181 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tripsheet</title>
+        <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.inta {
+    margin-bottom: 15px;
+    width: calc(100%);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+        </style>
+    </head>
+    <body>
+        <form method="POST" action="https://script.google.com/macros/s/AKfycbxhSZxUPzz4KQPD0I4QWhKlOJnv11FlxtRzcTl0JJV6mrNWLI1ewsqmSLXFwFB_m79H/exec">
+          <h3>You can drop here report of Tripsheet</h3><br>
+            <label for="Date">Date</label>
+            <input class="inta" type="date" id="Date" name="Date" required>
+            
+            <label for="vehdpdn">Vehicle Number</label>
+    <select class="inta" id="vehdpdn" name="Vehicle Number" required>
+             <option value="Good" selected>Select vehicle number</option>
+            <option value="UP 32 VN 1064">UP 32 VN 1064</option>
+            <option value="MH 48 BM 0953">MH 48 BM 0953</option>
+            <option value="MH 12 YQ 1293">MH 12 YQ 1293</option>
+            <option value="MH 12 YB 2072">MH 12 YB 2072</option>
+            <option value="MH 12 YB 2071">MH 12 YB 2071</option>
+            <option value="MH 12 WJ 4184">MH 12 WJ 4184</option>
+            <option value="MH 12 WJ 4183">MH 12 WJ 4183</option>
+            <option value="MH 12 WJ 1412">MH 12 WJ 1412</option>
+            <option value="MH 12 UM 9088">MH 12 UM 9088</option>
+            <option value="MH 12 UM 9087">MH 12 UM 9087</option>
+            <option value="MH 12 UM 8723">MH 12 UM 8723</option>
+            <option value="MH 12 UM 8134">MH 12 UM 8134</option>
+            <option value="MH 12 UM 8133">MH 12 UM 8133</option>
+            <option value="MH 12 UM 8132">MH 12 UM 8132</option>
+            <option value="MH 12 UM 5651">MH 12 UM 5651</option>
+            <option value="MH 12 UM 5650">MH 12 UM 5650</option>
+            <option value="MH 12 UM 4726">MH 12 UM 4726</option>
+            <option value="MH 12 TV 5998">MH 12 TV 5998</option>
+            <option value="MH 12 TV 5822">MH 12 TV 5822</option>
+            <option value="MH 12 TV 2334">MH 12 TV 2334</option>
+            <option value="MH 12 TV 2332">MH 12 TV 2332</option>
+            <option value="MH 12 TV 2331">MH 12 TV 2331</option>
+            <option value="MH 12 RN 2442">MH 12 RN 2442</option>
+            <option value="MH 12 QW 8678">MH 12 QW 8678</option>
+            <option value="GJ 06 BT 3824">GJ 06 BT 3824</option>
+            <option value="GA 07 T3 3831">GA 07 T3 3831</option>
+            <option value="GA 07 T2 2114">GA 07 T2 2114</option>
+            <option value="GA 07 T2 2113">GA 07 T2 2113</option>
+            <option value="GA 07 T2 2111">GA 07 T2 2111</option>
+    </select><br>
+
+                <label for="text">Start Reading</label>
+                <input class="inta" type="number" id="startNum" name="Start Reading" required>
+                
+                <label for="text">End Reading</label>
+                <input class="inta" type="number" id="endNum" name="End Reading" required>
+
+                <input type="hidden" name="Total KM" id="totalNum">
+
+                <label for="text">Start Time</label>
+                <input class="inta" type="time" id="startTime" name="Start Time" required>
+                
+                <label for="text">End Time</label>
+                <input class="inta" type="time" id="endTime" name="End Time" required>
+    
+                <input type="hidden" name="Total Time" id="totalTime">          
+                
+                <label for="text">Remark</label>
+                <textarea class="inta" id="rem" name="Remark" rows="4" cols="50"></textarea><br><br>
+
+            <button type="submit" onclick="calculateTotals()">Submit</button>
+        </form>
+    </body>
+    <script>
+        function calculateTotals() {
+            // 1. Get input values using getElementById
+            const startNumInput = document.getElementById('startNum').value;
+            const endNumInput = document.getElementById('endNum').value;
+            const startTimeInput = document.getElementById('startTime').value;
+            const endTimeInput = document.getElementById('endTime').value;
+
+            // --- Number Calculation ---
+            // Ensure inputs are valid numbers before calculation
+            if (startNumInput !== "" && endNumInput !== "") {
+                const startNum = parseFloat(startNumInput);
+                const endNum = parseFloat(endNumInput);
+                const totalNum = endNum - startNum;
+                // Print total number to its input tag
+                document.getElementById('totalNum').value = totalNum;
+            } else {
+                 document.getElementById('totalNum').value = "Error: Enter numbers";
+            }
+
+            // --- Time Calculation ---
+            if (startTimeInput !== "" && endTimeInput !== "") {
+                // Function to convert "HH:MM" string to minutes since midnight
+                const timeToMinutes = (timeStr) => {
+                    const [hours, minutes] = timeStr.split(':').map(Number);
+                    return (hours * 60) + minutes;
+                };
+
+                const startMinutes = timeToMinutes(startTimeInput);
+                const endMinutes = timeToMinutes(endTimeInput);
+
+                let diffMinutes = endMinutes - startMinutes;
+
+                // Handle cases where end time crosses midnight (e.g., starts at 23:00, ends at 01:00)
+                if (diffMinutes < 0) {
+                    diffMinutes += 1440; // Add 24 hours in minutes
+                }
+
+                // Convert total minutes difference back into "HH:MM" format
+                const hours = Math.floor(diffMinutes / 60);
+                const minutes = diffMinutes % 60;
+
+                // Format minutes to always display two digits (e.g., 5 becomes "05")
+                const formattedMinutes = minutes.toString().padStart(2, '0');
+                const formattedTime = `${hours}:${formattedMinutes}`;
+
+                // Print total time to its input tag
+                document.getElementById('totalTime').value = formattedTime;
+            } else {
+                document.getElementById('totalTime').value = "Error: Enter times";
+            }
+        }
+    </script>
+</html>

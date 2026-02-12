@@ -82,6 +82,9 @@ button:hover {
 
             <label for="text">Guard's Name</label>
             <input class="inta" type="text" id="strea" name="g_name" required>
+
+            <label for="text">Customer Name</label>
+            <input class="inta" type="text" id="strea" name="cutomer_name" required>
             
             <label for="text">Remark</label>
             <textarea class="inta" id="rem" name="remark" rows="4" cols="50"></textarea><br><br>
@@ -116,7 +119,7 @@ button:hover {
 
             // Fetch API to submit data to the Apps Script web app URL
             // REPLACE 'YOUR_WEB_APP_URL' with your deployed Apps Script URL
-            fetch('https://script.google.com/macros/s/AKfycbw3u4EO5wc7UnGiXrd9Iawy6xWrEyC9ktuZ1I8nReu7sq-FJpxhBhSGyfYvi27gK3NaVA/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbzmmc-EPJT8kSbBeQoAWess5OxERy_kFlQLzPgPyjowYgZWGe6KX95mvz1yo4hy9JlPXw/exec', {
                 method: 'POST',
                 body: formData
 

@@ -85,6 +85,13 @@ button:hover {
 
             <label for="text">Customer Name</label>
             <input class="inta" type="text" id="strea" name="cutomer_name" required>
+
+            <label for="text">Verticle</label>
+            <select name="ver" id="nam" class="inta" required>
+                <option value="" >Please Select Verticle</option>
+                <option value="CSPL">CSPL</option>
+                <option value="CFESPL">CFESPL</option>
+            </select>
             
             <label for="text">Remark</label>
             <textarea class="inta" id="rem" name="remark" rows="4" cols="50"></textarea><br><br>
@@ -119,7 +126,7 @@ button:hover {
 
             // Fetch API to submit data to the Apps Script web app URL
             // REPLACE 'YOUR_WEB_APP_URL' with your deployed Apps Script URL
-            fetch('https://script.google.com/macros/s/AKfycbzmmc-EPJT8kSbBeQoAWess5OxERy_kFlQLzPgPyjowYgZWGe6KX95mvz1yo4hy9JlPXw/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwWhIhEv0Pl7ZbLyUcbleGAy_1zPh2Xr0HnJzajgVKirGSUlYr64r8sPAttdM9x-HLk0A/exec', {
                 method: 'POST',
                 body: formData
 

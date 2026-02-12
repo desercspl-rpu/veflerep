@@ -1,0 +1,144 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Site Visit Report</title>
+        <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.inta {
+    margin-bottom: 15px;
+    width: calc(100%);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+        </style>
+
+    </head>
+    <body>
+        <form id="myForm">
+          <h3>You can drop here site visit report</h3><br>  
+
+            <label for="Date">Date of Visit</label>
+            <input class="inta" type="date" id="Date" name="date" required>
+
+            <label for="text">Self Name</label>
+            <select name="Name" id="nam" class="inta" required>
+                <option value="" >Please Select Your Name</option>
+                <option value="Brig. Vinod Shrikhande">Brig. Vinod Shrikhande</option>
+                <option value="Mr. Mahendra Jadhav">Mr. Mahendra Jadhav</option>
+                <option value="Mr. Babaram Surve">Mr. Babaram Surve</option>
+                <option value="Mr. Manoj Palande">Mr. Manoj Palande</option>
+            </select>
+            
+            <label for="vehdpdn">Name of Visited Site's</label>
+            <input type="text" class="inta" id="vehdpdn" name="visited_site" required>             
+
+                <label for="text">Name of the met person's and designation</label>
+                <input class="inta" type="text" id="strea" name="officer_name" required>
+                
+                <label for="text">Points Disscussed</label>
+                <input class="inta" type="text" id="enrea" name="subject" required>
+                
+                <label for="text">Remark</label>
+            <textarea class="inta" id="rem" name="remark" rows="4" cols="50"></textarea><br><br>
+
+        <button type="submit" id="subm">Submit</button>
+    </form>
+
+    <!-- Element to display success/error message -->
+    <p id="responseMessage"></p>
+
+    <script>
+        const form = document.getElementById('myForm');
+        const responseMessage = document.getElementById('responseMessage');
+        const submitButton = document.getElementById('subm');
+
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            submitButton.disabled = true;
+
+            // Get the form data
+            const formData = new FormData(form);
+
+            // Fetch API to submit data to the Apps Script web app URL
+            // REPLACE 'YOUR_WEB_APP_URL' with your deployed Apps Script URL
+            fetch('https://script.google.com/macros/s/AKfycbwySFoHNKyOgJ7jlabEG9tibatsLrwkdlvfWTSzFJYm6j0fSCADKTKQpMsuPrgRtE9GEw/exec', {
+                method: 'POST',
+                body: formData
+
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Show success alert
+                    alert('Success full: ' + data.message);
+                    submitButton.disabled = false;
+                    
+                    // Clear the form fields using the reset() method
+
+                    form.reset();
+                  // Optionally, display a message within the page (instead of alert)
+                        responseMessage.style.display = 'block';
+                        submitButton.disabled = false;
+                } else {
+                    // Show error alert
+                    alert('Error: ' + data.message);
+                    responseMessage.innerHTML = 'Error: ' + data.message;
+                    responseMessage.style.color = 'red';
+                    submitButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('An error occurred during submission.');
+                responseMessage.innerHTML = 'An error occurred during submission.';
+                responseMessage.style.color = 'red';
+                submitButton.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

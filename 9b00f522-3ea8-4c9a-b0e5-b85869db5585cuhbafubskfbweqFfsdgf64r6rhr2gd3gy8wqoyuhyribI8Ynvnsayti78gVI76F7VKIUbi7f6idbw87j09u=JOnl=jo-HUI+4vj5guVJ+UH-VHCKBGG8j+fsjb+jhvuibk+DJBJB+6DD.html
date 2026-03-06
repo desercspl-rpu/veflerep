@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ops Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using a common font for a professional look -->
+    <link href="https://docs.google.com/forms/d/e/1FAIpQLSdU5Zzfafct2z5jyKi_8lGv8LSToAgC7284ph88SS_dMF21rw/viewform?usp=dialog" rel="stylesheet">
+</head>
+<body id="slidb">
+    <div class="contslid">
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>Operations Portal</h1>
+            </div>
+            <nav class="nav-links">
+                
+                <a href="index.html">Home</a>
+                <!--#############################################################
+                <a href="#submit">Submit Ticket</a>
+                <a href="#knowledge">Knowledge Base</a>
+                <a href="#status">Ticket Status</a>
+                #############################################################--> 
+                <a href="131cfb31-9335-4f91-bb47-bfe821d0ba8ccuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD.html">Contact Us</a>     
+            </nav>
+        </div>
+    </header>
+    <!-- Main Section -->
+    <section class="hero-section">
+
+                <!-- <marquee behavior="scroll" direction="left" scrollamount="5">
+                    Thank you for form Submission to Mr
+                </marquee> -->
+
+        <div class="container">
+            <div class="hero-content">
+                <h2>How can we help you today?</h2>
+
+                <!--Date and time section-->
+                <p id="datetime"></p>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for articles or solutions...">
+                    <button onclick="searchKnowledgeBase()">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Action Cards -->
+
+    <main class="container content-section">
+        <!-- <div class="card" id="submit">
+            <h3>CCTV Report</h3>
+            <p>Kindly submit the physical verified CCTV report with attachment of the vehicle.</p>
+            <a href=" " class="btn-primary">Report</a>
+        </div> -->
+
+        <div class="card" id="****">
+            <h3>Crew Training Report</h3>
+            <p>Kindly submit the training report related to CIT Crew</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSzdWxxs37RgPcaTH18OttaRPPWj2JDNWIfi1TFjt_QMfOiw/viewform" class="btn-primary">Report</a>
+        </div>
+
+        <div class="card" id="knowledge">
+            <h3>AWL</h3>
+            <p>You can drop here Absent Without Leave Report</p>
+            <a href="5024b7c4-101e-44fd-b0c0-80a44181ed7ecuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD.html" class="btn-primary">Report</a>
+        </div>
+
+        <div class="card" id="status">
+            <h3>Site Visit</h3>
+            <p>You can submit here report of visited site's.</p>
+            <a href="6bc13702-fdf8-4747-975d-402c8beb1175cuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD.html" class="btn-primary">Report</a>
+        </div>
+
+        <div class="card" id="status">
+            <h3>Penalty</h3>
+            <p>You can submit here report of Penalties.</p>
+            <a href="8c5af2da-90e4-4cbf-b46e-0b59288b1b09cuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD.html" class="btn-primary">Report</a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Checkmate Services Private Limited | Help Desk Portal</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<!--Date and Time-->
+      <script>
+    function updateDateTime() {
+      // Get the current date and time
+      const now = new Date();
+
+      // Format the date and time
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDateTime = `Today is: ${now.toLocaleDateString(undefined, options)}, Time: ${now.toLocaleTimeString()}`;
+
+      // Update the HTML element
+      document.getElementById("datetime").innerHTML = formattedDateTime;
+    }
+
+    // Update the time every second (1000 milliseconds)
+    setInterval(updateDateTime, 1000);
+
+    // Call the function once to display the time immediately
+    updateDateTime();
+  </script>    
+  <script src="9adccb53-b3ab-415e-af0e-9b190c10565acuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD.js"></script>
+</body>
+</html>

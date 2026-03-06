@@ -1,0 +1,154 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Site Visit Report</title>
+        <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.inta {
+    margin-bottom: 15px;
+    width: calc(100%);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+        </style>
+
+    </head>
+    <body>
+        <form id="myForm">
+          <h3>You can drop here HDFC LIFE - Smart FM Report</h3><br>  
+
+            <label for="text">State</label>
+            <select name="state" class="inta" required>
+                <option value="" selected>Please select State</option>
+                <option value="MH">Maharashtra</option>
+                <option value="GA">Goa</option>
+            </select>
+
+            <label for="text">Location</label>
+            <input class="inta" type="text" name="Location" required>
+
+            <label for="text">Branch Name</label>
+            <input class="inta" type="text" name="branch_name" required>
+            
+            <label for="text">Branch Code</label>
+            <input class="inta" type="text" name="branch_code" required>
+
+            <label for="text">Name of SG</label>
+            <input class="inta" type="text" name="security_name" required>
+
+            <label for="text">Employee ID SG</label>
+            <input class="inta" type="text" name="emp_id" required>
+            
+            <label for="text">Registered Mobile No of SG</label>
+            <input class="inta" type="text" name="registered_no_sg" required>
+            
+            <label for="text">PAN of SG</label>
+            <input class="inta" type="text" name="pan_of_sg" required>
+            
+            <label for="text">AADHAR of SG</label>
+            <input class="inta" type="text" name="adhar_of_sg" required>
+
+            <label for="text">Remark</label>
+            <textarea class="inta" id="rem" name="remark" rows="4" cols="50"></textarea><br><br>
+
+        <button type="submit" id="subm">Submit</button>
+    </form>
+
+    <!-- Element to display success/error message -->
+    <p id="responseMessage"></p>
+
+    <script>
+        const form = document.getElementById('myForm');
+        const responseMessage = document.getElementById('responseMessage');
+        const submitButton = document.getElementById('subm');
+
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            submitButton.disabled = true;
+
+            // Get the form data
+            const formData = new FormData(form);
+
+            // Fetch API to submit data to the Apps Script web app URL
+            // REPLACE 'YOUR_WEB_APP_URL' with your deployed Apps Script URL
+            fetch('https://script.google.com/macros/s/AKfycbwVQPbOR8YYft0pa0SLpnvG5SF4peN8eVxZBrlU5HVZyI1B0yXHYPyK__xCNnG7Oe-r/exec', {
+                method: 'POST',
+                body: formData
+
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Show success alert
+                    alert('Success full: ' + data.message);
+                    submitButton.disabled = false;
+                    
+                    // Clear the form fields using the reset() method
+
+                    form.reset();
+                  // Optionally, display a message within the page (instead of alert)
+                        responseMessage.style.display = 'block';
+                        submitButton.disabled = false;
+                } else {
+                    // Show error alert
+                    alert('Error: ' + data.message);
+                    responseMessage.innerHTML = 'Error: ' + data.message;
+                    responseMessage.style.color = 'red';
+                    submitButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('An error occurred during submission.');
+                responseMessage.innerHTML = 'An error occurred during submission.';
+                responseMessage.style.color = 'red';
+                submitButton.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

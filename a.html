@@ -20,7 +20,7 @@ height:100vh;
 /* LOGIN */
 .login-box{
 background:white;
-padding:20px;
+padding-bottom: 20px;
 border-radius:10px;
 box-shadow:0 5px 15px rgba(0,0,0,0.2);
 text-align:center;
@@ -127,7 +127,7 @@ margin-top:20px;
 background:white;
 border-radius:10px;
 padding:10px;
-height:400px;
+height:450px;
 box-shadow:0 5px 10px rgba(0,0,0,0.1);
 text-align: center;
 }
@@ -200,7 +200,7 @@ document.getElementById("loginBox").style.display="none";
 document.getElementById("dashboard").style.display="block";
 
 // User Loggedout Page
-    var inactivityTime = 15000;
+    var inactivityTime = 60000;
     var timeoutId;
 
     function startTimer() {

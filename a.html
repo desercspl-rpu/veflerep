@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIT Admin</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f2f2;
+margin:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+/* LOGIN */
+.login-box{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+input{
+width:50%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* DASHBOARD */
+#dashboard{
+display:none;
+width:90%;
+max-width: 100%;
+text-align:center;
+}
+
+/* BUTTON AREA */
+.container{
+display:flex;
+justify-content:center;
+gap:30px;
+margin:20px 0;
+}
+
+/* CIRCLE BUTTON */
+.circle{
+width:200px;
+height:40px;
+border-radius:20px;
+position:relative;
+overflow:hidden;
+border:3px solid #333;
+background:#eee;
+}
+
+/* VIEW HALF */
+.view{
+position:absolute;
+left:0;
+top:0;
+width:50%;
+height:100%;
+background:#28a745;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+cursor:pointer;
+}
+
+/* DOWNLOAD HALF */
+.download{
+position:absolute;
+right:0;
+top:0;
+width:50%;
+height:100%;
+background:#ff5733;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+cursor:pointer;
+}
+
+/* MIDDLE TAG */
+.tag{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:5px 12px;
+border-radius:10px;
+font-size:14px;
+font-weight:bold;
+color: #007bff;
+}
+
+/* Middle Tag */
+.tag:hover{
+    background: transparent;
+    color: transparent;
+    transition: 2s;
+}
+
+/* FILE VIEW AREA */
+#viewer{
+margin-top:20px;
+background:white;
+border-radius:10px;
+padding:10px;
+height:400px;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+text-align: center;
+}
+
+iframe{
+width:100%;
+height:100%;
+border:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+<h2>Login</h2>
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<br><br>
+<button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+
+<h2>File Manager</h2>
+
+<div class="container">
+
+<!-- CCTV -->
+ <div class="circle">
+<div class="view" onclick="viewFile('https://docs.google.com/spreadsheets/d/e/2PACX-1vRO9xCXlrNYeR2fFUosHWxHmJrCy96Le0MLTnaOpUvoZibUTIJofDo7eqbJlWI_--kAODIkxJpybKeg/pubhtml?gid=0&single=true')">View</div>
+<div class="download" onclick="downloadFile('https://docs.google.com/spreadsheets/d/e/2PACX-1vRO9xCXlrNYeR2fFUosHWxHmJrCy96Le0MLTnaOpUvoZibUTIJofDo7eqbJlWI_--kAODIkxJpybKeg/pub?gid=0&single=true&output=xlsx')">Down</div>
+<div class="tag">CCTV</div>
+</div>
+
+<!-- Odometer -->
+<div class="circle">
+<div class="view" onclick="viewFile('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-uwyi71WzigbV8kYzzPKQaZk5TuC7CaeQaNHzelpx6l1eDAetjOlX091iGnYd9-eHQz-FQ7vZF3ng/pubhtml?gid=0&single=true')">View</div>
+<div class="download" onclick="downloadFile('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-uwyi71WzigbV8kYzzPKQaZk5TuC7CaeQaNHzelpx6l1eDAetjOlX091iGnYd9-eHQz-FQ7vZF3ng/pub?gid=0&single=true&output=xlsx')">Down</div>
+<div class="tag">Odometer</div>
+</div>
+
+<!-- Trip Sheet -->
+<div class="circle">
+<div class="view" onclick="viewFile('https://docs.google.com/spreadsheets/d/e/2PACX-1vTPdlZPvUSmRnbzYThcJTgyGCJas0wNqxpm0ffAK2vOmkRgP5KhyeyOJleaGEU6oVA2P0UvQaeLVjdg/pubhtml?gid=0&single=true')">View</div>
+<div class="download" onclick="downloadFile('https://docs.google.com/spreadsheets/d/e/2PACX-1vTPdlZPvUSmRnbzYThcJTgyGCJas0wNqxpm0ffAK2vOmkRgP5KhyeyOJleaGEU6oVA2P0UvQaeLVjdg/pub?gid=0&single=true&output=xlsx')">Down</div>
+<div class="tag">Tripsheet</div>
+</div>
+
+</div>
+
+<!-- FILE VIEW AREA -->
+<div id="viewer">
+<iframe id="fileFrame" src="ab.png"></iframe>
+</div>
+
+</div>
+
+<script>
+
+function login(){
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+
+if(user==="" && pass===""){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("dashboard").style.display="block";
+
+// User Loggedout Page
+    var inactivityTime = 15000;
+    var timeoutId;
+
+    function startTimer() {
+        // Set a timeout to call the logout function after the inactivity period
+        timeoutId = setTimeout(logout, inactivityTime);
+    }
+
+    function resetTimer() {
+        // Clear the previous timeout and start a new one
+        clearTimeout(timeoutId);
+        startTimer();
+    }
+
+    function logout() {
+        // Alert the user they have been logged out (or session expired)
+        alert("You have been logged out due to inactivity.");
+        // Redirect or reload the page (e.g., redirect to a logout page or reload the current page)
+        window.location.reload(); 
+        // Or redirect to a specific logout URL:
+    }
+
+    // List of events that count as user activity
+    window.onload = startTimer;
+    document.addEventListener('mousemove', resetTimer);
+    document.addEventListener('keypress', resetTimer);
+    document.addEventListener('click', resetTimer);
+    document.addEventListener('scroll', resetTimer);
+    document.addEventListener('touchstart', resetTimer);
+
+// ========================================================
+
+}else{
+alert("Wrong login details");
+}
+}
+
+function viewFile(file){
+document.getElementById("fileFrame").src=file;
+}
+
+function downloadFile(file){
+let link=document.createElement("a");
+link.href=file;
+link.download=file;
+link.click();
+}
+
+</script>
+
+</body>
+</html>

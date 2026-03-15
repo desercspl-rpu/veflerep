@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Attendance System</title>
+</head>
+<style>
+  body{text-align: center;}
+  p{padding: 0px;
+  margin: 0px;}
+</style>
+<body>
+  <div>
+
+<h2 style="color: white; background-color: blue;">Employee Attendance</h2>
+
+<label>Employee ID:</label>
+<input type="text" id="empId">
+
+<br><br>
+
+<button onclick="punch('IN')" id="pi">Punch In</button>
+<button onclick="punch('OUT')" id="po">Punch Out</button>
+
+<h3>Employee Details</h3>
+
+<p id="empName"></p>
+<p id="custName"></p>
+<p id="siteName"></p>
+<p id="resource"></p>
+</div>
+<script>
+
+function punch(type){
+
+navigator.geolocation.getCurrentPosition(function(pos){
+
+var lat = pos.coords.latitude;
+var lon = pos.coords.longitude;
+const pib = document.getElementById('pi');
+const pob = document.getElementById('po');
+
+var empId = document.getElementById("empId").value;
+
+fetch("https://script.google.com/macros/s/AKfycbxxZHYtj-N1gr3BS1CeRQ0pUyyoF9AqtIW5O2umESukPd0pyTGGSDDSKPCNqEZHZFoyFg/exec",{
+
+method:"POST",
+
+body:JSON.stringify({
+
+employeeId:empId,
+lat:lat,
+lon:lon,
+type:type
+
+})
+
+})
+
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status=="success"){
+
+document.getElementById("empName").innerHTML="Employee: "+data.employeeName;
+document.getElementById("custName").innerHTML="Customer: "+data.customerName;
+document.getElementById("siteName").innerHTML="Site: "+data.siteName;
+document.getElementById("resource").innerHTML="Resource: "+data.resource;
+
+alert("Punch "+type+" Successful");
+
+}else{
+
+alert(data.message);
+
+}
+
+});
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

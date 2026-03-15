@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Punch System</title>
+</head>
+<body>
+
+<h2>Employee Punch System</h2>
+
+Employee ID:<br>
+<input type="text" id="empId"><br><br>
+
+<button onclick="checkEmployee()">Check Employee</button>
+
+<div id="empInfo" style="margin-top:15px;"></div>
+
+<br>
+<button onclick="punch('IN')">Punch IN</button>
+<button onclick="punch('OUT')">Punch OUT</button>
+
+<script>
+const webAppUrl = "https://script.google.com/macros/s/AKfycbxU-SpRDk_NEOzVN254letS7PIXs7IYf2p9AAyrbLUgu6YI1-OjaA7NveJnagNAJTiyxA/exec";
+
+var empName="";
+
+// CHECK EMPLOYEE
+function checkEmployee(){
+  var id = document.getElementById("empId").value;
+
+  fetch(webAppUrl, {
+    method: "POST",
+    body: JSON.stringify({action:"checkEmployee", empId:id})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.status=="found"){
+      empName = data.name;
+      document.getElementById("empInfo").innerHTML =
+        "Name: " + data.name + "<br>" +
+        "Assigned Lat/Long: " + data.lat + " , " + data.long + "<br>" +
+        "Radius: " + data.radius + " meters";
+    }
+    else if(data.status=="inactive"){
+      alert("Employee not active");
+    }
+    else{
+      alert("Employee not found");
+    }
+  })
+  .catch(err => alert("Error: "+err));
+}
+
+// PUNCH IN/OUT
+function punch(type){
+  if(!empName){
+    alert("Check Employee first");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var lat = pos.coords.latitude;
+    var long = pos.coords.longitude;
+    var id = document.getElementById("empId").value;
+
+    fetch(webAppUrl, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "savePunch",
+        empId: id,
+        name: empName,
+        type: type,
+        lat: lat,
+        long: long
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message);
+    })
+    .catch(err => alert("Error: "+err));
+
+  }, function(err){
+    alert("GPS error: "+err.message);
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,18 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fascia Status</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fascia Status</title>
 
-    <style>
-body {
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+}
+
+/* Background like modern card UI */
+body {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
     display: flex;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
-    margin: 0;
+    padding: 20px;
+}
+
+/* Form card styling */
+form {
+    background: #fff;
+    padding: 25px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(15px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
 h3 {
@@ -21,39 +46,77 @@ h3 {
     margin-bottom: 20px;
 }
 
+/* Input styling */
 .inta {
+    width: 100%;
     margin-bottom: 15px;
-    width: calc(100%);
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.inta:focus {
+    border-color: #4facfe;
+    outline: none;
+    box-shadow: 0 0 5px rgba(79,172,254,0.5);
 }
 
 label {
     display: block;
     margin-bottom: 5px;
     color: #555;
-    font-weight: bold;
+    font-weight: 500;
 }
 
+/* Button modern style */
 button {
-    background-color: #007bff;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #007bff, #00c6ff);
     color: white;
-    padding: 12px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    width: 100%;
-    transition: background-color 0.3s ease;
+    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #0056b3;
+    opacity: 0.9;
 }
-    </style>
+
+button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+/* Back link styled like button */
+a {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #ff4d4d !important;
+    color: #fff !important;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+a:hover {
+    opacity: 0.9;
+}
+
+/* Response message */
+#responseMessage {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+}
+</style>
 
 </head>
 
@@ -71,14 +134,14 @@ button:hover {
 
 <label>State:</label>
 <select name="state" class="inta" required>
-    <option value="" selected>Please Select Your State</option>
+    <option value="" selected>Select Your State</option>
     <option value="Maharashtra">Maharashtra</option>
     <option value="Goa">Goa</option>
 </select>
 
 <label>Branch Name:</label>
 <select name="branch_nam" class="inta" required>
-    <option value="" selected>Please Select Your Branch</option>
+    <option value="" selected>Select Your Branch</option>
     <option value="Kalamb">Kalamb</option>
     <option value="Solapur - Market Yard">Solapur - Market Yard</option>
     <option value="Pune - Mukund Nagar / Bhosle Nagar">Pune - Mukund Nagar / Bhosle Nagar</option>
@@ -106,14 +169,14 @@ button:hover {
 
 <label>Fascia Light:</label>
 <select name="ligh" class="inta" required>
-    <option value="" selected>Please Select Status</option>
+    <option value="" selected>Select Status</option>
     <option value="Yes">Yes</option>
     <option value="No">No</option>
 </select>
 
 <label>Fascia :</label>
 <select name="status" class="inta" required>
-    <option value="" selected>Please Select Status</option>
+    <option value="" selected>Select Status</option>
     <option value="Auto">Auto</option>
     <option value="Manual">Manual</option>
     <option value="Other">Other</option>
@@ -124,21 +187,13 @@ button:hover {
 
 <button type="submit" id="subm">Submit</button><br><br>
 
-<a href="index.html" style="background-color: red;
-color: white;
-padding: 12px 20px;
-border: none;
-border-radius: 4px;
-font-size: 16px;
-width: 100px;
-text-decoration: none;">Back to Home</a>
+<a href="index.html">Back to Home</a>
 
 </form>
 
 <p id="responseMessage"></p>
 
 <script>
-
 // Employee Data
 const employees = {
 "EMP/AUG000271": "Aleemullahkhan Pathan",
@@ -736,12 +791,10 @@ const employees = {
 "EMP/PUN08436": "LAXMAN DAGADU CHOPADE",
 };
 
-// Elements
 const empInput = document.getElementById("emp_ID");
 const nameInput = document.getElementById("name");
 const datalist = document.getElementById("empList");
 
-// Search dropdown
 empInput.addEventListener("input", function () {
     const value = this.value.toLowerCase();
     datalist.innerHTML = "";
@@ -755,7 +808,6 @@ empInput.addEventListener("input", function () {
     });
 });
 
-// Auto fill name
 empInput.addEventListener("change", function () {
     const selectedID = this.value;
     if (employees[selectedID]) {
@@ -765,8 +817,6 @@ empInput.addEventListener("change", function () {
     }
 });
 
-
-// FORM SUBMIT (your original code)
 const form = document.getElementById('myForm');
 const responseMessage = document.getElementById('responseMessage');
 const submitButton = document.getElementById('subm');
@@ -798,7 +848,6 @@ form.addEventListener('submit', function(e) {
         submitButton.disabled = false;
     });
 });
-
 </script>
 
 </body>

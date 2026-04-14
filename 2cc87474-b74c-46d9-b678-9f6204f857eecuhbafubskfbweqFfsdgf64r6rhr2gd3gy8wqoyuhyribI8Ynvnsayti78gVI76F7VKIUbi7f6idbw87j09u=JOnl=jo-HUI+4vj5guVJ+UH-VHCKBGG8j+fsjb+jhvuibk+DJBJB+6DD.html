@@ -1,10 +1,11 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Fascia Status</title>
-        <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fascia Status</title>
+
+    <style>
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -52,136 +53,753 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-        </style>
+    </style>
 
-    </head>
-    <body>
-        <form id="myForm">
-          <h3>You can drop Status of Fascia here.</h3><br>  
+</head>
 
-            <label for="text">Your Emp ID:</label>
-            <input class="inta" type="text" name="emp_ID" required autofocus>
+<body>
 
-            <label for="text">Your Name:</label>
-            <input type="text" class="inta" name="name" readonly required>
+<form id="myForm">
+<h3>You can drop Status of Fascia here.</h3><br>  
 
-            <label for="text">State:</label>
-            <select name="state" class="inta" required>
-                <option value="" selected>Please Select Your State</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Goa">Goa</option>
-            </select>
-            
-            <label for="text">Branch Name:</label>
-            <select name="branch_nam" class="inta" required>
-                <option value="" selected>Please Select Your Branch</option>
-                <option value="Kalamb">Kalamb</option>
-                <option value="Solapur - Market Yard">Solapur - Market Yard</option>
-                <option value="Pune - Mukund Nagar / Bhosle Nagar">Pune - Mukund Nagar / Bhosle Nagar</option>
-                <option value="Pune - Pirangut">Pune - Pirangut</option>
-                <option value="NIBM Road, Kondhwa">NIBM Road, Kondhwa</option>
-                <option value="Pune - Vishrantwadi">Pune - Vishrantwadi</option>
-                <option value="Pune - Nana Peth">Pune - Nana Peth</option>
-                <option value="Pune - Market Yard ">Pune - Market Yard </option>
-                <option value="ICICI BANK BANER">ICICI BANK BANER</option>
-                <option value="Pune - Balewadi">Pune - Balewadi</option>
-                <option value="Kotawade-Ratnagiri">Kotawade-Ratnagiri</option>
-                <option value="Satana, Maharashtra">Satana, Maharashtra</option>
-                <option value="Dhule MIDC">Dhule MIDC</option>
-                <option value="Mavadi, Nashik">Mavadi, Nashik</option>
-                <option value="Pimpalner, Dhule">Pimpalner, Dhule</option>
-                <option value="Allapalli, Gadchiroli">Allapalli, Gadchiroli</option>
-                <option value="Nagpur - Katol road">Nagpur - Katol road</option>
-                <option value="Nagpur - Pratap Nagar">Nagpur - Pratap Nagar</option>
-                <option value="Nagpur - Surya Nagar, Pardi">Nagpur - Surya Nagar, Pardi</option>
-                <option value="Mehkar, Buldhana">Mehkar, Buldhana</option>
-                <option value="Wadsa, Gadchiroli">Wadsa, Gadchiroli</option>
-                <option value="Pimpalwadi, Pirachi Paithan">Pimpalwadi, Pirachi Paithan</option>
-                <option value="Nagpur-Ajni Square">Nagpur-Ajni Square</option>
-            </select>
+<label>Your Emp ID:</label>
+<input class="inta" type="text" name="emp_ID" id="emp_ID" required autofocus list="empList">
+<datalist id="empList"></datalist>
 
-            <label for="text">Fascia Light:</label>
-            <select name="ligh" class="inta" required>
-                <option value="" selected>Please Select Status</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-            
-            <label for="text">Fascia :</label>
-            <select name="status" class="inta" required>
-                <option value="" selected>Please Select Status</option>
-                <option value="Auto">Auto</option>
-                <option value="Manual">Manual</option>
-                <option value="Other">Other</option>
-            </select>
+<label>Your Name:</label>
+<input type="text" class="inta" name="name" id="name" readonly required>
 
-            <label for="text">Remark:</label>
-            <textarea class="inta" name="remark" rows="4" cols="50"></textarea><br><br>
+<label>State:</label>
+<select name="state" class="inta" required>
+    <option value="" selected>Please Select Your State</option>
+    <option value="Maharashtra">Maharashtra</option>
+    <option value="Goa">Goa</option>
+</select>
 
-        <button type="submit" id="subm">Submit</button><br><br>
-        <a href="index.html" style="    background-color: red;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100px;
-    transition: background-color 0.3s ease; text-decoration: none;">Back to Home</a>
-    </form>
+<label>Branch Name:</label>
+<select name="branch_nam" class="inta" required>
+    <option value="" selected>Please Select Your Branch</option>
+    <option value="Kalamb">Kalamb</option>
+    <option value="Solapur - Market Yard">Solapur - Market Yard</option>
+    <option value="Pune - Mukund Nagar / Bhosle Nagar">Pune - Mukund Nagar / Bhosle Nagar</option>
+    <option value="Pune - Pirangut">Pune - Pirangut</option>
+    <option value="NIBM Road, Kondhwa">NIBM Road, Kondhwa</option>
+    <option value="Pune - Vishrantwadi">Pune - Vishrantwadi</option>
+    <option value="Pune - Nana Peth">Pune - Nana Peth</option>
+    <option value="Pune - Market Yard ">Pune - Market Yard </option>
+    <option value="ICICI BANK BANER">ICICI BANK BANER</option>
+    <option value="Pune - Balewadi">Pune - Balewadi</option>
+    <option value="Kotawade-Ratnagiri">Kotawade-Ratnagiri</option>
+    <option value="Satana, Maharashtra">Satana, Maharashtra</option>
+    <option value="Dhule MIDC">Dhule MIDC</option>
+    <option value="Mavadi, Nashik">Mavadi, Nashik</option>
+    <option value="Pimpalner, Dhule">Pimpalner, Dhule</option>
+    <option value="Allapalli, Gadchiroli">Allapalli, Gadchiroli</option>
+    <option value="Nagpur - Katol road">Nagpur - Katol road</option>
+    <option value="Nagpur - Pratap Nagar">Nagpur - Pratap Nagar</option>
+    <option value="Nagpur - Surya Nagar, Pardi">Nagpur - Surya Nagar, Pardi</option>
+    <option value="Mehkar, Buldhana">Mehkar, Buldhana</option>
+    <option value="Wadsa, Gadchiroli">Wadsa, Gadchiroli</option>
+    <option value="Pimpalwadi, Pirachi Paithan">Pimpalwadi, Pirachi Paithan</option>
+    <option value="Nagpur-Ajni Square">Nagpur-Ajni Square</option>
+</select>
 
-    <!-- Element to display success/error message -->
-    <p id="responseMessage"></p>
+<label>Fascia Light:</label>
+<select name="ligh" class="inta" required>
+    <option value="" selected>Please Select Status</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+</select>
 
-    <script>
-        const form = document.getElementById('myForm');
-        const responseMessage = document.getElementById('responseMessage');
-        const submitButton = document.getElementById('subm');
+<label>Fascia :</label>
+<select name="status" class="inta" required>
+    <option value="" selected>Please Select Status</option>
+    <option value="Auto">Auto</option>
+    <option value="Manual">Manual</option>
+    <option value="Other">Other</option>
+</select>
+
+<label>Remark:</label>
+<textarea class="inta" name="remark" rows="4" cols="50"></textarea><br><br>
+
+<button type="submit" id="subm">Submit</button><br><br>
+
+<a href="index.html" style="background-color: red;
+color: white;
+padding: 12px 20px;
+border: none;
+border-radius: 4px;
+font-size: 16px;
+width: 100px;
+text-decoration: none;">Back to Home</a>
+
+</form>
+
+<p id="responseMessage"></p>
+
+<script>
+
+// Employee Data
+const employees = {
+"EMP/AUG000271": "Aleemullahkhan Pathan",
+"EMP/GOA00636": "KRISHNA SITARAM BUGADE",
+"EMP/PNE000436": "Ashwini Kishor Shinde",
+"EMP/PNE000460": "Swati Varude",
+"EMP/PNE000484": "Snehalata Sawant",
+"EMP/PNE001092": "Sanjay Patil",
+"EMP/PNE001295": "Shobha Kedari",
+"EMP/PNE001334": "Smita Kulkarni",
+"EMP/PNE001594": "Sushma Makhare",
+"EMP/PNE001663": "Milind Chougule",
+"EMP/PNE001842": "SADHANA SURYAKANT WAGHMODE",
+"EMP/PNE001844": "PRATIBHA PRAVIN KHAIR",
+"EMP/PNE001902": "Machindra Shinde",
+"EMP/PNE002214": "Rohini Gore",
+"EMP/PNE002670": "Nitin Kale",
+"EMP/PNE002786": "RAJU ONKAR DEVKATE",
+"EMP/PNE003770": "Suresh Kadam",
+"EMP/PNE004431": "Asha Mistry",
+"EMP/PNE004745": "Vinod Kshirsagar",
+"EMP/PNE004771": "Sachin Ghorpade",
+"EMP/PNE005727": "Dilawar Pathan",
+"EMP/PNE005823": "Anjali Dandawate",
+"EMP/PNE005972": "Arun Minajagi",
+"EMP/PNE006155": "Ratan Kamble",
+"EMP/PNE006627": "Sidheshwar Lamjane",
+"EMP/PNE006904": "Baburao More",
+"EMP/PNE007478": "Digamber Mokanpalle",
+"EMP/PNE007601": "Shamrao More",
+"EMP/PNE008039": "Dayaram Jadhao",
+"EMP/PNE008385": "Gopal Chaudhary",
+"EMP/PNE008736": "Dipak Shinde",
+"EMP/PNE008748": "Dinesh Patil",
+"EMP/PNE008873": "Satyavan Dhopat",
+"EMP/PNE009414": "Vijay Khune",
+"EMP/PNE009812": "Rajesh Kumar Ahirwar",
+"EMP/PNE010082": "Bharti Agre",
+"EMP/PNE010204": "Atul Barde",
+"EMP/PNE010455": "Dilip Bhoje",
+"EMP/PNE010626": "Ashok Bhopale",
+"EMP/PNE010960": "NANDKUMAR MANIK RATHOD",
+"EMP/PNE011195": "Vajir Shaikh",
+"EMP/PNE011405": "Mohan Babar",
+"EMP/PNE011453": "Shantanu Patole",
+"EMP/PNE011570": "Suryakant Adsule",
+"EMP/PNE011571": "Vinayak Patil",
+"EMP/PNE011573": "Rameshwar Kirdat",
+"EMP/PNE011716": "DHONDUBA VIJAY KANKHAR",
+"EMP/PUN00113": "Balveer Singh  Pal",
+"EMP/PUN00175": "sandip sambhaji chavan",
+"EMP/PUN00259": "Laxmiputra Iranna Birajdar",
+"EMP/PUN00409": "Jayshri Anil Chakrnarayan",
+"EMP/PUN00417": "Nitin Bhaurao Nimkar",
+"EMP/PUN00560": "Dilip Govind Chavan",
+"EMP/PUN00629": "Dnyaneshwar  Kacharu Gajbhar",
+"EMP/PUN00647": "Suresh Yuvraj Pawar",
+"EMP/PUN00876": "Baban Chandrabhan Patole",
+"EMP/PUN00980": "Vijay Sampat Bhosale",
+"EMP/PUN01405": "SUHAS MUNDE",
+"EMP/PUN01566": "VIJAY BAHADUR YADAV",
+"EMP/PUN01589": "NARVEER LAL . .",
+"EMP/PUN01695": "RAJESH GAWAI",
+"EMP/PUN01704": "KANTILAL LAWATE",
+"EMP/PUN01832": "RENUKA PARASHURAM BELGUNDI",
+"EMP/PUN01857": "GUMPHA RAMESH PAWAR",
+"EMP/PUN02018": "Amol Ramchandra Ade",
+"EMP/PUN02033": "LAXMAN JAYRAM KALYANKAR",
+"EMP/PUN02036": "MAHADEO SURESH PANDGALE",
+"EMP/PUN02106": "Aniket Gaikwad",
+"EMP/PUN02255": "NILESH .",
+"EMP/PUN02507": "Ajinkya Dilip Ghorpade",
+"EMP/PUN02747": "HARI PRAKASH RAI",
+"EMP/PUN02757": "VISHWANATH THAVARU RATHOD",
+"EMP/PUN02852": "DIPALI SHRIKANT GHADGE",
+"EMP/PUN02972": "PARMESHWAR BHAGAWAN  WAGH",
+"EMP/PUN03081": "SHIVAM SINGH BHADORIYA",
+"EMP/PUN03123": "GANPATI SIDDHAPPA GAJDHANE",
+"EMP/PUN03181": "PRALHAD GULABRAO CHAVAN",
+"EMP/PUN03236": "JAYSINGH RAGHUNATH CHOUGALE",
+"EMP/PUN03357": "TANAJI DADU SAWANT",
+"EMP/PUN03386": "AKSHAY KUMAR YADAV",
+"EMP/PUN03499": "SANTOSH KUMAR AHIRWAR",
+"EMP/PUN03515": "VIJAY SINGH MALI",
+"EMP/PUN03517": "PRASHANT RAMESH CHAUDHARI",
+"EMP/PUN03537": "SHEKHAR DASHRATH BHOSLE",
+"EMP/PUN03575": "YOGESH VASANTA INGALE",
+"EMP/PUN03635": "NIKHIL BHIMRAO KOLI",
+"EMP/PUN03689": "KUNJILAL MOTILAL ZAMARKAR",
+"EMP/PUN03792": "NIKHIL DNYANESHWAR GAJBHAR",
+"EMP/PUN03855": "VISHAL SAHU",
+"EMP/PUN03866": "RAJIV EKNATH  JAGDALE",
+"EMP/PUN03878": "Sidheshwar Kajale",
+"EMP/PUN03901": "KAUSHIK ACHARYA",
+"EMP/PUN03910": "BALASAHEB SHIVRAM KADAM",
+"EMP/PUN03914": "RAMKUMAR A",
+"EMP/PUN03918": "RAM BAHADUR SHARMA",
+"EMP/PUN03927": "DHEERENDRA SINGH",
+"EMP/PUN03993": "HEMANT KUMAR A",
+"EMP/PUN04037": "NARENDRA KUMAR VARMA",
+"EMP/PUN04063": "ASHOK KUMAR A",
+"EMP/PUN04080": "PRAVIN PRABHAKAR CHIKHALE",
+"EMP/PUN04122": "JAGADEESH PRASAD KEWAT",
+"EMP/PUN04127": "ROHIT DHUNNA TIWARI",
+"EMP/PUN04153": "RAM SINHASAN PRAJAPATI",
+"EMP/PUN04175": "VINOD  SHESHERAO PAWAR",
+"EMP/PUN04254": "MOHAMMAD ISRAFIL",
+"EMP/PUN04262": "RANDHIR SINGH",
+"EMP/PUN04296": "NIKHIL ANANDA WANKHADE",
+"EMP/PUN04323": "MUKESH  POPAT SHINDE",
+"EMP/PUN04388": "PRADIP ANANDA SAWANT",
+"EMP/PUN04484": "SHUBHAM  SAMBHAJIRAO MURUMKAR",
+"EMP/PUN04501": "CHANDRASHEKHAR NILKANTH  BHAMARE",
+"EMP/PUN04576": "HANUMANT GOPINATH KOKARE",
+"EMP/PUN04578": "KISAN SOPAN GUNAWARE",
+"EMP/PUN04602": "ANIKET TANAJI JAGTAP",
+"EMP/PUN04639": "AANAND KUMAR A",
+"EMP/PUN04641": "DINESH KUMAR YADAV",
+"EMP/PUN04751": "GANESH MANOHAR SONAWANE",
+"EMP/PUN04854": "VIKAS RAMESH ZASKAR",
+"EMP/PUN04855": "TUSHAR BHAUSAHEB CHANDVILKAR",
+"EMP/PUN04856": "SUSHAMA BHAUSAHEB CHANDVILKAR",
+"EMP/PUN04874": "VISHAL  UKHARDA INGALE",
+"EMP/PUN04875": "NISHANT PRASHANT  ZANKAR",
+"EMP/PUN04876": "Hanmagonda Mashnagonda Karrewar",
+"EMP/PUN04897": "BABU BARKU ZORE",
+"EMP/PUN04916": "MAYUR   MANOHAR JADHAV",
+"EMP/PUN04922": "RANJIT ANANDRAO CHAVAN",
+"EMP/PUN04941": " SANDEEP VISHNU KINDRE",
+"EMP/PUN04949": "RASHTRAPAL ANIL NIKAM",
+"EMP/PUN04952": "SNEHA  PAUL GABRIEL",
+"EMP/PUN04961": "TRIBHUVAN NARAIN CHAUBEY",
+"EMP/PUN04973": "DAIWAT NIVRUTTI SAWALE",
+"EMP/PUN04975": "VISHAL TUKARAM BABAR",
+"EMP/PUN05003": "RAMDAS BABRUWAN RAUT",
+"EMP/PUN05012": "NARESH VINAYAKRAO TAKTWALE",
+"EMP/PUN05013": "DNYANESHWAR KONDIBA MARGALE",
+"EMP/PUN05017": "AMIR  KHAN",
+"EMP/PUN05018": "MANOJ BHASKAR BHATT",
+"EMP/PUN05054": "SITAL ASHOK RAI",
+"EMP/PUN05074": "TUKARAM  SHIVAJI SHETE",
+"EMP/PUN05121": "BHARAT A",
+"EMP/PUN05173": "MAINA BHIWAJI SONAWANE",
+"EMP/PUN05180": "RAHUL DEVIDASRAO TAYADE",
+"EMP/PUN05183": "KAILASH SINGH",
+"EMP/PUN05185": "ANNA UTTAM PUJARI",
+"EMP/PUN05195": "HARSHAL  ASHOK PUDALE",
+"EMP/PUN05197": "KAUSTUBH MANOHAR KADU",
+"EMP/PUN05217": "RENUKA LAHU GHAYAL",
+"EMP/PUN05218": "ANURADHA NAGESH BHASKARE",
+"EMP/PUN05219": "GANESH PRAKASH HALNOR",
+"EMP/PUN05220": "TEJASWINI NITESH BHENDEKAR",
+"EMP/PUN05246": "SACHIN UKANDI RANVIR",
+"EMP/PUN05250": "PANDIT  WALU  THORMISE",
+"EMP/PUN05268": "SANTOSH KESHAV CHIKANE",
+"EMP/PUN05289": "YUVRAJ GYANBA KALE",
+"EMP/PUN05333": "BHAGATSINH NARENDRA GAIKWAD",
+"EMP/PUN05352": "AMRISH SHARMA",
+"EMP/PUN05354": "GANESH DATTATRAY SONTAKKE",
+"EMP/PUN05435": "UMESH DIGAMBAR YEDKE",
+"EMP/PUN05447": "ARJUN GYANOBA KAWALE",
+"EMP/PUN05524": "SACHIN SAMBHAJI BHANUSE",
+"EMP/PUN05614": "DINKAR VITTHAL PATIL",
+"EMP/PUN05641": "PRAKASH GOVINDRAO RATHOD",
+"EMP/PUN05822": "NIKESH MAHADEV RATHOD",
+"EMP/PUN05834": "PRASHANT MAHADEV KASHID",
+"EMP/PUN05843": "KHANDU KONDIBA MANE",
+"EMP/PUN05852": "BAPPI SINHA",
+"EMP/PUN05940": "SOMNATH KHANDU JADHAV",
+"EMP/PUN05943": "NIVRUTI NAMDEV GODE",
+"EMP/PUN05972": "DHANANJAY HANUMANT SHINDE",
+"EMP/PUN06161": "NAGESH ANKUSH DHAVARE",
+"EMP/PUN06296": "SHIVAJI TANAJI SHIRKE",
+"EMP/PUN06324": "YUVARAJ DINKAR PATIL",
+"EMP/PUN06330": "VIJAY ASHOK DOKHE",
+"EMP/PUN06331": "SHRIKANT NAGNATH KANGULE",
+"EMP/PUN06357": "PANKAJ CHATURVEDI",
+"EMP/PUN06361": "SAIFUL MANDAL",
+"EMP/PUN06372": "MADIVALAPPA CHANDRASHEKHAR  MALLAD",
+"EMP/PUN06381": "ANANDA BHIMRAO RANVIR",
+"EMP/PUN06385": "AMOL KISAN KAMBALE",
+"EMP/PUN06386": "SUNIL NEWRUTHI WAGHMARE",
+"EMP/PUN06388": "DEVIDAS MAHADEV GHODKE",
+"EMP/PUN06389": "NILKANTH RAVINDRA JAVALE",
+"EMP/PUN06391": "VEERENDRA AHIRWAR",
+"EMP/PUN06392": "BALBIR KUMAR BHARTU BHADAD",
+"EMP/PUN06403": "SUNEEL KUMAR SOUR",
+"EMP/PUN06413": "NETRAM KACHHI",
+"EMP/PUN06414": "MOHAN SINGH",
+"EMP/PUN06418": "MAHESH GOPAL SHINDE",
+"EMP/PUN06426": "RAMDAS ROHIDAS KAMBLE",
+"EMP/PUN06435": "SHUBHAM UDDAL JADHAV",
+"EMP/PUN06451": "MANTOSH PRASAD KESHRI",
+"EMP/PUN06452": "SANJIV KUMAR RAI",
+"EMP/PUN06462": "SANGMESHWAR SUBHASH WAGHMARE",
+"EMP/PUN06509": "SARIKA PRADIPRAO TANTARPALE",
+"EMP/PUN06519": "DINESH KUMAR .",
+"EMP/PUN06591": "LALIT SURYKANT DESLE",
+"EMP/PUN06608": "DATTA KISAN NAKTI",
+"EMP/PUN06609": "AJAY SAMPATRAO MALUGADE",
+"EMP/PUN06610": "SUNIL KONDIBA ZORE",
+"EMP/PUN06612": "SANJAY BHIKAJI PASALKAR",
+"EMP/PUN06615": "MAHADU NIVRUTTI SHEDGE",
+"EMP/PUN06616": "PANDURANG SAKHARAM SHEDAGE",
+"EMP/PUN06623": "RANA DAS",
+"EMP/PUN06635": "SANTOSH BABAN MARAGALE",
+"EMP/PUN06637": "SONAM BANO",
+"EMP/PUN06657": "VITTHAL BABAN MARGALE",
+"EMP/PUN06688": "DILIP BABURAV KADAM",
+"EMP/PUN06703": "DATTATRAY SAMBHAJI GHEWARE",
+"EMP/PUN06706": "AMAR CHANDRA A",
+"EMP/PUN06723": "KAMLU BHIKA NIRGUDE",
+"EMP/PUN06751": "DINESH GANESH WAHULKAR",
+"EMP/PUN06836": "DIWAKAR BHAURAO MOHOD",
+"EMP/PUN06838": "AMOL LAHU JADHAV",
+"EMP/PUN06842": "BHARAT RAGHUNATH KAMBLE",
+"EMP/PUN06870": "MANOHAR SINGH",
+"EMP/PUN06877": "SHIVA VENKATESH MUTAYLA",
+"EMP/PUN06892": "DIPAK KUMAR A",
+"EMP/PUN06899": "VISHAL GOPINATH KUDALE",
+"EMP/PUN06911": "PRALHAD NAMDEO KALE",
+"EMP/PUN06917": "SAGAR BHARGAV PATIL",
+"EMP/PUN06919": "SHAILESH DATTATRAY MANE",
+"EMP/PUN06925": "SATISH BHIKA SINKAR",
+"EMP/PUN06931": "SANTOSHKUMAR SATYANARAYANJI SHARMA",
+"EMP/PUN06951": "NAVNATH SANTU SHID",
+"EMP/PUN06970": "NARENDRA CHANDRAKANT DAREKAR",
+"EMP/PUN06978": "ATUL VILAS POL",
+"EMP/PUN06983": "ASHISH KUMAR A",
+"EMP/PUN07004": "NANDKUMAR SHESHRAO KAMBLE",
+"EMP/PUN07006": "SHARAD BHAGAWAN KURWADE",
+"EMP/PUN07007": "SUNIL RAVSAHEB WADJE",
+"EMP/PUN07010": "AMOL JAYSHING MATRE",
+"EMP/PUN07032": "MURLIDHAR DNYANOBA DARWATKAR",
+"EMP/PUN07033": "RANNAPPA  ANNAPPA KAMBLE",
+"EMP/PUN07042": "NITIN VITTHAL DHEBE",
+"EMP/PUN07044": "MUKESH BIR SINGH BHADORIYA",
+"EMP/PUN07045": "GANGARAM BIPAT GAUR",
+"EMP/PUN07046": "DHANSINGH SHIVAJI VEER",
+"EMP/PUN07063": "PRAMOD PRAKASH KHARAT",
+"EMP/PUN07089": "SACHIN SAHADU WANGANE",
+"EMP/PUN07100": "AWADHESH KUMAR VERMA",
+"EMP/PUN07102": "NITIN BALKRUSHNA CHINCHOLKAR",
+"EMP/PUN07133": "GIRRAJ SHARMA",
+"EMP/PUN07134": "HARIOM SHARMA",
+"EMP/PUN07198": "RANJANA RAJU MALI",
+"EMP/PUN07208": "PALLAVI GOPAL SARNAIK",
+"EMP/PUN07224": "DNYANESHWAR SUKHADEO AVCHAR",
+"EMP/PUN07228": "SANJEET KUMAR A",
+"EMP/PUN07230": "JASHVANT SINGH",
+"EMP/PUN07231": "MAINAJI BABANRAO KAMBLE",
+"EMP/PUN07232": "SONALI GANGARAM KOLEKAR",
+"EMP/PUN07233": "HANMANT VYANKATRAO ANMULWAD",
+"EMP/PUN07234": "SAVITA RAMDAS MASRAM",
+"EMP/PUN07235": "CHHAYA SOPAN SALAVE",
+"EMP/PUN07236": "SNEHALATA MADHAVRAO DHULGANDE",
+"EMP/PUN07237": "UPENDRA KUMAR SINGH",
+"EMP/PUN07244": "SONAM  DEVI A",
+"EMP/PUN07245": "PRATIBHA PRAVIN DAMODAR",
+"EMP/PUN07246": "SHASHIKANT LAXMAN GIRAME",
+"EMP/PUN07247": "MANJUSHA GANESH DUDULE",
+"EMP/PUN07251": "MADAN LAHASE",
+"EMP/PUN07255": "AJAY KUMAR A",
+"EMP/PUN07259": "SHAILENDRA SINGH",
+"EMP/PUN07262": "JITENDRA SHRMA",
+"EMP/PUN07264": "BHARAT PRALHAD SAKHARE",
+"EMP/PUN07266": "ANIL BHIKU JADHAO",
+"EMP/PUN07268": "NITESH MAYCHAND KATARE",
+"EMP/PUN07271": "ARJUN BABURAO PANCHAL",
+"EMP/PUN07274": "AMBIKA A",
+"EMP/PUN07301": "SUSHMA UDAY SATHE",
+"EMP/PUN07302": "UMESH BHAGWAN GAYKWAD",
+"EMP/PUN07305": "PRAMILA SATISH SHINDE",
+"EMP/PUN07307": "RAJESH RAMKUMAR BARWALIYA",
+"EMP/PUN07319": "SANDEEP GORUBA KSHIRSAGAR",
+"EMP/PUN07320": "PRASHANT VILAS JAVIR",
+"EMP/PUN07334": "SAHIL RAMACHANDRA WAGHAMARE",
+"EMP/PUN07338": "AMOL PANDURANG PAVALE",
+"EMP/PUN07345": "Manisha Rajesh Barwaliya",
+"EMP/PUN07356": "SIMA DEVANAND SONONE",
+"EMP/PUN07357": "DILIP CHANDRABHAN KAMBLE",
+"EMP/PUN07359": "PRUTHVIRAJ GANGADHAR JOGDANDE",
+"EMP/PUN07360": "NAVNATH SUDAM KATKAR",
+"EMP/PUN07361": "CHAIN SINGH",
+"EMP/PUN07363": "RAJESH UPADHYAY",
+"EMP/PUN07368": "AJAY BAPURAO GHANTE",
+"EMP/PUN07373": "RAHUL ATMARAM BHOLE",
+"EMP/PUN07376": "PURUSHOTTAM A",
+"EMP/PUN07379": "SHIV SAGAR T",
+"EMP/PUN07380": "PAVAN KUMAR H",
+"EMP/PUN07387": "AVINASH DNYANOBA CHOUDHARI",
+"EMP/PUN07390": "DEVESH KUMAR D",
+"EMP/PUN07396": "DNYANESHWAR MADHUKAR MHASKE",
+"EMP/PUN07397": "GANGESHMANI RAMMANI MISHRA",
+"EMP/PUN07399": "MALUSARI PANDHARI KAMBLE",
+"EMP/PUN07400": "VISHAL RAJU INGLE",
+"EMP/PUN07401": "PRALHAD VITTHAL PATIL",
+"EMP/PUN07402": "LAXMAN PRABHU SHINDE",
+"EMP/PUN07403": "AJAY KUMAR SAKET",
+"EMP/PUN07404": "HANUMANT PANDURANG PAWAR",
+"EMP/PUN07405": "PRADEEP SUDHAKAR DHONDEKAR",
+"EMP/PUN07409": "RAJIV BAPURAO MORE",
+"EMP/PUN07416": "SURESH GANPATI PATIL",
+"EMP/PUN07425": "BAPU KANTILAL KADAM",
+"EMP/PUN07426": "TUSHAR GOTIRAM MORE",
+"EMP/PUN07431": "MAINA PREMRAJ SURWADE",
+"EMP/PUN07436": "ABHIJIT SUBHASH OWHAL",
+"EMP/PUN07440": "DIPAK BABASAHEB SAPKAL",
+"EMP/PUN07477": "RANI SUBHASH KAKEKAR",
+"EMP/PUN07488": "PRAVIN SHIVAJI BHOSALE",
+"EMP/PUN07492": "PRADEEP  POPAT KAMBALE",
+"EMP/PUN07503": "GAJANAN SADASHIV NIKALJE",
+"EMP/PUN07508": "RAJUBAI LIMBAJI BADE",
+"EMP/PUN07510": "SACHIN ANANDA PATIL",
+"EMP/PUN07516": "ALLAMAPRABHU V",
+"EMP/PUN07523": "VIJAY ASHOK GULE",
+"EMP/PUN07540": "VIKAS CHHABU RUPANVAR",
+"EMP/PUN07550": "BALU DEVMAN AHIRE",
+"EMP/PUN07558": "SHIVAJI BHIMRAO MORE",
+"EMP/PUN07562": "RUKHAMA MANGAL PILAWAN",
+"EMP/PUN07564": "RAVI SIDRAM PALLE",
+"EMP/PUN07581": "ASHOK SADASHIV BOTRE",
+"EMP/PUN07586": "SAGAR RAJENDRA MARANE",
+"EMP/PUN07588": "BHARATI PANDURANG AROTE",
+"EMP/PUN07594": "GAJANAN SAHEBARAO KEDAR",
+"EMP/PUN07596": "ASHWINI BHASKAR SONUNE",
+"EMP/PUN07598": "MILIND LIMBAJI TODE",
+"EMP/PUN07599": "ANITA SAMBHAJI TELI",
+"EMP/PUN07606": "RANJANA LAXMAN BATHE",
+"EMP/PUN07607": "KALPANA SANGIT RANE",
+"EMP/PUN07609": "SADHANA NILKANTH PANCHAL",
+"EMP/PUN07610": "ARCHANA BABUSING CHAVHAN",
+"EMP/PUN07612": "MANOJ  TARACHAND  PADAWALE",
+"EMP/PUN07613": "NARENDRA KUMAR OJHA",
+"EMP/PUN07617": "GANESH NAVNATH KADAM",
+"EMP/PUN07632": "MAHESH MACHINDRA TIRASE",
+"EMP/PUN07638": "SUMED DEVRAO NARWADE",
+"EMP/PUN07654": "NITISH SHIVRAM MANDKAR",
+"EMP/PUN07657": "RAJENDRA VASANTRAO SARDESHMUKH",
+"EMP/PUN07663": "MANOJ KUMAR A",
+"EMP/PUN07670": "JITENDRA RAJENDRA  PATIL",
+"EMP/PUN07685": "SIDDHARAM BIRAJDAR",
+"EMP/PUN07698": "NITUL ANANTA BORAH",
+"EMP/PUN07699": "HEERA SINGH",
+"EMP/PUN07702": "TUSHAR SURESH JAGTAP",
+"EMP/PUN07706": "MD ABUZAR KHAMARU",
+"EMP/PUN07712": "HEMANT   PARASNATH TIWARI",
+"EMP/PUN07716": "ASARAM ANANTA GHUGE",
+"EMP/PUN07717": "KRISHNA KUMAR YADAV",
+"EMP/PUN07718": "MANGESH ROHIDAS SHINDE",
+"EMP/PUN07720": "SHIVSHANKAR MANOHAR WANDHARE",
+"EMP/PUN07723": "PRASAD RAJESH SURVE",
+"EMP/PUN07724": "AMIT VILAS PHADTARE",
+"EMP/PUN07725": "YOGESH MANSING RATHOD",
+"EMP/PUN07726": "RAMDAYAL A",
+"EMP/PUN07750": "PUJA NAVNATH KUMBHAR",
+"EMP/PUN07753": "ASHWINI ARUN PATIL",
+"EMP/PUN07755": "MOKSHADA MAHESH MODAK",
+"EMP/PUN07756": "PRIYANKA SIDDHARTH BANSODE",
+"EMP/PUN07757": "AARTI VIJAY SATHE",
+"EMP/PUN07758": "RUPALI KISHOR CHAUDHARI",
+"EMP/PUN07759": "VIJAY DASHRATH ANDHALE",
+"EMP/PUN07765": "MOHANLAL SHARMA",
+"EMP/PUN07766": "SUBEDAR SHESHMANI BIND",
+"EMP/PUN07771": "POONAM YOGESH JANRAV",
+"EMP/PUN07781": "MAHADEVI ANKUSH KALE",
+"EMP/PUN07785": "RAHUL MADHUKAR INGLE",
+"EMP/PUN07787": "KUMAR SAGAR TIWARI",
+"EMP/PUN07790": "KOMAL   DATTATRAY PATIL",
+"EMP/PUN07794": "MD ARIFUR RAHMAN",
+"EMP/PUN07801": "KARN SANDIPAN GHODAKE",
+"EMP/PUN07811": "SUMIT VIJAY GAIKWAD",
+"EMP/PUN07821": "SHABNAM SHAHZAD MALIK",
+"EMP/PUN07828": "AMAR NATH A",
+"EMP/PUN07829": "RAJESH NANASAHEB GOTE",
+"EMP/PUN07833": "PRAVIN TARASING BAIS",
+"EMP/PUN07834": "SACHIN MANOHAR KARAD",
+"EMP/PUN07858": "DEEPAK ANAND BARAD",
+"EMP/PUN07864": "SHARAD SADASHIV SHINDE",
+"EMP/PUN07866": "BALAJI SHRIRAME",
+"EMP/PUN07872": "SUNIL SANTOSH KANADE",
+"EMP/PUN07873": "ADHIKRAV MARUTI MANE",
+"EMP/PUN07874": "RAVINDRA DAMODHAR THOTE",
+"EMP/PUN07876": "GHANASHYAM CHANDRAKANTRAO  KULKARNI",
+"EMP/PUN07879": "GOPAL BHIKU RATHOD",
+"EMP/PUN07880": "SURESH PANDHARE",
+"EMP/PUN07892": "ASHOK KUMAR SEN",
+"EMP/PUN07906": "AMOL BHAGWAN MOHITE",
+"EMP/PUN07908": "BHAGWAT SHIVAJI SHITAP",
+"EMP/PUN07914": "SATYAJIT  KAKATI",
+"EMP/PUN07918": "SANKESH SATISH PATIL",
+"EMP/PUN07919": "RAMJESH BABURAO KAMBLE",
+"EMP/PUN07920": "ASHOK NATHU NIKAM",
+"EMP/PUN07922": "SAGAR MAHADEV PATIL",
+"EMP/PUN07925": "SUCHITRA GAUTAM",
+"EMP/PUN07945": "ROHIT SANJAY KANK",
+"EMP/PUN07951": "VISHWANATH SHALIKRAV JADHAV",
+"EMP/PUN07952": "TUNTUN KONWAR",
+"EMP/PUN07955": "DEEPAK BHAGWAN DHUPE",
+"EMP/PUN07957": "SATYAJEET RAVINDRA TAYADE",
+"EMP/PUN07959": "BAPPA BABASAHEB BERGAL",
+"EMP/PUN07960": "SHAKUNTALA TUKARAM AADKAR",
+"EMP/PUN07962": "SHIVAJI APPASAHEB BHOSALE",
+"EMP/PUN07967": "GAJANAN MAHADEO GAWAI",
+"EMP/PUN07978": "NARSING GANGADHAR NARWADE",
+"EMP/PUN07979": "UMESH SITARAM RATHOD",
+"EMP/PUN07981": "ANIKET DIPAK BHAGAT",
+"EMP/PUN07982": "KRISHAN KUMAR A",
+"EMP/PUN07991": "TANAJI RAMCHANDRA MALEKAR",
+"EMP/PUN07998": "BAPURAO NAMDEV GAIKWAD",
+"EMP/PUN08000": "SHANTARAM  SHANKAR SATHE",
+"EMP/PUN08002": "BHAGWAN   DAGDU  BHISE",
+"EMP/PUN08004": "SHYAM NARAYAN A",
+"EMP/PUN08005": "VASUDEV MAHADEV GEJAGE",
+"EMP/PUN08006": "SAGAR SHIVAJI BUJADE",
+"EMP/PUN08013": "SACHIN   SOMNATH INGLE",
+"EMP/PUN08016": "SAURABH RAJU YADAV",
+"EMP/PUN08018": "PAVAN ASHOK RATHOD",
+"EMP/PUN08026": "GANESH KALYAN SHINDE",
+"EMP/PUN08037": "RAMDAS PIRAJI NEWASE",
+"EMP/PUN08042": "SACHIN VITTHAL DARWATKAR",
+"EMP/PUN08047": "KESHAV LAXMAN SHINDE",
+"EMP/PUN08051": "ANKITA  ATUL THOMBARE",
+"EMP/PUN08052": "ANIL ASHOK KAWALE",
+"EMP/PUN08054": "AYUB YASHIN SHAIKH",
+"EMP/PUN08056": "SWAPNIL BALASAHEB PATIL",
+"EMP/PUN08060": "RAHUL NARAYAN LAHINGADE",
+"EMP/PUN08070": "BIDYUT NATH",
+"EMP/PUN08083": "ROHIT DATTATRAY DHAVALE",
+"EMP/PUN08087": "RAOSAHEB TUKARAM WALEPWAD",
+"EMP/PUN08090": "SHUBHAM GANESH DEVKATE",
+"EMP/PUN08092": "SANTRAM VERMA",
+"EMP/PUN08093": "SAVITA VAIJUNATH KARAJAGI",
+"EMP/PUN08098": "TUSHAR RAGHUVIR NAGARKAR",
+"EMP/PUN08100": "SINHAL DATTA BANSODE",
+"EMP/PUN08101": "BAPU MARUTI BARVE",
+"EMP/PUN08116": "SATISH SADHU DARWATKAR",
+"EMP/PUN08120": "SANTHOSH SHETTY",
+"EMP/PUN08121": "AKSHAY RAJENDRA SHINDE",
+"EMP/PUN08122": "PRAVIN  BHANUDAS AVCHAR",
+"EMP/PUN08127": "SUNIL DHARMA GADE",
+"EMP/PUN08128": "RANUJ YEIN",
+"EMP/PUN08130": "APPASAHEB POPAT BHAWAR",
+"EMP/PUN08131": "SUMIT KAKASAHEB DUKARE",
+"EMP/PUN08134": "SUNEEL KUMAR A",
+"EMP/PUN08138": "NILESH EKNATH YENPURE",
+"EMP/PUN08142": "AMAY TAYE",
+"EMP/PUN08150": "BALAJI RAMRAO KAMBLE",
+"EMP/PUN08154": "ASHWIN UTTAM GAIKWAD",
+"EMP/PUN08155": "SURAJ KUMAR SAH",
+"EMP/PUN08164": "ASHUTOSH SANTOSH TIWARI",
+"EMP/PUN08167": "ANKIT KUMAR YADAV",
+"EMP/PUN08168": "BHUSHAN RAMDAS CHAUDHARI",
+"EMP/PUN08170": "SHIV KUMAR A",
+"EMP/PUN08172": "AKSHAY DNYANDEV MERGAL",
+"EMP/PUN08176": "ASHOK MADHUKAR KULKARNI",
+"EMP/PUN08177": "PUNIT KUMAR A",
+"EMP/PUN08179": "BALAJI KASHINATH RAJPANJE",
+"EMP/PUN08180": "GOVIND VILAS SAGARE",
+"EMP/PUN08183": "RUSHIKESH DATTATRAY CHOUGULE",
+"EMP/PUN08184": "SAGAR KRISHNA DOMB",
+"EMP/PUN08188": "RAJWINDER SINGH",
+"EMP/PUN08189": "VILAS SAHEBRAO ADELAKAR",
+"EMP/PUN08190": "MAHADEV KISAN SHIMPALE",
+"EMP/PUN08194": "ANIKET NAYAN PAWAR",
+"EMP/PUN08195": "VISHAL SHANKAR KUDALE",
+"EMP/PUN08197": "CHITRANJAN KUMAR A",
+"EMP/PUN08198": "SAGAR RAGHUNATH WANI",
+"EMP/PUN08199": "SANTOSH BALASAHEB WANI",
+"EMP/PUN08200": "PAYAL ONKARRAO SHENDE",
+"EMP/PUN08204": "ANKIT PREMSING RATHOD",
+"EMP/PUN08205": "PRASHANT PRAKASH KAMBLE",
+"EMP/PUN08207": "NITIN VILAS INGOLE",
+"EMP/PUN08208": "ATUL MADHUKAR BORSE",
+"EMP/PUN08209": "SANJAY BALU NERKAR",
+"EMP/PUN08211": "ASHOK GOVIND PAGARE",
+"EMP/PUN08213": "RAVINDRA TATYASAHEB BHOSALE",
+"EMP/PUN08216": "PRAVIN RAOSAHEB JAGATAP",
+"EMP/PUN08217": "RAJIB TAID",
+"EMP/PUN08218": "ARUNA AJAY SHARMA",
+"EMP/PUN08219": "PRAMOD EKNATH SONKAMBLE",
+"EMP/PUN08220": "SWAPNIL EKNATH MAGAR",
+"EMP/PUN08223": "SALIM LATIF SHEKH",
+"EMP/PUN08224": "BASGONDA APPYGONDA PATIL",
+"EMP/PUN08227": "KIRAN DIGAMBAR BIRADAR",
+"EMP/PUN08230": "MAHESH SANJAY MANE",
+"EMP/PUN08233": "NILESH NILKANTH TAYADE",
+"EMP/PUN08238": "YOGESH SOPAN KOLI",
+"EMP/PUN08239": "SUBHASH BHARATSING JADHAV",
+"EMP/PUN08240": "RAKESH YEIN",
+"EMP/PUN08244": "VIKAS ANNA JADHAV",
+"EMP/PUN08245": "MONUJ LAKHINANDA PATIR",
+"EMP/PUN08246": "BALAJI RAMRAO GHODAKE",
+"EMP/PUN08249": "ARUN MORE",
+"EMP/PUN08250": "SACHIN SUBHASH RATHOD",
+"EMP/PUN08252": "PRAKASH NAMDEV HIVRALE",
+"EMP/PUN08254": "PAYAL LAXMAN KADAM",
+"EMP/PUN08255": "HRITIK PRAMOD BANSAL",
+"EMP/PUN08256": "RUSHIKESH KESHAV WANKHADE",
+"EMP/PUN08257": "ABHAY  JITENDRA JADHAV",
+"EMP/PUN08264": "OMKAR SUNIL GAIKWAD",
+"EMP/PUN08265": "MAHENDRA RAJENDRA INGLE",
+"EMP/PUN08267": "GOURAV  ANIL  KAMBLE",
+"EMP/PUN08268": "BHARATI ANIL KUMBHAR",
+"EMP/PUN08270": "ANIL SHANKAR BHALERAO",
+"EMP/PUN08271": "PRAKASH DEVBARAV KALE",
+"EMP/PUN08272": "RANDHIR CHANDRAKANT PAWAR",
+"EMP/PUN08273": "SANTOSH EKNATH SHINDE",
+"EMP/PUN08274": "SACHIN HARIDAS THORAT",
+"EMP/PUN08275": "RAHUL VIJAY WAGH",
+"EMP/PUN08277": "SAMBHAJEE DASHRATH SATHE",
+"EMP/PUN08279": "SAGAR GORAKH SURYAVANSHI",
+"EMP/PUN08281": "ARCHANA SATISH MARKAD",
+"EMP/PUN08282": "SAMADHAN MARUTI DORALE",
+"EMP/PUN08291": "SANGITA SHRISHAIL MHETRE",
+"EMP/PUN08294": "SOMNATH PANDURANG MALI",
+"EMP/PUN08296": "LAHU BHANUDAS SHINDE",
+"EMP/PUN08310": "SURAJ SAMBHAJI PATIL",
+"EMP/PUN08311": "NITIN PANDURANG SONTAKKE",
+"EMP/PUN08317": "GANESH SHAMRAO MALEKAR",
+"EMP/PUN08320": "UMER YAKUB SHAIKH",
+"EMP/PUN08323": "GAJANAN BALIRAM KAMBALE",
+"EMP/PUN08325": "YASHWANT KUMAR JATAV",
+"EMP/PUN08326": "LALARAM KEWAT",
+"EMP/PUN08327": "PUNDALIK ASHOK KORE",
+"EMP/PUN08329": "KIRAN VITTHAL MHASANE",
+"EMP/PUN08330": "SATISH SAKHARAM PAWAR",
+"EMP/PUN08331": "VIKAS SITARAM SALVE",
+"EMP/PUN08333": "PRADIP SHANKAR PAWAR",
+"EMP/PUN08334": "BHUSHAN NAGRAJ PATIL",
+"EMP/PUN08335": "SATISH PANDURANG ZORE",
+"EMP/PUN08336": "CHANDRAKANT SHAMRAO SIRAME",
+"EMP/PUN08338": "AJAY NIMBA JADHAV",
+"EMP/PUN08339": "RAMESH KASHINATH PATIL",
+"EMP/PUN08340": "ANNA UDHDAV KADAM",
+"EMP/PUN08341": "DIPAK RAMESH CHAUDHARI",
+"EMP/PUN08342": "VASUDEO DEVIDAS JADHAO",
+"EMP/PUN08343": "UMAKANT PRABHAKAR BAGDE",
+"EMP/PUN08348": "ABHISHEK ANAND GANGADHAR",
+"EMP/PUN08349": "SANDIP NATTHU MORE",
+"EMP/PUN08351": "SUSHIL DEVIDAS GAWAI",
+"EMP/PUN08352": "SANJAY SHRIPAT WANKHEDE",
+"EMP/PUN08353": "MADHUKAR SHIVAJI RASERAV",
+"EMP/PUN08354": "SHIVAJI HANMANT AAYWALE",
+"EMP/PUN08355": "SUDHIR DHONDIRAM MOHITE",
+"EMP/PUN08356": "VINOD SUBHASH JAMDADE",
+"EMP/PUN08359": "PRASHANT BABURAO KAMBLE",
+"EMP/PUN08360": "DATTATRAYA BALASAHEB BHADLE",
+"EMP/PUN08362": "SUNIL MUKUNDRAO CHAVAN",
+"EMP/PUN08364": "AKSHAY PRAKASH CHOUGULE",
+"EMP/PUN08365": "SANDIP SANJAY MORE",
+"EMP/PUN08366": "AAKASH BABASO SISALE",
+"EMP/PUN08377": "GANESH NANA CHANDANSHIV",
+"EMP/PUN08378": "VIKAS DADASAHEB ROKADE",
+"EMP/PUN08379": "MUKUND  BHANUDAS TEMGHARE",
+"EMP/PUN08381": "MADHAV DASHARAT PHAD",
+"EMP/PUN08388": "ANIL PANDIT CHAVAN",
+"EMP/PUN08390": "SANKET PANDURANG SAKAT",
+"EMP/PUN08391": "MAHENDRA  SINGH",
+"EMP/PUN08392": "MUKESH YADAV",
+"EMP/PUN08393": "JAYDIP HIMMATRAO MORE",
+"EMP/PUN08394": "MAHESH PRABHAKAR KADAM",
+"EMP/PUN08395": "ARCHANA RAJESH SAKPAL",
+"EMP/PUN08396": "AKHLESH KUMAR YADAV",
+"EMP/PUN08397": "RAMESH JAGANNATH SONAWANE",
+"EMP/PUN08398": "CHANDRAKANT BAJIRAO KINDRE",
+"EMP/PUN08399": "MAHADEV PANDURANG PATIL",
+"EMP/PUN08400": "PRAKASH BHAGU AKHADE",
+"EMP/PUN08401": "RAVI BHIMRAO GAWAI",
+"EMP/PUN08407": "TATERAO BALAJI GHODE",
+"EMP/PUN08408": "SUDHIR RAMESH DHALE",
+"EMP/PUN08409": "ABHIJIT RAGHUVEER NAGARAKAR",
+"EMP/PUN08410": "BRAMHADEV SADASHIV VANAVE",
+"EMP/PUN08411": "DHANAJI SUKHADEV PANDHARE",
+"EMP/PUN08415": "CHANDRASHEKHAR SHANTARAM KINJAWADEKAR",
+"EMP/PUN08417": "VAIBHAV MAHADEV PATIL",
+"EMP/PUN08418": "VIKASH KUMAR",
+"EMP/PUN08419": "SHUBHANGI UMESH DESALE",
+"EMP/PUN08420": "RAGHUNATH YEIN",
+"EMP/PUN08421": "KULBHUSHAN NANDKUMAR ANNADATE",
+"EMP/PUN08422": "SURESH BHAGWAN YADAV",
+"EMP/PUN08423": "AMIT UTTAM KSHIRSAGAR",
+"EMP/PUN08424": "PAVAN VINOD JADHAV",
+"EMP/PUN08425": "RISHI  KUMAR KUMAR",
+"EMP/PUN08426": "ANIKET MADHUKAR SHIVADAS",
+"EMP/PUN08427": "DILIP PARASRAM SHIRSATH",
+"EMP/PUN08428": "Kalyan Dadarao Jagtap",
+"EMP/PUN08429": "BALARAM NAHAK",
+"EMP/PUN08430": "SAMPAT SARJERAO CHANDAR",
+"EMP/PUN08431": "SACHIN JANARDHAN NANDAVE",
+"EMP/PUN08432": "AJAY VIJAY SURADKAR",
+"EMP/PUN08433": "SHASHI KANT",
+"EMP/PUN08434": "VISHALRAJ A",
+"EMP/PUN08435": "GAURAV KUMAR SINGH",
+"EMP/PUN08436": "LAXMAN DAGADU CHOPADE",
+};
+
+// Elements
+const empInput = document.getElementById("emp_ID");
+const nameInput = document.getElementById("name");
+const datalist = document.getElementById("empList");
+
+// Search dropdown
+empInput.addEventListener("input", function () {
+    const value = this.value.toLowerCase();
+    datalist.innerHTML = "";
+
+    Object.keys(employees).forEach(id => {
+        if (id.toLowerCase().includes(value)) {
+            const option = document.createElement("option");
+            option.value = id;
+            datalist.appendChild(option);
+        }
+    });
+});
+
+// Auto fill name
+empInput.addEventListener("change", function () {
+    const selectedID = this.value;
+    if (employees[selectedID]) {
+        nameInput.value = employees[selectedID];
+    } else {
+        nameInput.value = "";
+    }
+});
 
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
+// FORM SUBMIT (your original code)
+const form = document.getElementById('myForm');
+const responseMessage = document.getElementById('responseMessage');
+const submitButton = document.getElementById('subm');
 
-            submitButton.disabled = true;
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-            // Get the form data
-            const formData = new FormData(form);
+    submitButton.disabled = true;
 
-            // Fetch API to submit data to the Apps Script web app URL
-            // REPLACE 'YOUR_WEB_APP_URL' with your deployed Apps Script URL
-            fetch('https://script.google.com/macros/s/AKfycbxaf6VQwBlSf6GYVror8ajlxbXzY6ldjgGIU9xGiAGbNWm-s-WbJkRnvBicKAU2FZxH/exec', {
-                method: 'POST',
-                body: formData
+    const formData = new FormData(form);
 
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    // Show success alert
-                    alert('Success full: ' + data.message);
-                    submitButton.disabled = false;
-                    
-                    // Clear the form fields using the reset() method
+    fetch('https://script.google.com/macros/s/AKfycbxaf6VQwBlSf6GYVror8ajlxbXzY6ldjgGIU9xGiAGbNWm-s-WbJkRnvBicKAU2FZxH/exec', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Success full: ' + data.message);
+            form.reset();
+            submitButton.disabled = false;
+        } else {
+            alert('Error: ' + data.message);
+            submitButton.disabled = false;
+        }
+    })
+    .catch(error => {
+        alert('An error occurred during submission.');
+        submitButton.disabled = false;
+    });
+});
 
-                    form.reset();
-                  // Optionally, display a message within the page (instead of alert)
-                        responseMessage.style.display = 'block';
-                        submitButton.disabled = false;
-                } else {
-                    // Show error alert
-                    alert('Error: ' + data.message);
-                    responseMessage.innerHTML = 'Error: ' + data.message;
-                    responseMessage.style.color = 'red';
-                    submitButton.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                alert('An error occurred during submission.');
-                responseMessage.innerHTML = 'An error occurred during submission.';
-                responseMessage.style.color = 'red';
-                submitButton.disabled = false;
-            });
-        });
-    </script>
+</script>
+
 </body>
 </html>

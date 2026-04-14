@@ -1,163 +1,1381 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ID Card Renewal</title>
-        <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID Card Renewal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
     display: flex;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
-    margin: 0;
+}
+
+.form-card {
+    background: #fff;
+    padding: 25px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(15px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
 h3 {
     text-align: center;
-    color: #333;
     margin-bottom: 20px;
+    color: #333;
 }
 
-.inta {
+.input-group {
     margin-bottom: 15px;
-    width: calc(100%);
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
+    position: relative;
 }
 
 label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
     display: block;
     margin-bottom: 5px;
-    color: #555;
-    font-weight: bold;
 }
 
-button {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+input, select, textarea {
     width: 100%;
-    transition: background-color 0.3s ease;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #4facfe;
+    outline: none;
+    box-shadow: 0 0 5px rgba(79,172,254,0.5);
+}
+
+input { text-transform: uppercase; }
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #0056b3;
+    opacity: 0.9;
 }
-input{text-transform: uppercase;}
-        </style>
 
-    </head>
-    <body>
-        <form id="myForm">
-          <h3>You can request your ID card renewal here.</h3><br>  
+button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
 
-            <label for="text">Employee ID:</label>
-            <input class="inta" type="text" name="emp_ID" required placeholder="EMP/PUN003256">
+.back-btn {
+    display: inline-block;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    background: #ff4d4d;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+}
 
-            <label for="text">Your Name:</label>
-            <input type="text" class="inta" name="name" required placeholder="Checkmate Services">
-            
-            <label for="text">Date of Joining:</label>
-            <input type="date" class="inta" name="doj" required>
+#responseMessage {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 500;
+}
 
-            <label for="text">Date of Expiry:</label>
-            <input type="date" class="inta" name="doe" required>
+.success { color: green; }
+.error { color: red; }
 
-            <label for="text">Your AM / FO / AO Name:</label>
-            <select name="nam" class="inta" required>
-                <option value="" selected>Please Select Your Name</option>
-                <option value="Mr. Babaram Surve">Mr. Babaram Surve</option>
-                <option value="Mr. Babaram Surve">Mr. Kaushik Acharya</option>
-                <option value="Mr. Balaji Ghodake">Mr. Balaji Ghodake</option>
-                <option value="Mr. Manoj Palande">Mr. Manoj Palande</option>
-                <option value="Mr. Shivling Khabile">Mr. Shivling Khabile</option>
-                <option value="Mr. Suresh Math">Mr. Suresh Math</option>
-                <option value="Mr. Atul Thombre">Mr. Atul Thombre</option>
-                <option value="Mr. Ramchandra Painkara">Mr. Ramchandra Painkara</option>
-            </select>
-            
-            <label for="text">Remark</label>
-            <textarea class="inta" name="remark" rows="4" cols="50"></textarea><br><br>
+/* 🔹 Suggestion box */
+#idSuggestions {
+    border:1px solid #ddd;
+    border-top:none;
+    max-height:120px;
+    overflow-y:auto;
+    display:none;
+    background:#fff;
+    position:absolute;
+    width:100%;
+    z-index:1000;
+}
 
-        <button type="submit" id="subm">Submit</button><br><br>
-        <a href="https://desercspl-rpu.github.io/veflerep/" style=" background-color: red;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100px;
-    transition: background-color 0.3s ease; text-decoration: none;">Back to Home</a>
-    </form>
+#idSuggestions div:hover {
+    background:#f1f1f1;
+}
+</style>
+</head>
 
-    <!-- Element to display success/error message -->
-    <p id="responseMessage"></p>
+<body>
 
-    <script>
-        const form = document.getElementById('myForm');
-        const responseMessage = document.getElementById('responseMessage');
-        const submitButton = document.getElementById('subm');
+<div class="form-card">
+<form id="myForm">
+
+<h3>ID Card Renewal Request</h3>
+
+<div class="input-group">
+<label>Employee ID</label>
+<input type="text" name="emp_ID" required placeholder="EMP/PUN003256">
+<div id="idSuggestions"></div>
+</div>
+
+<div class="input-group">
+<label>Your Name</label>
+<input type="text" name="name" required readonly placeholder="Checkmate Services">
+</div>
+
+<div class="input-group">
+<label>Date of Expiry</label>
+<input type="date" name="doe" required>
+</div>
+
+<div class="input-group">
+<label>AM / FO / AO Name</label>
+<select name="nam" required>
+<option value="">Select Name</option>
+<option>Mr. Babaram Surve</option>
+<option>Mr. Kaushik Acharya</option>
+<option>Mr. Balaji Ghodake</option>
+<option>Mr. Manoj Palande</option>
+<option>Mr. Shivling Khabile</option>
+<option>Mr. Suresh Math</option>
+<option>Mr. Atul Thombre</option>
+<option>Mr. Ramchandra Painkara</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Remark</label>
+<textarea name="remark" rows="3"></textarea>
+</div>
+
+<p id="responseMessage"></p><br>
+
+<button type="submit" id="subm">Submit</button>
+
+<a href="https://desercspl-rpu.github.io/veflerep/" class="back-btn">Back to Home</a>
 
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
+</form>
+</div>
 
-            submitButton.disabled = true;
+<script>
+const form = document.getElementById('myForm');
+const responseMessage = document.getElementById('responseMessage');
+const submitButton = document.getElementById('subm');
 
-            // Get the form data
-            const formData = new FormData(form);
+const empInput = document.querySelector('input[name="emp_ID"]');
+const nameInput = document.querySelector('input[name="name"]');
+const suggestionBox = document.getElementById('idSuggestions');
 
-            // Fetch API to submit data to the Apps Script web app URL
-            // REPLACE 'YOUR_WEB_APP_URL' with your deployed Apps Script URL
-            fetch('https://script.google.com/macros/s/AKfycbyihcfAyCA0tTnrTIWf0WoRApLvYUMJ-JdcRaFQCHeo8IHqBrORq9yiYK-z0ktI6fbl/exec', {
-                method: 'POST',
-                body: formData
+/* 🔹 Employee Data (EDIT THIS) */
+const employees = [
+    { id: "EMP/AUG000271", name: "ALEEMULLAHKHAN PATHAN" },
+{ id: "EMP/GOA00636", name: "KRISHNA SITARAM BUGADE" },
+{ id: "EMP/PNE000436", name: "ASHWINI KISHOR SHINDE" },
+{ id: "EMP/PNE000460", name: "SWATI VARUDE" },
+{ id: "EMP/PNE000484", name: "SNEHALATA SAWANT" },
+{ id: "EMP/PNE001092", name: "SANJAY PATIL" },
+{ id: "EMP/PNE001295", name: "SHOBHA KEDARI" },
+{ id: "EMP/PNE001334", name: "SMITA KULKARNI" },
+{ id: "EMP/PNE001594", name: "SUSHMA MAKHARE" },
+{ id: "EMP/PNE001663", name: "MILIND CHOUGULE" },
+{ id: "EMP/PNE001842", name: "SADHANA SURYAKANT WAGHMODE" },
+{ id: "EMP/PNE001844", name: "PRATIBHA PRAVIN KHAIR" },
+{ id: "EMP/PNE001902", name: "MACHINDRA SHINDE" },
+{ id: "EMP/PNE002214", name: "ROHINI GORE" },
+{ id: "EMP/PNE002670", name: "NITIN KALE" },
+{ id: "EMP/PNE002786", name: "RAJU ONKAR DEVKATE" },
+{ id: "EMP/PNE003770", name: "SURESH KADAM" },
+{ id: "EMP/PNE004431", name: "ASHA MISTRY" },
+{ id: "EMP/PNE004745", name: "VINOD KSHIRSAGAR" },
+{ id: "EMP/PNE004771", name: "SACHIN GHORPADE" },
+{ id: "EMP/PNE005727", name: "DILAWAR PATHAN" },
+{ id: "EMP/PNE005823", name: "ANJALI DANDAWATE" },
+{ id: "EMP/PNE005972", name: "ARUN MINAJAGI" },
+{ id: "EMP/PNE006155", name: "RATAN KAMBLE" },
+{ id: "EMP/PNE006627", name: "SIDHESHWAR LAMJANE" },
+{ id: "EMP/PNE006904", name: "BABURAO MORE" },
+{ id: "EMP/PNE007478", name: "DIGAMBER MOKANPALLE" },
+{ id: "EMP/PNE007601", name: "SHAMRAO MORE" },
+{ id: "EMP/PNE008039", name: "DAYARAM JADHAO" },
+{ id: "EMP/PNE008385", name: "GOPAL CHAUDHARY" },
+{ id: "EMP/PNE008736", name: "DIPAK SHINDE" },
+{ id: "EMP/PNE008748", name: "DINESH PATIL" },
+{ id: "EMP/PNE008873", name: "SATYAVAN DHOPAT" },
+{ id: "EMP/PNE009414", name: "VIJAY KHUNE" },
+{ id: "EMP/PNE009812", name: "RAJESH KUMAR AHIRWAR" },
+{ id: "EMP/PNE010082", name: "BHARTI AGRE" },
+{ id: "EMP/PNE010204", name: "ATUL BARDE" },
+{ id: "EMP/PNE010455", name: "DILIP BHOJE" },
+{ id: "EMP/PNE010626", name: "ASHOK BHOPALE" },
+{ id: "EMP/PNE010960", name: "NANDKUMAR MANIK RATHOD" },
+{ id: "EMP/PNE011195", name: "VAJIR SHAIKH" },
+{ id: "EMP/PNE011405", name: "MOHAN BABAR" },
+{ id: "EMP/PNE011453", name: "SHANTANU PATOLE" },
+{ id: "EMP/PNE011570", name: "SURYAKANT ADSULE" },
+{ id: "EMP/PNE011571", name: "VINAYAK PATIL" },
+{ id: "EMP/PNE011573", name: "RAMESHWAR KIRDAT" },
+{ id: "EMP/PNE011716", name: "DHONDUBA VIJAY KANKHAR" },
+{ id: "EMP/PUN00113", name: "BALVEER SINGH  PAL" },
+{ id: "EMP/PUN00175", name: "SANDIP SAMBHAJI CHAVAN" },
+{ id: "EMP/PUN00259", name: "LAXMIPUTRA IRANNA BIRAJDAR" },
+{ id: "EMP/PUN00409", name: "JAYSHRI ANIL CHAKRNARAYAN" },
+{ id: "EMP/PUN00417", name: "NITIN BHAURAO NIMKAR" },
+{ id: "EMP/PUN00560", name: "DILIP GOVIND CHAVAN" },
+{ id: "EMP/PUN00629", name: "DNYANESHWAR  KACHARU GAJBHAR" },
+{ id: "EMP/PUN00647", name: "SURESH YUVRAJ PAWAR" },
+{ id: "EMP/PUN00876", name: "BABAN CHANDRABHAN PATOLE" },
+{ id: "EMP/PUN00980", name: "VIJAY SAMPAT BHOSALE" },
+{ id: "EMP/PUN01405", name: "SUHAS MUNDE" },
+{ id: "EMP/PUN01566", name: "VIJAY BAHADUR YADAV" },
+{ id: "EMP/PUN01589", name: "NARVEER LAL . ." },
+{ id: "EMP/PUN01695", name: "RAJESH GAWAI" },
+{ id: "EMP/PUN01704", name: "KANTILAL LAWATE" },
+{ id: "EMP/PUN01832", name: "RENUKA PARASHURAM BELGUNDI" },
+{ id: "EMP/PUN01857", name: "GUMPHA RAMESH PAWAR" },
+{ id: "EMP/PUN02018", name: "AMOL RAMCHANDRA ADE" },
+{ id: "EMP/PUN02033", name: "LAXMAN JAYRAM KALYANKAR" },
+{ id: "EMP/PUN02036", name: "MAHADEO SURESH PANDGALE" },
+{ id: "EMP/PUN02106", name: "ANIKET GAIKWAD" },
+{ id: "EMP/PUN02255", name: "NILESH ." },
+{ id: "EMP/PUN02507", name: "AJINKYA DILIP GHORPADE" },
+{ id: "EMP/PUN02747", name: "HARI PRAKASH RAI" },
+{ id: "EMP/PUN02757", name: "VISHWANATH THAVARU RATHOD" },
+{ id: "EMP/PUN02852", name: "DIPALI SHRIKANT GHADGE" },
+{ id: "EMP/PUN02972", name: "PARMESHWAR BHAGAWAN  WAGH" },
+{ id: "EMP/PUN03081", name: "SHIVAM SINGH BHADORIYA" },
+{ id: "EMP/PUN03123", name: "GANPATI SIDDHAPPA GAJDHANE" },
+{ id: "EMP/PUN03181", name: "PRALHAD GULABRAO CHAVAN" },
+{ id: "EMP/PUN03236", name: "JAYSINGH RAGHUNATH CHOUGALE" },
+{ id: "EMP/PUN03357", name: "TANAJI DADU SAWANT" },
+{ id: "EMP/PUN03386", name: "AKSHAY KUMAR YADAV" },
+{ id: "EMP/PUN03499", name: "SANTOSH KUMAR AHIRWAR" },
+{ id: "EMP/PUN03515", name: "VIJAY SINGH MALI" },
+{ id: "EMP/PUN03517", name: "PRASHANT RAMESH CHAUDHARI" },
+{ id: "EMP/PUN03537", name: "SHEKHAR DASHRATH BHOSLE" },
+{ id: "EMP/PUN03575", name: "YOGESH VASANTA INGALE" },
+{ id: "EMP/PUN03635", name: "NIKHIL BHIMRAO KOLI" },
+{ id: "EMP/PUN03689", name: "KUNJILAL MOTILAL ZAMARKAR" },
+{ id: "EMP/PUN03792", name: "NIKHIL DNYANESHWAR GAJBHAR" },
+{ id: "EMP/PUN03855", name: "VISHAL SAHU" },
+{ id: "EMP/PUN03866", name: "RAJIV EKNATH  JAGDALE" },
+{ id: "EMP/PUN03878", name: "SIDHESHWAR KAJALE" },
+{ id: "EMP/PUN03901", name: "KAUSHIK ACHARYA" },
+{ id: "EMP/PUN03910", name: "BALASAHEB SHIVRAM KADAM" },
+{ id: "EMP/PUN03914", name: "RAMKUMAR A" },
+{ id: "EMP/PUN03918", name: "RAM BAHADUR SHARMA" },
+{ id: "EMP/PUN03927", name: "DHEERENDRA SINGH" },
+{ id: "EMP/PUN03993", name: "HEMANT KUMAR A" },
+{ id: "EMP/PUN04037", name: "NARENDRA KUMAR VARMA" },
+{ id: "EMP/PUN04063", name: "ASHOK KUMAR A" },
+{ id: "EMP/PUN04080", name: "PRAVIN PRABHAKAR CHIKHALE" },
+{ id: "EMP/PUN04122", name: "JAGADEESH PRASAD KEWAT" },
+{ id: "EMP/PUN04127", name: "ROHIT DHUNNA TIWARI" },
+{ id: "EMP/PUN04153", name: "RAM SINHASAN PRAJAPATI" },
+{ id: "EMP/PUN04175", name: "VINOD  SHESHERAO PAWAR" },
+{ id: "EMP/PUN04254", name: "MOHAMMAD ISRAFIL" },
+{ id: "EMP/PUN04262", name: "RANDHIR SINGH" },
+{ id: "EMP/PUN04296", name: "NIKHIL ANANDA WANKHADE" },
+{ id: "EMP/PUN04323", name: "MUKESH  POPAT SHINDE" },
+{ id: "EMP/PUN04388", name: "PRADIP ANANDA SAWANT" },
+{ id: "EMP/PUN04484", name: "SHUBHAM  SAMBHAJIRAO MURUMKAR" },
+{ id: "EMP/PUN04501", name: "CHANDRASHEKHAR NILKANTH  BHAMARE" },
+{ id: "EMP/PUN04576", name: "HANUMANT GOPINATH KOKARE" },
+{ id: "EMP/PUN04578", name: "KISAN SOPAN GUNAWARE" },
+{ id: "EMP/PUN04602", name: "ANIKET TANAJI JAGTAP" },
+{ id: "EMP/PUN04639", name: "AANAND KUMAR A" },
+{ id: "EMP/PUN04641", name: "DINESH KUMAR YADAV" },
+{ id: "EMP/PUN04751", name: "GANESH MANOHAR SONAWANE" },
+{ id: "EMP/PUN04854", name: "VIKAS RAMESH ZASKAR" },
+{ id: "EMP/PUN04855", name: "TUSHAR BHAUSAHEB CHANDVILKAR" },
+{ id: "EMP/PUN04856", name: "SUSHAMA BHAUSAHEB CHANDVILKAR" },
+{ id: "EMP/PUN04874", name: "VISHAL  UKHARDA INGALE" },
+{ id: "EMP/PUN04875", name: "NISHANT PRASHANT  ZANKAR" },
+{ id: "EMP/PUN04876", name: "HANMAGONDA MASHNAGONDA KARREWAR" },
+{ id: "EMP/PUN04897", name: "BABU BARKU ZORE" },
+{ id: "EMP/PUN04916", name: "MAYUR   MANOHAR JADHAV" },
+{ id: "EMP/PUN04922", name: "RANJIT ANANDRAO CHAVAN" },
+{ id: "EMP/PUN04941", name: " SANDEEP VISHNU KINDRE" },
+{ id: "EMP/PUN04949", name: "RASHTRAPAL ANIL NIKAM" },
+{ id: "EMP/PUN04952", name: "SNEHA  PAUL GABRIEL" },
+{ id: "EMP/PUN04961", name: "TRIBHUVAN NARAIN CHAUBEY" },
+{ id: "EMP/PUN04973", name: "DAIWAT NIVRUTTI SAWALE" },
+{ id: "EMP/PUN04975", name: "VISHAL TUKARAM BABAR" },
+{ id: "EMP/PUN05003", name: "RAMDAS BABRUWAN RAUT" },
+{ id: "EMP/PUN05012", name: "NARESH VINAYAKRAO TAKTWALE" },
+{ id: "EMP/PUN05013", name: "DNYANESHWAR KONDIBA MARGALE" },
+{ id: "EMP/PUN05017", name: "AMIR  KHAN" },
+{ id: "EMP/PUN05018", name: "MANOJ BHASKAR BHATT" },
+{ id: "EMP/PUN05054", name: "SITAL ASHOK RAI" },
+{ id: "EMP/PUN05074", name: "TUKARAM  SHIVAJI SHETE" },
+{ id: "EMP/PUN05121", name: "BHARAT A" },
+{ id: "EMP/PUN05173", name: "MAINA BHIWAJI SONAWANE" },
+{ id: "EMP/PUN05180", name: "RAHUL DEVIDASRAO TAYADE" },
+{ id: "EMP/PUN05183", name: "KAILASH SINGH" },
+{ id: "EMP/PUN05185", name: "ANNA UTTAM PUJARI" },
+{ id: "EMP/PUN05195", name: "HARSHAL  ASHOK PUDALE" },
+{ id: "EMP/PUN05197", name: "KAUSTUBH MANOHAR KADU" },
+{ id: "EMP/PUN05217", name: "RENUKA LAHU GHAYAL" },
+{ id: "EMP/PUN05218", name: "ANURADHA NAGESH BHASKARE" },
+{ id: "EMP/PUN05219", name: "GANESH PRAKASH HALNOR" },
+{ id: "EMP/PUN05220", name: "TEJASWINI NITESH BHENDEKAR" },
+{ id: "EMP/PUN05246", name: "SACHIN UKANDI RANVIR" },
+{ id: "EMP/PUN05250", name: "PANDIT  WALU  THORMISE" },
+{ id: "EMP/PUN05268", name: "SANTOSH KESHAV CHIKANE" },
+{ id: "EMP/PUN05289", name: "YUVRAJ GYANBA KALE" },
+{ id: "EMP/PUN05333", name: "BHAGATSINH NARENDRA GAIKWAD" },
+{ id: "EMP/PUN05352", name: "AMRISH SHARMA" },
+{ id: "EMP/PUN05354", name: "GANESH DATTATRAY SONTAKKE" },
+{ id: "EMP/PUN05435", name: "UMESH DIGAMBAR YEDKE" },
+{ id: "EMP/PUN05447", name: "ARJUN GYANOBA KAWALE" },
+{ id: "EMP/PUN05524", name: "SACHIN SAMBHAJI BHANUSE" },
+{ id: "EMP/PUN05614", name: "DINKAR VITTHAL PATIL" },
+{ id: "EMP/PUN05641", name: "PRAKASH GOVINDRAO RATHOD" },
+{ id: "EMP/PUN05822", name: "NIKESH MAHADEV RATHOD" },
+{ id: "EMP/PUN05834", name: "PRASHANT MAHADEV KASHID" },
+{ id: "EMP/PUN05843", name: "KHANDU KONDIBA MANE" },
+{ id: "EMP/PUN05852", name: "BAPPI SINHA" },
+{ id: "EMP/PUN05940", name: "SOMNATH KHANDU JADHAV" },
+{ id: "EMP/PUN05943", name: "NIVRUTI NAMDEV GODE" },
+{ id: "EMP/PUN05972", name: "DHANANJAY HANUMANT SHINDE" },
+{ id: "EMP/PUN06161", name: "NAGESH ANKUSH DHAVARE" },
+{ id: "EMP/PUN06296", name: "SHIVAJI TANAJI SHIRKE" },
+{ id: "EMP/PUN06324", name: "YUVARAJ DINKAR PATIL" },
+{ id: "EMP/PUN06330", name: "VIJAY ASHOK DOKHE" },
+{ id: "EMP/PUN06331", name: "SHRIKANT NAGNATH KANGULE" },
+{ id: "EMP/PUN06357", name: "PANKAJ CHATURVEDI" },
+{ id: "EMP/PUN06361", name: "SAIFUL MANDAL" },
+{ id: "EMP/PUN06372", name: "MADIVALAPPA CHANDRASHEKHAR  MALLAD" },
+{ id: "EMP/PUN06381", name: "ANANDA BHIMRAO RANVIR" },
+{ id: "EMP/PUN06385", name: "AMOL KISAN KAMBALE" },
+{ id: "EMP/PUN06386", name: "SUNIL NEWRUTHI WAGHMARE" },
+{ id: "EMP/PUN06388", name: "DEVIDAS MAHADEV GHODKE" },
+{ id: "EMP/PUN06389", name: "NILKANTH RAVINDRA JAVALE" },
+{ id: "EMP/PUN06391", name: "VEERENDRA AHIRWAR" },
+{ id: "EMP/PUN06392", name: "BALBIR KUMAR BHARTU BHADAD" },
+{ id: "EMP/PUN06403", name: "SUNEEL KUMAR SOUR" },
+{ id: "EMP/PUN06413", name: "NETRAM KACHHI" },
+{ id: "EMP/PUN06414", name: "MOHAN SINGH" },
+{ id: "EMP/PUN06418", name: "MAHESH GOPAL SHINDE" },
+{ id: "EMP/PUN06426", name: "RAMDAS ROHIDAS KAMBLE" },
+{ id: "EMP/PUN06435", name: "SHUBHAM UDDAL JADHAV" },
+{ id: "EMP/PUN06451", name: "MANTOSH PRASAD KESHRI" },
+{ id: "EMP/PUN06452", name: "SANJIV KUMAR RAI" },
+{ id: "EMP/PUN06462", name: "SANGMESHWAR SUBHASH WAGHMARE" },
+{ id: "EMP/PUN06509", name: "SARIKA PRADIPRAO TANTARPALE" },
+{ id: "EMP/PUN06519", name: "DINESH KUMAR ." },
+{ id: "EMP/PUN06591", name: "LALIT SURYKANT DESLE" },
+{ id: "EMP/PUN06608", name: "DATTA KISAN NAKTI" },
+{ id: "EMP/PUN06609", name: "AJAY SAMPATRAO MALUGADE" },
+{ id: "EMP/PUN06610", name: "SUNIL KONDIBA ZORE" },
+{ id: "EMP/PUN06612", name: "SANJAY BHIKAJI PASALKAR" },
+{ id: "EMP/PUN06615", name: "MAHADU NIVRUTTI SHEDGE" },
+{ id: "EMP/PUN06616", name: "PANDURANG SAKHARAM SHEDAGE" },
+{ id: "EMP/PUN06623", name: "RANA DAS" },
+{ id: "EMP/PUN06635", name: "SANTOSH BABAN MARAGALE" },
+{ id: "EMP/PUN06637", name: "SONAM BANO" },
+{ id: "EMP/PUN06657", name: "VITTHAL BABAN MARGALE" },
+{ id: "EMP/PUN06688", name: "DILIP BABURAV KADAM" },
+{ id: "EMP/PUN06703", name: "DATTATRAY SAMBHAJI GHEWARE" },
+{ id: "EMP/PUN06706", name: "AMAR CHANDRA A" },
+{ id: "EMP/PUN06723", name: "KAMLU BHIKA NIRGUDE" },
+{ id: "EMP/PUN06751", name: "DINESH GANESH WAHULKAR" },
+{ id: "EMP/PUN06836", name: "DIWAKAR BHAURAO MOHOD" },
+{ id: "EMP/PUN06838", name: "AMOL LAHU JADHAV" },
+{ id: "EMP/PUN06842", name: "BHARAT RAGHUNATH KAMBLE" },
+{ id: "EMP/PUN06870", name: "MANOHAR SINGH" },
+{ id: "EMP/PUN06877", name: "SHIVA VENKATESH MUTAYLA" },
+{ id: "EMP/PUN06892", name: "DIPAK KUMAR A" },
+{ id: "EMP/PUN06899", name: "VISHAL GOPINATH KUDALE" },
+{ id: "EMP/PUN06911", name: "PRALHAD NAMDEO KALE" },
+{ id: "EMP/PUN06917", name: "SAGAR BHARGAV PATIL" },
+{ id: "EMP/PUN06919", name: "SHAILESH DATTATRAY MANE" },
+{ id: "EMP/PUN06925", name: "SATISH BHIKA SINKAR" },
+{ id: "EMP/PUN06931", name: "SANTOSHKUMAR SATYANARAYANJI SHARMA" },
+{ id: "EMP/PUN06951", name: "NAVNATH SANTU SHID" },
+{ id: "EMP/PUN06970", name: "NARENDRA CHANDRAKANT DAREKAR" },
+{ id: "EMP/PUN06978", name: "ATUL VILAS POL" },
+{ id: "EMP/PUN06983", name: "ASHISH KUMAR A" },
+{ id: "EMP/PUN07004", name: "NANDKUMAR SHESHRAO KAMBLE" },
+{ id: "EMP/PUN07006", name: "SHARAD BHAGAWAN KURWADE" },
+{ id: "EMP/PUN07007", name: "SUNIL RAVSAHEB WADJE" },
+{ id: "EMP/PUN07010", name: "AMOL JAYSHING MATRE" },
+{ id: "EMP/PUN07032", name: "MURLIDHAR DNYANOBA DARWATKAR" },
+{ id: "EMP/PUN07033", name: "RANNAPPA  ANNAPPA KAMBLE" },
+{ id: "EMP/PUN07042", name: "NITIN VITTHAL DHEBE" },
+{ id: "EMP/PUN07044", name: "MUKESH BIR SINGH BHADORIYA" },
+{ id: "EMP/PUN07045", name: "GANGARAM BIPAT GAUR" },
+{ id: "EMP/PUN07046", name: "DHANSINGH SHIVAJI VEER" },
+{ id: "EMP/PUN07063", name: "PRAMOD PRAKASH KHARAT" },
+{ id: "EMP/PUN07089", name: "SACHIN SAHADU WANGANE" },
+{ id: "EMP/PUN07100", name: "AWADHESH KUMAR VERMA" },
+{ id: "EMP/PUN07102", name: "NITIN BALKRUSHNA CHINCHOLKAR" },
+{ id: "EMP/PUN07133", name: "GIRRAJ SHARMA" },
+{ id: "EMP/PUN07134", name: "HARIOM SHARMA" },
+{ id: "EMP/PUN07198", name: "RANJANA RAJU MALI" },
+{ id: "EMP/PUN07208", name: "PALLAVI GOPAL SARNAIK" },
+{ id: "EMP/PUN07224", name: "DNYANESHWAR SUKHADEO AVCHAR" },
+{ id: "EMP/PUN07228", name: "SANJEET KUMAR A" },
+{ id: "EMP/PUN07230", name: "JASHVANT SINGH" },
+{ id: "EMP/PUN07231", name: "MAINAJI BABANRAO KAMBLE" },
+{ id: "EMP/PUN07232", name: "SONALI GANGARAM KOLEKAR" },
+{ id: "EMP/PUN07233", name: "HANMANT VYANKATRAO ANMULWAD" },
+{ id: "EMP/PUN07234", name: "SAVITA RAMDAS MASRAM" },
+{ id: "EMP/PUN07235", name: "CHHAYA SOPAN SALAVE" },
+{ id: "EMP/PUN07236", name: "SNEHALATA MADHAVRAO DHULGANDE" },
+{ id: "EMP/PUN07237", name: "UPENDRA KUMAR SINGH" },
+{ id: "EMP/PUN07244", name: "SONAM  DEVI A" },
+{ id: "EMP/PUN07245", name: "PRATIBHA PRAVIN DAMODAR" },
+{ id: "EMP/PUN07246", name: "SHASHIKANT LAXMAN GIRAME" },
+{ id: "EMP/PUN07247", name: "MANJUSHA GANESH DUDULE" },
+{ id: "EMP/PUN07251", name: "MADAN LAHASE" },
+{ id: "EMP/PUN07255", name: "AJAY KUMAR A" },
+{ id: "EMP/PUN07259", name: "SHAILENDRA SINGH" },
+{ id: "EMP/PUN07262", name: "JITENDRA SHRMA" },
+{ id: "EMP/PUN07264", name: "BHARAT PRALHAD SAKHARE" },
+{ id: "EMP/PUN07266", name: "ANIL BHIKU JADHAO" },
+{ id: "EMP/PUN07268", name: "NITESH MAYCHAND KATARE" },
+{ id: "EMP/PUN07271", name: "ARJUN BABURAO PANCHAL" },
+{ id: "EMP/PUN07274", name: "AMBIKA A" },
+{ id: "EMP/PUN07301", name: "SUSHMA UDAY SATHE" },
+{ id: "EMP/PUN07302", name: "UMESH BHAGWAN GAYKWAD" },
+{ id: "EMP/PUN07305", name: "PRAMILA SATISH SHINDE" },
+{ id: "EMP/PUN07307", name: "RAJESH RAMKUMAR BARWALIYA" },
+{ id: "EMP/PUN07319", name: "SANDEEP GORUBA KSHIRSAGAR" },
+{ id: "EMP/PUN07320", name: "PRASHANT VILAS JAVIR" },
+{ id: "EMP/PUN07334", name: "SAHIL RAMACHANDRA WAGHAMARE" },
+{ id: "EMP/PUN07338", name: "AMOL PANDURANG PAVALE" },
+{ id: "EMP/PUN07345", name: "MANISHA RAJESH BARWALIYA" },
+{ id: "EMP/PUN07356", name: "SIMA DEVANAND SONONE" },
+{ id: "EMP/PUN07357", name: "DILIP CHANDRABHAN KAMBLE" },
+{ id: "EMP/PUN07359", name: "PRUTHVIRAJ GANGADHAR JOGDANDE" },
+{ id: "EMP/PUN07360", name: "NAVNATH SUDAM KATKAR" },
+{ id: "EMP/PUN07361", name: "CHAIN SINGH" },
+{ id: "EMP/PUN07363", name: "RAJESH UPADHYAY" },
+{ id: "EMP/PUN07368", name: "AJAY BAPURAO GHANTE" },
+{ id: "EMP/PUN07373", name: "RAHUL ATMARAM BHOLE" },
+{ id: "EMP/PUN07376", name: "PURUSHOTTAM A" },
+{ id: "EMP/PUN07379", name: "SHIV SAGAR T" },
+{ id: "EMP/PUN07380", name: "PAVAN KUMAR H" },
+{ id: "EMP/PUN07387", name: "AVINASH DNYANOBA CHOUDHARI" },
+{ id: "EMP/PUN07390", name: "DEVESH KUMAR D" },
+{ id: "EMP/PUN07396", name: "DNYANESHWAR MADHUKAR MHASKE" },
+{ id: "EMP/PUN07397", name: "GANGESHMANI RAMMANI MISHRA" },
+{ id: "EMP/PUN07399", name: "MALUSARI PANDHARI KAMBLE" },
+{ id: "EMP/PUN07400", name: "VISHAL RAJU INGLE" },
+{ id: "EMP/PUN07401", name: "PRALHAD VITTHAL PATIL" },
+{ id: "EMP/PUN07402", name: "LAXMAN PRABHU SHINDE" },
+{ id: "EMP/PUN07403", name: "AJAY KUMAR SAKET" },
+{ id: "EMP/PUN07404", name: "HANUMANT PANDURANG PAWAR" },
+{ id: "EMP/PUN07405", name: "PRADEEP SUDHAKAR DHONDEKAR" },
+{ id: "EMP/PUN07409", name: "RAJIV BAPURAO MORE" },
+{ id: "EMP/PUN07416", name: "SURESH GANPATI PATIL" },
+{ id: "EMP/PUN07425", name: "BAPU KANTILAL KADAM" },
+{ id: "EMP/PUN07426", name: "TUSHAR GOTIRAM MORE" },
+{ id: "EMP/PUN07431", name: "MAINA PREMRAJ SURWADE" },
+{ id: "EMP/PUN07436", name: "ABHIJIT SUBHASH OWHAL" },
+{ id: "EMP/PUN07440", name: "DIPAK BABASAHEB SAPKAL" },
+{ id: "EMP/PUN07477", name: "RANI SUBHASH KAKEKAR" },
+{ id: "EMP/PUN07488", name: "PRAVIN SHIVAJI BHOSALE" },
+{ id: "EMP/PUN07492", name: "PRADEEP  POPAT KAMBALE" },
+{ id: "EMP/PUN07503", name: "GAJANAN SADASHIV NIKALJE" },
+{ id: "EMP/PUN07508", name: "RAJUBAI LIMBAJI BADE" },
+{ id: "EMP/PUN07510", name: "SACHIN ANANDA PATIL" },
+{ id: "EMP/PUN07516", name: "ALLAMAPRABHU V" },
+{ id: "EMP/PUN07523", name: "VIJAY ASHOK GULE" },
+{ id: "EMP/PUN07540", name: "VIKAS CHHABU RUPANVAR" },
+{ id: "EMP/PUN07550", name: "BALU DEVMAN AHIRE" },
+{ id: "EMP/PUN07558", name: "SHIVAJI BHIMRAO MORE" },
+{ id: "EMP/PUN07562", name: "RUKHAMA MANGAL PILAWAN" },
+{ id: "EMP/PUN07564", name: "RAVI SIDRAM PALLE" },
+{ id: "EMP/PUN07581", name: "ASHOK SADASHIV BOTRE" },
+{ id: "EMP/PUN07586", name: "SAGAR RAJENDRA MARANE" },
+{ id: "EMP/PUN07588", name: "BHARATI PANDURANG AROTE" },
+{ id: "EMP/PUN07594", name: "GAJANAN SAHEBARAO KEDAR" },
+{ id: "EMP/PUN07596", name: "ASHWINI BHASKAR SONUNE" },
+{ id: "EMP/PUN07598", name: "MILIND LIMBAJI TODE" },
+{ id: "EMP/PUN07599", name: "ANITA SAMBHAJI TELI" },
+{ id: "EMP/PUN07606", name: "RANJANA LAXMAN BATHE" },
+{ id: "EMP/PUN07607", name: "KALPANA SANGIT RANE" },
+{ id: "EMP/PUN07609", name: "SADHANA NILKANTH PANCHAL" },
+{ id: "EMP/PUN07610", name: "ARCHANA BABUSING CHAVHAN" },
+{ id: "EMP/PUN07612", name: "MANOJ  TARACHAND  PADAWALE" },
+{ id: "EMP/PUN07613", name: "NARENDRA KUMAR OJHA" },
+{ id: "EMP/PUN07617", name: "GANESH NAVNATH KADAM" },
+{ id: "EMP/PUN07632", name: "MAHESH MACHINDRA TIRASE" },
+{ id: "EMP/PUN07638", name: "SUMED DEVRAO NARWADE" },
+{ id: "EMP/PUN07654", name: "NITISH SHIVRAM MANDKAR" },
+{ id: "EMP/PUN07657", name: "RAJENDRA VASANTRAO SARDESHMUKH" },
+{ id: "EMP/PUN07663", name: "MANOJ KUMAR A" },
+{ id: "EMP/PUN07670", name: "JITENDRA RAJENDRA  PATIL" },
+{ id: "EMP/PUN07685", name: "SIDDHARAM BIRAJDAR" },
+{ id: "EMP/PUN07698", name: "NITUL ANANTA BORAH" },
+{ id: "EMP/PUN07699", name: "HEERA SINGH" },
+{ id: "EMP/PUN07702", name: "TUSHAR SURESH JAGTAP" },
+{ id: "EMP/PUN07706", name: "MD ABUZAR KHAMARU" },
+{ id: "EMP/PUN07712", name: "HEMANT   PARASNATH TIWARI" },
+{ id: "EMP/PUN07716", name: "ASARAM ANANTA GHUGE" },
+{ id: "EMP/PUN07717", name: "KRISHNA KUMAR YADAV" },
+{ id: "EMP/PUN07718", name: "MANGESH ROHIDAS SHINDE" },
+{ id: "EMP/PUN07720", name: "SHIVSHANKAR MANOHAR WANDHARE" },
+{ id: "EMP/PUN07723", name: "PRASAD RAJESH SURVE" },
+{ id: "EMP/PUN07724", name: "AMIT VILAS PHADTARE" },
+{ id: "EMP/PUN07725", name: "YOGESH MANSING RATHOD" },
+{ id: "EMP/PUN07726", name: "RAMDAYAL A" },
+{ id: "EMP/PUN07750", name: "PUJA NAVNATH KUMBHAR" },
+{ id: "EMP/PUN07753", name: "ASHWINI ARUN PATIL" },
+{ id: "EMP/PUN07755", name: "MOKSHADA MAHESH MODAK" },
+{ id: "EMP/PUN07756", name: "PRIYANKA SIDDHARTH BANSODE" },
+{ id: "EMP/PUN07757", name: "AARTI VIJAY SATHE" },
+{ id: "EMP/PUN07758", name: "RUPALI KISHOR CHAUDHARI" },
+{ id: "EMP/PUN07759", name: "VIJAY DASHRATH ANDHALE" },
+{ id: "EMP/PUN07765", name: "MOHANLAL SHARMA" },
+{ id: "EMP/PUN07766", name: "SUBEDAR SHESHMANI BIND" },
+{ id: "EMP/PUN07771", name: "POONAM YOGESH JANRAV" },
+{ id: "EMP/PUN07781", name: "MAHADEVI ANKUSH KALE" },
+{ id: "EMP/PUN07785", name: "RAHUL MADHUKAR INGLE" },
+{ id: "EMP/PUN07787", name: "KUMAR SAGAR TIWARI" },
+{ id: "EMP/PUN07790", name: "KOMAL   DATTATRAY PATIL" },
+{ id: "EMP/PUN07794", name: "MD ARIFUR RAHMAN" },
+{ id: "EMP/PUN07801", name: "KARN SANDIPAN GHODAKE" },
+{ id: "EMP/PUN07811", name: "SUMIT VIJAY GAIKWAD" },
+{ id: "EMP/PUN07821", name: "SHABNAM SHAHZAD MALIK" },
+{ id: "EMP/PUN07828", name: "AMAR NATH A" },
+{ id: "EMP/PUN07829", name: "RAJESH NANASAHEB GOTE" },
+{ id: "EMP/PUN07833", name: "PRAVIN TARASING BAIS" },
+{ id: "EMP/PUN07834", name: "SACHIN MANOHAR KARAD" },
+{ id: "EMP/PUN07858", name: "DEEPAK ANAND BARAD" },
+{ id: "EMP/PUN07864", name: "SHARAD SADASHIV SHINDE" },
+{ id: "EMP/PUN07866", name: "BALAJI SHRIRAME" },
+{ id: "EMP/PUN07872", name: "SUNIL SANTOSH KANADE" },
+{ id: "EMP/PUN07873", name: "ADHIKRAV MARUTI MANE" },
+{ id: "EMP/PUN07874", name: "RAVINDRA DAMODHAR THOTE" },
+{ id: "EMP/PUN07876", name: "GHANASHYAM CHANDRAKANTRAO  KULKARNI" },
+{ id: "EMP/PUN07879", name: "GOPAL BHIKU RATHOD" },
+{ id: "EMP/PUN07880", name: "SURESH PANDHARE" },
+{ id: "EMP/PUN07892", name: "ASHOK KUMAR SEN" },
+{ id: "EMP/PUN07906", name: "AMOL BHAGWAN MOHITE" },
+{ id: "EMP/PUN07908", name: "BHAGWAT SHIVAJI SHITAP" },
+{ id: "EMP/PUN07914", name: "SATYAJIT  KAKATI" },
+{ id: "EMP/PUN07918", name: "SANKESH SATISH PATIL" },
+{ id: "EMP/PUN07919", name: "RAMJESH BABURAO KAMBLE" },
+{ id: "EMP/PUN07920", name: "ASHOK NATHU NIKAM" },
+{ id: "EMP/PUN07922", name: "SAGAR MAHADEV PATIL" },
+{ id: "EMP/PUN07925", name: "SUCHITRA GAUTAM" },
+{ id: "EMP/PUN07945", name: "ROHIT SANJAY KANK" },
+{ id: "EMP/PUN07951", name: "VISHWANATH SHALIKRAV JADHAV" },
+{ id: "EMP/PUN07952", name: "TUNTUN KONWAR" },
+{ id: "EMP/PUN07955", name: "DEEPAK BHAGWAN DHUPE" },
+{ id: "EMP/PUN07957", name: "SATYAJEET RAVINDRA TAYADE" },
+{ id: "EMP/PUN07959", name: "BAPPA BABASAHEB BERGAL" },
+{ id: "EMP/PUN07960", name: "SHAKUNTALA TUKARAM AADKAR" },
+{ id: "EMP/PUN07962", name: "SHIVAJI APPASAHEB BHOSALE" },
+{ id: "EMP/PUN07967", name: "GAJANAN MAHADEO GAWAI" },
+{ id: "EMP/PUN07978", name: "NARSING GANGADHAR NARWADE" },
+{ id: "EMP/PUN07979", name: "UMESH SITARAM RATHOD" },
+{ id: "EMP/PUN07981", name: "ANIKET DIPAK BHAGAT" },
+{ id: "EMP/PUN07982", name: "KRISHAN KUMAR A" },
+{ id: "EMP/PUN07991", name: "TANAJI RAMCHANDRA MALEKAR" },
+{ id: "EMP/PUN07998", name: "BAPURAO NAMDEV GAIKWAD" },
+{ id: "EMP/PUN08000", name: "SHANTARAM  SHANKAR SATHE" },
+{ id: "EMP/PUN08002", name: "BHAGWAN   DAGDU  BHISE" },
+{ id: "EMP/PUN08004", name: "SHYAM NARAYAN A" },
+{ id: "EMP/PUN08005", name: "VASUDEV MAHADEV GEJAGE" },
+{ id: "EMP/PUN08006", name: "SAGAR SHIVAJI BUJADE" },
+{ id: "EMP/PUN08013", name: "SACHIN   SOMNATH INGLE" },
+{ id: "EMP/PUN08016", name: "SAURABH RAJU YADAV" },
+{ id: "EMP/PUN08018", name: "PAVAN ASHOK RATHOD" },
+{ id: "EMP/PUN08026", name: "GANESH KALYAN SHINDE" },
+{ id: "EMP/PUN08037", name: "RAMDAS PIRAJI NEWASE" },
+{ id: "EMP/PUN08042", name: "SACHIN VITTHAL DARWATKAR" },
+{ id: "EMP/PUN08047", name: "KESHAV LAXMAN SHINDE" },
+{ id: "EMP/PUN08051", name: "ANKITA  ATUL THOMBARE" },
+{ id: "EMP/PUN08052", name: "ANIL ASHOK KAWALE" },
+{ id: "EMP/PUN08054", name: "AYUB YASHIN SHAIKH" },
+{ id: "EMP/PUN08056", name: "SWAPNIL BALASAHEB PATIL" },
+{ id: "EMP/PUN08060", name: "RAHUL NARAYAN LAHINGADE" },
+{ id: "EMP/PUN08070", name: "BIDYUT NATH" },
+{ id: "EMP/PUN08083", name: "ROHIT DATTATRAY DHAVALE" },
+{ id: "EMP/PUN08087", name: "RAOSAHEB TUKARAM WALEPWAD" },
+{ id: "EMP/PUN08090", name: "SHUBHAM GANESH DEVKATE" },
+{ id: "EMP/PUN08092", name: "SANTRAM VERMA" },
+{ id: "EMP/PUN08093", name: "SAVITA VAIJUNATH KARAJAGI" },
+{ id: "EMP/PUN08098", name: "TUSHAR RAGHUVIR NAGARKAR" },
+{ id: "EMP/PUN08100", name: "SINHAL DATTA BANSODE" },
+{ id: "EMP/PUN08101", name: "BAPU MARUTI BARVE" },
+{ id: "EMP/PUN08116", name: "SATISH SADHU DARWATKAR" },
+{ id: "EMP/PUN08120", name: "SANTHOSH SHETTY" },
+{ id: "EMP/PUN08121", name: "AKSHAY RAJENDRA SHINDE" },
+{ id: "EMP/PUN08122", name: "PRAVIN  BHANUDAS AVCHAR" },
+{ id: "EMP/PUN08127", name: "SUNIL DHARMA GADE" },
+{ id: "EMP/PUN08128", name: "RANUJ YEIN" },
+{ id: "EMP/PUN08130", name: "APPASAHEB POPAT BHAWAR" },
+{ id: "EMP/PUN08131", name: "SUMIT KAKASAHEB DUKARE" },
+{ id: "EMP/PUN08134", name: "SUNEEL KUMAR A" },
+{ id: "EMP/PUN08138", name: "NILESH EKNATH YENPURE" },
+{ id: "EMP/PUN08142", name: "AMAY TAYE" },
+{ id: "EMP/PUN08150", name: "BALAJI RAMRAO KAMBLE" },
+{ id: "EMP/PUN08154", name: "ASHWIN UTTAM GAIKWAD" },
+{ id: "EMP/PUN08155", name: "SURAJ KUMAR SAH" },
+{ id: "EMP/PUN08164", name: "ASHUTOSH SANTOSH TIWARI" },
+{ id: "EMP/PUN08167", name: "ANKIT KUMAR YADAV" },
+{ id: "EMP/PUN08168", name: "BHUSHAN RAMDAS CHAUDHARI" },
+{ id: "EMP/PUN08170", name: "SHIV KUMAR A" },
+{ id: "EMP/PUN08172", name: "AKSHAY DNYANDEV MERGAL" },
+{ id: "EMP/PUN08176", name: "ASHOK MADHUKAR KULKARNI" },
+{ id: "EMP/PUN08177", name: "PUNIT KUMAR A" },
+{ id: "EMP/PUN08179", name: "BALAJI KASHINATH RAJPANJE" },
+{ id: "EMP/PUN08180", name: "GOVIND VILAS SAGARE" },
+{ id: "EMP/PUN08183", name: "RUSHIKESH DATTATRAY CHOUGULE" },
+{ id: "EMP/PUN08184", name: "SAGAR KRISHNA DOMB" },
+{ id: "EMP/PUN08188", name: "RAJWINDER SINGH" },
+{ id: "EMP/PUN08189", name: "VILAS SAHEBRAO ADELAKAR" },
+{ id: "EMP/PUN08190", name: "MAHADEV KISAN SHIMPALE" },
+{ id: "EMP/PUN08194", name: "ANIKET NAYAN PAWAR" },
+{ id: "EMP/PUN08195", name: "VISHAL SHANKAR KUDALE" },
+{ id: "EMP/PUN08197", name: "CHITRANJAN KUMAR A" },
+{ id: "EMP/PUN08198", name: "SAGAR RAGHUNATH WANI" },
+{ id: "EMP/PUN08199", name: "SANTOSH BALASAHEB WANI" },
+{ id: "EMP/PUN08200", name: "PAYAL ONKARRAO SHENDE" },
+{ id: "EMP/PUN08204", name: "ANKIT PREMSING RATHOD" },
+{ id: "EMP/PUN08205", name: "PRASHANT PRAKASH KAMBLE" },
+{ id: "EMP/PUN08207", name: "NITIN VILAS INGOLE" },
+{ id: "EMP/PUN08208", name: "ATUL MADHUKAR BORSE" },
+{ id: "EMP/PUN08209", name: "SANJAY BALU NERKAR" },
+{ id: "EMP/PUN08211", name: "ASHOK GOVIND PAGARE" },
+{ id: "EMP/PUN08213", name: "RAVINDRA TATYASAHEB BHOSALE" },
+{ id: "EMP/PUN08216", name: "PRAVIN RAOSAHEB JAGATAP" },
+{ id: "EMP/PUN08217", name: "RAJIB TAID" },
+{ id: "EMP/PUN08218", name: "ARUNA AJAY SHARMA" },
+{ id: "EMP/PUN08219", name: "PRAMOD EKNATH SONKAMBLE" },
+{ id: "EMP/PUN08220", name: "SWAPNIL EKNATH MAGAR" },
+{ id: "EMP/PUN08223", name: "SALIM LATIF SHEKH" },
+{ id: "EMP/PUN08224", name: "BASGONDA APPYGONDA PATIL" },
+{ id: "EMP/PUN08227", name: "KIRAN DIGAMBAR BIRADAR" },
+{ id: "EMP/PUN08230", name: "MAHESH SANJAY MANE" },
+{ id: "EMP/PUN08233", name: "NILESH NILKANTH TAYADE" },
+{ id: "EMP/PUN08238", name: "YOGESH SOPAN KOLI" },
+{ id: "EMP/PUN08239", name: "SUBHASH BHARATSING JADHAV" },
+{ id: "EMP/PUN08240", name: "RAKESH YEIN" },
+{ id: "EMP/PUN08244", name: "VIKAS ANNA JADHAV" },
+{ id: "EMP/PUN08245", name: "MONUJ LAKHINANDA PATIR" },
+{ id: "EMP/PUN08246", name: "BALAJI RAMRAO GHODAKE" },
+{ id: "EMP/PUN08249", name: "ARUN MORE" },
+{ id: "EMP/PUN08250", name: "SACHIN SUBHASH RATHOD" },
+{ id: "EMP/PUN08252", name: "PRAKASH NAMDEV HIVRALE" },
+{ id: "EMP/PUN08254", name: "PAYAL LAXMAN KADAM" },
+{ id: "EMP/PUN08255", name: "HRITIK PRAMOD BANSAL" },
+{ id: "EMP/PUN08256", name: "RUSHIKESH KESHAV WANKHADE" },
+{ id: "EMP/PUN08257", name: "ABHAY  JITENDRA JADHAV" },
+{ id: "EMP/PUN08264", name: "OMKAR SUNIL GAIKWAD" },
+{ id: "EMP/PUN08265", name: "MAHENDRA RAJENDRA INGLE" },
+{ id: "EMP/PUN08267", name: "GOURAV  ANIL  KAMBLE" },
+{ id: "EMP/PUN08268", name: "BHARATI ANIL KUMBHAR" },
+{ id: "EMP/PUN08270", name: "ANIL SHANKAR BHALERAO" },
+{ id: "EMP/PUN08271", name: "PRAKASH DEVBARAV KALE" },
+{ id: "EMP/PUN08272", name: "RANDHIR CHANDRAKANT PAWAR" },
+{ id: "EMP/PUN08273", name: "SANTOSH EKNATH SHINDE" },
+{ id: "EMP/PUN08274", name: "SACHIN HARIDAS THORAT" },
+{ id: "EMP/PUN08275", name: "RAHUL VIJAY WAGH" },
+{ id: "EMP/PUN08277", name: "SAMBHAJEE DASHRATH SATHE" },
+{ id: "EMP/PUN08279", name: "SAGAR GORAKH SURYAVANSHI" },
+{ id: "EMP/PUN08281", name: "ARCHANA SATISH MARKAD" },
+{ id: "EMP/PUN08282", name: "SAMADHAN MARUTI DORALE" },
+{ id: "EMP/PUN08291", name: "SANGITA SHRISHAIL MHETRE" },
+{ id: "EMP/PUN08294", name: "SOMNATH PANDURANG MALI" },
+{ id: "EMP/PUN08296", name: "LAHU BHANUDAS SHINDE" },
+{ id: "EMP/PUN08310", name: "SURAJ SAMBHAJI PATIL" },
+{ id: "EMP/PUN08311", name: "NITIN PANDURANG SONTAKKE" },
+{ id: "EMP/PUN08317", name: "GANESH SHAMRAO MALEKAR" },
+{ id: "EMP/PUN08320", name: "UMER YAKUB SHAIKH" },
+{ id: "EMP/PUN08323", name: "GAJANAN BALIRAM KAMBALE" },
+{ id: "EMP/PUN08325", name: "YASHWANT KUMAR JATAV" },
+{ id: "EMP/PUN08326", name: "LALARAM KEWAT" },
+{ id: "EMP/PUN08327", name: "PUNDALIK ASHOK KORE" },
+{ id: "EMP/PUN08329", name: "KIRAN VITTHAL MHASANE" },
+{ id: "EMP/PUN08330", name: "SATISH SAKHARAM PAWAR" },
+{ id: "EMP/PUN08331", name: "VIKAS SITARAM SALVE" },
+{ id: "EMP/PUN08333", name: "PRADIP SHANKAR PAWAR" },
+{ id: "EMP/PUN08334", name: "BHUSHAN NAGRAJ PATIL" },
+{ id: "EMP/PUN08335", name: "SATISH PANDURANG ZORE" },
+{ id: "EMP/PUN08336", name: "CHANDRAKANT SHAMRAO SIRAME" },
+{ id: "EMP/PUN08338", name: "AJAY NIMBA JADHAV" },
+{ id: "EMP/PUN08339", name: "RAMESH KASHINATH PATIL" },
+{ id: "EMP/PUN08340", name: "ANNA UDHDAV KADAM" },
+{ id: "EMP/PUN08341", name: "DIPAK RAMESH CHAUDHARI" },
+{ id: "EMP/PUN08342", name: "VASUDEO DEVIDAS JADHAO" },
+{ id: "EMP/PUN08343", name: "UMAKANT PRABHAKAR BAGDE" },
+{ id: "EMP/PUN08348", name: "ABHISHEK ANAND GANGADHAR" },
+{ id: "EMP/PUN08349", name: "SANDIP NATTHU MORE" },
+{ id: "EMP/PUN08351", name: "SUSHIL DEVIDAS GAWAI" },
+{ id: "EMP/PUN08352", name: "SANJAY SHRIPAT WANKHEDE" },
+{ id: "EMP/PUN08353", name: "MADHUKAR SHIVAJI RASERAV" },
+{ id: "EMP/PUN08354", name: "SHIVAJI HANMANT AAYWALE" },
+{ id: "EMP/PUN08355", name: "SUDHIR DHONDIRAM MOHITE" },
+{ id: "EMP/PUN08356", name: "VINOD SUBHASH JAMDADE" },
+{ id: "EMP/PUN08359", name: "PRASHANT BABURAO KAMBLE" },
+{ id: "EMP/PUN08360", name: "DATTATRAYA BALASAHEB BHADLE" },
+{ id: "EMP/PUN08362", name: "SUNIL MUKUNDRAO CHAVAN" },
+{ id: "EMP/PUN08364", name: "AKSHAY PRAKASH CHOUGULE" },
+{ id: "EMP/PUN08365", name: "SANDIP SANJAY MORE" },
+{ id: "EMP/PUN08366", name: "AAKASH BABASO SISALE" },
+{ id: "EMP/PUN08377", name: "GANESH NANA CHANDANSHIV" },
+{ id: "EMP/PUN08378", name: "VIKAS DADASAHEB ROKADE" },
+{ id: "EMP/PUN08379", name: "MUKUND  BHANUDAS TEMGHARE" },
+{ id: "EMP/PUN08381", name: "MADHAV DASHARAT PHAD" },
+{ id: "EMP/PUN08388", name: "ANIL PANDIT CHAVAN" },
+{ id: "EMP/PUN08390", name: "SANKET PANDURANG SAKAT" },
+{ id: "EMP/PUN08391", name: "MAHENDRA  SINGH" },
+{ id: "EMP/PUN08392", name: "MUKESH YADAV" },
+{ id: "EMP/PUN08393", name: "JAYDIP HIMMATRAO MORE" },
+{ id: "EMP/PUN08394", name: "MAHESH PRABHAKAR KADAM" },
+{ id: "EMP/PUN08395", name: "ARCHANA RAJESH SAKPAL" },
+{ id: "EMP/PUN08396", name: "AKHLESH KUMAR YADAV" },
+{ id: "EMP/PUN08397", name: "RAMESH JAGANNATH SONAWANE" },
+{ id: "EMP/PUN08398", name: "CHANDRAKANT BAJIRAO KINDRE" },
+{ id: "EMP/PUN08399", name: "MAHADEV PANDURANG PATIL" },
+{ id: "EMP/PUN08400", name: "PRAKASH BHAGU AKHADE" },
+{ id: "EMP/PUN08401", name: "RAVI BHIMRAO GAWAI" },
+{ id: "EMP/PUN08407", name: "TATERAO BALAJI GHODE" },
+{ id: "EMP/PUN08408", name: "SUDHIR RAMESH DHALE" },
+{ id: "EMP/PUN08409", name: "ABHIJIT RAGHUVEER NAGARAKAR" },
+{ id: "EMP/PUN08410", name: "BRAMHADEV SADASHIV VANAVE" },
+{ id: "EMP/PUN08411", name: "DHANAJI SUKHADEV PANDHARE" },
+{ id: "EMP/PUN08415", name: "CHANDRASHEKHAR SHANTARAM KINJAWADEKAR" },
+{ id: "EMP/PUN08417", name: "VAIBHAV MAHADEV PATIL" },
+{ id: "EMP/PUN08418", name: "VIKASH KUMAR" },
+{ id: "EMP/PUN08419", name: "SHUBHANGI UMESH DESALE" },
+{ id: "EMP/PUN08420", name: "RAGHUNATH YEIN" },
+{ id: "EMP/PUN08421", name: "KULBHUSHAN NANDKUMAR ANNADATE" },
+{ id: "EMP/PUN08422", name: "SURESH BHAGWAN YADAV" },
+{ id: "EMP/PUN08423", name: "AMIT UTTAM KSHIRSAGAR" },
+{ id: "EMP/PUN08424", name: "PAVAN VINOD JADHAV" },
+{ id: "EMP/PUN08425", name: "RISHI  KUMAR KUMAR" },
+{ id: "EMP/PUN08426", name: "ANIKET MADHUKAR SHIVADAS" },
+{ id: "EMP/PUN08427", name: "DILIP PARASRAM SHIRSATH" },
+{ id: "EMP/PUN08428", name: "KALYAN DADARAO JAGTAP" },
+{ id: "EMP/PUN08429", name: "BALARAM NAHAK" },
+{ id: "EMP/PUN08430", name: "SAMPAT SARJERAO CHANDAR" },
+{ id: "EMP/PUN08431", name: "SACHIN JANARDHAN NANDAVE" },
+{ id: "EMP/PUN08432", name: "AJAY VIJAY SURADKAR" },
+{ id: "EMP/PUN08433", name: "SHASHI KANT" },
+{ id: "EMP/PUN08434", name: "VISHALRAJ A" },
+{ id: "EMP/PUN08435", name: "GAURAV KUMAR SINGH" },
+{ id: "EMP/PUN08436", name: "LAXMAN DAGADU CHOPADE" },
+{ id: "EMP/GOA000423", name: "MAHAMADARAFI AMAMASAB ALAWANDI" },
+{ id: "EMP/GOA00074", name: "PAPU SAIKIA" },
+{ id: "EMP/GOA00083", name: "MITHILESH KUMAR A" },
+{ id: "EMP/GOA00087", name: "ANAND PANDEY" },
+{ id: "EMP/GOA00088", name: "SANATAN MAHANTY" },
+{ id: "EMP/GOA00105", name: "JIBAN ROUT" },
+{ id: "EMP/GOA00147", name: "RAKIB MIAH" },
+{ id: "EMP/GOA00148", name: "UPENDRA  SINGH" },
+{ id: "EMP/GOA00153", name: "SAMPUNNA NAND  TIWARI" },
+{ id: "EMP/GOA00233", name: "PANKAJ PATEL" },
+{ id: "EMP/GOA00248", name: "MOHIT KUMAR K" },
+{ id: "EMP/GOA00267", name: "MUKESH MODI" },
+{ id: "EMP/GOA00271", name: "MASHIDUR ROHMAN A" },
+{ id: "EMP/GOA00274", name: "RAJESH YADAV" },
+{ id: "EMP/GOA00280", name: "PRASHANT KUMAR TRIPATHI" },
+{ id: "EMP/GOA00284", name: "KHUSHALI RAM GAUDE" },
+{ id: "EMP/GOA00296", name: "SUSANTA KUMAR GOUDA" },
+{ id: "EMP/GOA00361", name: "DARSHAN SINGH" },
+{ id: "EMP/GOA00389", name: "NOORAHMED NADAF" },
+{ id: "EMP/GOA00391", name: "MANAS RAJAN BHOLA" },
+{ id: "EMP/GOA00413", name: "DHANANJAY MAHADEV GAWANKAR" },
+{ id: "EMP/GOA00437", name: "PAPPU SINGH" },
+{ id: "EMP/GOA00438", name: "CHUNIRAM ANKUSH JADHAV" },
+{ id: "EMP/GOA00439", name: "VINOD UMAJI JADHAV" },
+{ id: "EMP/GOA00441", name: "AKASH GANGAVANI" },
+{ id: "EMP/GOA00442", name: "SHATRUGHAN SINGH" },
+{ id: "EMP/GOA00444", name: "RAJKUMAR  SINGH" },
+{ id: "EMP/GOA00446", name: "BHASKAR DAS" },
+{ id: "EMP/GOA00450", name: "AKHILESH  SINGH" },
+{ id: "EMP/GOA00453", name: "ASHWINI KUMAR PURI" },
+{ id: "EMP/GOA00454", name: "SOROWAR ALOM A" },
+{ id: "EMP/GOA00465", name: "DIPAK GOVIND PATIL" },
+{ id: "EMP/GOA00483", name: "SIDDHI CHANDRAHAS BHUTE" },
+{ id: "EMP/GOA00500", name: "SURENDRA  LAXMAN MALKARNEKAR" },
+{ id: "EMP/GOA00501", name: "GIRISH PRAKASH DUBEY" },
+{ id: "EMP/GOA00523", name: "VAIBHAV KUMAR P" },
+{ id: "EMP/GOA00524", name: "NITISH KUMAR YADAV" },
+{ id: "EMP/GOA00526", name: "JASRAM SINGH BAGHEL" },
+{ id: "EMP/GOA00536", name: "SHAHID MIAH A" },
+{ id: "EMP/GOA00552", name: "JEEWAN SINGH" },
+{ id: "EMP/GOA00553", name: "BIKASH THAPA" },
+{ id: "EMP/GOA00555", name: "SUNIL DAS" },
+{ id: "EMP/GOA00562", name: "GOURANG DANDAPAT" },
+{ id: "EMP/GOA00575", name: "AJAY KUMAR THAKUR" },
+{ id: "EMP/GOA00577", name: "DIPAK TIWARI" },
+{ id: "EMP/GOA00581", name: "NIKITA DULO GAUDE" },
+{ id: "EMP/GOA00583", name: "POOJA RAMU BAILLAPPAGOL" },
+{ id: "EMP/GOA00585", name: "AMIO  HOJANG" },
+{ id: "EMP/GOA00586", name: "AKASH HARISHCHANDRA RAIBOLE" },
+{ id: "EMP/GOA00587", name: "SANTOSH BHARTI" },
+{ id: "EMP/GOA00596", name: "PANKAJ  SINGH" },
+{ id: "EMP/GOA00599", name: "MANISHA BHOSU ADKONKAR" },
+{ id: "EMP/GOA00605", name: "GOPAL YADAV" },
+{ id: "EMP/GOA00609", name: "SIDDESH DAMODAR CHAWANKE" },
+{ id: "EMP/GOA00616", name: "AMAN KUMAR Y" },
+{ id: "EMP/GOA00621", name: "VAISHALI BHOMKAR" },
+{ id: "EMP/GOA00622", name: "MADHUJYA DAS" },
+{ id: "EMP/GOA00630", name: "RAJENDRA YESHWANT ANKOLEKAR" },
+{ id: "EMP/GOA00631", name: "CHANDAN KUMAR JENA" },
+{ id: "EMP/GOA00635", name: "ROSE MIAH" },
+{ id: "EMP/GOA00637", name: "ABHAY KUMAR SINGH" },
+{ id: "EMP/GOA00638", name: "GAUTAM DEKA" },
+{ id: "EMP/GOA00642", name: "BALESH DAMODAR CHAVANKE" },
+{ id: "EMP/GOA00646", name: "BHANUPRATAP SINGH" },
+{ id: "EMP/GOA00647", name: "SAURABH Y CHAWAN" },
+{ id: "EMP/GOA00649", name: "SUVODIP PAUL" },
+{ id: "EMP/GOA00654", name: "SAYAN MUKHERJEE" },
+{ id: "EMP/GOA00659", name: "KRIPA KESHAV KARMALKAR" },
+{ id: "EMP/GOA00661", name: "RAHUL KUMAR A" },
+{ id: "EMP/GOA00663", name: "SANDEEP SINGH" },
+{ id: "EMP/GOA00664", name: "SURAJ A" },
+{ id: "EMP/GOA00665", name: "JEETU SINGH TOMAR" },
+{ id: "EMP/GOA00666", name: "SANKAR DAS" },
+{ id: "EMP/GOA00667", name: "GOPAL P PATIL" },
+{ id: "EMP/GOA00668", name: "DHARSHAN BASAVARAJ HARIJAN" },
+{ id: "EMP/GOA00670", name: "KAMOLENDU DAS" },
+{ id: "EMP/GOA00675", name: "AJIT KUMAR YADAV" },
+{ id: "EMP/GOA00676", name: "KARAN RAJU HUDALI" },
+{ id: "EMP/GOA00677", name: "BETOO PRASAD MOTILAL BAIGA" },
+{ id: "EMP/GOA00678", name: "MAHENDRA KUMAR A" },
+{ id: "EMP/GOA00681", name: "AWNISH PAL" },
+{ id: "EMP/GOA00682", name: "VIPIN KUMAR SINGH" },
+{ id: "EMP/GOA00683", name: "CHANDRAMANI MALIK" },
+{ id: "EMP/GOA00684", name: "SANKET SANDEEP GOSAVI" },
+{ id: "EMP/GOA00686", name: "NAVANATH RAMDAS VERNEKAR" },
+{ id: "EMP/GOA00687", name: "PARTH PANDURANG GURAV" },
+{ id: "EMP/GOA00692", name: "SAURAV KUMAR A" },
+{ id: "EMP/GOA00693", name: "RAHUL KUMAR SINGH" },
+{ id: "EMP/GOA00695", name: "VIKAS MUNNU JAISWAL" },
+{ id: "EMP/GOA00698", name: "RAMANIDAS CHOUDHURY" },
+{ id: "EMP/GOA00699", name: "YASH DAYANAND DEVIDAS" },
+{ id: "EMP/GOA00701", name: "ANTON KAJAMIL DIAS" },
+{ id: "EMP/GOA00702", name: "MINTU KALITA" },
+{ id: "EMP/GOA00703", name: "VIPIN KUMAR A" },
+{ id: "EMP/GOA00704", name: "PRASAD MARUTI LAD" },
+{ id: "EMP/GOA00705", name: "DEEP CHANDRA" },
+{ id: "EMP/GOA00706", name: "ARJUN A" },
+{ id: "EMP/GOA00707", name: "BALARAM NAHAK" },
+{ id: "EMP/GOA00708", name: "BALARAM NAHAK" },
+{ id: "EMP/GOA00709", name: " " },
+{ id: "EMP/GOA00710", name: "BALARAM NAHAK" },
+{ id: "EMP/GOA00711", name: "DNYANESHWAR LAVU SHETYE" },
+{ id: "EMP/GOA00712", name: "KANHAIYA PAL" },
+{ id: "EMP/PUN01802", name: "HIMANGSHU KHITISH DAS" },
+{ id: "EMP/PUN02525", name: "SONALI GAUNEKAR" },
+{ id: "EMP/PUN02527", name: "KAMLA  GIRI" },
+{ id: "EMP/PUN04190", name: "CHANDRAKANT RAMCHANDRA CHAVAN" },
+{ id: "EMP/PUN04492", name: "BASANT JAGAT SINGH" },
+{ id: "EMP/PUN04592", name: "ISHWAR KUMAR A" },
+{ id: "EMP/PUN04614", name: "RAKESH KUMAR A" },
+{ id: "EMP/PUN04689", name: "HAFIZUR RAHMAN A" },
+{ id: "EMP/PUN04803", name: "CHHABINATH  SHOBHANATH RAM" },
+{ id: "EMP/PUN05014", name: "PREMNATH   SHANTARAM PASTE" },
+{ id: "EMP/PUN05060", name: "KASHIRAM SITARAM PARAB" },
+{ id: "EMP/PUN05070", name: "PRADEEP KUMAR GUPTA" },
+{ id: "EMP/PUN05100", name: "MANISH KUMAR A" },
+{ id: "EMP/PUN05329", name: "CHANDRAPAL SINGH" },
+{ id: "EMP/PUN05366", name: "SANTOSH KUMAR A" },
+{ id: "EMP/PUN05384", name: "RAHUL KUMAR A" },
+{ id: "EMP/PUN05658", name: "SONU SINGH" },
+{ id: "EMP/PUN05671", name: "PREM SAGAR BIND" },
+{ id: "EMP/PUN05675", name: "KISHOR KESHAV MULIK" },
+{ id: "EMP/PUN05729", name: "RAMASHISH A" },
+{ id: "EMP/PUN05790", name: "BHAJAN SINGH" },
+{ id: "EMP/PUN05791", name: "SACHIN DASH" },
+{ id: "EMP/PUN05794", name: "PRINCE  KUMAR SINGH " },
+{ id: "EMP/PUN05836", name: "MOHAMMAD RAFIK ADAM SHAIKH" },
+{ id: "EMP/PUN05921", name: "NAMDEV SHANKAR  GAONKAR" },
+{ id: "EMP/PUN05934", name: "SANJEEV KUMAR PANDEY" },
+{ id: "EMP/PUN06396", name: "ABHIMANYU BAITHARU" },
+{ id: "EMP/PUN00068", name: "RAHUL BHOJARAJ YAWAR" },
+{ id: "EMP/PUN00083", name: "DINESH BHAURAOJI DAVAI" },
+{ id: "EMP/PUN00089", name: "NIKHIL NARENDRA JANBANDHU" },
+{ id: "EMP/PUN00164", name: "BHARAT ARUN BHOSLE" },
+{ id: "EMP/PUN00188", name: "DEEPAK HANUMANT KAPSE" },
+{ id: "EMP/PUN00227", name: "ROHIT ARUN JATHAR" },
+{ id: "EMP/PUN00232", name: "OMKAR  SURESH KHAIRMODE" },
+{ id: "EMP/PUN00254", name: "PRASHANT  HANUMANT SUTALE" },
+{ id: "EMP/PUN00360", name: "RAKESH RAMCHANDRA KULYE" },
+{ id: "EMP/PUN00434", name: "SATYAWAN BAPU BANSODE" },
+{ id: "EMP/PUN00441", name: "MANOJ LAXMAN KHARAT" },
+{ id: "EMP/PUN00486", name: "SABINA  PINTO BERNARDO" },
+{ id: "EMP/PUN00498", name: "GANGARAM   JAMMULAL WADEKAR" },
+{ id: "EMP/PUN00499", name: "SHIVAJI   APPASO PATIL" },
+{ id: "EMP/PUN00507", name: "DINESH UTTAMRAO HARNE" },
+{ id: "EMP/PUN00559", name: "GANESH KASHIRAM SHINDE" },
+{ id: "EMP/PUN00610", name: "MUKESH BABU GOHIRE" },
+{ id: "EMP/PUNE/0013", name: "PANKAJ CHANDRAMANI DONGRE" },
+{ id: "EMP/PUNE/0028", name: "SANTOSH UTTAM SONAWANE" },
+{ id: "EMP/PUNE/0115", name: "IMAM SAHMAD SHAIKH" },
+{ id: "EMP/PUNE/0125", name: "SARFARAJ MAJAR SHAIKH" },
+{ id: "EMP/PUNE/0128", name: "SATISH PANDURANG PATIL" },
+{ id: "EMP/PUNE/0131", name: "VIJAY PANDURANG SONKAMBLE" },
+{ id: "EMP/PUNE/0179", name: "SATYAM SANJAY KALE" },
+{ id: "EMP/PUNE00720", name: "HANUMANT DNYANOBA  INGALE" },
+{ id: "EMP/PUNE00723", name: "UMESH KRISHNARAO AKARE" },
+{ id: "EMP/PUNE00830", name: "ANITA  MUKESH GAIKWAD" },
+{ id: "EMP/PUNE00851", name: "ASHISH ASHOK BOLADE" },
+{ id: "EMP/PUNE00861", name: "MALAKHAN . GENDALAL" },
+{ id: "EMP/PUNE00893", name: "BHUSHAN MADHUKAR CHOUDHARY" },
+{ id: "EMP/PUNE00894", name: "NARAYAN GANGADHAR KAPSE" },
+{ id: "EMP/PUNE01074", name: "AMOL GULABRAO KHARJE" },
+{ id: "EMP/PUNE01133", name: "YASHPAL BABARAO GAWAI" },
+{ id: "EMP/PUNE01173", name: "MANISH TIMAJI GAIKWAD" },
+{ id: "EMP/PUNE01400", name: "ASHWIN SUNIL JAMBHULKAR" },
+{ id: "EMP/PUNE01409", name: "AKASH SHIVAJI MORE" },
+{ id: "EMP/PUNE01481", name: "MALHARI ISHWARA ADAKE" },
+{ id: "EMP/PUNE01482", name: "BALASO VITTHAL  CHAPARE" },
+{ id: "EMP/PUNE01523", name: "BABAN BHAURAV RATHOD" },
+{ id: "EMP/PUNE01527", name: "CHUNILAL SHANTILAL RATHOD" },
+{ id: "EMP/PUNE01565", name: "SUDARSHAN THAKASING PAWAR" },
+{ id: "EMP/PUNE01571", name: "SANJAY KHUSHALRAO AMBEGAVE" },
+{ id: "EMP/PUNE01585", name: "PRABHAKAR BHAVDU NIRGUDE" },
+{ id: "EMP/PUNE01592", name: "RAHUL DATTATRAYA GUNJAL" },
+{ id: "EMP/PUNE01601", name: "ARUN DNYANDEV CHILE" },
+{ id: "EMP/PUNE01606", name: "MOHAN VANKATAIAH GANDRA" },
+{ id: "EMP/PUNE01613", name: "BHIMASHANKAR SURESH MHETRE" },
+{ id: "EMP/PUNE01632", name: "PRAKASH VITTHAL GURAV" },
+{ id: "EMP/PUNE01635", name: "SHUBHAM CHANDRAKANT KADAM" },
+{ id: "EMP/PUNE01651", name: "ANIL RAMLU SUNKAMWAR" },
+{ id: "EMP/PUNE01653", name: "GANESH MANIKRAO MASKE" },
+{ id: "EMP/PUNE01672", name: "AKASH VIJAY KHARATE" },
+{ id: "EMP/PUNE01689", name: "RAVINDRA BHANUDAS BORDE" },
+{ id: "EMP/PUNE01698", name: "MILIND  DATTU SHENDAGE" },
+{ id: "EMP/PUNE01700", name: "GANESH EKANATH KALE" },
+{ id: "EMP/PUNE01736", name: "PRAMOD BABURAO JANGAM" },
+{ id: "EMP/PUNE01745", name: "RAVINDRA DEVAJI PATIL" },
+{ id: "EMP/PUNE01781", name: "AKASH KUMAR PARIDA" },
+{ id: "EMP/PUNE01811", name: "SURAIYYA SHAHBAJ MULANI" },
+{ id: "EMP/PUNE01825", name: "NARSING GANGADHAR NARWADE" },
+{ id: "EMP/PUNE01829", name: "RADHESYAM A" },
+{ id: "EMP/PUNE01857", name: "BALAJI PIRAJI KOKARE" },
+{ id: "EMP/PUNE01865", name: "VAIBHAV SAKHARAM SHELAR" },
+{ id: "EMP/PUNE01868", name: "AKASH SUDHAKAR DINKAR" },
+{ id: "EMP/PUNE01869", name: "VISHAL BAPURAO KUMBHAR" },
+{ id: "EMP/PUNE01887", name: "SACHIN MAGAN SONAWANE" },
+{ id: "EMP/PUNE01906", name: "NAVNATH MACHHINDRA SALI" },
+{ id: "EMP/PUNE01918", name: "AKSHAY ASHOK HODE" },
+{ id: "EMP/PUNE01937", name: "DEEPAK DATTARAM PASHTE" },
+{ id: "EMP/PUNE01940", name: "SACHIN   SOMNATH INGLE" },
+{ id: "EMP/PUNE01952", name: "NIKHIL AVINASH CHAUDHARI" },
+{ id: "EMP/PUNE01955", name: "SAMADHAN MOHAN GANGAWANE" },
+{ id: "EMP/PUNE01970", name: "SUNITA MUKUND GHADGE" },
+{ id: "EMP/PUNE01974", name: "SAMEER KISAN SHEVATE" },
+{ id: "EMP/PUNE01986", name: "HEMANT   PARASNATH TIWARI" },
+{ id: "EMP/PUNE01999", name: "KAMAL  NAGEN BAISHYA" },
+{ id: "EMP/PUNE02004", name: "DINESH PRAMOD TANKSALE" },
+{ id: "EMP/PUNE02010", name: "URVASHI UPENDRA MADKAIKAR" },
+{ id: "EMP/PUNE02014", name: "RIZWANA HAMEED TAMBOLI" },
+{ id: "EMP/PUNE02017", name: "SHAILESH SANJAY TAMBE" },
+{ id: "EMP/PUNE02021", name: "GAJANAN ANNAPPA AIWALE" },
+{ id: "EMP/PUNE02024", name: "JITENDRA YADAV" },
+{ id: "EMP/PUNE02029", name: "NIRMAL SINGHA" },
+{ id: "EMP/PUNE02035", name: "GAJEN TAYE" },
+{ id: "EMP/PUNE02037", name: "MASTAN NAVAJSAB SHAIKH" },
+{ id: "EMP/PUNE02038", name: "SATYAM KUMAR A" },
+{ id: "EMP/PUNE02041", name: "TUKARAM LAXMAN MAHURE" },
+{ id: "EMP/PUNE02042", name: "SHIVAJI IRAWANTRAO PATIL" },
+{ id: "EMP/PUNE02045", name: "NIPUL RAHUL SHINDE" },
+{ id: "EMP/PUNE02052", name: "GEETA BHIMRAO NAIK" },
+{ id: "EMP/PUNE02053", name: "SOMNATH AMBADAS RAUT" },
+{ id: "EMP/PUNE02073", name: "RAJA RAM  GADARI" },
+{ id: "EMP/PUNE02076", name: "SUNIL SAKHARAM SHINDE" },
+{ id: "EMP/PUNE02080", name: "ANKUSH BHAGWAN WAGH" },
+{ id: "EMP/PUNE02081", name: "ANIL MADHUKAR MANE" },
+{ id: "EMP/PUNE02083", name: "MAHIRUM DAVAL SHAIKH" },
+{ id: "EMP/PUNE02087", name: "SUNIL UTTAM CHOUDRI" },
+{ id: "EMP/PUNE02089", name: "NIRANJAN UMESH UDASI" },
+{ id: "EMP/PUNE02096", name: "VIJAY ASHOK MUSALE" },
+{ id: "EMP/PUNE02097", name: "SURESH RAY" },
+{ id: "EMP/PUNE02098", name: "ANIL DILIP SHINDE" },
+{ id: "EMP/PUNE02099", name: "PRASHANT SADASHIV NIKALJE" },
+{ id: "EMP/PUNE02104", name: "NARAYAN RAMKISAN KHURMUTE" },
+{ id: "EMP/PUNE02112", name: "SUSHEEL KUMAR  SINGH" },
+{ id: "EMP/PUNE02121", name: "KUMAR   SAGAR TIWARI" },
+{ id: "EMP/PUNE02127", name: "PRAMOD PRABHAKAR BHAKARE" },
+{ id: "EMP/PUNE02129", name: "NAVANATH  SHIVAJI NIKAM" },
+{ id: "EMP/PUNE02130", name: "PRAVIN GOVIND MANE" },
+{ id: "EMP/PUNE02133", name: "MADHAV PANDURANG GORIWALE" },
+{ id: "EMP/PUNE02134", name: "AJAY VIJAY KESKAR" },
+{ id: "EMP/PUNE02137", name: "ANIL LAXMAN BANSODE" },
+{ id: "EMP/PUNE02145", name: "SITARAM KASHIRAM KADAM" },
+{ id: "EMP/PUNE02146", name: "AZHARUDDIN ISAK KHAN" },
+{ id: "EMP/PUNE02159", name: "CHANDAN KUMAR JENA" },
+{ id: "EMP/PUNE02161", name: "NITESH SURESH KARADE" },
+{ id: "EMP/PUNE02166", name: "MANGESH RAOSAHEB DESHPANDE" },
+{ id: "EMP/PUNE02169", name: "MARUTI YOGAJI KAMBLE" },
+{ id: "EMP/PUNE02173", name: "SATISH   DATTATRAY LIMBOLE" },
+{ id: "EMP/PUNE02175", name: "YOGENDRA MADHUKAR AWATE" },
+{ id: "EMP/PUNE02176", name: "YUVRAJ RAMCHANDRA POWAR" },
+{ id: "EMP/PUNE02186", name: "RUPAM NATH" },
+{ id: "EMP/PUNE02189", name: "SUBHASH RAYSING RATHOD" },
+{ id: "EMP/PUNE02191", name: "GANESH RAMCHANDRA OVHAL" },
+{ id: "EMP/PUNE02193", name: "DHANRAJ LAXMAN JADHAV" },
+{ id: "EMP/PUNE02195", name: "PRAVIN VEDPATHAK" },
+{ id: "EMP/PUNE02200", name: "SAMBHAJI SHIVAJI DESHMUKH" },
+{ id: "EMP/PUNE02201", name: "AKASH BALKRUSHNA GAIKWAD" },
+{ id: "EMP/PUNE02202", name: "PRADEEP GAUTAM KHANDAIT" },
+{ id: "EMP/PUNE02204", name: "AMOL BHIMRAO DESHMUKH" },
+{ id: "EMP/PUNE02210", name: "BIRAPPA MHALAPPA SONKADE" },
+{ id: "EMP/PUNE02211", name: "VITTHALLING MAREPPA ITE" },
+{ id: "EMP/PUNE02218", name: "SANTOSH PAL" },
+{ id: "EMP/PUNE02220", name: "SAHIL MASTANSAB SHAIKH" },
+{ id: "EMP/PUNE02223", name: "SAMADHAN MARUTI DORALE" },
+{ id: "EMP/PUNE02226", name: "FAROOK TAMIJODDIN SHAIKH" },
+{ id: "EMP/PUNE02236", name: "GORAKHNATH KACHARU GITKHANE" },
+{ id: "EMP/PUNE02245", name: "KALPESH RAMESH PATIL" },
+{ id: "EMP/PUNE02246", name: "DEEPAK SHANKAR ADGALE" },
+{ id: "EMP/PUNE02250", name: "SHYAM DAGDU KASBE" },
+{ id: "EMP/PUNE02252", name: "AVINASH RAMESH AHER" },
+{ id: "EMP/PUNE02253", name: "SANJAY BHAGWAN BHURE" },
+{ id: "EMP/PUNE02255", name: "NARAHARI JENA" },
+{ id: "EMP/PUNE02256", name: "DHARMESH SINGH" },
+{ id: "EMP/PUNE02258", name: "VINODKUMAR   BABAR" },
+{ id: "EMP/PUNE02259", name: "RAVI MADHUKAR KAMBLE" },
+{ id: "EMP/PUNE02264", name: "BHARAT RAMDAS JADHAV" },
+{ id: "EMP/PUNE02267", name: "RAJU RUSTUM VARKAD" },
+{ id: "EMP/PUNE02272", name: "SHRIKRISHNA DHONDUBA KANKHAR" },
+{ id: "EMP/PUNE02273", name: "AVINASH SUBHASH KOTHARI" },
+{ id: "EMP/PUNE02274", name: "VINAY KUMAR RAY" },
+{ id: "EMP/PUNE02281", name: "SOURABH SANTOSH ANARASE" },
+{ id: "EMP/PUNE02286", name: "RAVI NARAYAN GAVARE" },
+{ id: "EMP/PUNE02287", name: "NILESH SHESHMANI TIWARI" },
+{ id: "EMP/PUNE02288", name: "ANIL MADHUKAR CHAUDHARI" },
+{ id: "EMP/PUNE02290", name: "PRAVIN JAGANNATH NIKAM" },
+{ id: "EMP/PUNE02291", name: "MAHENDRA SINGH" },
+{ id: "EMP/PUNE02293", name: "BIBHISHAN SETHI" },
+{ id: "EMP/PUNE02295", name: "KRISHAN GOPAL RAMNIWAS SHARMA" },
+{ id: "EMP/PUNE02298", name: "BALAJI DNYANESHWAR PARDE" },
+{ id: "EMP/PUNE02302", name: "PRAMOD SAHEBU SABLE" },
+{ id: "EMP/PUNE02303", name: "NIVRUTTI DEVRAM KEDARI" },
+{ id: "EMP/PUNE02305", name: "GOVARDHAN SANTOSH GOLEKAR" },
+{ id: "EMP/PUNE02307", name: "BHAUSAHEB BHANUDAS YADAV" },
+{ id: "EMP/PUNE02308", name: "SANTOSH   RAMDAS GAYAKWAD" },
+{ id: "EMP/PUNE02310", name: "VIRENDRA KUMAR A" },
+{ id: "EMP/PUNE02312", name: "VISHAL  NAMDEV KHANDARE" },
+{ id: "EMP/PUNE02314", name: "ROMENDRA NORENDRA SINHA" },
+{ id: "EMP/PUNE02317", name: "APURVA KUMAR ADHIKARI" },
+{ id: "EMP/PUNE02319", name: "DNYANESHWAR NARAYAN MISTARI" },
+{ id: "EMP/PUNE02323", name: "DYANADEV KESHAV DHAKE" },
+{ id: "EMP/PUNE02324", name: "ANANT BALASAHEB DOIPHODE" },
+{ id: "EMP/PUNE02325", name: "SURAJ LAL A" },
+{ id: "EMP/PUNE02329", name: "MAHESH MURALIDHAR DESHMUKH" },
+{ id: "EMP/PUNE02330", name: "MANDAKINI NISHIKANT BADEKAR" },
+{ id: "EMP/PUNE02334", name: "SHUBHAM ASHOK PATIL" },
+{ id: "EMP/PUNE02335", name: "BABASAHEB APPA SAMINDER" },
+{ id: "EMP/PUNE02336", name: "VIKAS  DHONDIRAM KAMBLE" },
+{ id: "EMP/PUNE02337", name: "SAGAR KALAPPA AMBALGI" },
+{ id: "EMP/PUNE02338", name: "ARJUN RAJARAM BHOSALE" },
+{ id: "EMP/PUNE02340", name: "VIJAY DNYANESHWAR SHITOLE" },
+{ id: "EMP/PUNE02346", name: "ANIL BHAGWAN ARSUL" },
+{ id: "EMP/PUNE02347", name: "RUPESH KUMAR TIWARI" },
+{ id: "EMP/PUNE02349", name: "SHUBHAM DYANESHWAR BAWANE" },
+{ id: "EMP/PUNE02351", name: "SUNITA SHAMKANT PATIL" },
+{ id: "EMP/PUNE02352", name: "MANISHA SHIVA NIKHADE" },
+{ id: "EMP/PUNE02353", name: "RANI HANUMANT NARALE" },
+{ id: "EMP/PUNE02354", name: "SONALI SHANKAR KAVISKAR" },
+{ id: "EMP/PUNE02355", name: "SHRIRAM KARABHARI JARHAD" },
+{ id: "EMP/PUNE02359", name: "VIVEK SURESH NEVAREKAR" },
+{ id: "EMP/PUNE02362", name: "SURAJ SUKHDEV KHILARE" },
+{ id: "EMP/PUNE02363", name: "ADESH BARIKRAO NIKАМ" },
+{ id: "EMP/PUNE02364", name: "AMOL VINAYAK PATIL" },
+{ id: "EMP/PUNE02366", name: "GANESH SHYAM KAVITAKE" },
+{ id: "EMP/PUNE02367", name: "SAGAR SANJAY INGLE" },
+{ id: "EMP/PUNE02369", name: "CHHOTU KUMAR A" },
+{ id: "EMP/PUNE02370", name: "DILIP SHIVLAL GAIKWAD" },
+{ id: "EMP/PUNE02372", name: "PRASHANT BHAUSAHEB SALVE" },
+{ id: "EMP/PUNE02374", name: "MANOJ EKNATH MATKAR" },
+{ id: "EMP/PUNE02375", name: "MACHINDRA SHITOLE" },
+{ id: "EMP/PUNE02377", name: "RAKESH BHAILAL KANOJIYA" },
+{ id: "EMP/PUNE02378", name: "MAHESH THAWRU CHAVAN" },
+{ id: "EMP/PUNE02379", name: "SUNIL DATTATRAY KAMBLE" },
+{ id: "EMP/PUNE02380", name: "RAMBHROS NAGAR" },
+{ id: "EMP/PUNE02381", name: "SAMRENDRASINGH RAMAVATARSINGH  SINGH" },
+{ id: "EMP/PUNE02382", name: "PANDHARINATH SUDHAKAR TARATE" },
+{ id: "EMP/PUNE02385", name: "AJAY KUMAR CHORSIYA" },
+{ id: "EMP/PUNE02386", name: "RANJEET RAMCHANDRA GAIKWAD" },
+{ id: "EMP/PUNE02387", name: "SHAHID ANSARI" },
+{ id: "EMP/PUNE02389", name: "RAVINDRA DATTATRAY PATIL" },
+{ id: "EMP/PUNE02391", name: "VISHWAJEET MANMOHAN YADAV" },
+{ id: "EMP/PUNE02392", name: "VINOD KISAN NAGARE" },
+{ id: "EMP/PUNE02393", name: "RAVINDRA GURUPADAYYA SWAMI" },
+{ id: "EMP/PUNE02395", name: "ROHAN RAJU WAGHMARE" },
+{ id: "EMP/PUNE02398", name: "KIRAN DHIWRE" },
+{ id: "EMP/PUNE02400", name: "ROHAN RAMESH RANJANE" },
+{ id: "EMP/PUNE02401", name: "AMAR KISAN KELAGANE" },
+{ id: "EMP/PUNE02402", name: "AKSHAY SANJAY NALAVDE" },
+{ id: "EMP/PUNE02403", name: "SANTOSH DAJI CHAVAN" },
+{ id: "EMP/PUNE02404", name: "BHAGWAN SURESH KADAM" },
+{ id: "EMP/PUNE02405", name: "KUMAR PRAKASH KELGHANE" },
+{ id: "EMP/PUNE02406", name: "SANDHYA NILESH KONDHALKAR" },
+{ id: "EMP/PUNE02407", name: "VIVEK SURESH JUNAGHARE" },
+{ id: "EMP/PUNE02408", name: "SANDIP VASANTRAO PARTE" },
+{ id: "EMP/PUNE02409", name: "SHRIKANT SURESH DOIPHODE" },
+{ id: "EMP/PUNE02411", name: "DAMBAR SARJAN SINGH" },
+{ id: "EMP/PUNE02412", name: "DIPAK GOPALSING PATIL" },
+{ id: "EMP/PUNE02413", name: "ANGAD DNYANOBA JAGDALE" },
+{ id: "EMP/PUNE02416", name: "YOGESH BHASKAR SONAWANE" },
+{ id: "EMP/PUNE02419", name: "RAVINDRA RAMDAS SAVALE" },
+{ id: "EMP/PUNE02420", name: "RAVINDRA BHARAT ENGALE" },
+{ id: "EMP/PUNE02421", name: "ASHOK BABURAO BERBHAIYYA" },
+{ id: "EMP/PUNE02422", name: "KARAN KUMAR SINGH" },
+{ id: "EMP/PUNE02426", name: "PRABHAKAR TANAJI KHATPE" },
+{ id: "EMP/PUNE02427", name: "DATTA KAILAS KAMBLE" },
+{ id: "EMP/PUNE02428", name: "PITAMBAR NATH JHA" },
+{ id: "EMP/PUNE02437", name: "VIKAS MAHESHWAR SINGH" },
+{ id: "EMP/PUNE02438", name: "VINOD MADHUKAR INGLE" },
+{ id: "EMP/PUNE02439", name: "DEVESH KUMAR A" },
+{ id: "EMP/PUNE02441", name: "SUDHAKAR VENKAT SHINDE" },
+{ id: "EMP/PUNE02442", name: "SWAPAN JANA" },
+{ id: "EMP/PUNE02443", name: "SURAJ SHIVRAM KAMBLE" },
+{ id: "EMP/PUNE02444", name: "SHUBHAM SUNIL BHOSALE" },
+{ id: "EMP/PUNE02445", name: "VIKI KONDIRAM GORE" },
+{ id: "EMP/PUNE02447", name: "UMESH PANDURANG RATHOD" },
+{ id: "EMP/PUNE02449", name: "SUDAM TOMPE" },
+{ id: "EMP/PUNE02450", name: "SHRIRAMKRUSHNA SHRIDHAR SANGALE" },
+{ id: "EMP/PUNE02451", name: "GAURAV SHALIK PATIL" },
+{ id: "EMP/PUNE02452", name: "RAJ KUMAR A" },
+{ id: "EMP/PUNE02453", name: "GANESH MARUTI MANDHARE" },
+{ id: "EMP/PUNE02454", name: "SACHIN RAVUTAPPA HONAKORE" },
+{ id: "EMP/PUNE02455", name: "RAJA DOLEY" },
+{ id: "EMP/PUNE02457", name: "MANURANJAN TAYE" },
+{ id: "EMP/PUNE02458", name: "GANESH BALIRAM CHAVAN" },
+{ id: "EMP/PUNE02459", name: "LABA TAYE" },
+{ id: "EMP/PUNE02460", name: "MANGESH BABASAHEB SARUK" },
+{ id: "EMP/PUNE02461", name: "KISHOR YASHAVANT TELGOTE" },
+{ id: "EMP/PUNE02462", name: "SANDIP UPACHAND PADGHANE" },
+{ id: "EMP/PUNE02464", name: "CHANDRAKANT MADHAV GAIKWAD" },
+{ id: "EMP/PUNE02467", name: "RANJEET CHAUDHARY" },
+{ id: "EMP/PUNE02469", name: "MANOJ KUMAR YADAV" },
+{ id: "EMP/PUNE02470", name: "YASH SUNIL DONGARE" },
+{ id: "EMP/PUNE02473", name: "SOHEL MASTANSAB SHAIKH" },
+{ id: "EMP/PUNE02474", name: "INNUS KALAM MULANI" },
+{ id: "EMP/PUNE02476", name: "SOMNATH NAGESH GONDHALI" },
+{ id: "EMP/PUNE02477", name: "RINA R" },
+{ id: "EMP/PUNE02478", name: "VARSHARANI SHIVAJI DILPAK" },
+{ id: "EMP/PUNE02479", name: "MANOHAR DHARAMSING  ADE" },
+{ id: "EMP/PUNE02481", name: "KHANDU SHANKAR JOGDAND" },
+{ id: "EMP/PUNE02482", name: "DILIP PARASRAM SHIRSATH" },
+{ id: "EMP/PUNE02485", name: "SOMNATH VISHNU DESHMUKH" },
+{ id: "EMP/PUNE02486", name: "ARUN KUMAR A" },
+{ id: "EMP/PUNE02489", name: "DEVCHAND KADUBA JADHAV" },
+{ id: "EMP/PUNE02490", name: "AMOL SHAHAJI PATIL" },
+{ id: "EMP/PUNE02493", name: "BASANT KUMAR JENA" },
+{ id: "EMP/PUNE02494", name: "VYANKATESH DATTA MORE" },
+{ id: "EMP/PUNE02495", name: "SAHIBE ALAM" },
+{ id: "EMP/PUNE02496", name: "VINAYAK GANPT BHOR" },
+{ id: "EMP/PUNE02497", name: "SANDEEP BHIMRAO BHALERAO" },
+{ id: "EMP/PUNE02498", name: "DIPAK KANHAIYALAL PARDESHI" },
+{ id: "EMP/PUNE02499", name: "RAMDAS VASANT RABVAD" },
+{ id: "EMP/PUNE02500", name: "DATTATRYA YASHWANT GHUTE" },
+{ id: "EMP/PUNE02501", name: "AMOL SHASHIKANT SALUNKHE" },
+{ id: "EMP/PUNE02505", name: "VAIBHAV JOTIRAM SURYAWANSHI" },
+{ id: "EMP/PUNE02507", name: "AVINASH BHARAT KEDARE" },
+{ id: "EMP/PUNE02508", name: "GANGADHAR BABARAO PANDIT" },
+{ id: "EMP/PUNE02509", name: "NILESHSINGH SUDAM MORE" },
+{ id: "EMP/PUNE02510", name: "PRAMOD ANANDA SONAVANE" },
+{ id: "EMP/PUNE02511", name: "PAVAN DILIP KAMBLE" },
+{ id: "EMP/PUNE02513", name: "PRSANJIT PRAMEHWAR CHAKRABORTY" },
+{ id: "EMP/PUNE02514", name: "RAM MUNI M" },
+{ id: "EMP/PUNE02515", name: "SWAPNIL VISHNU DHAKNE" },
+{ id: "EMP/PUNE02516", name: "MAROTI RAMRAO TALE" },
+{ id: "EMP/PUNE02518", name: "TUSHAR KURMAYYA MHETRE" },
+{ id: "EMP/PUNE02520", name: "AJAY KUMAR PAL" },
+{ id: "EMP/PUNE02525", name: "SAI DILIP RANMARE" },
+{ id: "EMP/PUNE02526", name: "KIRAN MAHADEV NITNWARE" },
+{ id: "EMP/PUNE02527", name: "NAGRAJ DAMODAR JAMUNI" },
+{ id: "EMP/PUNE02529", name: "BHUSHAN MACHHINDRA PATIL" },
+{ id: "EMP/PUNE02530", name: "MARUTI DAGADU DURGUN" },
+{ id: "EMP/PUNE02531", name: "KEDAR ASHOK GHAVAD" },
+{ id: "EMP/PUNE02532", name: "KAMAJI NAMDEVRAO WANKHEDE" },
+{ id: "EMP/PUNE02533", name: "NARENDR SOMANATH JADHAV" },
+{ id: "EMP/PUNE02534", name: "KAPUR CHANDRA P" },
+{ id: "EMP/PUNE02539", name: "ASHISH RAVINDRA GAIKWAD" },
+{ id: "EMP/PUNE02540", name: "GAURAV VINAY DUBEY" },
+{ id: "EMP/PUNE02541", name: "KIRAN SUBHASH KOTHARI" },
+{ id: "EMP/PUNE02542", name: "SATISH BHOLENATH ABHANGARAV" },
+{ id: "EMP/PUNE02543", name: "UMESH PANGING" },
+{ id: "EMP/PUNE02544", name: "SARIKA ANKUSH DEVAKULE" },
+{ id: "EMP/PUNE02545", name: "SANTOSH DEVIDAS KARANJKAR" },
+{ id: "EMP/PUNE02546", name: "SWAPNIL BHIMRAO KAURATI" },
+{ id: "EMP/PUNE02547", name: "SHRIRAM SHIVAJI DHAGE" },
+{ id: "EMP/PUNE02548", name: "RAJU SULTAN SINGH" },
+{ id: "EMP/PUNE02549", name: "AMAR MUGUTRAO NALGE" },
+{ id: "EMP/PUNE02550", name: "DHEERAJ PATEL" },
+{ id: "EMP/PUNE02551", name: "AKSHAY ANIL BADVE" },
+{ id: "EMP/PUNE02552", name: "CHANDAN KUMAR ROUTH" },
+{ id: "EMP/PUNE02553", name: "PURUSHOTTAM BABASAHEB SANGULE" },
+{ id: "EMP/PUNE02554", name: "NISHA BHARAT CHAVAN" },
+{ id: "EMP/PUNE02555", name: "JIVAN VIKRAM KOLI" },
+{ id: "EMP/PUNE02556", name: "NITIN KALIDAS SURYAWANSHI" },
+{ id: "EMP/PUNE02557", name: "RAHUL SUBHASH UCHALE" },
+{ id: "EMP/PUNE02559", name: "VIKAS UMESH MANODIYA" },
+{ id: "EMP/PUNE02560", name: "MARUTI PRAKASH POTALE" },
+{ id: "EMP/PUNE02561", name: "VIJAY ANIL SHINDE" },
+{ id: "EMP/PUNE02562", name: "SHIVNATH BHAUSAHEB PALVE" },
+{ id: "EMP/PUNE02563", name: "MARUTI YADU BHOSALE" },
+{ id: "EMP/PUNE02564", name: "CHUNA MANI SAHU" },
+{ id: "EMP/PUNE02565", name: "SACHIN KUMAR S" },
+{ id: "EMP/PUNE02566", name: "VINOD PUNJAJI PRADHAN" },
+{ id: "EMP/PUNE02567", name: "HANUMANT SINGH TOMAR" },
+{ id: "EMP/PUNE02568", name: "ANAND DNYANDEV MORE" },
+{ id: "EMP/PUNE02569", name: "TUSHAR TUKARAM BERGAL" },
+{ id: "EMP/PUNE02570", name: "AMAN BHAIYALAL BHASME" },
+{ id: "EMP/PUNE02571", name: "VIKRANT BALRAM METKAR" },
+{ id: "EMP/PUNE02572", name: "VISHAL SHANTARAM KINJAWADEKAR" },
+{ id: "EMP/PUNE02573", name: "ARCHANA SUBHASH JADHAV" },
+{ id: "EMP/PUNE02574", name: "VINAY GYANSING PAWAR" },
+{ id: "EMP/PUNE02575", name: "SHIV KUMAR RAI" },
+{ id: "EMP/PUNE02576", name: "BALIBAI HIRAMAN RATHOD" },
+{ id: "EMP/PUNE02578", name: "YASMIN JALALUDDIN SHAIKH" },
+{ id: "EMP/PUNE02579", name: "SIDDHARTH SURESH HIVRALE" },
+{ id: "EMP/PUNE02580", name: "UDAY  DOLEY" },
+{ id: "EMP/PUNE02582", name: "SANDIP KISAN MOHITE" },
+{ id: "EMP/PUNE02583", name: "AKASH SAKHARAM SHERAVATE" },
+{ id: "EMP/PUNE02585", name: "SANDEEP SINGH BAGHEL" },
+{ id: "EMP/PUNE02587", name: "PRITI ANIL GAVALI" },
+{ id: "EMP/PUNE02589", name: "SHIV BACHAN MAHTO" },
+{ id: "EMP/PUNE02590", name: "SACHIN VIJAY RATHOD" },
+{ id: "EMP/PUNE02591", name: "NILESH DILIP SHIRKE" },
+{ id: "EMP/PUNE02592", name: "SHIVANAND VIJAYKUMAR BAHIRJE" },
+{ id: "EMP/PUNE02593", name: "SANTOSH BHIKA DUNBALE" },
+{ id: "EMP/PUNE02594", name: "ANJANI SUBHASH SALVI" },
+{ id: "EMP/PUNE02595", name: "AMOL DIGAMBAR JADHAV" },
+{ id: "EMP/PUNE02596", name: "AMOL DIGAMBAR JADHAV" },
+{ id: "EMP/PUNE02597", name: "MOHAMADGOUS AIYAJ  SHAIKH" },
+{ id: "EMP/PUNE02598", name: "ABHISHEK SHALIK PATIL" },
+{ id: "EMP/PUNE02599", name: "DINESH KUMAR YADAV" },
+{ id: "EMP/PUNE02600", name: "GAURAV KUMAR SINGH" },
+{ id: "EMP/PUNE02601", name: "SUHAS PUNDLIK AVHAD" },
+{ id: "EMP/PUNE02602", name: "SHIVMURAT RAI" },
+{ id: "EMP/RPR00088", name: "ABHIJEET MADHAVRAO THORAT" },
+{ id: "EMP/RPR00107", name: "VIJAY HIRALAL SHRIWAS" },
+{ id: "EMP/RPR00124", name: "SACHIN AMBADAS TIDKE" },
+{ id: "EMP/RPR00126", name: "SANTOSH DEVRAO INGLE" },
+{ id: "EMP/RPR00127", name: "DIPAK SITARAM WANKHEDE" },
+{ id: "EMP/RPR00129", name: "RAJU MOHAN KOLATE" },
+{ id: "EMP/RPR00131", name: "MEGHRAJ OM CHATUR" },
+{ id: "EMP/RPR00134", name: "PRAKASH NIMRAJ KORI" },
+{ id: "EMP/RPR00137", name: "AKSHAY KAILAS GIRADE" },
+{ id: "EMP/RPR00138", name: "AJAY JAYPAL UIKEY" },
+{ id: "EMP/RPR00139", name: "RILESH NARESH NAVNAGE" },
+{ id: "EMP/RPR00141", name: "MORESHWAR NARAYAN KUMBHARE" },
+{ id: "EMP/RPR00147", name: "PRAVIN PRAKASHRAO NICHALE" },
+{ id: "EMP/RPR00148", name: "TUSHAR VASANTRAV WASNIK" },
+];
 
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    // Show success alert
-                    alert('Success full: ' + data.message);
-                    submitButton.disabled = false;
-                    
-                    // Clear the form fields using the reset() method
+/* 🔹 Search logic */
+empInput.addEventListener('input', function () {
+    const value = this.value.toUpperCase();
 
-                    form.reset();
-                  // Optionally, display a message within the page (instead of alert)
-                        responseMessage.style.display = 'block';
-                        submitButton.disabled = false;
-                } else {
-                    // Show error alert
-                    alert('Error: ' + data.message);
-                    responseMessage.innerHTML = 'Error: ' + data.message;
-                    responseMessage.style.color = 'red';
-                    submitButton.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                alert('An error occurred during submission.');
-                responseMessage.innerHTML = 'An error occurred during submission.';
-                responseMessage.style.color = 'red';
-                submitButton.disabled = false;
-            });
+    if (value.length < 2) {
+        suggestionBox.style.display = "none";
+        return;
+    }
+
+    const filtered = employees.filter(emp => emp.id.includes(value));
+
+    suggestionBox.innerHTML = "";
+
+    if (filtered.length === 0) {
+        suggestionBox.style.display = "none";
+        return;
+    }
+
+    filtered.forEach(emp => {
+        const div = document.createElement('div');
+        div.style.padding = "8px";
+        div.style.cursor = "pointer";
+        div.innerText = emp.id;
+
+        div.addEventListener('click', () => {
+            empInput.value = emp.id;
+            nameInput.value = emp.name;
+            suggestionBox.style.display = "none";
         });
-    </script>
+
+        suggestionBox.appendChild(div);
+    });
+
+    suggestionBox.style.display = "block";
+});
+
+/* Hide dropdown */
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.input-group')) {
+        suggestionBox.style.display = "none";
+    }
+});
+
+/* 🔹 Existing Submit */
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    submitButton.disabled = true;
+    submitButton.innerText = "Submitting...";
+
+    const formData = new FormData(form);
+
+    fetch('https://script.google.com/macros/s/AKfycbxcuua4R0w7XUjmkKAnz7YN-tkqAFXR2fzXF12DbGSr0Rwaiaa8YZdQT31H1kxKsSEQ/exec', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            responseMessage.innerText = "✅ " + data.message;
+            responseMessage.className = "success";
+            form.reset();
+        } else {
+            responseMessage.innerText = "❌ " + data.message;
+            responseMessage.className = "error";
+        }
+    })
+    .catch(() => {
+        responseMessage.innerText = "❌ Submission failed!";
+        responseMessage.className = "error";
+    })
+    .finally(() => {
+        submitButton.disabled = false;
+        submitButton.innerText = "Submit";
+    });
+});
+</script>
+
 </body>
 </html>
-
-
-
-
-
-

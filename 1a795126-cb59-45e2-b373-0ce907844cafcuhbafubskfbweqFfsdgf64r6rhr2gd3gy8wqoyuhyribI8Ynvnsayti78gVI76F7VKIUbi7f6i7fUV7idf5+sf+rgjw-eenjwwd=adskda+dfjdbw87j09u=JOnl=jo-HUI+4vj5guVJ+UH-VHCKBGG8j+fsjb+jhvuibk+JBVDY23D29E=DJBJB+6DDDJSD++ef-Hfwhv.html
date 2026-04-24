@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Police Verification</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 25px;
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      color: #fff;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-top: 12px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    input:focus {
+      background: rgba(255,255,255,0.25);
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+    }
+
+    input[type="file"] {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0, 114, 255, 0.4);
+    }
+
+    .card {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(15px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    #info p {
+      margin: 6px 0;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    label {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h2>🔍 Police Verification</h2>
+  <label for="text">Enter Employee ID:</label>
+  <input type="text" id="empId" placeholder="Enter Employee ID" autofocus required>
+  <button onclick="getEmp()" id="getEmpb">Verify</button>
+
+  <div id="details" class="card" style="display:none;">
+    <label for="text">Verify Details:</label>
+    <div id="info"></div>
+    <button onclick="showApply()" id="showApplyb">Continue</button>
+  </div>
+
+  <div id="apply" class="card" style="display:none;">
+    <label for="text">Registered Mobile Number:</label>
+    <input type="tel" id="payment" placeholder="Enter mobile number" required>
+    <label for="text">You can attach PV:</label>
+    <input type="file" id="file">
+    <button onclick="step1()" id="step1b">Send OTP</button>
+  </div>
+
+  <div id="otpSection" class="card" style="display:none;">
+    <label for="text">Enter Latest OTP:</label>
+    <input id="otp" placeholder="6digit OTP" required>
+    <button onclick="finalSubmit()">Submit</button>
+  </div>
+
+</div>
+
+<script>
+
+const API = "https://script.google.com/macros/s/AKfycbyBlwLVi6ydgRYwVNuwWYQCBWFjH04egn_dYXMzqLVLZmxTlj7iXEtntrE_3UYZiXU-/exec";
+let emp = {};
+
+// Get Employee
+function getEmp() {
+  const empId = document.getElementById("empId").value;
+
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({ action: "getEmployee", empId })
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.status === "success") {
+      emp = res.data;
+
+      document.getElementById("getEmpb").style.display = "none";
+      document.getElementById("details").style.display = "block";
+      document.getElementById("info").innerHTML = `
+        <p><strong>Name:</strong> ${emp.name}</p>
+        <p><strong>Designation:</strong> ${emp.designation}</p>
+        <p><strong>D.O.B:</strong> ${emp.dob}</p>
+        <p><strong>Father Name:</strong> ${emp.father}</p>
+      `;
+    } else {
+      alert(res.message);
+    }
+  });
+}
+
+// Show Apply
+function showApply() {
+  document.getElementById("apply").style.display = "block";
+  document.getElementById("showApplyb").style.display = "none";
+}
+
+// STEP 1 (UPDATED - FILE OPTIONAL)
+function step1() {
+  const fileInput = document.getElementById("file");
+  const file = fileInput.files[0];
+
+  // Base payload (without file)
+  let payload = {
+    action: "submitStep1",
+    empId: emp.empId,
+    name: emp.name,
+    email: emp.email,
+    paymentStatus: document.getElementById("payment").value
+  };
+
+  // If file is selected → read and send
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      const base64 = e.target.result.split(",")[1];
+
+      payload.fileData = base64;
+      payload.mimeType = file.type;
+      payload.fileName = file.name;
+
+      sendStep1(payload);
+    };
+
+    reader.readAsDataURL(file);
+
+  } else {
+    // No file → send without file fields
+    payload.fileData = "";
+    payload.mimeType = "";
+    payload.fileName = "";
+
+    sendStep1(payload);
+  }
+}
+
+// Separate function for API call
+function sendStep1(payload) {
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.status === "success") {
+      alert("OTP Sent ✅ Now enter OTP");
+      document.getElementById("otpSection").style.display = "block";
+      document.getElementById("step1b").style.display = "none";
+    } else {
+      alert(res.message);
+    }
+  });
+}
+
+// FINAL STEP
+function finalSubmit() {
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "submitFinal",
+      empId: emp.empId,
+      email: emp.email,
+      otp: document.getElementById("otp").value
+    })
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.status === "success") {
+      alert("Under process, will update within working 24 hrs ✅");
+      location.reload();
+    } else {
+      alert(res.message);
+    }
+  });
+}
+</script>
+
+</body>
+</html>

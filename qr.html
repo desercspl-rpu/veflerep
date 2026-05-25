@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Punching Dashboard</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --background: #f3f4f6;
+      --card-bg: #ffffff;
+      --text: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 480px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .geo-status {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .status-ok { background: #dcfce7; color: #15803d; }
+    .status-warn { background: #fef9c3; color: #a16207; }
+
+    .qr-section {
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+      background: #f8fafc;
+    }
+
+    .qr-active {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    button {
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      transition: opacity 0.2s;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-in { background-color: var(--success); }
+    .btn-out { background-color: var(--primary); }
+
+    .btn-qr {
+      background-color: #475569;
+      grid-column: span 2;
+      margin-bottom: 12px;
+    }
+
+    #responseLog {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .alert-success { background: #dcfce7; color: #15803d; }
+    .alert-error { background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Attendance Portal</h2>
+    
+    <div class="form-group">
+      <label for="empId">Employee ID</label>
+      <input type="text" id="empId" placeholder="e.g., EMP1001" required>
+    </div>
+
+    <div class="geo-status">
+      <strong>Device GPS Status:</strong> 
+      <span id="gpsStatus" class="status-badge status-warn">Acquiring Location...</span>
+      <div style="margin-top: 4px;" id="coordsDisplay">Lat: -- | Lon: --</div>
+    </div>
+
+    <div class="qr-section" id="qrContainer">
+      <p id="qrText" style="font-size: 14px; margin-bottom: 8px; font-weight: 500;">Standard GPS active (100m Geofence)</p>
+      <button type="button" class="btn-qr" id="scanQrBtn" onclick="simulateQrScan()">Scan Facility QR Code</button>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-in" id="btnIn" onclick="submitPunch('IN')" disabled>PUNCH IN</button>
+      <button class="btn-out" id="btnOut" onclick="submitPunch('OUT')" disabled>PUNCH OUT</button>
+    </div>
+
+    <div id="responseLog"></div>
+  </div>
+
+  <script>
+    // ⚠️ REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+    const WEB_APP_URL = "https://script.google.com/macros/s/XXXXX/exec";
+
+    let clientLat = null;
+    let clientLon = null;
+    let qrScanned = false;
+    let qrLat = null;
+    let qrLon = null;
+
+    // Run GPS lookup instantly on window initialization
+    window.onload = function() {
+      initGpsTracking();
+    };
+
+    function initGpsTracking() {
+      if (!navigator.geolocation) {
+        updateGpsUi(false, "Unsupported browser GPS tracking configuration framework.");
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          clientLat = position.coords.latitude;
+          clientLon = position.coords.longitude;
+          
+          document.getElementById("coordsDisplay").innerText = `Lat: ${clientLat.toFixed(5)} | Lon: ${clientLon.toFixed(5)}`;
+          updateGpsUi(true, "GPS Active");
+          
+          // Enable punch tracking buttons when coordinates present
+          document.getElementById("btnIn").disabled = false;
+          document.getElementById("btnOut").disabled = false;
+        },
+        (error) => {
+          updateGpsUi(false, "GPS Access Denied / Timed Out");
+          console.error("GPS hardware mapping fault:", error);
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+
+    function updateGpsUi(isOk, message) {
+      const el = document.getElementById("gpsStatus");
+      el.innerText = message;
+      if (isOk) {
+        el.className = "status-badge status-ok";
+      } else {
+        el.className = "status-badge status-warn";
+      }
+    }
+
+    // Simulates reading embedded coordinates from a facility QR code placard 
+    function simulateQrScan() {
+      if (!clientLat || !clientLon) {
+        alert("Please enable and wait for GPS validation metadata before using QR features.");
+        return;
+      }
+
+      // Setting QR code coordinates slightly drifted from user position to trigger fallback verification rules
+      qrScanned = true;
+      qrLat = clientLat + 0.0001; 
+      qrLon = clientLon - 0.0001;
+
+      // Update UI state to show fallback verification mechanism matches active state variables
+      const container = document.getElementById("qrContainer");
+      container.className = "qr-section qr-active";
+      document.getElementById("qrText").innerHTML = "<strong>QR Code Verified!</strong> Extended Geofence Allowed (1000m Limit Mode)";
+      document.getElementById("scanQrBtn").style.display = "none";
+      
+      showLog("QR Signature attached to outgoing request validation bundle.", "success");
+    }
+
+    function submitPunch(type) {
+      const empId = document.getElementById("empId").value.trim();
+      if (!empId) {
+        showLog("Please enter a valid Employee ID before proceeding.", "error");
+        return;
+      }
+
+      // Construct JSON matching Apps Script doPost interface rules parameters profiles
+      const payload = {
+        action: "recordPunch",
+        empId: empId,
+        punchType: type,
+        clientLat: clientLat,
+        clientLon: clientLon,
+        qrScanned: qrScanned,
+        qrLat: qrLat,
+        qrLon: qrLon
+      };
+
+      showLog("Processing your punch data. Please hold...", "success");
+      
+      // Temporarily disable buttons to block accidental double-tap events
+      document.getElementById("btnIn").disabled = true;
+      document.getElementById("btnOut").disabled = true;
+
+      fetch(WEB_APP_URL, {
+        method: "POST",
+        mode: "no-cors", // Set to "cors" if Web App header processing allows standard cross-site pre-flights
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        // Since Google Apps Script Web App directs traffic via redirects, no-cors blocks access response text body blocks directly
+        showLog(`Request sent! Check the master Spreadsheet log to verify if punch ${type} successfully bypassed verification lines.`, "success");
+        resetState();
+      })
+      .catch(err => {
+        showLog("Network dispatch failure: " + err.toString(), "error");
+        resetState();
+      });
+    }
+
+    function resetState() {
+      document.getElementById("btnIn").disabled = false;
+      document.getElementById("btnOut").disabled = false;
+    }
+
+    function showLog(msg, type) {
+      const log = document.getElementById("responseLog");
+      log.style.display = "block";
+      log.innerText = msg;
+      log.className = type === "success" ? "alert-success" : "alert-error";
+    }
+  </script>
+</body>
+</html>

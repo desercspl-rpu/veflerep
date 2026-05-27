@@ -2,355 +2,203 @@
 <html>
 <head>
   <title>Police Verification</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html, body {
-      width: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 14px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-      padding: 22px;
-      border-radius: 20px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-      color: #fff;
-      animation: fadeIn 0.6s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      font-size: 24px;
-      line-height: 1.4;
-      word-break: break-word;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 15px;
-      margin-top: 12px;
-      border-radius: 12px;
-      border: none;
-      outline: none;
-      background: rgba(255,255,255,0.15);
-      color: #fff;
-      font-size: 16px;
-      transition: 0.3s;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-
-    input::placeholder {
-      color: rgba(255,255,255,0.6);
-    }
-
-    input:focus {
-      background: rgba(255,255,255,0.25);
-      box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
-    }
-
-    input[type="file"] {
-      padding: 12px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 15px;
-      border-radius: 14px;
-      border: none;
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-      min-height: 50px;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    button:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 10px 20px rgba(0, 114, 255, 0.4);
-    }
-
-    .card {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 15px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      animation: slideUp 0.4s ease;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(15px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    #info p {
-      margin: 8px 0;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      word-break: break-word;
-      line-height: 1.5;
-    }
-
-    label {
-      font-size: 13px;
-      opacity: 0.85;
-      display: block;
-      margin-top: 8px;
-    }
-
-    /* ANDROID MOBILE FIT */
-    @media screen and (max-width: 600px) {
-
-      body {
-        padding: 10px;
-        align-items: flex-start;
-      }
-
-      .container {
-        max-width: 100%;
-        padding: 18px;
-        border-radius: 18px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-
-      h2 {
-        font-size: 21px;
-        margin-bottom: 18px;
-      }
-
-      input {
-        font-size: 16px;
-        padding: 13px 14px;
-      }
-
-      button {
-        font-size: 15px;
-        padding: 13px;
-      }
-
-      .card {
-        padding: 14px;
-      }
-
-      #info p {
-        font-size: 13px;
-      }
-    }
-
-    @media screen and (max-width: 380px) {
-
-      .container {
-        padding: 15px;
-      }
-
-      h2 {
-        font-size: 19px;
-      }
-
-      input,
-      button {
-        border-radius: 12px;
-      }
-
-      #info p {
-        font-size: 12px;
-      }
-    }
-
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; min-height: 100vh; background: linear-gradient(120deg, #0f2027, #203a43, #2c5364); display: flex; justify-content: center; align-items: center; padding: 14px; }
+    .container { width: 100%; max-width: 440px; padding: 25px; border-radius: 20px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.4); color: #fff; }
+    h2 { text-align: center; margin-bottom: 20px; font-weight: 600; font-size: 24px; }
+    label { font-size: 13px; opacity: 0.85; display: block; margin-top: 12px; }
+    input { width: 100%; padding: 14px; margin-top: 6px; border-radius: 12px; border: none; outline: none; background: rgba(255,255,255,0.15); color: #fff; font-size: 16px; }
+    input:focus { background: rgba(255,255,255,0.25); box-shadow: 0 0 10px rgba(0, 200, 255, 0.5); }
+    button { width: 100%; padding: 14px; margin-top: 18px; border-radius: 14px; border: none; background: linear-gradient(135deg, #00c6ff, #0072ff); color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; min-height: 50px; }
+    button:disabled { background: #555 !important; cursor: not-allowed; opacity: 0.6; }
+    .card { margin-top: 20px; padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); }
+    .status-msg { text-align: center; font-size: 18px; font-weight: 600; padding: 20px; margin-top: 10px; border-radius: 12px; background: rgba(0,0,0,0.2); border: 1px dashed #00c6ff; }
   </style>
 </head>
-
 <body>
 
 <div class="container">
-
   <h2>🔍 Police Verification</h2>
-  <label for="text">Enter Employee ID:</label>
-  <input type="text" id="empId" placeholder="Enter Employee ID" autofocus required>
-  <button onclick="getEmp()" id="getEmpb">Verify</button>
-
-  <div id="details" class="card" style="display:none;">
-    <label for="text">Verify Details:</label>
-    <div id="info"></div>
-    <button onclick="showApply()" id="showApplyb">Continue</button>
+  
+  <div id="searchSection">
+    <label>Enter Employee ID:</label>
+    <input type="text" id="empIdInput" placeholder="Enter Employee ID here..." autocomplete="off">
+    <button onclick="verifyProfileState()" id="verifyBtn">Verify</button>
   </div>
 
-  <div id="apply" class="card" style="display:none;">
-    <label for="text">Registered Mobile Number:</label>
-    <input type="tel" id="payment" placeholder="Enter mobile number" required>
-    <label for="text">You can attach PV:</label>
-    <input type="file" id="file">
-    <button onclick="step1()" id="step1b">Send OTP</button>
+  <div id="detailsCard" class="card" style="display:none;">
+    <h3 style="margin-top:0;">Verify Details:</h3>
+    <div id="infoBlock"></div>
+    <button onclick="proceedToApplication()" id="proceedBtn">Continue</button>
   </div>
 
-  <div id="otpSection" class="card" style="display:none;">
-    <label for="text">Enter Latest OTP:</label>
-    <input id="otp" placeholder="6digit OTP" required>
-    <button onclick="finalSubmit()">Submit</button>
+  <div id="applicationForm" class="card" style="display:none;">
+    <label>Registered Mobile Number:</label>
+    <input type="tel" id="mobileNum" placeholder="Enter mobile number" maxlength="10">
+    
+    <label>You can attach PV (Optional):</label>
+    <input type="file" id="fileUpload">
+    
+    <button onclick="dispatchOtpRequest()" id="sendOtpBtn">Send OTP</button>
   </div>
 
+  <div id="otpForm" class="card" style="display:none;">
+    <label>Enter Latest OTP (6 digits required):</label>
+    <input type="text" id="otpToken" placeholder="6digit OTP" maxlength="6">
+    <button onclick="validateOtpSubmission()" id="submitOtpBtn">Submit</button>
+  </div>
+
+  <div id="terminalStatusBox" class="status-msg" style="display:none;"></div>
 </div>
 
 <script>
+// Replace with your current deployment execution endpoint URL context string reference link
+const API_URL = "https://script.google.com/macros/s/AKfycbx-f15dJApYuUk3SrAGIk3Y_73FyBul8xCCeRBvEIKoIe82xA5HK3QBK-t_yrsR-Urm/exec";
+let currentSessionProfile = {};
 
-const API = "https://script.google.com/macros/s/AKfycbye1yfY39hOHLGpJuqTEew3yHmjHz9A73NojNkxjuFZTs_vbbjAdCz6S1sKxzVhS3Av/exec";
-let emp = {};
-
-// Get Employee
-function getEmp() {
-  const empId = document.getElementById("empId").value;
-
-  fetch(API, {
-    method: "POST",
-    body: JSON.stringify({ action: "getEmployee", empId })
-  })
-  .then(res => res.json())
-  .then(res => {
-    if (res.status === "success") {
-      emp = res.data;
-
-      document.getElementById("getEmpb").style.display = "none";
-      document.getElementById("details").style.display = "block";
-      document.getElementById("info").innerHTML = `
-        <p><strong>Name:</strong> ${emp.name}</p>
-        <p><strong>Designation:</strong> ${emp.designation}</p>
-        <p><strong>D.O.B:</strong> ${emp.dob}</p>
-        <p><strong>Father Name:</strong> ${emp.father}</p>
-      `;
-    } else {
-      alert(res.message);
-    }
-  });
-}
-
-// Show Apply
-function showApply() {
-  document.getElementById("apply").style.display = "block";
-  document.getElementById("showApplyb").style.display = "none";
-}
-
-// STEP 1 (UPDATED - FILE OPTIONAL)
-function step1() {
-  const fileInput = document.getElementById("file");
-  const file = fileInput.files[0];
-
-  // Base payload (without file)
-  let payload = {
-    action: "submitStep1",
-    empId: emp.empId,
-    name: emp.name,
-    email: emp.email,
-    paymentStatus: document.getElementById("payment").value
-  };
-
-  // If file is selected → read and send
-  if (file) {
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-      const base64 = e.target.result.split(",")[1];
-
-      payload.fileData = base64;
-      payload.mimeType = file.type;
-      payload.fileName = file.name;
-
-      sendStep1(payload);
-    };
-
-    reader.readAsDataURL(file);
-
-  } else {
-    // No file → send without file fields
-    payload.fileData = "";
-    payload.mimeType = "";
-    payload.fileName = "";
-
-    sendStep1(payload);
+function updateUiState(btnId, loadingText, isDone) {
+  const btn = document.getElementById(btnId);
+  if (btn) {
+    btn.disabled = !isDone;
+    btn.innerText = loadingText;
   }
 }
 
-// Separate function for API call
-function sendStep1(payload) {
-  fetch(API, {
+function verifyProfileState() {
+  const empId = document.getElementById("empIdInput").value.trim();
+  if(!empId) { alert("Employee ID cannot be empty!"); return; }
+  
+  updateUiState("verifyBtn", "Verifying...", false);
+  
+  fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify(payload)
+    body: JSON.stringify({ action: "getEmployeeStatus", empId: empId })
   })
-  .then(res => res.json())
+  .then(r => r.json())
   .then(res => {
-    if (res.status === "success") {
+    updateUiState("verifyBtn", "Verify", true);
+    if(res.status === "error") { alert(res.message); return; }
+    
+    currentSessionProfile = res.profile;
+    
+    // Evaluate workflows based on the returned state
+    if(res.state === "VERIFIED_DONE") {
+       showTerminalMessage("Your verification Done!");
+       return;
+    }
+    if(res.state === "SUBMITTED_TO_OFFICE") {
+       showTerminalMessage("Your application submitted to office.");
+       return;
+    }
+    
+    // Hide verify button / lookups immediately
+    document.getElementById("searchSection").style.display = "none";
+    document.getElementById("detailsCard").style.display = "block";
+    
+    document.getElementById("infoBlock").innerHTML = `
+      <p><strong>Emp ID:</strong> ${currentSessionProfile.empId}</p>
+      <p><strong>Name:</strong> ${currentSessionProfile.name}</p>
+      <p><strong>DOB:</strong> ${currentSessionProfile.dob}</p>
+      <p><strong>Designation:</strong> ${currentSessionProfile.designation}</p>
+      <p><strong>Father Name:</strong> ${currentSessionProfile.father}</p>
+      <p><strong>UAN:</strong> ${currentSessionProfile.uan}</p>
+      <p><strong>ESIC:</strong> ${currentSessionProfile.esic}</p>
+    `;
+    
+    // Route returning users to their active steps
+    if(res.state === "PENDING_OTP") {
+       document.getElementById("detailsCard").style.display = "none";
+       document.getElementById("otpForm").style.display = "block";
+    }
+  });
+}
+
+function proceedToApplication() {
+  document.getElementById("detailsCard").style.display = "none";
+  document.getElementById("applicationForm").style.display = "block";
+}
+
+function dispatchOtpRequest() {
+  const mobile = document.getElementById("mobileNum").value.trim();
+  if(mobile.length !== 10 || isNaN(mobile)) { alert("Mobile number must be exactly 10 digits and cannot be empty!"); return; }
+  
+  const fileInput = document.getElementById("fileUpload");
+  const file = fileInput.files[0];
+  
+  updateUiState("sendOtpBtn", "Verifying...", false);
+  
+  let payload = {
+    action: "submitMobileAndFile",
+    empId: currentSessionProfile.empId,
+    name: currentSessionProfile.name,
+    email: currentSessionProfile.email,
+    mobile: mobile
+  };
+  
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      payload.fileData = e.target.result.split(",")[1];
+      payload.mimeType = file.type;
+      payload.fileName = file.name;
+      transmitStep1(payload);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    payload.fileData = ""; payload.mimeType = ""; payload.fileName = "";
+    transmitStep1(payload);
+  }
+}
+
+function transmitStep1(payload) {
+  fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
+  .then(r => r.json())
+  .then(res => {
+    updateUiState("sendOtpBtn", "Send OTP", true);
+    if(res.status === "success") {
       alert("OTP Sent ✅ Now enter OTP");
-      document.getElementById("otpSection").style.display = "block";
-      document.getElementById("step1b").style.display = "none";
+      document.getElementById("applicationForm").style.display = "none";
+      document.getElementById("otpForm").style.display = "block";
     } else {
       alert(res.message);
     }
   });
 }
 
-// FINAL STEP
-function finalSubmit() {
-  fetch(API, {
+function validateOtpSubmission() {
+  const otp = document.getElementById("otpToken").value.trim();
+  if(otp.length !== 6 || isNaN(otp)) { alert("OTP code must be exactly 6 digits and cannot be empty!"); return; }
+  
+  updateUiState("submitOtpBtn", "Verifying...", false);
+  
+  fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify({
-      action: "submitFinal",
-      empId: emp.empId,
-      email: emp.email,
-      otp: document.getElementById("otp").value
-    })
+    body: JSON.stringify({ action: "submitOtp", empId: currentSessionProfile.empId, otp: otp })
   })
-  .then(res => res.json())
+  .then(r => r.json())
   .then(res => {
-    if (res.status === "success") {
-      alert("Under process, will update within working 24 hrs ✅");
-      location.reload();
+    updateUiState("submitOtpBtn", "Submit", true);
+    if(res.status === "success") {
+      showTerminalMessage("Your application submitted to office.");
     } else {
       alert(res.message);
     }
   });
+}
+
+function showTerminalMessage(msg) {
+  document.getElementById("searchSection").style.display = "none";
+  document.getElementById("detailsCard").style.display = "none";
+  document.getElementById("applicationForm").style.display = "none";
+  document.getElementById("otpForm").style.display = "none";
+  
+  const target = document.getElementById("terminalStatusBox");
+  target.style.display = "block";
+  target.innerText = msg;
 }
 </script>
-
 </body>
 </html>

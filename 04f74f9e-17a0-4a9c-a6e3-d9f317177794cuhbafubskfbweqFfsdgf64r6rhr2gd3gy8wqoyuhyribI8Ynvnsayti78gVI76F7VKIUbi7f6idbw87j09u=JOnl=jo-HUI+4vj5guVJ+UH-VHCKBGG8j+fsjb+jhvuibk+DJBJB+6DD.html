@@ -153,14 +153,14 @@
 <div class="container mb-5">
   <div id="global-loader" class="global-spinner hidden">
     <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-    <span>Synchronizing Cloud Sheets...</span>
+    <span>Synchronizing...</span>
   </div>
 
   <div id="employee-portal">
     <div id="emp-win-1" class="card p-4 mx-auto" style="max-width: 440px;">
       <h3 class="text-center mb-4 fw-bold text-dark">Apply for Smart ID</h3>
       <div class="mb-3">
-        <label for="emp-id-input" class="form-label fw-semibold text-secondary" style="font-size: 14px;">Enter Employee ID Verification</label>
+        <label for="emp-id-input" class="form-label fw-semibold text-secondary" style="font-size: 14px;">Enter Employee ID</label>
         <input type="text" id="emp-id-input" class="form-control form-control-lg text-center fw-bold" placeholder="Enter Your Emp ID" autofocus>
       </div>
       <button id="btn-verify-next" class="btn btn-gradient-primary btn-lg w-100 mt-2" onclick="verifyEmployee(this)">Next</button>
@@ -170,7 +170,7 @@
 
     <div id="emp-win-status" class="card p-4 mx-auto hidden" style="max-width: 460px;">
       <h3 class="text-center mb-2 fw-bold text-dark">Application Status</h3>
-      <p class="text-muted text-center small mb-3">A profile tracking record matches this unique identification string:</p>
+      <p class="text-muted text-center small mb-3">Your profile record matches this Employee ID:</p>
       
       <div class="tracking-timeline p-2 border rounded bg-light">
         <div class="tracking-step" id="step-1">
@@ -199,15 +199,15 @@
     </div>
 
     <div id="emp-win-2" class="card p-4 mx-auto hidden" style="max-width: 780px;">
-      <h4 class="mb-2 fw-bold text-dark border-bottom pb-3">Validate Profile Parameters</h4>
-      <p class="text-muted small mb-4">Verify data rows closely. If any parameter values do not match actual records, click the yellow <b class="text-warning">Correct</b> button to update fields directly.</p>
+      <h4 class="mb-2 fw-bold text-dark border-bottom pb-3">Validate Profile</h4>
+      <p class="text-muted small mb-4">Check the data carefully. If any details don't match actual records, click the yellow icon. <b class="text-warning">Correct</b> update fields directly.</p>
       
       <div id="details-container" class="row g-3"></div>
 
       <button id="btn-proceed" class="btn btn-gradient-success btn-lg mt-4 w-100" onclick="showUploadSection(this)">Proceed to Uploads & Payment</button>
 
       <div id="upload-section" class="mt-4 pt-4 border-top hidden">
-        <h5 class="fw-bold text-dark mb-3">Required Profile Identification Assets</h5>
+        <h5 class="fw-bold text-dark mb-3">Required Profile Identification</h5>
         
         <div class="mb-4">
           <label class="form-label fw-semibold text-secondary small">UPLOAD PHOTO</label>
@@ -221,7 +221,7 @@
         <div class="mb-4 card p-3 bg-light border-0 shadow-none">
           <h6 class="fw-bold text-dark">Application Processing Fee</h6>
           <p class="text-muted small mb-3">Make payment: <a href="upi://pay?pa=sk6995554@okhdfcbank&pn=Smart%20Card%20Services&am=80&cu=INR&tn=Smart%20Card" target="_blank" class="text-decoration-none fw-bold text-primary">Click_me</a></p>
-          <label class="form-label fw-bold text-secondary small">PAYMENT STATUS</label>
+          <label class="form-label fw-bold text-secondary small">PAYMENT STATUS?</label>
           <div class="mt-1">
             <div class="form-check form-check-inline me-4">
               <input class="form-check-input" type="radio" name="paymentDone" value="yes" id="pay-yes" onchange="togglePaymentSS(true)">
@@ -239,7 +239,7 @@
           <input type="file" id="file-ss" class="form-control" accept="image/*">
         </div>
 
-        <button id="btn-final-submit" class="btn btn-gradient-primary btn-lg w-100 mt-3" onclick="finalSubmit(this)">Finalize and Submit Application</button>
+        <button id="btn-final-submit" class="btn btn-gradient-primary btn-lg w-100 mt-3" onclick="finalSubmit(this)">Submit</button>
       </div>
     </div>
   </div>

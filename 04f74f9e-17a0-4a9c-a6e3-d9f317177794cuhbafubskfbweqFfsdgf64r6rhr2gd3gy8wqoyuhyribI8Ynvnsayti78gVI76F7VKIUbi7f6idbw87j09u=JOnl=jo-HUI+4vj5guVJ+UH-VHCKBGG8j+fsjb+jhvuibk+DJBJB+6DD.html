@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Application for Smart Card</title>
+  <title>Apply Smart Card</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -185,7 +185,7 @@
   <div id="blur-overlay" class="blur-overlay hidden">
     <div class="global-spinner">
       <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-      <span>Synchronizing...</span>
+      <span>loading...</span>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
 
     <div id="emp-win-status" class="card p-4 mx-auto hidden" style="max-width: 460px;">
       <h3 class="text-center mb-2 fw-bold text-dark">Application Status</h3>
-      <p class="text-muted text-center small mb-3">Your profile record matches this Employee ID:</p>
+      <p class="text-muted text-center small mb-3">Your profile record matches:</p>
       
       <div class="tracking-timeline p-2 border rounded bg-light">
         <div class="tracking-step" id="step-1">
@@ -244,7 +244,7 @@
       <h4 class="mb-3 fw-bold text-dark border-bottom pb-3">Required Profile Identification</h4>
       
       <div class="mb-4">
-        <label class="form-label fw-semibold text-secondary small">PASSPORT PHOTO PROFILE</label>
+        <label class="form-label fw-semibold text-secondary small">Upload your photo</label>
         <div id="photo-config-ui">
           <div class="p-2 border rounded bg-light d-flex align-items-center justify-content-between">
             <span class="text-success fw-bold small">✓ Standard: Using Existing Profile Photo</span>
@@ -303,7 +303,7 @@
   const statusOrder = [
     "ORDER PLACED",
     "PREPARED",
-    "SEND FROM MANUFACTURE",
+    "SENT FROM MANUFACTURE",
     "RECEIVED YOUR NEAREST OFFICE",
     "COLLECT FROM YOUR AO"
   ];

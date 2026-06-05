@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Application for Smart Card</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,13 +11,14 @@
   <style>
     * {
       font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
     }
 
     body { 
       background: linear-gradient(135deg, #4facfe, #00f2fe); 
       min-height: 100vh;
-      padding-top: 40px; 
-      padding-bottom: 40px;
+      padding-top: 20px; 
+      padding-bottom: 20px;
     }
 
     /* Form Card Container Styling */
@@ -26,11 +27,12 @@
       border: none; 
       border-radius: 12px; 
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      animation: fadeIn 0.6s ease-in-out;
+      animation: fadeIn 0.4s ease-in-out;
+      width: 100%;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -135,25 +137,56 @@
       border: 1px solid #ced4da;
     }
 
+    /* Page Blur & Loader Overlay */
+    .blur-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .global-spinner { 
-      position: fixed; 
-      top: 20px; 
-      right: 20px; 
-      z-index: 9999; 
       background: white; 
-      padding: 10px 20px; 
+      padding: 15px 30px; 
       border-radius: 50px; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
       font-weight: bold; 
+      display: flex;
+      align-items: center;
+    }
+
+    /* Responsive Mobile Overrides */
+    @media (max-width: 576px) {
+      body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .container {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .card {
+        padding: 20px !important;
+      }
     }
   </style>
 </head>
 <body>
 
 <div class="container mb-5">
-  <div id="global-loader" class="global-spinner hidden">
-    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-    <span>Synchronizing...</span>
+  <div id="blur-overlay" class="blur-overlay hidden">
+    <div class="global-spinner">
+      <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+      <span>Synchronizing...</span>
+    </div>
   </div>
 
   <div id="employee-portal">
@@ -205,42 +238,47 @@
       <div id="details-container" class="row g-3"></div>
 
       <button id="btn-proceed" class="btn btn-gradient-success btn-lg mt-4 w-100" onclick="showUploadSection(this)">Proceed & Payment</button>
+    </div>
 
-      <div id="upload-section" class="mt-4 pt-4 border-top hidden">
-        <h5 class="fw-bold text-dark mb-3">Required Profile Identification</h5>
-        
-        <div class="mb-4">
-          <label class="form-label fw-semibold text-secondary small">UPLOAD PHOTO</label>
-          <input type="file" id="file-photo" class="form-control mb-2" accept="image/*">
-          <div class="d-flex align-items-center mt-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="useExistingPhoto()">Use Existing</button>
-            <span id="existing-photo-msg" class="text-success ms-3 fw-bold" style="font-size: 14px;"></span>
+    <div id="emp-win-payment" class="card p-4 mx-auto hidden" style="max-width: 550px;">
+      <h4 class="mb-3 fw-bold text-dark border-bottom pb-3">Required Profile Identification</h4>
+      
+      <div class="mb-4">
+        <label class="form-label fw-semibold text-secondary small">PASSPORT PHOTO PROFILE</label>
+        <div id="photo-config-ui">
+          <div class="p-2 border rounded bg-light d-flex align-items-center justify-content-between">
+            <span class="text-success fw-bold small">✓ Standard: Using Existing Profile Photo</span>
+            <button type="button" class="btn btn-sm btn-warning fw-bold text-dark" onclick="activatePhotoUploadInput()">Change Photo</button>
           </div>
         </div>
-
-        <div class="mb-4 card p-3 bg-light border-0 shadow-none">
-          <h6 class="fw-bold text-dark">Application Processing Fee</h6>
-          <p class="text-muted small mb-3">Make payment: <a href="upi://pay?pa=sk6995554@okhdfcbank" target="_blank" class="text-decoration-none fw-bold text-primary">Click_me</a></p>
-          <label class="form-label fw-bold text-secondary small">PAYMENT STATUS?</label>
-          <div class="mt-1">
-            <div class="form-check form-check-inline me-4">
-              <input class="form-check-input" type="radio" name="paymentDone" value="yes" id="pay-yes" onchange="togglePaymentSS(true)">
-              <label class="form-check-label fw-semibold" for="pay-yes" style="font-size: 14px;">Yes, Paid</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="paymentDone" value="no" id="pay-no" onchange="togglePaymentSS(false)" checked>
-              <label class="form-check-label fw-semibold" for="pay-no" style="font-size: 14px;">No, Pending</label>
-            </div>
-          </div>
+        <div id="photo-file-input-container" class="mt-2 hidden">
+          <input type="file" id="file-photo" class="form-control" accept="image/*">
         </div>
-
-        <div id="ss-upload-container" class="mb-4 p-3 border border-danger border-dashed rounded hidden" style="border-style: dashed !important;">
-          <label class="form-label fw-bold text-danger small">UPLOAD TRANSACTION RECEIPT *</label>
-          <input type="file" id="file-ss" class="form-control" accept="image/*">
-        </div>
-
-        <button id="btn-final-submit" class="btn btn-gradient-primary btn-lg w-100 mt-3" onclick="finalSubmit(this)">Submit</button>
       </div>
+
+      <div class="mb-4 card p-3 bg-light border-0 shadow-none">
+        <h6 class="fw-bold text-dark">Smart Card Fee</h6>
+        <p class="text-muted small mb-3">Payment Must: <br><img src="qr.jpeg" alt="QR loading..." width="150" height="150" class="mt-1 rounded border shadow-sm"></p>
+        <label class="form-label fw-bold text-secondary small">PAYMENT STATUS?</label>
+        <div class="mt-1">
+          <div class="form-check form-check-inline me-4">
+            <input class="form-check-input" type="radio" name="paymentDone" value="yes" id="pay-yes" onchange="togglePaymentSS(true)" checked>
+            <label class="form-check-label fw-semibold" for="pay-yes" style="font-size: 14px;">Yes, Paid</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="paymentDone" value="no" id="pay-no" onchange="togglePaymentSS(false)">
+            <label class="form-check-label fw-semibold" for="pay-no" style="font-size: 14px;">No, Pending</label>
+          </div>
+        </div>
+      </div>
+
+      <div id="ss-upload-container" class="mb-4 p-3 border border-danger rounded" style="border-style: dashed !important;">
+        <label class="form-label fw-bold text-danger small">UPLOAD TRANSACTION RECEIPT *</label>
+        <input type="file" id="file-ss" class="form-control" accept="image/*">
+      </div>
+
+      <button id="btn-final-submit" class="btn btn-gradient-primary btn-lg w-100 mt-2" onclick="finalSubmit(this)">Submit Application</button>
+      <button class="btn btn-link text-secondary w-100 mt-2 small text-decoration-none" onclick="backToProfileValidation()">← Back to Profile</button>
     </div>
   </div>
 </div>
@@ -249,7 +287,7 @@
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwqITyfGYqNOpFpjytZJai2kmx1TN1FNuz9AAKQn3sG8faLzydb0p14rv_1kc7bLCax2Q/exec";
 
   let currentEmpData = {};
-  let existingPhotoOpted = false;
+  let existingPhotoOpted = true; // Default initialization state
 
   const AVAILABLE_AO_LIST = [
     "Mr. Atul Thombre",  
@@ -270,8 +308,17 @@
     "COLLECT FROM YOUR AO"
   ];
 
+  function toggleBlurLoader(shouldShow) {
+    const overlay = document.getElementById('blur-overlay');
+    if (shouldShow) {
+      overlay.classList.remove('hidden');
+    } else {
+      overlay.classList.add('hidden');
+    }
+  }
+
   async function executeBackendQuery(postPayload) {
-    document.getElementById('global-loader').classList.remove('hidden');
+    toggleBlurLoader(true);
     try {
       let response = await fetch(WEB_APP_URL, {
         method: "POST",
@@ -280,27 +327,34 @@
         body: JSON.stringify(postPayload)
       });
       let jsonParsedResult = await response.json();
-      document.getElementById('global-loader').classList.add('hidden');
+      toggleBlurLoader(false);
       return jsonParsedResult;
     } catch (criticalError) {
-      document.getElementById('global-loader').classList.add('hidden');
+      toggleBlurLoader(false);
       alert("Communication Fault Encountered: " + criticalError.message);
       throw criticalError;
     }
   }
 
   async function verifyEmployee(buttonEl) {
-    let empId = document.getElementById('emp-id-input').value.trim().toUpperCase();
-    if(!empId) return alert("Please enter your Employee ID.");
-    
+    // Immediate Disable Action
     buttonEl.setAttribute('disabled', 'true');
     buttonEl.innerText = "Processing...";
+
+    let empId = document.getElementById('emp-id-input').value.trim().toUpperCase();
+    if(!empId) {
+      buttonEl.removeAttribute('disabled');
+      buttonEl.innerText = "Next";
+      return alert("Please enter your Employee ID.");
+    }
+    
     document.getElementById('emp-error').innerText = "";
 
     try {
       let apiResponse = await executeBackendQuery({ action: 'checkEmployee', empId: empId });
       
       if(apiResponse.status === 'EXISTS') {
+        // Immediate Transition window hiding logic
         document.getElementById('emp-win-1').classList.add('hidden');
         document.getElementById('emp-win-status').classList.remove('hidden');
         updateTrackingPipeline(apiResponse.currentStatus);
@@ -403,37 +457,59 @@
   }
 
   function showUploadSection(buttonEl) {
+    // Immediate Click Protection Actions
     buttonEl.setAttribute('disabled', 'true');
-    document.getElementById('upload-section').classList.remove('hidden');
-    buttonEl.classList.add('hidden');
+    
+    // Immediate Visibility Window Swaps
+    document.getElementById('emp-win-2').classList.add('hidden');
+    document.getElementById('emp-win-payment').classList.remove('hidden');
+    
+    // Restore button functionality configuration safely 
+    buttonEl.removeAttribute('disabled');
   }
 
-  function useExistingPhoto() {
-    existingPhotoOpted = true;
-    document.getElementById('file-photo').value = '';
-    document.getElementById('existing-photo-msg').innerText = "✓ Configured to use existing photo asset.";
+  function backToProfileValidation() {
+    document.getElementById('emp-win-payment').classList.add('hidden');
+    document.getElementById('emp-win-2').classList.remove('hidden');
+  }
+
+  function activatePhotoUploadInput() {
+    existingPhotoOpted = false;
+    document.getElementById('photo-config-ui').classList.add('hidden');
+    document.getElementById('photo-file-input-container').classList.remove('hidden');
   }
 
   function togglePaymentSS(displayFlagState) {
-    document.getElementById('ss-upload-container').classList[displayFlagState ? 'remove' : 'add']('hidden');
+    if(displayFlagState) {
+      document.getElementById('ss-upload-container').classList.remove('hidden');
+    } else {
+      document.getElementById('ss-upload-container').classList.add('hidden');
+    }
   }
 
   function resetEmployeePortal(buttonEl) {
     if(buttonEl) {
       buttonEl.setAttribute('disabled', 'true');
     }
+    
+    // Core Form Fields Resets
     document.getElementById('emp-id-input').value = '';
+    document.getElementById('file-photo').value = '';
+    document.getElementById('file-ss').value = '';
+    document.getElementById('pay-yes').checked = true;
+    
+    // UI Mode Struct Resets
+    document.getElementById('photo-config-ui').classList.remove('hidden');
+    document.getElementById('photo-file-input-container').classList.add('hidden');
+    document.getElementById('ss-upload-container').classList.remove('hidden');
+    
+    // Visibility Layer Updates
     document.getElementById('emp-win-1').classList.remove('hidden');
     document.getElementById('emp-win-status').classList.add('hidden');
     document.getElementById('emp-win-2').classList.add('hidden');
-    document.getElementById('upload-section').classList.add('hidden');
+    document.getElementById('emp-win-payment').classList.add('hidden');
     
-    let proceedBtn = document.getElementById('btn-proceed');
-    proceedBtn.classList.remove('hidden');
-    proceedBtn.removeAttribute('disabled');
-    
-    document.getElementById('existing-photo-msg').innerText = '';
-    existingPhotoOpted = false;
+    existingPhotoOpted = true;
     
     if(buttonEl) {
       buttonEl.removeAttribute('disabled');
@@ -441,33 +517,41 @@
   }
 
   async function finalSubmit(buttonEl) {
+    // Instant Lock 
+    buttonEl.setAttribute('disabled', 'true');
+    buttonEl.innerText = "Submitting Application Details...";
+
     let targetEmpId = document.getElementById('emp-id-input').value.trim().toUpperCase();
     let photoAssetFile = document.getElementById('file-photo').files[0];
     let paymentVerifiedFlag = document.getElementById('pay-yes').checked;
     let paymentReceiptFile = document.getElementById('file-ss').files[0];
 
     let selectedAoSelector = document.getElementById('field-AOName');
-    let finalAoNameValue = selectedAoSelector.value.trim();
+    let finalAoNameValue = selectedAoSelector ? selectedAoSelector.value.trim() : "";
+
     if(!finalAoNameValue) {
+      buttonEl.removeAttribute('disabled');
+      buttonEl.innerText = "Submit Application";
       return alert("Please select a valid AO Name entry to continue.");
     }
 
     if(!photoAssetFile && !existingPhotoOpted) {
-      return alert("Please upload a passport size photo or choose 'Use Existing Photo'.");
+      buttonEl.removeAttribute('disabled');
+      buttonEl.innerText = "Submit Application";
+      return alert("Please upload a passport size photo or process with current settings.");
     }
+    
     if(paymentVerifiedFlag && !paymentReceiptFile) {
+      buttonEl.removeAttribute('disabled');
+      buttonEl.innerText = "Submit Application";
       return alert("Please upload your payment verification receipt screenshot.");
     }
-
-    buttonEl.setAttribute('disabled', 'true');
-    buttonEl.innerText = "Submitting Application Details...";
 
     try {
       let processingLogAdjustments = [];
       const processingKeys = ['Name', 'Designation', 'Father Name', 'DOB', 'Gender', 'UAN', 'ESIC'];
       
       processingKeys.forEach(key => {
-        // BUG FIX: Strip out space characters to find the accurate ID generated in the build step
         let elementId = `field-${key.replace(/\s+/g, '')}`; 
         let elementNode = document.getElementById(elementId);
         
@@ -505,7 +589,7 @@
         networkSubmissionPayload.photoBase64 = await convertAssetToBase64(photoAssetFile); 
         networkSubmissionPayload.photoType = photoAssetFile.type; 
       }
-      if(paymentReceiptFile) { 
+      if(paymentVerifiedFlag && paymentReceiptFile) { 
         networkSubmissionPayload.ssBase64 = await convertAssetToBase64(paymentReceiptFile); 
         networkSubmissionPayload.ssType = paymentReceiptFile.type; 
       }
@@ -522,7 +606,7 @@
       console.error(e);
       alert("An unexpected processing fault occurred: " + e.message);
     } finally {
-      buttonEl.innerText = "Finalize and Submit Application";
+      buttonEl.innerText = "Submit Application";
       buttonEl.removeAttribute('disabled');
     }
   }

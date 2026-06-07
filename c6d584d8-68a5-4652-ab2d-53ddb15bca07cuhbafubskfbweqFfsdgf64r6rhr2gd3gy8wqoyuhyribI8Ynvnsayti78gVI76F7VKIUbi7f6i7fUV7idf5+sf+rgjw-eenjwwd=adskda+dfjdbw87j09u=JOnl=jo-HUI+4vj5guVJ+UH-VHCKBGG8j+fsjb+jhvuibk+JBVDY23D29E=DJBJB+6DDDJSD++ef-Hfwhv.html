@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <title>Enterprise Attendance Portal</title>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+
+  <div class="max-w-7xl mx-auto p-4">
+    
+    <header class="flex flex-wrap justify-between items-center bg-white p-4 shadow rounded-lg mb-6 gap-3">
+      <h1 class="text-xl font-bold text-blue-600">⚡ Attendance System</h1>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="navEmpBtn" onclick="showTab('employeeSection')" class="bg-blue-500 text-white px-3 py-1.5 rounded shadow text-sm font-medium">Employee Portal</button>
+        <button id="navHrBtn" onclick="showTab('hrSection')" class="bg-gray-600 text-white px-3 py-1.5 rounded shadow text-sm font-medium">HR Management</button>
+        <button id="navAdminBtn" onclick="showTab('adminSection')" class="bg-gray-600 text-white px-3 py-1.5 rounded shadow text-sm font-medium">Admin Console</button>
+      </div>
+    </header>
+
+    <section id="employeeSection" class="tab-content">
+      <div id="loginCard" class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+        <h2 class="text-xl font-semibold mb-4 text-center text-gray-700">Employee Login</h2>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Employee ID</label>
+          <input type="text" id="empId" class="w-full border p-2 rounded focus:outline-blue-500" placeholder="Enter Employee ID">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Password</label>
+          <input type="password" id="empPass" class="w-full border p-2 rounded focus:outline-blue-500" placeholder="••••••••">
+        </div>
+        <button onclick="handleLogin(this)" id="loginBtn" class="w-full bg-blue-600 text-white p-2 rounded font-medium hover:bg-blue-700 transition">Login</button>
+      </div>
+
+      <div id="dashboardCard" class="bg-white p-6 rounded-lg shadow-md hidden max-w-md mx-auto text-center">
+        <h2 class="text-2xl font-bold mb-1 text-gray-800" id="welcomeName">Welcome!</h2>
+        <p class="text-gray-500 text-sm mb-6" id="welcomeDesig"></p>
+        
+        <div class="space-y-4">
+          <button onclick="triggerPunch('IN', this)" class="w-full bg-green-500 hover:bg-green-600 text-white text-lg py-3 rounded-lg font-bold shadow transition">👉 PUNCH IN</button>
+          <button onclick="triggerPunch('OUT', this)" class="w-full bg-red-500 hover:bg-red-600 text-white text-lg py-3 rounded-lg font-bold shadow transition">👈 PUNCH OUT</button>
+        </div>
+        <hr class="my-6">
+        <button onclick="handleLogout()" class="text-sm text-red-600 font-semibold underline">Logout</button>
+      </div>
+    </section>
+
+    <section id="hrSection" class="tab-content hidden">
+      <div id="hrLoginCard" class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+        <h2 class="text-xl font-bold text-gray-700 text-center mb-4">HR Login</h2>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Username:</label>
+          <input type="text" id="hrUserId" class="w-full border p-2 rounded" placeholder="username">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Password:</label>
+          <input type="password" id="hrPass" class="w-full border p-2 rounded" placeholder="••••••••">
+        </div>
+        <button onclick="handleHrLogin(this)" id="hrLoginBtn" class="w-full bg-gray-800 text-white p-2 rounded font-medium hover:bg-black transition">Login</button>
+      </div>
+
+      <div id="hrDashboardContent" class="hidden space-y-6">
+        <div class="flex justify-between items-center bg-gray-700 text-white p-4 rounded-lg shadow">
+          <p class="font-bold text-sm font-mono" id="activeHrLabel">Welcome, HR Personnel</p>
+          <button onclick="handleHrLogout()" class="bg-red-600 text-xs font-semibold px-3 py-1.5 rounded hover:bg-red-700">Logout</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">⏱️ Attendance Correction</h3>
+              <p class="text-xs text-gray-400 mb-2">Adjust, amend, or overwrite database log.</p>
+              <div class="space-y-2">
+                <input type="text" id="hrCorEmpId" placeholder="Employee ID" class="w-full border p-1.5 text-xs rounded">
+                <input type="date" id="hrCorDate" class="w-full border p-1.5 text-xs rounded">
+                <div class="grid grid-cols-2 gap-1">
+                  <input type="text" id="hrCorInTime" placeholder="In (09:00)" class="w-full border p-1.5 text-xs rounded">
+                  <input type="text" id="hrCorOutTime" placeholder="Out (17:30)" class="w-full border p-1.5 text-xs rounded">
+                </div>
+              </div>
+            </div>
+            <button onclick="submitCorrection('hr', this)" class="w-full bg-blue-600 text-white text-xs py-1.5 rounded font-medium hover:bg-blue-700 mt-2">Apply Changes</button>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">⚙️ Status Authorization</h3>
+              <p class="text-xs text-gray-400 mb-3">Toggle operational status configurations for employee logs access.</p>
+              <div class="space-y-2">
+                <input type="text" id="hrStatusTargetId" placeholder="Target ID" class="w-full border p-1.5 text-xs rounded">
+                <div>
+                  <label class="text-xs font-bold text-gray-500 block mb-1">Set Status</label>
+                  <select id="hrStatusStateSelection" class="w-full border p-1.5 text-xs rounded bg-white">
+                    <option value="Active">🟢 Active</option>
+                    <option value="Inactive">🔴 Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button onclick="executeHrStatusToggle(this)" class="w-full bg-purple-600 text-white text-xs py-1.5 rounded font-medium hover:bg-purple-700 mt-4">Save Status Change</button>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">📥 Export Records</h3>
+              <p class="text-xs text-gray-400 mb-2">Processes monthly calculations file backups.</p>
+              <div class="space-y-2">
+                <input type="text" id="hrDlMonth" placeholder="Month (e.g. May-2026)" class="w-full border p-1.5 text-xs rounded">
+                <input type="text" id="hrDlEmp" placeholder="Employee ID (Optional)" class="w-full border p-1.5 text-xs rounded">
+              </div>
+            </div>
+            <button onclick="downloadAttendance('hr', this)" class="w-full bg-green-600 text-white text-xs py-1.5 rounded font-medium mt-2">Download Matrix</button>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">🔑 Change Password</h3>
+              <p class="text-xs text-gray-400 mb-2">Modify your profile credentials.</p>
+              <div class="space-y-2">
+                <input type="password" id="hrOldPass" placeholder="Current Password" class="w-full border p-1.5 text-xs rounded">
+                <input type="password" id="hrNewPass" placeholder="New Password" class="w-full border p-1.5 text-xs rounded">
+              </div>
+            </div>
+            <button onclick="executePasswordUpdate('hr', this)" class="w-full bg-yellow-600 text-white text-xs py-1.5 rounded font-medium mt-2">Update</button>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-lg shadow-md mt-6">
+          <div class="flex justify-between items-center mb-3 border-b pb-1">
+            <div class="flex items-center gap-2">
+              <h3 class="font-bold text-base text-gray-700">Daily Attendance</h3>
+              <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold animate-pulse">🔄 Auto-Refreshing</span>
+            </div>
+            <button onclick="refreshLiveFeed('hrLiveFeedBody')" class="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300">🔄 Refresh Now</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead>
+                <tr class="bg-gray-100 text-gray-600 font-semibold"><th class="p-2">ID</th><th class="p-2">Name</th><th class="p-2">Punch In</th><th class="p-2">Punch Out</th></tr>
+              </thead>
+              <tbody id="hrLiveFeedBody">
+                <tr><td colspan="4" class="p-4 text-center text-gray-400">Loading daily updates...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="adminSection" class="tab-content hidden">
+      <div id="adminLoginCard" class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+        <h2 class="text-xl font-bold text-gray-700 text-center mb-4">Admin Login</h2>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Username:</label>
+          <input type="text" id="adminUserId" class="w-full border p-2 rounded focus:outline-blue-500" placeholder="username">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Password:</label>
+          <input type="password" id="adminPass" class="w-full border p-2 rounded focus:outline-blue-500" placeholder="••••••••">
+        </div>
+        <button onclick="handleAdminLogin(this)" id="adminLoginBtn" class="w-full bg-gray-800 text-white p-2 rounded font-medium hover:bg-black transition">Login</button>
+      </div>
+
+      <div id="adminDashboardContent" class="hidden space-y-6">
+        <div class="flex justify-between items-center bg-gray-800 text-white p-4 rounded-lg shadow">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-gray-400"></p>
+            <p class="font-bold text-base text-green-400" id="activeAdminLabel">Welcome, Admin</p>
+          </div>
+          <button onclick="handleAdminLogout()" class="bg-red-600 text-xs font-semibold px-3 py-1.5 rounded hover:bg-red-700">Logout</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-lg shadow-md md:col-span-1">
+            <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">👤 Staff Management</h3>
+            <p class="text-xs text-gray-400 mb-2">Maintain accounts database / configuration settings.</p>
+            <div class="space-y-2">
+              <input type="text" id="admId" placeholder="Employee ID" class="w-full border p-1.5 text-xs rounded">
+              <input type="text" id="admName" placeholder="Full Name" class="w-full border p-1.5 text-xs rounded">
+              <input type="text" id="admDesig" placeholder="Designation" class="w-full border p-1.5 text-xs rounded">
+              <input type="password" id="admPass" placeholder="Password Access" class="w-full border p-1.5 text-xs rounded">
+              <div class="grid grid-cols-2 gap-1">
+                <input type="number" step="any" id="admLat" placeholder="Latitude" class="border p-1.5 text-xs rounded">
+                <input type="number" step="any" id="admLon" placeholder="Longitude" class="border p-1.5 text-xs rounded">
+              </div>
+              <input type="number" id="admRadius" placeholder="Fence Radius (M)" class="w-full border p-1.5 text-xs rounded">
+              <select id="admStatus" class="w-full border p-1.5 text-xs rounded bg-white">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <div class="flex gap-1 pt-1">
+                <button onclick="adminUpsert(this)" class="flex-1 bg-green-600 text-white text-xs py-1.5 rounded font-medium">Save</button>
+                <button onclick="adminRemove(this)" class="bg-red-600 text-white text-xs py-1.5 rounded font-medium px-2">Purge</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg shadow-md md:col-span-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">⏱️ Attendance Correction</h3>
+              <p class="text-xs text-gray-400 mb-2">Overwriting logging elements manually.</p>
+              <div class="space-y-2">
+                <input type="text" id="admCorEmpId" placeholder="Employee ID" class="w-full border p-1.5 text-xs rounded">
+                <input type="date" id="admCorDate" class="w-full border p-1.5 text-xs rounded">
+                <input type="text" id="admCorInTime" placeholder="In (HH:MM)" class="w-full border p-1.5 text-xs rounded">
+                <input type="text" id="admCorOutTime" placeholder="Out (HH:MM)" class="w-full border p-1.5 text-xs rounded">
+              </div>
+            </div>
+            <button onclick="submitCorrection('adm', this)" class="w-full bg-blue-600 text-white text-xs py-1.5 rounded font-medium mt-2">Apply Override</button>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg shadow-md md:col-span-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">📥 Export Records</h3>
+              <p class="text-xs text-gray-400 mb-2">Process system ledger generation operations tracking panels.</p>
+              <div class="space-y-2">
+                <input type="text" id="admDlMonth" placeholder="Month (e.g. May-2026)" class="w-full border p-1.5 text-xs rounded">
+                <input type="text" id="admDlEmp" placeholder="Employee ID (Optional)" class="w-full border p-1.5 text-xs rounded">
+              </div>
+            </div>
+            <button onclick="downloadAttendance('adm', this)" class="w-full bg-green-600 text-white text-xs py-1.5 rounded font-medium mt-2">Download</button>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg shadow-md md:col-span-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-sm mb-1 border-b pb-1 text-gray-700">🔑 Change Password</h3>
+              <p class="text-xs text-gray-400 mb-2">Update your personal Credential.</p>
+              <div class="space-y-2">
+                <input type="password" id="admOldPass" placeholder="Current Password" class="w-full border p-1.5 text-xs rounded">
+                <input type="password" id="admNewPass" placeholder="New Password" class="w-full border p-1.5 text-xs rounded">
+              </div>
+            </div>
+            <button onclick="executePasswordUpdate('adm', this)" class="w-full bg-yellow-600 text-white text-xs py-1.5 rounded font-medium mt-2">Update</button>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-lg shadow-md mt-6">
+          <div class="flex justify-between items-center mb-3 border-b pb-1">
+            <div class="flex items-center gap-2">
+              <h3 class="font-bold text-base text-gray-700">Daily Attendance</h3>
+              <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold animate-pulse">🔄 Auto-Refreshing</span>
+            </div>
+            <button onclick="refreshLiveFeed('liveFeedBody')" class="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300">🔄 Refresh Now</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead>
+                <tr class="bg-gray-100 text-gray-600 font-semibold"><th class="p-2">ID</th><th class="p-2">Name</th><th class="p-2">Punch In</th><th class="p-2">Punch Out</th></tr>
+              </thead>
+              <tbody id="liveFeedBody">
+                <tr><td colspan="4" class="p-4 text-center text-gray-400">Loading daily updates...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+
+    const API_URL = "https://script.google.com/macros/s/AKfycbxJXD9hPJ8hoLOP22Dt29t-zXSYxs2XN713Z0n5g1eYa0mDXuUNmjcd6csaXwrrg7dF/exec";
+    
+    // Store active tab globally to manage background tracking loops
+    let activeTabId = "employeeSection";
+
+    async function makeApiCall(payload) {
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "text/plain;charset=utf-8" }
+        });
+        return await response.json();
+      } catch (error) {
+        console.error("Transmission error tracking:", error);
+        return { success: false };
+      }
+    }
+
+    function showTab(tabId) {
+      activeTabId = tabId;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+      
+      document.getElementById('navEmpBtn').className = "bg-gray-600 text-white px-3 py-1.5 rounded shadow text-sm font-medium";
+      document.getElementById('navHrBtn').className = "bg-gray-600 text-white px-3 py-1.5 rounded shadow text-sm font-medium";
+      document.getElementById('navAdminBtn').className = "bg-gray-600 text-white px-3 py-1.5 rounded shadow text-sm font-medium";
+
+      if(tabId === 'employeeSection') document.getElementById('navEmpBtn').className = "bg-blue-500 text-white px-3 py-1.5 rounded shadow text-sm font-medium";
+      if(tabId === 'hrSection') {
+        document.getElementById('navHrBtn').className = "bg-gray-800 text-white px-3 py-1.5 rounded shadow text-sm font-medium";
+        const hrSession = localStorage.getItem('hrSessionData');
+        if (hrSession) renderHrDashboard(JSON.parse(hrSession));
+      }
+      if(tabId === 'adminSection') {
+        document.getElementById('navAdminBtn').className = "bg-gray-800 text-white px-3 py-1.5 rounded shadow text-sm font-medium";
+        const adminSession = localStorage.getItem('adminSessionData');
+        if (adminSession) renderAdminDashboard(JSON.parse(adminSession));
+      }
+    }
+
+    window.onload = function() {
+      const empCached = localStorage.getItem('empSessionData');
+      if (empCached) renderDashboard(JSON.parse(empCached));
+
+      // Setup Core Engine Auto Refresh Loop (Fires every 15 seconds)
+      setInterval(() => {
+        if (activeTabId === 'hrSection' && !document.getElementById('hrDashboardContent').classList.contains('hidden')) {
+          refreshLiveFeed('hrLiveFeedBody');
+        } else if (activeTabId === 'adminSection' && !document.getElementById('adminDashboardContent').classList.contains('hidden')) {
+          refreshLiveFeed('liveFeedBody');
+        }
+      }, 3600000); 
+    }
+
+    /* Helper function to securely handle button visual lock out states */
+    function toggleButtonState(btnElement, disable) {
+      if (!btnElement) return;
+      btnElement.disabled = disable;
+      if (disable) {
+        btnElement.dataset.originalText = btnElement.innerText;
+        btnElement.innerText = "Processing...";
+        btnElement.style.opacity = "0.6";
+        btnElement.style.cursor = "not-allowed";
+      } else {
+        if (btnElement.dataset.originalText) {
+          btnElement.innerText = btnElement.dataset.originalText;
+        }
+        btnElement.style.opacity = "";
+        btnElement.style.cursor = "";
+      }
+    }
+
+    /* ==================== EMPLOYEE LAYER ==================== */
+    async function handleLogin(btn) {
+      const id = document.getElementById('empId').value;
+      const pass = document.getElementById('empPass').value;
+      if(!id || !pass) return alert("All credentials required.");
+
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({ action: "checkLogin", empId: id, password: pass });
+      toggleButtonState(btn, false);
+      if(res.success) {
+        localStorage.setItem('empSessionData', JSON.stringify(res));
+        renderDashboard(res);
+      } else alert(res.message);
+    }
+
+    function renderDashboard(p) {
+      document.getElementById('welcomeName').innerText = "Hello, " + p.name;
+      document.getElementById('welcomeDesig').innerText = p.id + " | " + p.designation;
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('dashboardCard').classList.remove('hidden');
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('empSessionData');
+      document.getElementById('dashboardCard').classList.add('hidden');
+      document.getElementById('loginCard').classList.remove('hidden');
+    }
+
+    function triggerPunch(type, btn) {
+      const s = JSON.parse(localStorage.getItem('empSessionData'));
+      if(!s) return alert("Session expired.");
+
+      toggleButtonState(btn, true);
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        const res = await makeApiCall({ action: "recordPunch", empId: s.id, punchType: type, clientLat: pos.coords.latitude, clientLon: pos.coords.longitude });
+        toggleButtonState(btn, false);
+        alert(res.message);
+      }, () => {
+        toggleButtonState(btn, false);
+        alert("GPS coordinates required to authorize entries.");
+      }, { enableHighAccuracy: true });
+    }
+
+    /* ==================== HR LOGIC AND ACTIONS ==================== */
+    async function handleHrLogin(btn) {
+      const userId = document.getElementById('hrUserId').value;
+      const pass = document.getElementById('hrPass').value;
+      
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({ action: "checkHrLogin", userId: userId, password: pass });
+      toggleButtonState(btn, false);
+      if(res.success) {
+        localStorage.setItem('hrSessionData', JSON.stringify(res));
+        renderHrDashboard(res);
+      } else alert(res.message);
+    }
+
+    function renderHrDashboard(hr) {
+      document.getElementById('activeHrLabel').innerText = "Welcome, " + hr.name + " (" + hr.userId + ")";
+      document.getElementById('hrLoginCard').classList.add('hidden');
+      document.getElementById('hrDashboardContent').classList.remove('hidden');
+      refreshLiveFeed('hrLiveFeedBody');
+    }
+
+    function handleHrLogout() {
+      localStorage.removeItem('hrSessionData');
+      document.getElementById('hrDashboardContent').classList.add('hidden');
+      document.getElementById('hrLoginCard').classList.remove('hidden');
+    }
+
+    async function executeHrStatusToggle(btn) {
+      const id = document.getElementById('hrStatusTargetId').value;
+      const status = document.getElementById('hrStatusStateSelection').value;
+      if(!id) return alert("Please supply a valid Target Employee ID.");
+
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({ action: "toggleEmployeeStatus", id: id, status: status });
+      toggleButtonState(btn, false);
+      alert(res.message);
+      if(res.success) {
+        document.getElementById('hrStatusTargetId').value = "";
+      }
+    }
+
+    /* ==================== ADMIN LOGIC AND ACTIONS ==================== */
+    async function handleAdminLogin(btn) {
+      const userId = document.getElementById('adminUserId').value;
+      const pass = document.getElementById('adminPass').value;
+      
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({ action: "checkAdminLogin", userId: userId, password: pass });
+      toggleButtonState(btn, false);
+      if(res.success) {
+        localStorage.setItem('adminSessionData', JSON.stringify(res));
+        renderAdminDashboard(res);
+      } else alert(res.message);
+    }
+
+    function renderAdminDashboard(admin) {
+      document.getElementById('activeAdminLabel').innerText = "Welcome, " + admin.name + " (" + admin.userId + ")";
+      document.getElementById('adminLoginCard').classList.add('hidden');
+      document.getElementById('adminDashboardContent').classList.remove('hidden');
+      refreshLiveFeed('liveFeedBody');
+    }
+
+    function handleAdminLogout() {
+      localStorage.removeItem('adminSessionData');
+      document.getElementById('adminDashboardContent').classList.add('hidden');
+      document.getElementById('adminLoginCard').classList.remove('hidden');
+    }
+
+    /* ==================== REUSABLE SHARED CHANNELS ==================== */
+    async function submitCorrection(prefix, btn) {
+      const id = document.getElementById(prefix === 'hr' ? 'hrCorEmpId' : 'admCorEmpId').value;
+      const date = document.getElementById(prefix === 'hr' ? 'hrCorDate' : 'admCorDate').value;
+      const tIn = document.getElementById(prefix === 'hr' ? 'hrCorInTime' : 'admCorInTime').value;
+      const tOut = document.getElementById(prefix === 'hr' ? 'hrCorOutTime' : 'admCorOutTime').value;
+      if(!id || !date) return alert("Employee ID and target adjustment date required.");
+
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({ action: "applyCorrection", empId: id, dateStr: date, punchInTime: tIn, punchOutTime: tOut });
+      toggleButtonState(btn, false);
+      alert(res.message);
+    }
+
+    async function downloadAttendance(prefix, btn) {
+      const month = document.getElementById(prefix === 'hr' ? 'hrDlMonth' : 'admDlMonth').value;
+      const emp = document.getElementById(prefix === 'hr' ? 'hrDlEmp' : 'admDlEmp').value;
+      
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({ action: "processAdminDownload", filterMonth: month, filterEmpId: emp });
+      toggleButtonState(btn, false);
+      if(!res.success) return alert(res.message);
+      
+      const link = document.createElement("a");
+      link.href = "data:text/csv;base64," + res.base64;
+      link.download = res.filename;
+      link.click();
+    }
+
+    async function executePasswordUpdate(prefix, btn) {
+      const session = JSON.parse(localStorage.getItem(prefix === 'hr' ? 'hrSessionData' : 'adminSessionData'));
+      const oldPass = document.getElementById(prefix === 'hr' ? 'hrOldPass' : 'admOldPass').value;
+      const newPass = document.getElementById(prefix === 'hr' ? 'hrNewPass' : 'admNewPass').value;
+      if(!oldPass || !newPass) return alert("All text inputs are required.");
+
+      toggleButtonState(btn, true);
+      const actionType = (prefix === 'hr') ? "updateHrPassword" : "updateAdminPassword";
+      const res = await makeApiCall({ action: actionType, userId: session.userId, oldPassword: oldPass, newPassword: newPass });
+      toggleButtonState(btn, false);
+      alert(res.message);
+    }
+
+    async function refreshLiveFeed(targetTableId) {
+      const res = await makeApiCall({ action: "getDailyAttendance" });
+      const body = document.getElementById(targetTableId);
+      if(!res.records || res.records.length === 0) {
+        body.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-500">No logs captured yet today.</td></tr>`;
+        return;
+      }
+      body.innerHTML = res.records.map(r => `
+        <tr class="border-b"><td class="p-2 font-mono">${r.id}</td><td class="p-2">${r.name}</td><td class="p-2 text-green-600 font-bold">${r.in || '--'}</td><td class="p-2 text-red-600 font-bold">${r.out || '--'}</td></tr>
+      `).join('');
+    }
+
+    /* Admin Staff Management Configuration Form */
+    async function adminUpsert(btn) {
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({
+        action: "upsertEmployee",
+        id: document.getElementById('admId').value,
+        name: document.getElementById('admName').value,
+        designation: document.getElementById('admDesig').value,
+        password: document.getElementById('admPass').value,
+        lat: document.getElementById('admLat').value,
+        lon: document.getElementById('admLon').value,
+        radius: document.getElementById('admRadius').value,
+        status: document.getElementById('admStatus').value
+      });
+      toggleButtonState(btn, false);
+      alert(res.message);
+    }
+
+    async function adminRemove(btn) {
+      if(!confirm("Purge selected account row line parameters permanently?")) return;
+      toggleButtonState(btn, true);
+      const res = await makeApiCall({ action: "removeEmployee", id: document.getElementById('admId').value });
+      toggleButtonState(btn, false);
+      alert(res.message);
+    }
+  </script>
+</body>
+</html>

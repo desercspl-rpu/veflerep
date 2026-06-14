@@ -407,7 +407,7 @@
     let containerElement = document.getElementById('details-container');
     containerElement.innerHTML = '';
     
-    const standardFields = ['Name', 'Designation', 'Father Name', 'DOB', 'Gender', 'UAN', 'ESIC'];
+    const standardFields = ['Name', 'Designation', 'Father / Husband Name', 'DOB', 'Gender', 'UAN', 'ESIC'];
     
     standardFields.forEach(fieldName => {
       let resolvedValue = profileDataset[fieldName] || '';
@@ -549,7 +549,7 @@
 
     try {
       let processingLogAdjustments = [];
-      const processingKeys = ['Name', 'Designation', 'Father Name', 'DOB', 'Gender', 'UAN', 'ESIC'];
+      const processingKeys = ['Name', 'Designation', 'Father / Husband Name', 'DOB', 'Gender', 'UAN', 'ESIC'];
       
       processingKeys.forEach(key => {
         let elementId = `field-${key.replace(/\s+/g, '')}`; 

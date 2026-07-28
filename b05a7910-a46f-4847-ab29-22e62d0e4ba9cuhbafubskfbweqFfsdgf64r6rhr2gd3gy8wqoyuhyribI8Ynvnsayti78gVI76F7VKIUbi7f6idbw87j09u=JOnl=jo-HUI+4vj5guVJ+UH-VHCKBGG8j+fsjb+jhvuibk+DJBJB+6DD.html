@@ -4,234 +4,311 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Form</title>
-<style>
-  /* ==========================================================================
-     Reset & Mobile Viewport Setup
-     ========================================================================== */
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
-  }
+    <style>
+        /* ==========================================================================
+           Reset & Mobile Viewport Setup
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background-color: #f4f6f9;
-    color: #1e293b;
-    line-height: 1.5;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-  }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.5;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+        }
 
-  .form-container {
-    width: 100%;
-    max-width: 480px; /* Perfect width for Android/Mobile screens */
-    margin: 0 auto;
-  }
+        .form-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
 
-  h2 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #0f172a;
-    text-align: center;
-    margin-bottom: 16px;
-    padding: 8px 0;
-  }
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 18px;
+            padding: 4px 0;
+            letter-spacing: -0.02em;
+        }
 
-  /* ==========================================================================
-     Card Windows (Android App Style)
-     ========================================================================== */
-  .form-window {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 18px 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
-  }
+        /* ==========================================================================
+           Card Windows (Android Modern App Style)
+           ========================================================================== */
+        .form-window {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 20px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+            border: 1px solid #e2e8f0;
+        }
 
-  .form-window h3 {
-    font-size: 1.1rem;
-    color: #2563eb;
-    margin-bottom: 14px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #eff6ff;
-  }
+        .form-window h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eff6ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-  .form-window h4 {
-    font-size: 0.95rem;
-    color: #475569;
-    margin: 14px 0 10px 0;
-    font-weight: 600;
-  }
+        .form-window h4 {
+            font-size: 0.9rem;
+            color: #475569;
+            margin: 16px 0 10px 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-  /* ==========================================================================
-     Form Controls & Touch Targets
-     ========================================================================== */
-  .form-group {
-    margin-bottom: 14px;
-    display: flex;
-    flex-direction: column;
-  }
+        /* ==========================================================================
+           Form Controls & Touch Targets
+           ========================================================================== */
+        .form-group {
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+        }
 
-  label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #334155;
-    margin-bottom: 6px;
-  }
+        label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+        }
 
-  input[type="text"],
-  input[type="date"],
-  input[type="number"],
-  select {
-    width: 100%;
-    height: 48px; /* Android 48px touch standard */
-    padding: 0 12px;
-    font-size: 0.95rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    background-color: #f8fafc;
-    color: #0f172a;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px;
+            font-size: 0.95rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.2s ease-in-out;
+        }
 
-  input[type="text"]:focus,
-  input[type="date"]:focus,
-  input[type="number"]:focus,
-  select:focus {
-    border-color: #2563eb;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-  }
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #2563eb;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
 
-  /* Standardizing input heights on iOS/Android */
-  input[type="date"] {
-    display: flex;
-    align-items: center;
-  }
+        input[type="date"] {
+            display: flex;
+            align-items: center;
+        }
 
-  /* ==========================================================================
-     Grid Utilities (Responsive for Mobile)
-     ========================================================================== */
-  .grid-2, .grid-3 {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
+        .grid-2, .grid-3 {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
 
-  /* ==========================================================================
-     Checkboxes & Radio Options
-     ========================================================================== */
-  .checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
+        /* ==========================================================================
+           Checkboxes
+           ========================================================================== */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
 
-  .checkbox-group label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background-color: #f1f5f9;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-  }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            transition: background 0.2s;
+        }
 
-  .checkbox-group input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #2563eb;
-  }
+        .checkbox-group label:has(input:checked) {
+            background-color: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1d4ed8;
+        }
 
-  /* ==========================================================================
-     File Input Enhancements
-     ========================================================================== */
-  input[type="file"] {
-    font-size: 0.85rem;
-    color: #475569;
-    padding: 8px;
-    background: #f8fafc;
-    border: 1px dashed #cbd5e1;
-    border-radius: 10px;
-  }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2563eb;
+        }
 
-  input[type="file"]::file-selector-button {
-    background: #e2e8f0;
-    border: none;
-    color: #1e293b;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    margin-right: 10px;
-  }
+        /* ==========================================================================
+           File Inputs
+           ========================================================================== */
+        input[type="file"] {
+            font-size: 0.82rem;
+            color: #475569;
+            padding: 8px;
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 12px;
+        }
 
-  /* ==========================================================================
-     Signature Canvas
-     ========================================================================== */
-  .signature-wrapper {
-    width: 100%;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #ffffff;
-  }
+        input[type="file"]::file-selector-button {
+            background: #e2e8f0;
+            border: none;
+            color: #1e293b;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
 
-  #sigCanvas {
-    width: 100%;
-    height: 140px;
-    display: block;
-    touch-action: none; /* Prevents scrolling while signing */
-  }
+        /* ==========================================================================
+           Signature Pad
+           ========================================================================== */
+        .signature-wrapper {
+            width: 100%;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
 
-  .clear-btn {
-    margin-top: 8px;
-    background-color: #ef4444;
-    color: #ffffff;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.8rem;
-    align-self: flex-start;
-  }
+        #sigCanvas {
+            width: 100%;
+            height: 140px;
+            display: block;
+            touch-action: none;
+        }
 
-  /* ==========================================================================
-     Submit & Loading State
-     ========================================================================== */
-  #submitBtn {
-    width: 100%;
-    height: 52px;
-    background-color: #2563eb;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
-    margin-top: 10px;
-    margin-bottom: 24px;
-  }
+        .clear-btn {
+            margin-top: 8px;
+            background-color: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
 
-  #submitBtn:active {
-    background-color: #1d4ed8;
-    transform: scale(0.99);
-  }
+        /* ==========================================================================
+           Buttons
+           ========================================================================== */
+        #submitBtn {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            margin-top: 10px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
 
-  .loading {
-    text-align: center;
-    font-weight: 600;
-    color: #2563eb;
-    margin-bottom: 24px;
-  }
-</style>
+        #submitBtn:disabled {
+            background: #94a3b8;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* ==========================================================================
+           Custom Mobile Alert Modal
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 360px;
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .modal-message {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 20px;
+            word-break: break-word;
+        }
+
+        .modal-btn {
+            width: 100%;
+            height: 44px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -239,8 +316,9 @@
     <h2>Application & Document Upload</h2>
     <form id="appForm">
         
+        <!-- Personal Details -->
         <div class="form-window">
-            <h3>Personal Details:</h3>
+            <h3>Personal Details</h3>
             
             <div class="grid-2">
                 <div class="form-group">
@@ -387,8 +465,9 @@
             </div>
         </div>
 
+        <!-- Employee Details -->
         <div class="form-window">
-            <h3>Employee Details:</h3>
+            <h3>Employee Details</h3>
             <div class="grid-2">
                 <div class="form-group">
                     <label for="designation">Designation</label>
@@ -448,8 +527,9 @@
             </div>
         </div>
 
+        <!-- Address -->
         <div class="form-window">
-            <h3>Address:</h3>
+            <h3>Address</h3>
             
             <h4>Permanent Address</h4>
             <div class="grid-3">
@@ -467,7 +547,7 @@
                 <input type="text" id="pContact" pattern="\d{10}" title="Contact number must be exactly 10 digits" required>
             </div>
 
-            <hr style="border:0; border-top: 1px dashed #ccc; margin: 20px 0;">
+            <hr style="border:0; border-top: 1px dashed #e2e8f0; margin: 16px 0;">
 
             <h4>Local Address</h4>
             <div class="grid-3">
@@ -486,8 +566,9 @@
             </div>
         </div>
 
+        <!-- Guarantor & Family -->
         <div class="form-window">
-            <h3>Guarantor & Family Details:</h3>
+            <h3>Guarantor & Family Details</h3>
             
             <h4>Guarantors</h4>
             <div class="grid-2">
@@ -546,8 +627,9 @@
             </div>
         </div>
 
+        <!-- Previous Employment -->
         <div class="form-window">
-            <h3>Previous Employment History:</h3>
+            <h3>Previous Employment History</h3>
             <h4>Company 1</h4>
             <div class="grid-3">
                 <div class="form-group"><label for="prevName1">Company Name:</label><input type="text" id="prevName1"></div>
@@ -571,9 +653,9 @@
             </div>
         </div>
 
+        <!-- Financial Details -->
         <div class="form-window">
-            <h3>Financial & Identification Details:</h3>
-            <!-- ADDED AADHAR DETAILS ABOVE PAN NUMBER -->
+            <h3>Financial & Identification Details</h3>
             <div class="grid-2">
                 <div class="form-group">
                     <label for="aadharNumber">Aadhar Number</label>
@@ -610,6 +692,7 @@
             </div>
         </div>
 
+        <!-- Signature & Attachments -->
         <div class="form-window">
             <h3>Signature & Attachments</h3>
             <div class="form-group">
@@ -624,7 +707,7 @@
             <div class="form-group"><label for="poi">Identity Document:</label><input type="file" id="poi" accept="image/*" required></div>
             <div class="form-group"><label for="poa">Address Document:</label><input type="file" id="poa" accept="image/*" required></div>
             <div class="form-group"><label for="pan">PAN Card:</label><input type="file" id="pan" accept="image/*" required></div>
-            <div class="form-group"><label for="passbook">Bank Passbook / Chequebook / Statement (with printed Name, AC Number, IFSC Code):</label><input type="file" id="passbook" accept="image/*" required></div>
+            <div class="form-group"><label for="passbook">Bank Passbook / Chequebook / Statement:</label><input type="file" id="passbook" accept="image/*" required></div>
             <div class="form-group"><label for="pv">Police Verification:</label><input type="file" id="pv" accept="image/*"></div>
             <div class="form-group"><label for="gunLc">Gun License:</label><input type="file" id="gunLc" accept="image/*"></div>
             <div class="form-group"><label for="education">Education Certificate:</label><input type="file" id="education" accept="image/*"></div>
@@ -633,11 +716,30 @@
 
         <button type="submit" id="submitBtn">Submit Application</button>
     </form>
-    <div class="loading" id="loadingMsg" style="display:none;">Submitting... Please wait.</div>
+</div>
+
+<!-- Custom Mobile Pop-Up Modal -->
+<div class="modal-overlay" id="customAlert">
+    <div class="modal-card">
+        <div class="modal-title" id="alertTitle">Notification</div>
+        <div class="modal-message" id="alertMessage">Message content goes here.</div>
+        <button type="button" class="modal-btn" onclick="closeCustomAlert()">OK</button>
+    </div>
 </div>
 
 <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwZNzEeVrnsOGc7yZ9Pgq8O-IKRWILBD2w4Zg4TJYHEbQ_W5hGF0WqzMyzu2GOKZpubsw/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsdHAd-KInSjf7Dsfb5pT6LI2BIJs6Lst12KcpdiYarf1lvumKqx_Gkzh6TMNS3tjOJw/exec";
+
+    // --- CUSTOM MOBILE ALERT MODAL ---
+    function showCustomAlert(message, title = "Notification") {
+        document.getElementById('alertTitle').innerText = title;
+        document.getElementById('alertMessage').innerText = message;
+        document.getElementById('customAlert').classList.add('active');
+    }
+
+    function closeCustomAlert() {
+        document.getElementById('customAlert').classList.remove('active');
+    }
 
     function setInitialDates() {
         const todayStr = new Date().toISOString().split('T')[0];
@@ -743,14 +845,15 @@
         e.preventDefault();
         
         if (!hasSigned) {
-            alert("Please draw your signature before submitting.");
+            showCustomAlert("Please draw your signature before submitting.", "Required");
             return;
         }
 
         const submitBtn = document.getElementById('submitBtn');
-        const loadingMsg = document.getElementById('loadingMsg');
+        
+        // Disable immediately and set submitting text directly on button
         submitBtn.disabled = true;
-        loadingMsg.style.display = 'block';
+        submitBtn.innerHTML = "Submitting... Please wait";
 
         try {
             const signatureBase64 = canvas.toDataURL("image/png");
@@ -832,7 +935,6 @@
                 prevReason2: document.getElementById('prevReason2').value,
                 prevRemark2: document.getElementById('prevRemark2').value,
 
-                // Added Aadhar details to payload
                 aadharNumber: document.getElementById('aadharNumber').value,
                 aadharName: document.getElementById('aadharName').value,
                 panNumber: document.getElementById('panNumber').value,
@@ -862,7 +964,7 @@
             const result = await response.json();
             
             if (result.status === 'success') {
-                alert('Success! Your PDF document has been generated.');
+                showCustomAlert('Success! Your PDF document has been generated.', 'Success');
                 if (result.pdfUrl) {
                     window.open(result.pdfUrl, '_blank');
                 }
@@ -874,17 +976,18 @@
                 setInitialDates();
 
             } else {
-                alert('Error processing document: ' + (result.message || 'Unknown error'));
+                showCustomAlert('Error processing document: ' + (result.message || 'Unknown error'), 'Error');
             }
 
         } catch (error) {
             console.error(error);
-            alert('An error occurred: ' + error.message);
+            showCustomAlert('An error occurred: ' + error.message, 'Error');
         } finally {
             submitBtn.disabled = false;
-            loadingMsg.style.display = 'none';
+            submitBtn.innerHTML = "Submit Application";
         }
     });
 </script>
+
 </body>
 </html>

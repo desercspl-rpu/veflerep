@@ -3,633 +3,732 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recruitment & Onboarding Application Form</title>
+    <title>Joining Form</title>
     <style>
-        * {
+        /* ==========================================================================
+           Reset & Mobile Viewport Setup
+           ========================================================================== */
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #f4f7f6;
-            color: #333;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.5;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
         }
 
-        .container {
-            max-width: 900px;
+        .form-container {
+            width: 100%;
+            max-width: 480px;
             margin: 0 auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1e293b;
             text-align: center;
-            color: #002FBE;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #002FBE;
-            padding-bottom: 10px;
+            margin-bottom: 18px;
+            padding: 4px 0;
+            letter-spacing: -0.02em;
         }
 
-        fieldset {
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
+        /* ==========================================================================
+           Card Windows (Android Modern App Style)
+           ========================================================================== */
+        .form-window {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 20px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+            border: 1px solid #e2e8f0;
         }
 
-        legend {
-            font-weight: bold;
-            color: #002FBE;
-            padding: 0 8px;
+        .form-window h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eff6ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 15px;
+        .form-window h4 {
+            font-size: 0.9rem;
+            color: #475569;
+            margin: 16px 0 10px 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
+        /* ==========================================================================
+           Form Controls & Touch Targets
+           ========================================================================== */
         .form-group {
+            margin-bottom: 14px;
             display: flex;
             flex-direction: column;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
         }
 
         label {
-            font-size: 13px;
+            font-size: 0.82rem;
             font-weight: 600;
-            margin-bottom: 5px;
-            color: #444;
+            color: #334155;
+            margin-bottom: 6px;
         }
 
-        input, select, textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px;
+            font-size: 0.95rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            color: #0f172a;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease-in-out;
         }
 
-        input:focus, select:focus, textarea:focus {
-            border-color: #002FBE;
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #2563eb;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
-        .doc-scan-group {
+        input[type="date"] {
             display: flex;
-            gap: 10px;
             align-items: center;
         }
 
-        .doc-scan-group input[type="file"] {
-            flex: 1;
+        .grid-2, .grid-3 {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
 
-        .btn-scan {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 10px 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-
-        .btn-scan:hover {
-            background-color: #218838;
-        }
-
+        /* ==========================================================================
+           Checkboxes
+           ========================================================================== */
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 5px;
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: normal;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        /* Signature Canvas Styling */
-        .signature-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             gap: 10px;
+            margin-bottom: 8px;
         }
 
-        canvas {
-            border: 2px dashed #002FBE;
-            border-radius: 6px;
-            background-color: #fafafa;
-            touch-action: none;
-            cursor: crosshair;
-        }
-
-        .btn-clear {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 4px;
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 13px;
+            border: 1px solid #e2e8f0;
+            transition: background 0.2s;
         }
 
-        .btn-submit {
-            background-color: #002FBE;
-            color: white;
+        .checkbox-group label:has(input:checked) {
+            background-color: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2563eb;
+        }
+
+        /* ==========================================================================
+           File Inputs
+           ========================================================================== */
+        input[type="file"] {
+            font-size: 0.82rem;
+            color: #475569;
+            padding: 8px;
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 12px;
+        }
+
+        input[type="file"]::file-selector-button {
+            background: #e2e8f0;
             border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
+            color: #1e293b;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        /* ==========================================================================
+           Signature Pad
+           ========================================================================== */
+        .signature-wrapper {
             width: 100%;
-            margin-top: 10px;
-            transition: background 0.3s;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #ffffff;
         }
 
-        .btn-submit:disabled {
-            background-color: #888;
+        #sigCanvas {
+            width: 100%;
+            height: 140px;
+            display: block;
+            touch-action: none;
+        }
+
+        .clear-btn {
+            margin-top: 8px;
+            background-color: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        /* ==========================================================================
+           Buttons
+           ========================================================================== */
+        #submitBtn {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            margin-top: 10px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        #submitBtn:disabled {
+            background: #94a3b8;
+            box-shadow: none;
             cursor: not-allowed;
         }
 
-        /* Modal Overlays */
+        /* ==========================================================================
+           Custom Mobile Alert Modal
+           ========================================================================== */
         .modal-overlay {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 9999;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
         }
 
         .modal-overlay.active {
-            display: flex;
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .alert-box {
-            background: #fff;
-            padding: 20px 30px;
-            border-radius: 8px;
-            max-width: 400px;
-            width: 90%;
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 360px;
+            border-radius: 20px;
+            padding: 24px 20px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .alert-box h4 {
-            color: #002FBE;
-            margin-bottom: 10px;
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
         }
 
-        .alert-box p {
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .modal-message {
+            font-size: 0.9rem;
+            color: #475569;
             margin-bottom: 20px;
-            font-size: 14px;
-            color: #555;
+            word-break: break-word;
         }
 
-        .btn-alert-close {
-            background-color: #002FBE;
-            color: white;
+        .modal-btn {
+            width: 100%;
+            height: 44px;
+            background-color: #2563eb;
+            color: #ffffff;
             border: none;
-            padding: 8px 20px;
-            border-radius: 4px;
-            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Application Form</h2>
+<div class="form-container">
+    <h2>Application & Document Upload</h2>
     <form id="appForm">
-
-        <!-- BASIC INFORMATION -->
-        <fieldset>
-            <legend>Basic Details</legend>
-            <div class="form-grid">
+        
+        <!-- Personal Details -->
+        <div class="form-window">
+            <h3>Personal Details</h3>
+            
+            <div class="grid-2">
                 <div class="form-group">
-                    <label>Date</label>
+                    <label for="currentDate">Current Date:</label>
                     <input type="date" id="currentDate" readonly>
                 </div>
                 <div class="form-group">
-                    <label>Branch Name</label>
-                    <input type="text" id="branchName" required placeholder="Enter Branch">
+                    <label for="branchName">Branch Name</label>
+                    <select id="branchName" required>
+                        <option value="" disabled selected>Select a branch</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Goa">Goa</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" required>
                 </div>
                 <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" id="firstName" required placeholder="First Name">
+                    <label for="middleName">Middle Name (Optional)</label>
+                    <input type="text" id="middleName">
                 </div>
                 <div class="form-group">
-                    <label>Middle Name</label>
-                    <input type="text" id="middleName" placeholder="Middle Name">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" required>
                 </div>
+            </div>
+
+            <div class="grid-2">
                 <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" id="lastName" required placeholder="Last Name">
-                </div>
-                <div class="form-group">
-                    <label>Relation Type</label>
-                    <select id="relationType">
-                        <option value="Father">Father</option>
-                        <option value="Husband">Husband</option>
+                    <label for="relationType">Relationship Type</label>
+                    <select id="relationType" required>
+                        <option value="" selected>Select Option</option>
+                        <option value="S">Father</option>
+                        <option value="W">Husband</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Relation Name</label>
-                    <input type="text" id="relationName" placeholder="Father/Husband Name">
+                    <label for="relationName">Father / Husband Name</label>
+                    <input type="text" id="relationName" required>
                 </div>
+            </div>
+
+            <div class="grid-3">
                 <div class="form-group">
-                    <label>Date of Birth</label>
+                    <label for="birthDate">Birth Date:</label>
                     <input type="date" id="birthDate" required>
                 </div>
                 <div class="form-group">
-                    <label>Age</label>
-                    <input type="number" id="age" readonly placeholder="Calculated Age">
+                    <label for="age">Age:</label>
+                    <input type="text" id="age" readonly placeholder="Age">
                 </div>
                 <div class="form-group">
-                    <label>Gender</label>
+                    <label for="gender">Gender</label>
                     <select id="gender" required>
-                        <option value="">Select Gender</option>
+                        <option value="" selected>Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>UAN Number</label>
-                    <input type="text" id="uan" placeholder="12-digit UAN">
-                </div>
-                <div class="form-group">
-                    <label>ESIC Number</label>
-                    <input type="text" id="esic" placeholder="17-digit ESIC">
-                </div>
-                <div class="form-group">
-                    <label>Marital Status</label>
-                    <select id="maritalStatus">
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Education</label>
-                    <select id="educationSelect">
-                        <option value="10th Pass">10th Pass</option>
-                        <option value="12th Pass">12th Pass</option>
-                        <option value="Graduate">Graduate</option>
-                        <option value="Post Graduate">Post Graduate</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Blood Group</label>
-                    <select id="bloodGroup">
-                        <option value="A+">A+</option>
-                        <option value="B+">B+</option>
-                        <option value="O+">O+</option>
-                        <option value="AB+">AB+</option>
-                        <option value="A-">A-</option>
-                        <option value="B-">B-</option>
-                        <option value="O-">O-</option>
-                        <option value="AB-">AB-</option>
                     </select>
                 </div>
             </div>
-            
-            <div class="form-group full-width" style="margin-top: 15px;">
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="uan">UAN</label>
+                    <input type="text" id="uan" pattern="\d{12}" title="UAN must be exactly 12 numeric digits" required>
+                </div>
+                <div class="form-group">
+                    <label for="esic">ESIC</label>
+                    <input type="text" id="esic" pattern="\d{8,12}" title="ESIC must be between 8 and 12 numeric digits">
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="maritalStatus">Marital Status</label>
+                    <select id="maritalStatus" required>
+                        <option value="" selected>Select Status</option>
+                        <option value="Married">Married</option>
+                        <option value="Unmarried">Unmarried</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="educationSelect">Education</label>
+                    <select id="educationSelect" required>
+                        <option value="" disabled selected>Select your education level</option>
+                        <option value="bachelors">Bachelor's Degree</option>
+                        <option value="Secondary School">(HSC) Secondary School</option>
+                        <option value="high-school">(SSC) High School</option>
+                        <option value="9th">9th</option>
+                        <option value="8th">8th</option>
+                        <option value="7th">7th</option>
+                        <option value="6th">6th</option>
+                        <option value="5th">5th</option>
+                        <option value="4th">4th</option>
+                        <option value="3rd">3rd</option>
+                        <option value="2nd">2nd</option>
+                        <option value="1st">1st</option>
+                        <option value="NA">NA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bloodGroup">Blood Group</label>
+                    <select id="bloodGroup">
+                        <option value="" selected>Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label>Languages Known</label>
                 <div class="checkbox-group">
-                    <label class="checkbox-label"><input type="checkbox" name="languages" value="Hindi"> Hindi</label>
-                    <label class="checkbox-label"><input type="checkbox" name="languages" value="English"> English</label>
-                    <label class="checkbox-label"><input type="checkbox" name="languages" value="Marathi"> Marathi</label>
+                    <label><input type="checkbox" name="languages" value="Marathi"> Marathi</label>
+                    <label><input type="checkbox" name="languages" value="Hindi"> Hindi</label>
+                    <label><input type="checkbox" name="languages" value="English"> English</label>
                 </div>
-                <input type="text" id="otherLanguage" placeholder="Other language (if any)" style="margin-top: 8px;">
+                <input type="text" id="otherLanguage" placeholder="Other Manual Typing (Optional)">
             </div>
-        </fieldset>
 
-        <!-- JOB & VERIFICATION DETAILS -->
-        <fieldset>
-            <legend>Job & Verification Details</legend>
-            <div class="form-grid">
+            <div class="grid-3">
                 <div class="form-group">
-                    <label>Designation</label>
-                    <input type="text" id="designation" placeholder="Designation">
+                    <label for="characterCert">Character / Conduct Certificate (If any)</label>
+                    <input type="text" id="characterCert">
                 </div>
                 <div class="form-group">
-                    <label>Gunman Status</label>
-                    <select id="gunman">
-                        <option value="No">No</option>
-                        <option value="Yes">Yes</option>
+                    <label for="medicalCategory">Medical Fitness Category</label>
+                    <input type="text" id="medicalCategory">
+                </div>
+                <div class="form-group">
+                    <label for="experience">Experience (in years)</label>
+                    <input type="number" id="experience" min="0" step="0.5">
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Details -->
+        <div class="form-window">
+            <h3>Employee Details</h3>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="designation">Designation</label>
+                    <select id="designation" required>
+                        <option value="">Select Designation</option>
+                        <option value="FSup">Facility Supervisor</option>
+                        <option value="FA">Facility Attendance</option>
+                        <option value="SSup">Security Supervisor</option>
+                        <option value="SG/LSG">Security Guard</option>
+                        <option value="HK Sup">Housekeeping Supervisor</option>
+                        <option value="HK">House Keeping</option>
+                        <option value="OB">Office Boy</option>
+                        <option value="PB">Pantry Boy</option>
+                        <option value="GMan">Gunman</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Gun License Validity</label>
+                    <label for="gunman">Gunman</label>
+                    <input type="text" id="gunman">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="gunValidity">Validity (Gun / License)</label>
                     <input type="date" id="gunValidity">
                 </div>
                 <div class="form-group">
-                    <label>Police Verification</label>
+                    <label for="pvStatus">Police Verification</label>
                     <select id="pvStatus">
+                        <option value="">Select Status</option>
                         <option value="Applied">Applied</option>
                         <option value="Valid">Valid</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label>PV Valid Date</label>
-                    <input type="date" id="pvDate" style="display: none;">
-                </div>
-                <div class="form-group">
-                    <label>Interviewed By</label>
-                    <input type="text" id="interviewedBy" placeholder="Interviewer Name">
-                </div>
-                <div class="form-group">
-                    <label>Date of Joining (DOJ)</label>
-                    <input type="date" id="doj">
-                </div>
-                <div class="form-group">
-                    <label>Character Certificate</label>
-                    <input type="text" id="characterCert" placeholder="Status / Remarks">
-                </div>
-                <div class="form-group">
-                    <label>Medical Category</label>
-                    <input type="text" id="medicalCategory" placeholder="e.g. Shape-1">
-                </div>
-                <div class="form-group">
-                    <label>Experience (Years)</label>
-                    <input type="number" id="experience" placeholder="Years of experience">
+                    <input type="date" id="pvDate" style="margin-top: 8px; display: none;">
                 </div>
             </div>
-        </fieldset>
-
-        <!-- PERMANENT ADDRESS -->
-        <fieldset>
-            <legend>Permanent Address</legend>
-            <div class="form-grid">
-                <div class="form-group"><label>Village/City</label><input type="text" id="pVillage"></div>
-                <div class="form-group"><label>Post Office</label><input type="text" id="pPost"></div>
-                <div class="form-group"><label>Taluka</label><input type="text" id="pTaluka"></div>
-                <div class="form-group"><label>District</label><input type="text" id="pDistrict"></div>
-                <div class="form-group"><label>State</label><input type="text" id="pState"></div>
-                <div class="form-group"><label>Pincode</label><input type="text" id="pPin"></div>
-                <div class="form-group"><label>Contact No.</label><input type="text" id="pContact"></div>
-            </div>
-        </fieldset>
-
-        <!-- LOCAL ADDRESS -->
-        <fieldset>
-            <legend>Local Address</legend>
-            <div class="form-grid">
-                <div class="form-group"><label>Village/City</label><input type="text" id="lVillage"></div>
-                <div class="form-group"><label>Post Office</label><input type="text" id="lPost"></div>
-                <div class="form-group"><label>Taluka</label><input type="text" id="lTaluka"></div>
-                <div class="form-group"><label>District</label><input type="text" id="lDistrict"></div>
-                <div class="form-group"><label>State</label><input type="text" id="lState"></div>
-                <div class="form-group"><label>Pincode</label><input type="text" id="lPin"></div>
-                <div class="form-group"><label>Contact No.</label><input type="text" id="lContact"></div>
-            </div>
-        </fieldset>
-
-        <!-- GUARANTOR DETAILS -->
-        <fieldset>
-            <legend>Guarantors</legend>
-            <div class="form-grid">
-                <div class="form-group"><label>Guarantor 1 Name</label><input type="text" id="gName1"></div>
-                <div class="form-group"><label>Guarantor 1 Occupation</label><input type="text" id="gOcc1"></div>
-                <div class="form-group"><label>Guarantor 2 Name</label><input type="text" id="gName2"></div>
-                <div class="form-group"><label>Guarantor 2 Occupation</label><input type="text" id="gOcc2"></div>
-            </div>
-        </fieldset>
-
-        <!-- FAMILY MEMBERS -->
-        <fieldset>
-            <legend>Family Details</legend>
-            <div class="form-grid">
-                <div class="form-group"><label>Member 1 Name</label><input type="text" id="fName1"></div>
-                <div class="form-group"><label>DOB / Age</label><input type="text" id="fBirth1"></div>
-                <div class="form-group"><label>Relation</label><input type="text" id="fRel1"></div>
-                <div class="form-group"><label>Member 2 Name</label><input type="text" id="fName2"></div>
-                <div class="form-group"><label>DOB / Age</label><input type="text" id="fBirth2"></div>
-                <div class="form-group"><label>Relation</label><input type="text" id="fRel2"></div>
-            </div>
-        </fieldset>
-
-        <!-- PREVIOUS EMPLOYMENT HISTORY -->
-        <fieldset>
-            <legend>Previous Employment</legend>
-            <div class="form-grid">
-                <div class="form-group"><label>Company 1 Name</label><input type="text" id="prevName1"></div>
-                <div class="form-group"><label>DOJ</label><input type="date" id="prevDoj1"></div>
-                <div class="form-group"><label>DOE</label><input type="date" id="prevDoe1"></div>
-                <div class="form-group"><label>Reason for Leaving</label><input type="text" id="prevReason1"></div>
-                <div class="form-group"><label>Remark</label><input type="text" id="prevRemark1"></div>
-            </div>
-            <div class="form-grid" style="margin-top: 10px;">
-                <div class="form-group"><label>Company 2 Name</label><input type="text" id="prevName2"></div>
-                <div class="form-group"><label>DOJ</label><input type="date" id="prevDoj2"></div>
-                <div class="form-group"><label>DOE</label><input type="date" id="prevDoe2"></div>
-                <div class="form-group"><label>Reason for Leaving</label><input type="text" id="prevReason2"></div>
-                <div class="form-group"><label>Remark</label><input type="text" id="prevRemark2"></div>
-            </div>
-        </fieldset>
-
-        <!-- IDENTITY & BANKING -->
-        <fieldset>
-            <legend>Identity & Banking Details</legend>
-            <div class="form-grid">
+            <div class="grid-2">
                 <div class="form-group">
-                    <label>Aadhaar Number</label>
-                    <input type="text" id="aadharNumber" placeholder="12-digit Aadhaar Number">
+                    <label for="interviewedBy">Interviewed By</label>
+                    <select id="interviewedBy" required>
+                        <option value="">Select Interviewer</option>
+                        <option value="Atul Thombre">Mr Atul Thombre</option>
+                        <option value="Babaram Surve">Mr Babaram Surve</option>
+                        <option value="Balaji Ghodake">Mr Balaji Ghodake</option>
+                        <option value="Govind Prasad">Mr Govind Prasad</option>
+                        <option value="Kaushik Acharya">Mr Kaushik Acharya</option>
+                        <option value="Manoj Palande">Mr Manoj Palande</option>
+                        <option value="Ramchandra Painkara">Mr Ramchandra Painkara</option>
+                        <option value="Sagar Navale">Mr Sagar Navale</option>
+                        <option value="Shivling Khabile">Mr Shivling Khabile</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>Name on Aadhaar</label>
-                    <input type="text" id="aadharName" placeholder="Full name as on Aadhaar">
-                </div>
-                <div class="form-group">
-                    <label>PAN Number</label>
-                    <input type="text" id="panNumber" placeholder="10-digit PAN">
-                </div>
-                <div class="form-group">
-                    <label>Name on PAN</label>
-                    <input type="text" id="panName" placeholder="Full name as on PAN">
-                </div>
-                <div class="form-group">
-                    <label>Bank Account Number</label>
-                    <input type="text" id="bankAccount" placeholder="Account Number">
-                </div>
-                <div class="form-group">
-                    <label>IFSC Code</label>
-                    <input type="text" id="ifscCode" placeholder="IFSC Code">
-                </div>
-                <div class="form-group">
-                    <label>Name in Bank Records</label>
-                    <input type="text" id="bankingName" placeholder="Account Holder Name">
+                    <label for="doj">Date of Joining</label>
+                    <input type="date" id="doj" required>
                 </div>
             </div>
-        </fieldset>
+        </div>
 
-        <!-- DOCUMENT ATTACHMENTS WITH DIRECT CAMERA CAPTURE -->
-        <fieldset>
-            <legend>Document Attachments (Scan via Camera or Choose File)</legend>
-            <div class="form-grid">
-                
-                <div class="form-group">
-                    <label>Passport Photo</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="photo" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('photo', 'Passport Photo')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>POI (Aadhaar Front)</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="poi" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('poi', 'POI Aadhaar Front')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>POA (Aadhaar Back)</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="poa" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('poa', 'POA Aadhaar Back')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>PAN Card</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="pan" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('pan', 'PAN Card')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Passbook / Cheque</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="passbook" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('passbook', 'Passbook / Cheque')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Police Verification</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="pv" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('pv', 'Police Verification')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Gun License</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="gunLc" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('gunLc', 'Gun License')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Education Certificate</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="education" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('education', 'Education Certificate')">📷 Scan</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Medical Certificate</label>
-                    <div class="doc-scan-group">
-                        <input type="file" id="medical" accept="image/*">
-                        <button type="button" class="btn-scan" onclick="openDocumentCamera('medical', 'Medical Certificate')">📷 Scan</button>
-                    </div>
-                </div>
-
+        <!-- Address -->
+        <div class="form-window">
+            <h3>Address</h3>
+            
+            <h4>Permanent Address</h4>
+            <div class="grid-3">
+                <div class="form-group"><label for="pVillage">Village:</label><input type="text" id="pVillage" required></div>
+                <div class="form-group"><label for="pPost">Post:</label><input type="text" id="pPost" required></div>
+                <div class="form-group"><label for="pTaluka">Taluka:</label><input type="text" id="pTaluka"></div>
             </div>
-        </fieldset>
-
-        <!-- APPLICANT SIGNATURE -->
-        <fieldset>
-            <legend>Applicant Signature</legend>
-            <div class="signature-container">
-                <canvas id="sigCanvas" width="320" height="150"></canvas>
-                <button type="button" id="clearSigBtn" class="btn-clear">Clear Signature</button>
+            <div class="grid-3">
+                <div class="form-group"><label for="pDistrict">District:</label><input type="text" id="pDistrict" required></div>
+                <div class="form-group"><label for="pState">State:</label><input type="text" id="pState" required></div>
+                <div class="form-group"><label for="pPin">Pin Code:</label><input type="text" id="pPin" required></div>
             </div>
-        </fieldset>
+            <div class="form-group">
+                <label for="pContact">Contact Number</label>
+                <input type="text" id="pContact" pattern="\d{10}" title="Contact number must be exactly 10 digits" required>
+            </div>
 
-        <!-- SUBMIT BUTTON -->
-        <button type="submit" id="submitBtn" class="btn-submit">Submit Application</button>
+            <hr style="border:0; border-top: 1px dashed #e2e8f0; margin: 16px 0;">
+
+            <h4>Local Address</h4>
+            <div class="grid-3">
+                <div class="form-group"><label for="lVillage">Village:</label><input type="text" id="lVillage"></div>
+                <div class="form-group"><label for="lPost">Post:</label><input type="text" id="lPost"></div>
+                <div class="form-group"><label for="lTaluka">Taluka:</label><input type="text" id="lTaluka"></div>
+            </div>
+            <div class="grid-3">
+                <div class="form-group"><label for="lDistrict">District:</label><input type="text" id="lDistrict"></div>
+                <div class="form-group"><label for="lState">State:</label><input type="text" id="lState"></div>
+                <div class="form-group"><label for="lPin">Pin Code:</label><input type="text" id="lPin"></div>
+            </div>
+            <div class="form-group">
+                <label for="lContact">Contact Number:</label>
+                <input type="text" id="lContact" pattern="\d{10}" title="Contact number must be exactly 10 digits">
+            </div>
+        </div>
+
+        <!-- Guarantor & Family -->
+        <div class="form-window">
+            <h3>Guarantor & Family Details</h3>
+            
+            <h4>Guarantors</h4>
+            <div class="grid-2">
+                <div class="form-group"><label for="gName1">Name:</label><input type="text" id="gName1" required></div>
+                <div class="form-group"><label for="gOcc1">Occupation:</label><input type="text" id="gOcc1" required></div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group"><label for="gName2">Name:</label><input type="text" id="gName2" required></div>
+                <div class="form-group"><label for="gOcc2">Occupation:</label><input type="text" id="gOcc2" required></div>
+            </div>
+
+            <h4>Family Details</h4>
+            <div class="grid-3">
+                <div class="form-group"><label for="fName1">First Name:</label><input type="text" id="fName1" required></div>
+                <div class="form-group"><label for="fBirth1">Birth Date:</label><input type="date" id="fBirth1" required></div>
+                <div class="form-group">
+                    <label for="fRel1">Relation:</label>
+                    <select id="fRel1" required>
+                        <option value="">Select Relation</option>
+                        <option value="Father">Father</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Spouse">Spouse (Husband/Wife)</option>
+                        <option value="Son">Son</option>
+                        <option value="Daughter">Daughter</option>
+                        <option value="Brother">Brother</option>
+                        <option value="Sister">Sister</option>
+                        <option value="Grandfather">Grandfather</option>
+                        <option value="Grandmother">Grandmother</option>
+                        <option value="Guardian">Legal Guardian</option>
+                        <option value="Uncle">Uncle</option>
+                        <option value="Aunt">Aunt</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid-3">
+                <div class="form-group"><label for="fName2">First Name:</label><input type="text" id="fName2" required></div>
+                <div class="form-group"><label for="fBirth2">Birth Date:</label><input type="date" id="fBirth2" required></div>
+                <div class="form-group">
+                    <label for="fRel2">Relation:</label>
+                    <select id="fRel2" required>
+                        <option value="">Select Relation</option>
+                        <option value="Father">Father</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Spouse">Spouse (Husband/Wife)</option>
+                        <option value="Son">Son</option>
+                        <option value="Daughter">Daughter</option>
+                        <option value="Brother">Brother</option>
+                        <option value="Sister">Sister</option>
+                        <option value="Grandfather">Grandfather</option>
+                        <option value="Grandmother">Grandmother</option>
+                        <option value="Guardian">Legal Guardian</option>
+                        <option value="Uncle">Uncle</option>
+                        <option value="Aunt">Aunt</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Previous Employment -->
+        <div class="form-window">
+            <h3>Previous Employment History</h3>
+            <h4>Company 1</h4>
+            <div class="grid-3">
+                <div class="form-group"><label for="prevName1">Company Name:</label><input type="text" id="prevName1"></div>
+                <div class="form-group"><label for="prevDoj1">Date of Joining:</label><input type="date" id="prevDoj1"></div>
+                <div class="form-group"><label for="prevDoe1">Date of Exit:</label><input type="date" id="prevDoe1"></div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group"><label for="prevReason1">Reason for Leaving:</label><input type="text" id="prevReason1"></div>
+                <div class="form-group"><label for="prevRemark1">Remarks:</label><input type="text" id="prevRemark1"></div>
+            </div>
+
+            <h4>Company 2</h4>
+            <div class="grid-3">
+                <div class="form-group"><label for="prevName2">Company Name:</label><input type="text" id="prevName2"></div>
+                <div class="form-group"><label for="prevDoj2">Date of Joining:</label><input type="date" id="prevDoj2"></div>
+                <div class="form-group"><label for="prevDoe2">Date of Exit:</label><input type="date" id="prevDoe2"></div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group"><label for="prevReason2">Reason for Leaving:</label><input type="text" id="prevReason2"></div>
+                <div class="form-group"><label for="prevRemark2">Remarks:</label><input type="text" id="prevRemark2"></div>
+            </div>
+        </div>
+
+        <!-- Financial Details -->
+        <div class="form-window">
+            <h3>Financial & Identification Details</h3>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="aadharNumber">Aadhar Number</label>
+                    <input type="text" id="aadharNumber" pattern="\d{12}" maxlength="12" title="Aadhar Number must be exactly 12 digits" required>
+                </div>
+                <div class="form-group">
+                    <label for="aadharName">Name as per Aadhar</label>
+                    <input type="text" id="aadharName" required>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="panNumber">PAN Number</label>
+                    <input type="text" id="panNumber" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10" title="PAN must be exactly 10 characters (e.g. ABCDE1234F)" oninput="this.value = this.value.toUpperCase();" required>
+                </div>
+                <div class="form-group">
+                    <label for="panName">Name as per PAN Card</label>
+                    <input type="text" id="panName" required>
+                </div>
+            </div>
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="bankAccount">Bank Account Number</label>
+                    <input type="text" id="bankAccount" pattern="\d{9,18}" title="Please enter a valid bank account number (digits only)" required>
+                </div>
+                <div class="form-group">
+                    <label for="ifscCode">IFSC Code</label>
+                    <input type="text" id="ifscCode" pattern="[A-Z]{4}0[A-Z0-9]{6}" maxlength="11" title="IFSC Code must be 11 characters (e.g. SBIN0001234)" oninput="this.value = this.value.toUpperCase();" required>
+                </div>
+                <div class="form-group">
+                    <label for="bankingName">Banking Name</label>
+                    <input type="text" id="bankingName" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signature & Attachments -->
+        <div class="form-window">
+            <h3>Signature & Attachments</h3>
+            <div class="form-group">
+                <label>Draw Your Signature Below:</label>
+                <div class="signature-wrapper">
+                    <canvas id="sigCanvas" width="640" height="150"></canvas>
+                </div>
+                <button type="button" class="clear-btn" id="clearSigBtn">Clear Signature</button>
+            </div>
+
+            <div class="form-group"><label for="photo">Passport Size Photo:</label><input type="file" id="photo" accept="image/*" required></div>
+            <div class="form-group"><label for="poi">Aadhaar Front:</label><input type="file" id="poi" accept="image/*" required></div>
+            <div class="form-group"><label for="poa">Aadhaar Back:</label><input type="file" id="poa" accept="image/*" required></div>
+            <div class="form-group"><label for="pan">PAN Card:</label><input type="file" id="pan" accept="image/*" required></div>
+            <div class="form-group"><label for="passbook">Bank Passbook / Chequebook / Statement:</label><input type="file" id="passbook" accept="image/*" required></div>
+            <div class="form-group"><label for="pv">Police Verification:</label><input type="file" id="pv" accept="image/*"></div>
+            <div class="form-group"><label for="gunLc">Gun License:</label><input type="file" id="gunLc" accept="image/*"></div>
+            <div class="form-group"><label for="education">Highest Education:</label><input type="file" id="education" accept="image/*"></div>
+            <div class="form-group"><label for="medical">Medical Certificate:</label><input type="file" id="medical" accept="image/*"></div>
+        </div>
+
+        <button type="submit" id="submitBtn">Submit Application</button>
     </form>
 </div>
 
-<!-- CAMERA & DOCUMENT ATTACHMENT MODAL -->
-<div id="cameraModal" class="modal-overlay">
-    <div style="position:relative; width:90%; max-width:500px; text-align:center;">
-        <h3 id="cameraModalTitle" style="color:#fff; margin-bottom:10px;">Capture Document</h3>
-        <div style="position:relative; width:100%; height:320px; overflow:hidden; border-radius:8px; background:#000;">
-            <video id="cameraStream" autoplay playsinline style="width:100%; height:100%; object-fit:cover;"></video>
-            <!-- Guidance Overlay Box -->
-            <div id="docGuideFrame" style="position:absolute; top:10%; left:5%; width:90%; height:80%; border:2px dashed #00FF00; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5); pointer-events:none;">
-                <span style="color:#00FF00; background:rgba(0,0,0,0.7); padding:4px 8px; font-size:12px; position:absolute; top:5px; left:5px;">Align Document Here</span>
-            </div>
-        </div>
-        <p id="cameraStatus" style="color:#FFD700; margin-top:8px; font-size:14px;">Position document inside frame...</p>
-        <div style="margin-top:15px; display:flex; justify-content:center; gap:10px;">
-            <button type="button" id="captureDocBtn" onclick="processDocumentCapture()" style="padding:10px 20px; background:#002FBE; color:#fff; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Capture & Verify</button>
-            <button type="button" onclick="closeCameraModal()" style="padding:10px 20px; background:#666; color:#fff; border:none; border-radius:5px; cursor:pointer;">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<!-- CUSTOM ALERT MODAL -->
-<div id="customAlert" class="modal-overlay">
-    <div class="alert-box">
-        <h4 id="alertTitle">Notification</h4>
-        <p id="alertMessage">Message goes here...</p>
-        <button class="btn-alert-close" onclick="closeCustomAlert()">OK</button>
+<!-- Custom Mobile Pop-Up Modal -->
+<div class="modal-overlay" id="customAlert">
+    <div class="modal-card">
+        <div class="modal-title" id="alertTitle">Notification</div>
+        <div class="modal-message" id="alertMessage">Message content goes here.</div>
+        <button type="button" class="modal-btn" onclick="closeCustomAlert()">OK</button>
     </div>
 </div>
 
 <script>
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzLte400hALhrMJphmCQAIx0eDaa-X1u6Yy3txfOV-NuaZ95iDRPTIVXFZ31DxcvoAxHg/exec";
-
-    // --- SCREEN WAKE LOCK LOGIC (Prevents device from lock/sleep) ---
-    let wakeLock = null;
-
-    async function requestWakeLock() {
-        try {
-            if ('wakeLock' in navigator) {
-                wakeLock = await navigator.wakeLock.request('screen');
-                console.log('Screen Wake Lock is active');
-            }
-        } catch (err) {
-            console.warn(`Wake Lock Error: ${err.name}, ${err.message}`);
-        }
-    }
-
-    document.addEventListener('visibilitychange', async () => {
-        if (wakeLock !== null && document.visibilityState === 'visible') {
-            await requestWakeLock();
-        }
-    });
 
     // --- CUSTOM MOBILE ALERT MODAL ---
     function showCustomAlert(message, title = "Notification") {
@@ -644,66 +743,52 @@
 
     function setInitialDates() {
         const todayStr = new Date().toISOString().split('T')[0];
-        const currentDateElem = document.getElementById('currentDate');
-        if (currentDateElem) currentDateElem.value = todayStr;
-        
+        document.getElementById('currentDate').value = todayStr;
         const dojInput = document.getElementById('doj');
-        if (dojInput) dojInput.value = todayStr;
+        if (dojInput) {
+            dojInput.value = todayStr;
+        }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        setInitialDates();
-        requestWakeLock();
-    });
+    document.addEventListener("DOMContentLoaded", setInitialDates);
 
     // --- BIRTH DATE TO AGE CALCULATION ---
-    const birthDateElem = document.getElementById('birthDate');
-    if (birthDateElem) {
-        birthDateElem.addEventListener('change', function() {
-            const birthDate = new Date(this.value);
-            if (isNaN(birthDate)) return;
-            const todayDate = new Date();
-            let age = todayDate.getFullYear() - birthDate.getFullYear();
-            const m = todayDate.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && todayDate.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            const ageElem = document.getElementById('age');
-            if (ageElem) ageElem.value = age >= 0 ? age : 0;
-        });
-    }
+    document.getElementById('birthDate').addEventListener('change', function() {
+        const birthDate = new Date(this.value);
+        if (isNaN(birthDate)) return;
+        const todayDate = new Date();
+        let age = todayDate.getFullYear() - birthDate.getFullYear();
+        const m = todayDate.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && todayDate.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        document.getElementById('age').value = age >= 0 ? age : 0;
+    });
 
     // --- POLICE VERIFICATION CONDITIONAL FIELD ---
-    const pvStatusElem = document.getElementById('pvStatus');
-    if (pvStatusElem) {
-        pvStatusElem.addEventListener('change', function() {
-            const dateInput = document.getElementById('pvDate');
-            if (!dateInput) return;
-            if (this.value === 'Valid') {
-                dateInput.style.display = 'block';
-                dateInput.required = true;
-            } else {
-                dateInput.style.display = 'none';
-                dateInput.required = false;
-                dateInput.value = '';
-            }
-        });
-    }
+    document.getElementById('pvStatus').addEventListener('change', function() {
+        const dateInput = document.getElementById('pvDate');
+        if (this.value === 'Valid') {
+            dateInput.style.display = 'block';
+            dateInput.required = true;
+        } else {
+            dateInput.style.display = 'none';
+            dateInput.required = false;
+            dateInput.value = '';
+        }
+    });
 
     // --- CANVAS SIGNATURE PAD LOGIC ---
     const canvas = document.getElementById('sigCanvas');
-    const ctx = canvas ? canvas.getContext('2d') : null;
+    const ctx = canvas.getContext('2d');
     let isDrawing = false;
     let hasSigned = false;
 
-    if (ctx) {
-        ctx.strokeStyle = "#002FBE";
-        ctx.lineWidth = 3;
-        ctx.lineCap = "round";
-    }
+    ctx.strokeStyle = "#002FBE";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
 
     function getMousePos(e) {
-        if (!canvas) return { x: 0, y: 0 };
         const rect = canvas.getBoundingClientRect();
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -714,7 +799,6 @@
     }
 
     function startDrawing(e) {
-        if (!ctx) return;
         isDrawing = true;
         hasSigned = true;
         const pos = getMousePos(e);
@@ -724,7 +808,7 @@
     }
 
     function draw(e) {
-        if (!isDrawing || !ctx) return;
+        if (!isDrawing) return;
         const pos = getMousePos(e);
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
@@ -733,130 +817,21 @@
 
     function stopDrawing() { isDrawing = false; }
 
-    if (canvas) {
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        window.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('touchstart', startDrawing, { passive: false });
-        canvas.addEventListener('touchmove', draw, { passive: false });
-        window.addEventListener('touchend', stopDrawing);
-    }
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('touchstart', startDrawing, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    window.addEventListener('touchend', stopDrawing);
 
     function clearSignature() {
-        if (ctx && canvas) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            hasSigned = false;
-        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hasSigned = false;
     }
 
-    const clearSigBtn = document.getElementById('clearSigBtn');
-    if (clearSigBtn) {
-        clearSigBtn.addEventListener('click', clearSignature);
-    }
+    document.getElementById('clearSigBtn').addEventListener('click', clearSignature);
 
-    // --- DIRECT CAMERA & DOCUMENT CAPTURE SYSTEM ---
-    let activeMediaStream = null;
-    let currentTargetInputId = null;
-    const capturedFiles = {};
-
-    async function openDocumentCamera(inputId, label) {
-        currentTargetInputId = inputId;
-        document.getElementById('cameraModalTitle').innerText = `Capture ${label}`;
-        document.getElementById('cameraStatus').innerText = "Hold steady... ensure adequate light.";
-        document.getElementById('cameraModal').classList.add('active');
-
-        try {
-            activeMediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } }
-            });
-            document.getElementById('cameraStream').srcObject = activeMediaStream;
-        } catch (err) {
-            showCustomAlert("Camera access failed or unavailable: " + err.message, "Camera Error");
-            closeCameraModal();
-        }
-    }
-
-    function closeCameraModal() {
-        if (activeMediaStream) {
-            activeMediaStream.getTracks().forEach(track => track.stop());
-            activeMediaStream = null;
-        }
-        document.getElementById('cameraModal').classList.remove('active');
-    }
-
-    // Readability and Sharpness Check
-    function checkReadability(ctx, width, height) {
-        const imgData = ctx.getImageData(0, 0, width, height);
-        const data = imgData.data;
-        let totalLaplacian = 0;
-        
-        for (let i = 0; i < data.length; i += 4) {
-            const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-            totalLaplacian += avg;
-        }
-        const mean = totalLaplacian / (data.length / 4);
-        let variance = 0;
-        for (let i = 0; i < data.length; i += 4) {
-            const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-            variance += Math.pow(avg - mean, 2);
-        }
-        const blurScore = variance / (data.length / 4);
-        return blurScore > 250; // Threshold score for readability
-    }
-
-    function processDocumentCapture() {
-        const video = document.getElementById('cameraStream');
-        const statusText = document.getElementById('cameraStatus');
-        
-        statusText.innerText = "Analyzing clarity & processing crop...";
-
-        setTimeout(() => {
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth || 1280;
-            canvas.height = video.videoHeight || 720;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            // 1. Quality Check
-            const isReadable = checkReadability(ctx, canvas.width, canvas.height);
-            if (!isReadable) {
-                statusText.innerText = "⚠️ Image blurry or dark. Hold still & ensure bright lighting!";
-                return;
-            }
-
-            // 2. Auto Crop Document Bounds
-            const cropX = canvas.width * 0.05;
-            const cropY = canvas.height * 0.10;
-            const cropWidth = canvas.width * 0.90;
-            const cropHeight = canvas.height * 0.80;
-
-            const croppedCanvas = document.createElement('canvas');
-            croppedCanvas.width = cropWidth;
-            croppedCanvas.height = cropHeight;
-            const croppedCtx = croppedCanvas.getContext('2d');
-            
-            croppedCtx.drawImage(
-                canvas, 
-                cropX, cropY, cropWidth, cropHeight, 
-                0, 0, cropWidth, cropHeight
-            );
-
-            // 3. Store processed Base64 image
-            const base64Image = croppedCanvas.toDataURL("image/jpeg", 0.85);
-            capturedFiles[currentTargetInputId] = {
-                data: base64Image,
-                type: "image/jpeg"
-            };
-
-            const targetInput = document.getElementById(currentTargetInputId);
-            if (targetInput) targetInput.dataset.attached = "true";
-
-            showCustomAlert("Document verified and attached!", "Success");
-            closeCameraModal();
-        }, 200);
-    }
-
-    // --- FILE UTILITY FOR MANUAL UPLOADS ---
+    // --- FILE UTILITY ---
     const toBase64 = file => new Promise((resolve, reject) => {
         if (!file) resolve(null);
         const reader = new FileReader();
@@ -864,11 +839,6 @@
         reader.onload = () => resolve({ data: reader.result, type: file.type });
         reader.onerror = error => reject(error);
     });
-
-    const getValue = id => {
-        const elem = document.getElementById(id);
-        return elem ? elem.value : '';
-    };
 
     // --- FORM SUBMIT LOGIC ---
     document.getElementById('appForm').addEventListener('submit', async (e) => {
@@ -880,109 +850,109 @@
         }
 
         const submitBtn = document.getElementById('submitBtn');
+        
+        // Disable immediately and set submitting text directly on button
         submitBtn.disabled = true;
         submitBtn.innerHTML = "Submitting... Please wait";
 
         try {
-            const signatureBase64 = canvas ? canvas.toDataURL("image/png") : "";
+            const signatureBase64 = canvas.toDataURL("image/png");
 
             let langArray = [];
             document.querySelectorAll('input[name="languages"]:checked').forEach(cb => {
                 langArray.push(cb.value);
             });
-            const manualLang = getValue('otherLanguage').trim();
+            const manualLang = document.getElementById('otherLanguage').value.trim();
             if (manualLang) langArray.push(manualLang);
 
-            const pvSel = getValue('pvStatus');
-            const pvFormatted = pvSel === 'Valid' ? `Valid: ${getValue('pvDate')}` : 'Applied';
+            const pvSel = document.getElementById('pvStatus').value;
+            const pvFormatted = pvSel === 'Valid' ? `Valid: ${document.getElementById('pvDate').value}` : 'Applied';
 
             const payload = {
-                currentDate: getValue('currentDate'),
-                branchName: getValue('branchName'),
-                firstName: getValue('firstName'),
-                middleName: getValue('middleName'),
-                lastName: getValue('lastName'),
-                relationType: getValue('relationType'),
-                relationName: getValue('relationName'),
-                birthDate: getValue('birthDate'),
-                age: getValue('age'),
-                gender: getValue('gender'),
-                uan: getValue('uan'),
-                esic: getValue('esic'),
-                maritalStatus: getValue('maritalStatus'),
-                educationText: getValue('educationSelect'),
-                bloodGroup: getValue('bloodGroup'),
+                currentDate: document.getElementById('currentDate').value,
+                branchName: document.getElementById('branchName').value,
+                firstName: document.getElementById('firstName').value,
+                middleName: document.getElementById('middleName').value,
+                lastName: document.getElementById('lastName').value,
+                relationType: document.getElementById('relationType').value,
+                relationName: document.getElementById('relationName').value,
+                birthDate: document.getElementById('birthDate').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                uan: document.getElementById('uan').value,
+                esic: document.getElementById('esic').value,
+                maritalStatus: document.getElementById('maritalStatus').value,
+                educationText: document.getElementById('educationSelect').value,
+                bloodGroup: document.getElementById('bloodGroup').value,
                 languages: langArray.join(', '),
-                characterCert: getValue('characterCert'),
-                medicalCategory: getValue('medicalCategory'),
-                experience: getValue('experience'),
+                characterCert: document.getElementById('characterCert').value,
+                medicalCategory: document.getElementById('medicalCategory').value,
+                experience: document.getElementById('experience').value,
                 
-                designation: getValue('designation'),
-                gunman: getValue('gunman'),
-                gunValidity: getValue('gunValidity'),
+                designation: document.getElementById('designation').value,
+                gunman: document.getElementById('gunman').value,
+                gunValidity: document.getElementById('gunValidity').value,
                 policeVerification: pvFormatted,
-                interviewedBy: getValue('interviewedBy'),
-                doj: getValue('doj'),
+                interviewedBy: document.getElementById('interviewedBy').value,
+                doj: document.getElementById('doj').value,
 
-                pVillage: getValue('pVillage'),
-                pPost: getValue('pPost'),
-                pTaluka: getValue('pTaluka'),
-                pDistrict: getValue('pDistrict'),
-                pState: getValue('pState'),
-                pPin: getValue('pPin'),
-                pContact: getValue('pContact'),
+                pVillage: document.getElementById('pVillage').value,
+                pPost: document.getElementById('pPost').value,
+                pTaluka: document.getElementById('pTaluka').value,
+                pDistrict: document.getElementById('pDistrict').value,
+                pState: document.getElementById('pState').value,
+                pPin: document.getElementById('pPin').value,
+                pContact: document.getElementById('pContact').value,
 
-                lVillage: getValue('lVillage'),
-                lPost: getValue('lPost'),
-                lTaluka: getValue('lTaluka'),
-                lDistrict: getValue('lDistrict'),
-                lState: getValue('lState'),
-                lPin: getValue('lPin'),
-                lContact: getValue('lContact'),
+                lVillage: document.getElementById('lVillage').value,
+                lPost: document.getElementById('lPost').value,
+                lTaluka: document.getElementById('lTaluka').value,
+                lDistrict: document.getElementById('lDistrict').value,
+                lState: document.getElementById('lState').value,
+                lPin: document.getElementById('lPin').value,
+                lContact: document.getElementById('lContact').value,
 
-                gName1: getValue('gName1'),
-                gOcc1: getValue('gOcc1'),
-                gName2: getValue('gName2'),
-                gOcc2: getValue('gOcc2'),
+                gName1: document.getElementById('gName1').value,
+                gOcc1: document.getElementById('gOcc1').value,
+                gName2: document.getElementById('gName2').value,
+                gOcc2: document.getElementById('gOcc2').value,
 
-                fName1: getValue('fName1'),
-                fBirth1: getValue('fBirth1'),
-                fRel1: getValue('fRel1'),
-                fName2: getValue('fName2'),
-                fBirth2: getValue('fBirth2'),
-                fRel2: getValue('fRel2'),
+                fName1: document.getElementById('fName1').value,
+                fBirth1: document.getElementById('fBirth1').value,
+                fRel1: document.getElementById('fRel1').value,
+                fName2: document.getElementById('fName2').value,
+                fBirth2: document.getElementById('fBirth2').value,
+                fRel2: document.getElementById('fRel2').value,
 
-                prevName1: getValue('prevName1'),
-                prevDoj1: getValue('prevDoj1'),
-                prevDoe1: getValue('prevDoe1'),
-                prevReason1: getValue('prevReason1'),
-                prevRemark1: getValue('prevRemark1'),
-                prevName2: getValue('prevName2'),
-                prevDoj2: getValue('prevDoj2'),
-                prevDoe2: getValue('prevDoe2'),
-                prevReason2: getValue('prevReason2'),
-                prevRemark2: getValue('prevRemark2'),
+                prevName1: document.getElementById('prevName1').value,
+                prevDoj1: document.getElementById('prevDoj1').value,
+                prevDoe1: document.getElementById('prevDoe1').value,
+                prevReason1: document.getElementById('prevReason1').value,
+                prevRemark1: document.getElementById('prevRemark1').value,
+                prevName2: document.getElementById('prevName2').value,
+                prevDoj2: document.getElementById('prevDoj2').value,
+                prevDoe2: document.getElementById('prevDoe2').value,
+                prevReason2: document.getElementById('prevReason2').value,
+                prevRemark2: document.getElementById('prevRemark2').value,
 
-                aadharNumber: getValue('aadharNumber'),
-                aadharName: getValue('aadharName'),
-                panNumber: getValue('panNumber'),
-                panName: getValue('panName'),
-                bankAccount: getValue('bankAccount'),
-                ifscCode: getValue('ifscCode'),
-                bankingName: getValue('bankingName'),
+                aadharNumber: document.getElementById('aadharNumber').value,
+                aadharName: document.getElementById('aadharName').value,
+                panNumber: document.getElementById('panNumber').value,
+                panName: document.getElementById('panName').value,
+                bankAccount: document.getElementById('bankAccount').value,
+                ifscCode: document.getElementById('ifscCode').value,
+                bankingName: document.getElementById('bankingName').value,
 
                 signature: { data: signatureBase64, type: "image/png" },
-
-                // Prioritize live captured camera files, fallback to standard file inputs
-                photo: capturedFiles['photo'] || await toBase64(document.getElementById('photo')?.files[0]),
-                poi: capturedFiles['poi'] || await toBase64(document.getElementById('poi')?.files[0]),
-                poa: capturedFiles['poa'] || await toBase64(document.getElementById('poa')?.files[0]),
-                pan: capturedFiles['pan'] || await toBase64(document.getElementById('pan')?.files[0]),
-                passbook: capturedFiles['passbook'] || await toBase64(document.getElementById('passbook')?.files[0]),
-                pv: capturedFiles['pv'] || await toBase64(document.getElementById('pv')?.files[0]),
-                gunLc: capturedFiles['gunLc'] || await toBase64(document.getElementById('gunLc')?.files[0]),
-                education: capturedFiles['education'] || await toBase64(document.getElementById('education')?.files[0]),
-                medical: capturedFiles['medical'] || await toBase64(document.getElementById('medical')?.files[0])
+                photo: await toBase64(document.getElementById('photo').files[0]),
+                poi: await toBase64(document.getElementById('poi').files[0]),
+                poa: await toBase64(document.getElementById('poa').files[0]),
+                pan: await toBase64(document.getElementById('pan').files[0]),
+                passbook: await toBase64(document.getElementById('passbook').files[0]),
+                pv: await toBase64(document.getElementById('pv').files[0]),
+                gunLc: await toBase64(document.getElementById('gunLc').files[0]),
+                education: await toBase64(document.getElementById('education').files[0]),
+                medical: await toBase64(document.getElementById('medical').files[0])
             };
 
             const response = await fetch(GAS_WEB_APP_URL, {
@@ -994,16 +964,15 @@
             const result = await response.json();
             
             if (result.status === 'success') {
-                showCustomAlert('Success! Your application has been submitted.', 'Success');
+                showCustomAlert('Success! Your PDF document has been generated.', 'Success');
                 if (result.pdfUrl) {
                     window.open(result.pdfUrl, '_blank');
                 }
                 
+                // RESET FORM AND CANVAS UPON SUCCESSFUL SUBMISSION
                 document.getElementById('appForm').reset();
                 clearSignature();
-                if (document.getElementById('pvDate')) {
-                    document.getElementById('pvDate').style.display = 'none';
-                }
+                document.getElementById('pvDate').style.display = 'none';
                 setInitialDates();
 
             } else {

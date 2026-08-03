@@ -338,15 +338,15 @@
             <div class="grid-3">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" required>
+                    <input type="text" id="firstName" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
                 <div class="form-group">
                     <label for="middleName">Middle Name (Optional)</label>
-                    <input type="text" id="middleName">
+                    <input type="text" id="middleName" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" required>
+                    <input type="text" id="lastName" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
             </div>
 
@@ -361,7 +361,7 @@
                 </div>
                 <div class="form-group">
                     <label for="relationName">Father / Husband Name</label>
-                    <input type="text" id="relationName" required>
+                    <input type="text" id="relationName" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
             </div>
 
@@ -387,7 +387,7 @@
             <div class="grid-2">
                 <div class="form-group">
                     <label for="uan">UAN</label>
-                    <input type="text" id="uan" pattern="\d{12}" title="UAN must be exactly 12 numeric digits" required>
+                    <input type="number" id="uan" pattern="\d{12}" title="UAN must be exactly 12 numeric digits" maxlength="12" required>
                 </div>
                 <div class="form-group">
                     <label for="esic">ESIC</label>
@@ -409,7 +409,7 @@
                     <select id="educationSelect" required>
                         <option value="" disabled selected>Select your education level</option>
                         <option value="bachelors">Bachelor's Degree</option>
-                        <option value="Secondary School">(HSC) Secondary School</option>
+                        <option value="Higher Secondary School">(HSC) Secondary School</option>
                         <option value="high-school">(SSC) High School</option>
                         <option value="9th">9th</option>
                         <option value="8th">8th</option>
@@ -446,21 +446,21 @@
                     <label><input type="checkbox" name="languages" value="Hindi"> Hindi</label>
                     <label><input type="checkbox" name="languages" value="English"> English</label>
                 </div>
-                <input type="text" id="otherLanguage" placeholder="Other Manual Typing (Optional)">
+                <input type="text" id="otherLanguage" placeholder="Other Manual Typing (Optional)" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();">
             </div>
 
             <div class="grid-3">
                 <div class="form-group">
                     <label for="characterCert">Character / Conduct Certificate (If any)</label>
-                    <input type="text" id="characterCert">
+                    <input type="text" id="characterCert" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();">
                 </div>
                 <div class="form-group">
                     <label for="medicalCategory">Medical Fitness Category</label>
-                    <input type="text" id="medicalCategory">
+                    <input type="text" id="medicalCategory" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();">
                 </div>
                 <div class="form-group">
                     <label for="experience">Experience (in years)</label>
-                    <input type="number" id="experience" min="0" step="0.5">
+                    <input type="number" id="experience" min="0" step="0.5" max="40">
                 </div>
             </div>
         </div>
@@ -533,36 +533,36 @@
             
             <h4>Permanent Address</h4>
             <div class="grid-3">
-                <div class="form-group"><label for="pVillage">Village:</label><input type="text" id="pVillage" required></div>
-                <div class="form-group"><label for="pPost">Post:</label><input type="text" id="pPost" required></div>
-                <div class="form-group"><label for="pTaluka">Taluka:</label><input type="text" id="pTaluka"></div>
+                <div class="form-group"><label for="pVillage">Village:</label><input type="text" id="pVillage" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="pPost">Post:</label><input type="text" id="pPost" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="pTaluka">Taluka:</label><input type="text" id="pTaluka" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
             </div>
             <div class="grid-3">
-                <div class="form-group"><label for="pDistrict">District:</label><input type="text" id="pDistrict" required></div>
-                <div class="form-group"><label for="pState">State:</label><input type="text" id="pState" required></div>
-                <div class="form-group"><label for="pPin">Pin Code:</label><input type="text" id="pPin" required></div>
+                <div class="form-group"><label for="pDistrict">District:</label><input type="text" id="pDistrict" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="pState">State:</label><input type="text" id="pState" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="pPin">Pin Code:</label><input type="number" id="pPin" pattern="[0-9]{6}" maxlength="6" required></div>
             </div>
             <div class="form-group">
                 <label for="pContact">Contact Number</label>
-                <input type="text" id="pContact" pattern="\d{10}" title="Contact number must be exactly 10 digits" required>
+                <input type="number" id="pContact" pattern="\d{10}" title="Contact number must be exactly 10 digits" maxlength="10" required>
             </div>
 
             <hr style="border:0; border-top: 1px dashed #e2e8f0; margin: 16px 0;">
 
             <h4>Local Address</h4>
             <div class="grid-3">
-                <div class="form-group"><label for="lVillage">Village:</label><input type="text" id="lVillage"></div>
-                <div class="form-group"><label for="lPost">Post:</label><input type="text" id="lPost"></div>
-                <div class="form-group"><label for="lTaluka">Taluka:</label><input type="text" id="lTaluka"></div>
+                <div class="form-group"><label for="lVillage">Village:</label><input type="text" id="lVillage" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
+                <div class="form-group"><label for="lPost">Post:</label><input type="text" id="lPost" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
+                <div class="form-group"><label for="lTaluka">Taluka:</label><input type="text" id="lTaluka" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
             </div>
             <div class="grid-3">
-                <div class="form-group"><label for="lDistrict">District:</label><input type="text" id="lDistrict"></div>
-                <div class="form-group"><label for="lState">State:</label><input type="text" id="lState"></div>
-                <div class="form-group"><label for="lPin">Pin Code:</label><input type="text" id="lPin"></div>
+                <div class="form-group"><label for="lDistrict">District:</label><input type="text" id="lDistrict" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
+                <div class="form-group"><label for="lState">State:</label><input type="text" id="lState" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
+                <div class="form-group"><label for="lPin">Pin Code:</label><input type="number" id="lPin" pattern="[0-9]{6}" maxlength="6"></div>
             </div>
             <div class="form-group">
                 <label for="lContact">Contact Number:</label>
-                <input type="text" id="lContact" pattern="\d{10}" title="Contact number must be exactly 10 digits">
+                <input type="number" id="lContact" pattern="\d{10}" title="Contact number must be exactly 10 digits">
             </div>
         </div>
 
@@ -572,18 +572,18 @@
             
             <h4>Guarantors</h4>
             <div class="grid-2">
-                <div class="form-group"><label for="gName1">Name:</label><input type="text" id="gName1" required></div>
-                <div class="form-group"><label for="gOcc1">Occupation:</label><input type="text" id="gOcc1" required></div>
+                <div class="form-group"><label for="gName1">Name:</label><input type="text" id="gName1" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="gOcc1">Occupation:</label><input type="text" id="gOcc1" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label for="gName2">Name:</label><input type="text" id="gName2" required></div>
-                <div class="form-group"><label for="gOcc2">Occupation:</label><input type="text" id="gOcc2" required></div>
+                <div class="form-group"><label for="gName2">Name:</label><input type="text" id="gName2" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="gOcc2">Occupation:</label><input type="text" id="gOcc2" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
             </div>
 
             <h4>Family Details</h4>
             <div class="grid-3">
-                <div class="form-group"><label for="fName1">First Name:</label><input type="text" id="fName1" required></div>
-                <div class="form-group"><label for="fBirth1">Birth Date:</label><input type="date" id="fBirth1" required></div>
+                <div class="form-group"><label for="fName1">First Name:</label><input type="text" id="fName1" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="fBirth1">Birth Date:</label><input type="date" id="fBirth1" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
                 <div class="form-group">
                     <label for="fRel1">Relation:</label>
                     <select id="fRel1" required>
@@ -604,8 +604,8 @@
                 </div>
             </div>
             <div class="grid-3">
-                <div class="form-group"><label for="fName2">First Name:</label><input type="text" id="fName2" required></div>
-                <div class="form-group"><label for="fBirth2">Birth Date:</label><input type="date" id="fBirth2" required></div>
+                <div class="form-group"><label for="fName2">First Name:</label><input type="text" id="fName2" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
+                <div class="form-group"><label for="fBirth2">Birth Date:</label><input type="date" id="fBirth2" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required></div>
                 <div class="form-group">
                     <label for="fRel2">Relation:</label>
                     <select id="fRel2" required>
@@ -632,24 +632,24 @@
             <h3>Previous Employment History</h3>
             <h4>Company 1</h4>
             <div class="grid-3">
-                <div class="form-group"><label for="prevName1">Company Name:</label><input type="text" id="prevName1"></div>
+                <div class="form-group"><label for="prevName1">Company Name:</label><input type="text" id="prevName1" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
                 <div class="form-group"><label for="prevDoj1">Date of Joining:</label><input type="date" id="prevDoj1"></div>
                 <div class="form-group"><label for="prevDoe1">Date of Exit:</label><input type="date" id="prevDoe1"></div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label for="prevReason1">Reason for Leaving:</label><input type="text" id="prevReason1"></div>
-                <div class="form-group"><label for="prevRemark1">Remarks:</label><input type="text" id="prevRemark1"></div>
+                <div class="form-group"><label for="prevReason1">Reason for Leaving:</label><input type="text" id="prevReason1" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
+                <div class="form-group"><label for="prevRemark1">Remarks:</label><input type="text" id="prevRemark1" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
             </div>
 
             <h4>Company 2</h4>
             <div class="grid-3">
-                <div class="form-group"><label for="prevName2">Company Name:</label><input type="text" id="prevName2"></div>
+                <div class="form-group"><label for="prevName2">Company Name:</label><input type="text" id="prevName2" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
                 <div class="form-group"><label for="prevDoj2">Date of Joining:</label><input type="date" id="prevDoj2"></div>
                 <div class="form-group"><label for="prevDoe2">Date of Exit:</label><input type="date" id="prevDoe2"></div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label for="prevReason2">Reason for Leaving:</label><input type="text" id="prevReason2"></div>
-                <div class="form-group"><label for="prevRemark2">Remarks:</label><input type="text" id="prevRemark2"></div>
+                <div class="form-group"><label for="prevReason2">Reason for Leaving:</label><input type="text" id="prevReason2" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
+                <div class="form-group"><label for="prevRemark2">Remarks:</label><input type="text" id="prevRemark2" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();"></div>
             </div>
         </div>
 
@@ -663,7 +663,7 @@
                 </div>
                 <div class="form-group">
                     <label for="aadharName">Name as per Aadhar</label>
-                    <input type="text" id="aadharName" required>
+                    <input type="text" id="aadharName" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
             </div>
             <div class="grid-2">
@@ -673,7 +673,7 @@
                 </div>
                 <div class="form-group">
                     <label for="panName">Name as per PAN Card</label>
-                    <input type="text" id="panName" required>
+                    <input type="text" id="panName" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
             </div>
             <div class="grid-3">
@@ -687,7 +687,7 @@
                 </div>
                 <div class="form-group">
                     <label for="bankingName">Banking Name</label>
-                    <input type="text" id="bankingName" required>
+                    <input type="text" id="bankingName" pattern="[A-Z]" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
             </div>
         </div>
@@ -713,7 +713,7 @@
             <div class="form-group"><label for="education">Highest Education:</label><input type="file" id="education" accept="image/*"></div>
             <div class="form-group"><label for="medical">Medical Certificate:</label><input type="file" id="medical" accept="image/*"></div>
         </div>
-
+        
         <button type="submit" id="submitBtn">Submit Application</button>
     </form>
 </div>

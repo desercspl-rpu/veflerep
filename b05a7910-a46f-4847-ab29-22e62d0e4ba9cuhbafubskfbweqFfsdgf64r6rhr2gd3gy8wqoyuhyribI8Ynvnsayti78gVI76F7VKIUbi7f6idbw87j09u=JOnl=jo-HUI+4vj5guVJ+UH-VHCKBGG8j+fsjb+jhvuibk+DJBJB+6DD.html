@@ -999,6 +999,34 @@
         }
     });
 </script>
+    <script>
+function syncAddresses() {
+    const isChecked = document.getElementById("sameAddressToggle").checked;
+    const localWindow = document.getElementById("localAddressWindow");
+
+    const fields = [
+        ['pVillage', 'lVillage'],
+        ['pPost', 'lPost'],
+        ['pTaluka', 'lTaluka'],
+        ['pDistrict', 'lDistrict'],
+        ['pState', 'lState'],
+        ['pPin', 'lPin'],
+        ['pContact', 'lContact']
+    ];
+
+    if (isChecked) {
+        fields.forEach(([permId, localId]) => {
+            document.getElementById(localId).value = document.getElementById(permId).value;
+        });
+        localWindow.style.display = "none";
+    } else {
+        localWindow.style.display = "block";
+        fields.forEach(([permId, localId]) => {
+            document.getElementById(localId).value = "";
+        });
+    }
+}
+</script>
 
 </body>
 </html>

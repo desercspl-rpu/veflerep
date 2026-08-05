@@ -100,7 +100,7 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyVHaMBS7pPeQ3_6im0Zwgww-J1tIuB6JWoN1suFN-f4aS6jdIw9tNOOSVz9-5U6WJy/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzVlrOrWZRmw79bsnhGVEDaPMgPaos9_NK4GfckaCs61s8TfIHgszMgEt4I6_SBPNHY/exec";
 
     let employeeData = null;
 
@@ -108,41 +108,11 @@
       if (!dateInput) return '';
       const parts = String(dateInput).split('-');
       if (parts.length === 3 && parts[0].length === 4) {
-        // Handle YYYY-MM-DD input from HTML datepicker
         const d = new Date(parts[0], parts[1] - 1, parts[2]);
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
       }
       return dateInput;
-    }
-
-    function getPenalMonth(dolStr) {
-      if (!dolStr) return 'N/A';
-      let d;
-      const parts = String(dolStr).split('-');
-      if (parts.length === 3 && parts[1].length === 3) {
-        const months = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
-        d = new Date(parseInt(parts[2], 10), months[parts[1]], parseInt(parts[0], 10));
-      } else {
-        d = new Date(dolStr);
-      }
-
-      if (isNaN(d.getTime())) return 'N/A';
-
-      const day = d.getDate();
-      let month = d.getMonth();
-      let year = d.getFullYear();
-
-      if (day > 20) {
-        month++;
-        if (month > 11) {
-          month = 0;
-          year++;
-        }
-      }
-
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      return `${monthNames[month]}-${year}`;
     }
 
     function showCustomAlert(message, title = "Notification") {
@@ -192,7 +162,7 @@
           document.getElementById('dispName').innerText = employeeData.name;
           document.getElementById('dispDoj').innerText = employeeData.doj;
           document.getElementById('dispDol').innerText = employeeData.dol;
-          document.getElementById('dispPenalMonth').innerText = getPenalMonth(employeeData.dol);
+          document.getElementById('dispPenalMonth').innerText = employeeData.penalMonth; // Directly read from sheet
           document.getElementById('dispDesig').innerText = employeeData.desig;
           document.getElementById('dispVer').innerText = employeeData.verifier;
 
@@ -289,7 +259,8 @@
           doj: employeeData.doj,
           dol: employeeData.dol,
           desig: employeeData.desig,
-          ver: employeeData.verifier,
+          verifier: employeeData.verifier,
+          penalMonth: employeeData.penalMonth, // Pass penal month from sheet
           dor: formatDateDisplay(document.getElementById('dor').value),
           loc: document.getElementById('locSelect').value.trim(),
           poiAttached: Boolean(poiFile),

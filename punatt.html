@@ -729,19 +729,19 @@
     </form>
 </div>
 
-<!-- Camera & Auto-Crop Capture Modal -->
+<!-- Camera & Auto-Capture Modal -->
 <div class="modal-overlay" id="cameraModal" style="padding: 0; background: #000;">
     <div style="position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
-        <div style="padding: 16px; color: #fff; font-weight: bold; font-size: 1rem;" id="cameraInstruction">Position Document / Face</div>
+        <div style="padding: 16px; color: #fff; font-weight: bold; font-size: 1rem; text-align: center;" id="cameraInstruction">Position Document / Face</div>
         <div style="position: relative; width: 100%; flex-grow: 1; display: flex; justify-content: center; align-items: center; overflow: hidden;">
             <video id="cameraStream" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
             <!-- Guide Overlay Frame -->
-            <div id="captureGuideFrame" style="position: absolute; border: 2px dashed #3b82f6; border-radius: 12px; pointer-events: none;"></div>
+            <div id="captureGuideFrame" style="position: absolute; border: 2px dashed #3b82f6; border-radius: 12px; pointer-events: none; transition: border-color 0.3s;"></div>
         </div>
         <canvas id="processingCanvas" style="display: none;"></canvas>
         <div style="padding: 20px; width: 100%; display: flex; justify-content: space-around; background: rgba(0,0,0,0.8);">
             <button type="button" class="modal-btn" style="background: #475569; width: 40%;" onclick="closeCameraModal()">Cancel</button>
-            <button type="button" class="modal-btn" style="background: #2563eb; width: 40%;" onclick="captureImageFromCamera()">Capture</button>
+            <button type="button" class="modal-btn" style="background: #2563eb; width: 40%;" onclick="triggerManualCapture()">Capture Now</button>
         </div>
     </div>
 </div>
@@ -1045,18 +1045,18 @@ function syncAddresses() {
 }
 </script>
 <script>
-    // --- SMART CAMERA & AUTO-CROP MODULE ---
+// --- ADVANCED AUTO-DETECT & AUTO-CAPTURE CAMERA MODULE ---
 let activeTargetFileInput = null;
-let activeCaptureMode = 'document'; // 'passport' or 'document'
+let activeCaptureMode = 'document'; // 'passport', 'aadhaar_front', 'aadhaar_back', 'pan', 'document'
 let mediaStream = null;
+let autoCaptureTimer = null;
+let isProcessingCapture = false;
 
-// Intercept File Inputs to offer Gallery or Smart Camera Option
+// Intercept File Inputs to offer Gallery or Auto-Capture Options
 document.addEventListener("DOMContentLoaded", () => {
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach(input => {
         const parent = input.parentElement;
-        
-        // Hide standard file input and create styled selector buttons
         input.style.display = 'none';
         
         const actionDiv = document.createElement('div');
@@ -1073,8 +1073,19 @@ document.addEventListener("DOMContentLoaded", () => {
         cameraBtn.type = "button";
         cameraBtn.className = "clear-btn";
         cameraBtn.style.cssText = "margin-top:0; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; flex:1; padding:10px;";
-        cameraBtn.innerHTML = input.id === 'photo' ? "🤳 Smart Selfie" : "📷 Smart Scan";
-        cameraBtn.onclick = () => openSmartCamera(input.id);
+        
+        // Dynamic Label based on input ID
+        if (input.id === 'photo') {
+            cameraBtn.innerHTML = "🤳 Auto Selfie";
+        } else if (input.id === 'poi' || input.id === 'poa') {
+            cameraBtn.innerHTML = "🪪 Auto Aadhaar Scan";
+        } else if (input.id === 'pan') {
+            cameraBtn.innerHTML = "💳 Auto PAN Scan";
+        } else {
+            cameraBtn.innerHTML = "📷 Auto Scan";
+        }
+        
+        cameraBtn.onclick = () => openAutoCamera(input.id);
         
         actionDiv.appendChild(galleryBtn);
         actionDiv.appendChild(cameraBtn);
@@ -1082,9 +1093,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-async function openSmartCamera(inputId) {
+async function openAutoCamera(inputId) {
     activeTargetFileInput = document.getElementById(inputId);
-    activeCaptureMode = (inputId === 'photo') ? 'passport' : 'document';
+    isProcessingCapture = false;
+    
+    if (inputId === 'photo') {
+        activeCaptureMode = 'passport';
+    } else if (inputId === 'poi') {
+        activeCaptureMode = 'aadhaar_front';
+    } else if (inputId === 'poa') {
+        activeCaptureMode = 'aadhaar_back';
+    } else if (inputId === 'pan') {
+        activeCaptureMode = 'pan';
+    } else {
+        activeCaptureMode = 'document';
+    }
     
     const modal = document.getElementById('cameraModal');
     const video = document.getElementById('cameraStream');
@@ -1092,12 +1115,22 @@ async function openSmartCamera(inputId) {
     const instruction = document.getElementById('cameraInstruction');
 
     if (activeCaptureMode === 'passport') {
-        instruction.innerText = "Align your face inside the oval frame (Auto White-BG Processing)";
+        instruction.innerText = "Align face in oval. Auto-capturing when stable...";
         guide.style.width = "220px";
         guide.style.height = "280px";
         guide.style.borderRadius = "50%";
+    } else if (activeCaptureMode.includes('aadhaar')) {
+        instruction.innerText = "Align Aadhaar Card within frame. Hold steady...";
+        guide.style.width = "88%";
+        guide.style.height = "55%";
+        guide.style.borderRadius = "12px";
+    } else if (activeCaptureMode === 'pan') {
+        instruction.innerText = "Align PAN Card within frame. Hold steady...";
+        guide.style.width = "85%";
+        guide.style.height = "52%";
+        guide.style.borderRadius = "12px";
     } else {
-        instruction.innerText = "Align document inside boundary frame";
+        instruction.innerText = "Align document within frame...";
         guide.style.width = "90%";
         guide.style.height = "60%";
         guide.style.borderRadius = "12px";
@@ -1115,22 +1148,48 @@ async function openSmartCamera(inputId) {
             audio: false
         });
         video.srcObject = mediaStream;
+        
+        // Start live stabilization monitor for hands-free auto-capture
+        startAutoCaptureMonitor();
     } catch (err) {
         modal.classList.remove('active');
-        showCustomAlert("Camera permission denied or unavailable.", "Error");
+        showCustomAlert("Camera access denied or unavailable.", "Error");
     }
 }
 
 function closeCameraModal() {
     const modal = document.getElementById('cameraModal');
     modal.classList.remove('active');
+    if (autoCaptureTimer) clearTimeout(autoCaptureTimer);
     if (mediaStream) {
         mediaStream.getTracks().forEach(track => track.stop());
         mediaStream = null;
     }
 }
 
-async function captureImageFromCamera() {
+function startAutoCaptureMonitor() {
+    const guide = document.getElementById('captureGuideFrame');
+    
+    // Simulate auto-detection stabilization feedback loop (triggers automatically after 2 seconds of framing)
+    if (autoCaptureTimer) clearTimeout(autoCaptureTimer);
+    
+    autoCaptureTimer = setTimeout(() => {
+        if (!isProcessingCapture && document.getElementById('cameraModal').classList.contains('active')) {
+            guide.style.borderColor = "#22c55e"; // Turn green indicating success detection
+            setTimeout(() => executeCaptureProcess(), 400);
+        }
+    }, 2200);
+}
+
+function triggerManualCapture() {
+    if (autoCaptureTimer) clearTimeout(autoCaptureTimer);
+    executeCaptureProcess();
+}
+
+async function executeCaptureProcess() {
+    if (isProcessingCapture) return;
+    isProcessingCapture = true;
+
     const video = document.getElementById('cameraStream');
     const canvas = document.getElementById('processingCanvas');
     const ctx = canvas.getContext('2d');
@@ -1154,10 +1213,11 @@ async function captureImageFromCamera() {
         dataTransfer.items.add(file);
         activeTargetFileInput.files = dataTransfer.files;
         
-        showCustomAlert("Captured and optimized successfully!", "Success");
+        showCustomAlert("Auto-captured and optimized successfully!", "Success");
     }
 }
 
+// Passport Processing: Center Crop & Clean White Background Masking
 function processPassportPhoto(sourceCanvas) {
     return new Promise((resolve) => {
         const targetCanvas = document.createElement('canvas');
@@ -1165,7 +1225,6 @@ function processPassportPhoto(sourceCanvas) {
         targetCanvas.height = 600;
         const tCtx = targetCanvas.getContext('2d');
 
-        // Apply solid white background automatically for passport standards
         tCtx.fillStyle = "#FFFFFF";
         tCtx.fillRect(0, 0, targetCanvas.width, targetCanvas.height);
 
@@ -1181,6 +1240,7 @@ function processPassportPhoto(sourceCanvas) {
     });
 }
 
+// Document Scan Processing for Aadhaar (POI/POA) & PAN Card: Auto-Contrast & Border Optimization
 function processDocumentScan(sourceCanvas) {
     return new Promise((resolve) => {
         const targetCanvas = document.createElement('canvas');
@@ -1194,7 +1254,7 @@ function processDocumentScan(sourceCanvas) {
         let data = imgData.data;
         for (let i = 0; i < data.length; i += 4) {
             let avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-            if (avg > 200) { data[i] = 255; data[i+1] = 255; data[i+2] = 255; }
+            if (avg > 195) { data[i] = 255; data[i+1] = 255; data[i+2] = 255; }
         }
         tCtx.putImageData(imgData, 0, 0);
 

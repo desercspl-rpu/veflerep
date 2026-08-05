@@ -1027,5 +1027,39 @@ function syncAddresses() {
     }
 }
 </script>
+    <script>
+  let wakeLock = null;
+
+// Function to request the wake lock
+async function requestWakeLock() {
+  // Check if the browser supports the Wake Lock API
+  if ('wakeLock' in navigator) {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      console.log('Wake Lock is active');
+
+      // Release target if the lock is released externally (e.g., page minimized)
+      wakeLock.addEventListener('release', () => {
+        console.log('Wake Lock was released');
+        wakeLock = null;
+      });
+    } catch (err) {
+      console.error(`${err.name}, ${err.message}`);
+    }
+  }
+}
+
+// Request the lock when the page loads
+window.addEventListener('load', () => {
+  requestWakeLock();
+});
+
+// Re-acquire the wake lock if the user switches back to the tab
+document.addEventListener('visibilitychange', async () => {
+  if (wakeLock !== null && document.visibilityState === 'visible') {
+    await requestWakeLock();
+  }
+});
+</script>
 </body>
 </html>

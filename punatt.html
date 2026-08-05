@@ -15,7 +15,6 @@
     canvas { border: 2px dashed #002FBE; background: #fff; touch-action: none; border-radius: 4px; margin-top: 5px; }
     .hidden { display: none; }
     
-    /* Modal Styling */
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
     .modal.active { display: flex; align-items: center; justify-content: center; }
     .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; }
@@ -39,10 +38,12 @@
   <div id="step2" class="card hidden">
     <h3>Employee Information</h3>
     <div style="background: #eef2ff; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+      <p><strong>Today's Date (Auto):</strong> <span id="dispCurrentDate"></span></p>
       <p><strong>Employee ID:</strong> <span id="dispEmpId"></span></p>
       <p><strong>Name:</strong> <span id="dispName"></span></p>
       <p><strong>DOJ:</strong> <span id="dispDoj"></span></p>
       <p><strong>DOL:</strong> <span id="dispDol"></span></p>
+      <p><strong>Penal Cycle Month:</strong> <span id="dispPenalMonth"></span></p>
       <p><strong>Designation:</strong> <span id="dispDesig"></span></p>
       <p><strong>Assigned Verifier:</strong> <span id="dispVer"></span></p>
     </div>
@@ -55,7 +56,7 @@
 
       <div class="form-group">
         <label for="locSelect">Location (Loc) *</label>
-        <input type="text" id="locSelect" list="locationOptions" placeholder="Type or select location" required>
+        <input type="text" id="locSelect" list="locationOptions" placeholder="Select or type custom location" required>
         <datalist id="locationOptions">
           <option value="Mumbai Headquarters">
           <option value="Delhi Regional Office">
@@ -65,7 +66,6 @@
         </datalist>
       </div>
 
-      <!-- CAMERA ATTACHMENTS (Rear Camera Capture) -->
       <div class="form-group">
         <label for="poi">Attachment: ID_POI (Rear Camera Scan)</label>
         <input type="file" id="poi" accept="image/*" capture="environment">
@@ -81,7 +81,6 @@
         <input type="file" id="handwrittenApp" accept="image/*" capture="environment" required>
       </div>
 
-      <!-- CANVAS SIGNATURE -->
       <div class="form-group">
         <label>Employee Signature *</label><br>
         <canvas id="sigCanvas" width="320" height="150"></canvas><br>
@@ -92,7 +91,6 @@
     </form>
   </div>
 
-  <!-- CUSTOM ALERT MODAL -->
   <div id="customAlert" class="modal">
     <div class="modal-content">
       <h3 id="alertTitle">Notification</h3>
@@ -102,11 +100,44 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwMy3hIIuwHaFaCBIrwDFwFoLAtqCb-3k5Ht77mmw9wmagGbUJiKQ_uPRZ5pZCqpkK1-g/exec"; // Insert Deployed Web App URL
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxOKfi5bab0lPhrsp2kG330eWMmgC8cZgGaBsz2Ip7_7WT2j_bFA0ueDItQcpN0yPT7WA/exec";
 
     let employeeData = null;
 
-    // --- ALERT MODAL LOGIC ---
+    function formatDateDisplay(dateInput) {
+      if (!dateInput) return '';
+      const d = new Date(dateInput);
+      if (isNaN(d.getTime())) return dateInput;
+
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = months[d.getMonth()];
+      const year = d.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    }
+
+    function getPenalMonth(dolStr) {
+      if (!dolStr) return 'N/A';
+      const d = new Date(dolStr);
+      if (isNaN(d.getTime())) return 'N/A';
+
+      const day = d.getDate();
+      let month = d.getMonth();
+      let year = d.getFullYear();
+
+      if (day > 20) {
+        month++;
+        if (month > 11) {
+          month = 0;
+          year++;
+        }
+      }
+
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${months[month]}-${year}`;
+    }
+
     function showCustomAlert(message, title = "Notification") {
       document.getElementById('alertTitle').innerText = title;
       document.getElementById('alertMessage').innerText = message;
@@ -117,7 +148,6 @@
       document.getElementById('customAlert').classList.remove('active');
     }
 
-    // --- STEP 1: VERIFY AADHAR ---
     async function verifyAadhar() {
       const aadhar = document.getElementById('aadharInput').value.trim();
       if (!aadhar) {
@@ -139,10 +169,12 @@
 
         if (result.status === 'success') {
           employeeData = result.employee;
+          document.getElementById('dispCurrentDate').innerText = formatDateDisplay(new Date());
           document.getElementById('dispEmpId').innerText = employeeData.empId;
           document.getElementById('dispName').innerText = employeeData.name;
-          document.getElementById('dispDoj').innerText = employeeData.doj;
-          document.getElementById('dispDol').innerText = employeeData.dol;
+          document.getElementById('dispDoj').innerText = formatDateDisplay(employeeData.doj);
+          document.getElementById('dispDol').innerText = formatDateDisplay(employeeData.dol);
+          document.getElementById('dispPenalMonth').innerText = getPenalMonth(employeeData.dol);
           document.getElementById('dispDesig').innerText = employeeData.desig;
           document.getElementById('dispVer').innerText = employeeData.verifier;
 
@@ -159,7 +191,6 @@
       }
     }
 
-    // --- CANVAS SIGNATURE PAD LOGIC ---
     const canvas = document.getElementById('sigCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
@@ -207,7 +238,6 @@
       hasSigned = false;
     });
 
-    // --- BASE64 HELPER ---
     const toBase64 = file => new Promise((resolve, reject) => {
       if (!file) resolve(null);
       const reader = new FileReader();
@@ -216,7 +246,6 @@
       reader.onerror = error => reject(error);
     });
 
-    // --- SUBMIT FORM LOGIC ---
     document.getElementById('exitForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -242,8 +271,8 @@
           dol: employeeData.dol,
           desig: employeeData.desig,
           ver: employeeData.verifier,
-          dor: document.getElementById('dor').value,
-          loc: document.getElementById('locSelect').value,
+          dor: formatDateDisplay(document.getElementById('dor').value),
+          loc: document.getElementById('locSelect').value.trim(),
           poiAttached: Boolean(poiFile),
           poaAttached: Boolean(poaFile),
           signature: { data: canvas.toDataURL("image/png") },

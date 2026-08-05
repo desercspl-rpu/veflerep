@@ -11,8 +11,8 @@
     label { display: block; font-weight: bold; margin-bottom: 5px; }
     input[type="text"], input[type="date"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
     button { background-color: #002FBE; color: white; border: none; padding: 10px 18px; font-size: 15px; border-radius: 4px; cursor: pointer; }
-    button:disabled { background-color: #999; }
-    canvas { border: 2px dashed #002FBE; background: #fff; touch-action: none; border-radius: 4px; margin-top: 5px; }
+    button:disabled { background-color: #999; cursor: not-allowed; }
+    canvas { border: 2px dashed #002FBE; background: #fff; touch-action: none; border-radius: 4px; margin-top: 5px; display: block; }
     .hidden { display: none; }
     
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
@@ -24,17 +24,17 @@
 
   <h2>Employee Exit Verification & Submission</h2>
 
-  <!-- STEP 1: AADHAR VERIFICATION -->
+  <!-- STEP 1: VERIFICATION -->
   <div id="step1" class="card">
-    <h3>Verify Aadhar Number</h3>
+    <h3>Verify Employee Record</h3>
     <div class="form-group">
-      <label for="aadharInput">Enter Aadhar Number</label>
-      <input type="text" id="aadharInput" placeholder="Enter 12-digit Aadhar" maxlength="12">
+      <label for="aadharInput">Enter ID / Registration Number</label>
+      <input type="text" id="aadharInput" placeholder="Enter 12-digit number" maxlength="12">
     </div>
-    <button id="verifyBtn" onclick="verifyAadhar()">Verify Aadhar</button>
+    <button id="verifyBtn" onclick="verifyAadhar()">Verify</button>
   </div>
 
-  <!-- STEP 2: VERIFIED DETAILS & FURTHER INPUTS -->
+  <!-- STEP 2: DETAILS & FORM SUBMISSION -->
   <div id="step2" class="card hidden">
     <h3>Employee Information</h3>
     <div style="background: #eef2ff; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
@@ -56,7 +56,7 @@
 
       <div class="form-group">
         <label for="locSelect">Location (Loc) *</label>
-        <input type="text" id="locSelect" list="locationOptions" placeholder="Select or type custom location" required>
+        <input type="text" id="locSelect" list="locationOptions" placeholder="Select or type location" required>
         <datalist id="locationOptions">
           <option value="Mumbai Headquarters">
           <option value="Delhi Regional Office">
@@ -82,9 +82,9 @@
       </div>
 
       <div class="form-group">
-        <label>Employee Signature *</label><br>
-        <canvas id="sigCanvas" width="320" height="150"></canvas><br>
-        <button type="button" id="clearSigBtn" style="margin-top:5px; background-color:#666;">Clear Signature</button>
+        <label>Employee Signature *</label>
+        <canvas id="sigCanvas" width="320" height="150"></canvas>
+        <button type="button" id="clearSigBtn" style="margin-top:8px; background-color:#666;">Clear Signature</button>
       </div>
 
       <button type="submit" id="submitBtn" style="width:100%; padding:12px; margin-top:15px;">Submit Application</button>
@@ -100,26 +100,33 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxZgdVHa_ZcRrkPAz8EvkmDCeRHLJeYeoIcPuLtKfLvy32esAEdAguGjqtrcJz7JKY/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyVHaMBS7pPeQ3_6im0Zwgww-J1tIuB6JWoN1suFN-f4aS6jdIw9tNOOSVz9-5U6WJy/exec";
 
     let employeeData = null;
 
     function formatDateDisplay(dateInput) {
       if (!dateInput) return '';
-      const d = new Date(dateInput);
-      if (isNaN(d.getTime())) return dateInput;
-
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = months[d.getMonth()];
-      const year = d.getFullYear();
-
-      return `${day}-${month}-${year}`;
+      const parts = String(dateInput).split('-');
+      if (parts.length === 3 && parts[0].length === 4) {
+        // Handle YYYY-MM-DD input from HTML datepicker
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
+      }
+      return dateInput;
     }
 
     function getPenalMonth(dolStr) {
       if (!dolStr) return 'N/A';
-      const d = new Date(dolStr);
+      let d;
+      const parts = String(dolStr).split('-');
+      if (parts.length === 3 && parts[1].length === 3) {
+        const months = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+        d = new Date(parseInt(parts[2], 10), months[parts[1]], parseInt(parts[0], 10));
+      } else {
+        d = new Date(dolStr);
+      }
+
       if (isNaN(d.getTime())) return 'N/A';
 
       const day = d.getDate();
@@ -134,8 +141,8 @@
         }
       }
 
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      return `${months[month]}-${year}`;
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${monthNames[month]}-${year}`;
     }
 
     function showCustomAlert(message, title = "Notification") {
@@ -148,7 +155,6 @@
       document.getElementById('customAlert').classList.remove('active');
     }
 
-    // HELPER TO SAFELY PARSE JSON FROM SERVER RESPONSE
     async function postRequest(url, bodyData) {
       const resp = await fetch(url, {
         method: 'POST',
@@ -168,7 +174,7 @@
     async function verifyAadhar() {
       const aadhar = document.getElementById('aadharInput').value.trim();
       if (!aadhar) {
-        showCustomAlert("Please enter an Aadhar Number.", "Required");
+        showCustomAlert("Please enter a valid identification number.", "Required");
         return;
       }
 
@@ -181,11 +187,11 @@
 
         if (result.status === 'success') {
           employeeData = result.employee;
-          document.getElementById('dispCurrentDate').innerText = formatDateDisplay(new Date());
+          document.getElementById('dispCurrentDate').innerText = formatDateDisplay(new Date().toISOString().split('T')[0]);
           document.getElementById('dispEmpId').innerText = employeeData.empId;
           document.getElementById('dispName').innerText = employeeData.name;
-          document.getElementById('dispDoj').innerText = formatDateDisplay(employeeData.doj);
-          document.getElementById('dispDol').innerText = formatDateDisplay(employeeData.dol);
+          document.getElementById('dispDoj').innerText = employeeData.doj;
+          document.getElementById('dispDol').innerText = employeeData.dol;
           document.getElementById('dispPenalMonth').innerText = getPenalMonth(employeeData.dol);
           document.getElementById('dispDesig').innerText = employeeData.desig;
           document.getElementById('dispVer').innerText = employeeData.verifier;
@@ -199,10 +205,11 @@
         showCustomAlert(err.message, "Connection Error");
       } finally {
         btn.disabled = false;
-        btn.innerText = "Verify Aadhar";
+        btn.innerText = "Verify";
       }
     }
 
+    // SIGNATURE CANVAS LOGIC
     const canvas = document.getElementById('sigCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;

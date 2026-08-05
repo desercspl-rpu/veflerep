@@ -100,7 +100,7 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxOKfi5bab0lPhrsp2kG330eWMmgC8cZgGaBsz2Ip7_7WT2j_bFA0ueDItQcpN0yPT7WA/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxZgdVHa_ZcRrkPAz8EvkmDCeRHLJeYeoIcPuLtKfLvy32esAEdAguGjqtrcJz7JKY/exec";
 
     let employeeData = null;
 
@@ -148,6 +148,23 @@
       document.getElementById('customAlert').classList.remove('active');
     }
 
+    // HELPER TO SAFELY PARSE JSON FROM SERVER RESPONSE
+    async function postRequest(url, bodyData) {
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(bodyData)
+      });
+
+      const responseText = await resp.text();
+      
+      try {
+        return JSON.parse(responseText);
+      } catch (err) {
+        throw new Error("Server authorization error. Ensure 'Who has access' is set to 'Anyone' in deployment settings.");
+      }
+    }
+
     async function verifyAadhar() {
       const aadhar = document.getElementById('aadharInput').value.trim();
       if (!aadhar) {
@@ -160,12 +177,7 @@
       btn.innerText = "Verifying...";
 
       try {
-        const resp = await fetch(GAS_WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'verifyAadhar', aadharNumber: aadhar })
-        });
-        const result = await resp.json();
+        const result = await postRequest(GAS_WEB_APP_URL, { action: 'verifyAadhar', aadharNumber: aadhar });
 
         if (result.status === 'success') {
           employeeData = result.employee;
@@ -184,7 +196,7 @@
           showCustomAlert(result.message, "Verification Failed");
         }
       } catch (err) {
-        showCustomAlert("Error connecting to server: " + err.message, "Error");
+        showCustomAlert(err.message, "Connection Error");
       } finally {
         btn.disabled = false;
         btn.innerText = "Verify Aadhar";
@@ -281,13 +293,7 @@
           handwrittenApp: await toBase64(hwFile)
         };
 
-        const response = await fetch(GAS_WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
+        const result = await postRequest(GAS_WEB_APP_URL, payload);
 
         if (result.status === 'success') {
           showCustomAlert("Document generated and emailed successfully. Temp files have been removed.", "Success");
@@ -300,7 +306,7 @@
           showCustomAlert("Error: " + result.message, "Error");
         }
       } catch (err) {
-        showCustomAlert("Submission failed: " + err.message, "Error");
+        showCustomAlert(err.message, "Submission Error");
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = "Submit Application";

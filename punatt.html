@@ -19,7 +19,7 @@
     .modal.active { display: flex; align-items: center; justify-content: center; }
     .modal-content { background: white; padding: 15px; border-radius: 8px; width: 95%; max-width: 500px; text-align: center; }
 
-    /* Live Camera Frame Layouts based on aspect ratio */
+    /* Live Camera Frame Layouts */
     .camera-ui-container {
       position: relative;
       width: 100%;
@@ -57,13 +57,13 @@
       text-shadow: 0 1px 3px rgba(0,0,0,0.8);
       font-size: 13px;
     }
-    /* Smart Card Ratio: 85.6 mm × 54 mm (~1.58:1 Landscape) */
+    /* Smart Card Landscape Frame: 85.6 mm × 54 mm */
     .frame-smart-card {
       width: 82%;
       aspect-ratio: 85.6 / 54;
       border-radius: 6px;
     }
-    /* A4 Size Page Ratio: 210 mm × 297 mm (~1:1.414 Portrait) */
+    /* A4 Size Portrait Frame: 210 mm × 297 mm */
     .frame-a4 {
       width: 72%;
       aspect-ratio: 210 / 297;
@@ -215,7 +215,9 @@
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(bodyData)
       });
+
       const responseText = await resp.text();
+      
       try {
         return JSON.parse(responseText);
       } catch (err) {
@@ -272,11 +274,11 @@
       if (fieldType === 'poi' || fieldType === 'poa') {
         overlay.classList.add('frame-smart-card');
         overlay.innerHTML = `Fit Smart Card in Frame<span class="sub-text">85.6 mm × 54 mm</span>`;
-        title.innerText = "Scan Smart Card (ID Card)";
+        title.innerText = "Scan Smart Card (Landscape ID Card)";
       } else if (fieldType === 'handwrittenApp') {
         overlay.classList.add('frame-a4');
         overlay.innerHTML = `Fit A4 Page in Frame<span class="sub-text">210 mm × 297 mm</span>`;
-        title.innerText = "Scan Handwritten Application";
+        title.innerText = "Scan Handwritten Application (A4 Size)";
       }
 
       modal.classList.add('active');

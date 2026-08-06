@@ -19,9 +19,59 @@
     .modal.active { display: flex; align-items: center; justify-content: center; }
     .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; }
 
-    /* Hidden Scan Containers to keep UI clean */
-    .scan-container {
+    /* Live Camera Frame Layouts */
+    .camera-ui-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 10px auto;
+      background: #000;
+      border-radius: 6px;
+      overflow: hidden;
       display: none;
+    }
+    .camera-ui-container.active {
+      display: block;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .overlay-frame {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 3px dashed #00FFCC;
+      background: rgba(0, 255, 204, 0.08);
+      box-sizing: border-box;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      font-size: 13px;
+    }
+    /* Smart Card Landscape Frame Style */
+    .frame-smart-card {
+      width: 80%;
+      height: 52%;
+      border-radius: 6px;
+    }
+    /* A4 Portrait Frame Style */
+    .frame-a4 {
+      width: 72%;
+      height: 85%;
+      border-radius: 4px;
+    }
+    .camera-controls {
+      padding: 10px;
+      text-align: center;
+      background: #111;
     }
   </style>
 </head>
@@ -72,21 +122,44 @@
 
       <!-- POI Attachment -->
       <div class="form-group">
-        <label for="poi">Attachment: ID_POI</label>
-        <input type="file" id="poi" accept="image/*" capture="environment">
+        <label>Attachment: ID_POI (Smart Card)</label>
+        <button type="button" onclick="openLiveCamera('poi')">Scan Smart Card</button>
+        <input type="hidden" id="poiData">
+        <p id="poiStatus" style="font-size: 13px; color: #666; margin-top: 4px;"></p>
       </div>
 
       <!-- POA Attachment -->
       <div class="form-group">
-        <label for="poa">Attachment: ID_POA</label>
-        <input type="file" id="poa" accept="image/*" capture="environment">
+        <label>Attachment: ID_POA (Smart Card)</label>
+        <button type="button" onclick="openLiveCamera('poa')">Scan Smart Card</button>
+        <input type="hidden" id="poaData">
+        <p id="poaStatus" style="font-size: 13px; color: #666; margin-top: 4px;"></p>
       </div>
 
       <!-- Handwritten Application -->
       <div class="form-group">
-        <label for="handwrittenApp">Handwritten Application (A4 Scan - Mandatory) *</label>
-        <input type="file" id="handwrittenApp" accept="image/*" capture="environment" required>
+        <label>Handwritten Application (A4 Size Page - Mandatory) *</label>
+        <button type="button" onclick="openLiveCamera('handwrittenApp')">Scan A4 Page</button>
+        <input type="hidden" id="hwData" required>
+        <p id="hwStatus" style="font-size: 13px; color: #666; margin-top: 4px;"></p>
       </div>
+
+      <!-- LIVE CAMERA OVERLAY MODAL -->
+      <div id="cameraModal" class="modal">
+        <div class="modal-content" style="max-width: 480px; padding: 15px;">
+          <h3 id="camModalTitle" style="margin-top: 0; font-size: 16px;">Align Document in Frame</h3>
+          <div class="camera-ui-container active">
+            <video id="liveVideo" autoplay playsinline></video>
+            <div id="camOverlay" class="overlay-frame"></div>
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button type="button" onclick="captureLiveImage()" style="flex: 2; background-color: #28a745;">Capture</button>
+            <button type="button" onclick="closeLiveCamera()" style="flex: 1; background-color: #666;">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <!-- CANVAS FOR CAPTURE PROCESSING -->
+      <canvas id="captureCanvas" style="display:none;"></canvas>
 
       <div class="form-group">
         <label>Employee Signature *</label>
@@ -110,6 +183,8 @@
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwEU8MPMSbYsfWNUDtGn0MUdVIna0f1kzu0fVPBchdIND0kLhA-OVLLNJPQM_T4Yp6LiA/exec";
 
     let employeeData = null;
+    let activeTargetField = null;
+    let mediaStream = null;
 
     function formatDateDisplay(dateInput) {
       if (!dateInput) return '';
@@ -138,9 +213,7 @@
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(bodyData)
       });
-
       const responseText = await resp.text();
-      
       try {
         return JSON.parse(responseText);
       } catch (err) {
@@ -183,6 +256,75 @@
         btn.disabled = false;
         btn.innerText = "Verify";
       }
+    }
+
+    // LIVE CAMERA SCANNER FUNCTIONS
+    async function openLiveCamera(fieldType) {
+      activeTargetField = fieldType;
+      const modal = document.getElementById('cameraModal');
+      const overlay = document.getElementById('camOverlay');
+      const title = document.getElementById('camModalTitle');
+      const video = document.getElementById('liveVideo');
+
+      overlay.className = "overlay-frame";
+      if (fieldType === 'poi' || fieldType === 'poa') {
+        overlay.classList.add('frame-smart-card');
+        overlay.innerText = "Fit Smart Card Inside Frame";
+        title.innerText = "Scan ID Card (Smart Card Frame)";
+      } else if (fieldType === 'handwrittenApp') {
+        overlay.classList.add('frame-a4');
+        overlay.innerText = "Fit A4 Page Inside Frame";
+        title.innerText = "Scan Handwritten Application (A4 Frame)";
+      }
+
+      modal.classList.add('active');
+
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: 'environment' } },
+          audio: false
+        });
+        video.srcObject = mediaStream;
+      } catch (err) {
+        modal.classList.remove('active');
+        showCustomAlert("Unable to access camera. Please check permissions.", "Camera Error");
+      }
+    }
+
+    function closeLiveCamera() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+      }
+      document.getElementById('cameraModal').classList.remove('active');
+    }
+
+    function captureLiveImage() {
+      const video = document.getElementById('liveVideo');
+      const canvas = document.getElementById('captureCanvas');
+      
+      canvas.width = video.videoWidth || 1280;
+      canvas.height = video.videoHeight || 720;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+      if (activeTargetField === 'poi') {
+        document.getElementById('poiData').value = dataUrl;
+        document.getElementById('poiStatus').innerText = "✔ Smart Card Captured Successfully";
+        document.getElementById('poiStatus').style.color = "green";
+      } else if (activeTargetField === 'poa') {
+        document.getElementById('poaData').value = dataUrl;
+        document.getElementById('poaStatus').innerText = "✔ Smart Card Captured Successfully";
+        document.getElementById('poaStatus').style.color = "green";
+      } else if (activeTargetField === 'handwrittenApp') {
+        document.getElementById('hwData').value = dataUrl;
+        document.getElementById('hwStatus').innerText = "✔ A4 Page Captured Successfully";
+        document.getElementById('hwStatus').style.color = "green";
+      }
+
+      closeLiveCamera();
     }
 
     // SIGNATURE CANVAS LOGIC
@@ -233,16 +375,14 @@
       hasSigned = false;
     });
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-      if (!file) resolve(null);
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve({ data: reader.result, type: file.type });
-      reader.onerror = error => reject(error);
-    });
-
     document.getElementById('exitForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const hwDataVal = document.getElementById('hwData').value;
+      if (!hwDataVal) {
+        showCustomAlert("Handwritten Application (A4 Scan) is mandatory.", "Required");
+        return;
+      }
 
       if (!hasSigned) {
         showCustomAlert("Please capture your signature.", "Required");
@@ -254,9 +394,8 @@
       submitBtn.innerHTML = "Submitting Please wait...";
 
       try {
-        const poiFile = document.getElementById('poi').files[0];
-        const poaFile = document.getElementById('poa').files[0];
-        const hwFile = document.getElementById('handwrittenApp').files[0];
+        const poiVal = document.getElementById('poiData').value;
+        const poaVal = document.getElementById('poaData').value;
 
         const payload = {
           action: 'submitForm',
@@ -268,12 +407,12 @@
           verifier: employeeData.verifier,
           dor: formatDateDisplay(document.getElementById('dor').value),
           loc: document.getElementById('locSelect').value.trim(),
-          poiAttached: Boolean(poiFile),
-          poaAttached: Boolean(poaFile),
+          poiAttached: Boolean(poiVal),
+          poaAttached: Boolean(poaVal),
           signature: { data: canvas.toDataURL("image/png") },
-          poi: await toBase64(poiFile),
-          poa: await toBase64(poaFile),
-          handwrittenApp: await toBase64(hwFile)
+          poi: poiVal ? { data: poiVal, type: 'image/jpeg' } : null,
+          poa: poaVal ? { data: poaVal, type: 'image/jpeg' } : null,
+          handwrittenApp: { data: hwDataVal, type: 'image/jpeg' }
         };
 
         const result = await postRequest(GAS_WEB_APP_URL, payload);
@@ -283,6 +422,9 @@
           document.getElementById('exitForm').reset();
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           hasSigned = false;
+          document.getElementById('poiStatus').innerText = "";
+          document.getElementById('poaStatus').innerText = "";
+          document.getElementById('hwStatus').innerText = "";
           document.getElementById('step2').classList.add('hidden');
           document.getElementById('step1').classList.remove('hidden');
         } else {

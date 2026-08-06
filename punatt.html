@@ -100,7 +100,7 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzVlrOrWZRmw79bsnhGVEDaPMgPaos9_NK4GfckaCs61s8TfIHgszMgEt4I6_SBPNHY/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbySY_vPLf3U62L2x4HZajL38hFGbBFIi-f8x1H6Xa-1lG0Do6H8gTiSDgU70nZNYhcZ/exec";
 
     let employeeData = null;
 
@@ -162,7 +162,7 @@
           document.getElementById('dispName').innerText = employeeData.name;
           document.getElementById('dispDoj').innerText = employeeData.doj;
           document.getElementById('dispDol').innerText = employeeData.dol;
-          document.getElementById('dispPenalMonth').innerText = employeeData.penalMonth; // Directly read from sheet
+          document.getElementById('dispPenalMonth').innerText = employeeData.penalMonth;
           document.getElementById('dispDesig').innerText = employeeData.desig;
           document.getElementById('dispVer').innerText = employeeData.verifier;
 
@@ -245,7 +245,7 @@
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
-      submitBtn.innerHTML = "Generating PDF & Processing...";
+      submitBtn.innerHTML = "Submitting Please wait...";
 
       try {
         const poiFile = document.getElementById('poi').files[0];
@@ -260,7 +260,7 @@
           dol: employeeData.dol,
           desig: employeeData.desig,
           verifier: employeeData.verifier,
-          penalMonth: employeeData.penalMonth, // Pass penal month from sheet
+          penalMonth: employeeData.penalMonth,
           dor: formatDateDisplay(document.getElementById('dor').value),
           loc: document.getElementById('locSelect').value.trim(),
           poiAttached: Boolean(poiFile),

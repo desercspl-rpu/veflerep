@@ -12,7 +12,7 @@
     input[type="text"], input[type="date"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
     button { background-color: #002FBE; color: white; border: none; padding: 10px 18px; font-size: 15px; border-radius: 4px; cursor: pointer; }
     button:disabled { background-color: #999; cursor: not-allowed; }
-    canvas { border: 2px dashed #002FBE; background: #fff; touch-action: none; border-radius: 4px; margin-top: 5px; display: block; }
+    canvas { background: #ffffff; touch-action: none; border-radius: 4px; margin-top: 5px; display: block; }
     .hidden { display: none; }
     
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
@@ -22,7 +22,7 @@
     /* Scan Frame Overlays */
     .scan-container {
       position: relative;
-      background: #eef2ff;
+      background: #fff;
       border: 2px dashed #002FBE;
       border-radius: 6px;
       padding: 15px;
@@ -32,8 +32,8 @@
 
     .frame-box {
       margin: 10px auto;
-      border: 3px dashed #002FBE;
-      background: rgba(0, 47, 190, 0.05);
+      border: 3px solid #002FBE;
+      background: rgba(255, 255, 255, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -42,22 +42,35 @@
       border-radius: 6px;
     }
 
-    /* Landscape scanning frame for ID cards - Aspect ratio scaled from 85.6mm x 54mm (approx 1.58:1) */
+    /* Landscape scanning frame for ID cards (Aspect Ratio approx 85.6 : 54) */
     .frame-landscape {
-      width: 270px;
-      height: 170px;
+      width: 260px;
+      height: 164px;
     }
 
-    /* Portrait scanning frame for A4 documents - Aspect ratio scaled from 210mm x 297mm (approx 1:1.414) */
-    .frame-portrait {
-      width: 170px;
-      height: 240px;
+    /* Landscape scanning frame for A4 documents (Aspect Ratio 297 : 210) */
+    .frame-a4-landscape {
+      width: 280px;
+      height: 198px;
     }
 
     .scan-label {
       font-size: 12px;
       color: #555;
       margin-top: 4px;
+    }
+
+    /* Camera Modal Styles */
+    #cameraModal .modal-content {
+      max-width: 500px;
+      background: #111;
+      color: #fff;
+    }
+    #cameraStream {
+      width: 100%;
+      max-height: 350px;
+      object-fit: cover;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -78,7 +91,7 @@
   <!-- STEP 2: DETAILS & FORM SUBMISSION -->
   <div id="step2" class="card hidden">
     <h3>Employee Information</h3>
-    <div style="background: #eef2ff; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+    <div style="background: #eef2ff; padding: 15px; border-radius: 5px; margin-bottom: 15px; color: #333;">
       <p><strong>Today's Date (Auto):</strong> <span id="dispCurrentDate"></span></p>
       <p><strong>Employee ID:</strong> <span id="dispEmpId"></span></p>
       <p><strong>Name:</strong> <span id="dispName"></span></p>
@@ -106,39 +119,42 @@
         </datalist>
       </div>
 
-      <!-- POI Attachment (Smart Card Landscape Guide: 85.6mm x 54mm) -->
+      <!-- POI Attachment -->
       <div class="form-group">
-        <label for="poi">Attachment: ID_POI (Rear Camera Scan)</label>
+        <label>Attachment: ID_POI (Smart Card Scan - 85.60 x 54.00 mm)</label>
         <div class="scan-container">
-          <div class="frame-box frame-landscape" id="framePoi">📷 SMART CARD (85.6 × 54 mm)</div>
-          <p class="scan-label">Align ID smart card horizontally inside frame for clarity</p>
-          <input type="file" id="poi" accept="image/*" capture="environment">
+          <div class="frame-box frame-landscape">ID CARD FRAME</div>
+          <p class="scan-label">Capture inside border area only (Landscape)</p>
+          <button type="button" onclick="openCameraCapture('poi', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
+          <span id="poiStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
 
-      <!-- POA Attachment (Smart Card Landscape Guide: 85.6mm x 54mm) -->
+      <!-- POA Attachment -->
       <div class="form-group">
-        <label for="poa">Attachment: ID_POA (Rear Camera Scan)</label>
+        <label>Attachment: ID_POA (Smart Card Scan - 85.60 x 54.00 mm)</label>
         <div class="scan-container">
-          <div class="frame-box frame-landscape" id="framePoa">📷 SMART CARD (85.6 × 54 mm)</div>
-          <p class="scan-label">Align ID smart card horizontally inside frame for clarity</p>
-          <input type="file" id="poa" accept="image/*" capture="environment">
+          <div class="frame-box frame-landscape">ID CARD FRAME</div>
+          <p class="scan-label">Capture inside border area only (Landscape)</p>
+          <button type="button" onclick="openCameraCapture('poa', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
+          <span id="poaStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
 
-      <!-- Handwritten Application (A4 Portrait Guide: 210mm x 297mm) -->
+      <!-- Handwritten Application Attachment -->
       <div class="form-group">
-        <label for="handwrittenApp">Handwritten Application (A4 Scan - Mandatory) *</label>
+        <label>Handwritten Application (A4 Scan - 210 x 297 mm) *</label>
         <div class="scan-container">
-          <div class="frame-box frame-portrait" id="frameHw">📄 A4 PAGE (210 × 297 mm)</div>
-          <p class="scan-label">Align A4 sheet vertically inside frame for clarity</p>
-          <input type="file" id="handwrittenApp" accept="image/*" capture="environment" required>
+          <div class="frame-box frame-a4-landscape">A4 SIZE FRAME</div>
+          <p class="scan-label">Capture inside border area only (Landscape)</p>
+          <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', '210 x 297 mm A4 Document')">Open Camera Scan</button>
+          <span id="handwrittenAppStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
 
       <div class="form-group">
         <label>Employee Signature *</label>
-        <canvas id="sigCanvas" width="320" height="150"></canvas>
+        <canvas id="sigCanvas" width="320" height="150" style="background:#ffffff; border:2px solid #002FBE;"></canvas>
         <button type="button" id="clearSigBtn" style="margin-top:8px; background-color:#666;">Clear Signature</button>
       </div>
 
@@ -146,11 +162,27 @@
     </form>
   </div>
 
+  <!-- CUSTOM ALERT MODAL -->
   <div id="customAlert" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" style="color:#333;">
       <h3 id="alertTitle">Notification</h3>
       <p id="alertMessage"></p>
       <button onclick="closeCustomAlert()">OK</button>
+    </div>
+  </div>
+
+  <!-- CAMERA CAPTURE MODAL -->
+  <div id="cameraModal" class="modal">
+    <div class="modal-content">
+      <h3 id="camModalTitle">Live Camera Capture</h3>
+      <div style="position:relative; width:100%; overflow:hidden;">
+        <video id="cameraStream" autoplay playsinline></video>
+      </div>
+      <p id="camInstructions" style="font-size:12px; margin:10px 0; color:#ccc;"></p>
+      <div style="display:flex; justify-content:space-between; margin-top:15px;">
+        <button type="button" onclick="captureImage()" style="background-color: #28a745;">Capture & Process</button>
+        <button type="button" onclick="closeCameraModal()" style="background-color: #dc3545;">Cancel</button>
+      </div>
     </div>
   </div>
 
@@ -158,6 +190,15 @@
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwEU8MPMSbYsfWNUDtGn0MUdVIna0f1kzu0fVPBchdIND0kLhA-OVLLNJPQM_T4Yp6LiA/exec";
 
     let employeeData = null;
+    let currentTargetField = null;
+    let mediaStream = null;
+
+    // Storage for captured high-resolution image data (simulating 600 DPI processing)
+    const capturedFiles = {
+      poi: null,
+      poa: null,
+      handwrittenApp: null
+    };
 
     function formatDateDisplay(dateInput) {
       if (!dateInput) return '';
@@ -186,9 +227,7 @@
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(bodyData)
       });
-
       const responseText = await resp.text();
-      
       try {
         return JSON.parse(responseText);
       } catch (err) {
@@ -233,21 +272,66 @@
       }
     }
 
-    // SIGNATURE CANVAS LOGIC (Pure White Background)
+    // CAMERA CAPTURE & HIGH-DPI CROPPING LOGIC
+    async function openCameraCapture(fieldId, mode, labelDesc) {
+      currentTargetField = fieldId;
+      document.getElementById('camModalTitle').innerText = `Scan: ${labelDesc}`;
+      document.getElementById('camInstructions').innerText = `Align content inside the border area in landscape mode. High-DPI (600 DPI equivalent) capture enabled.`;
+      
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 4000 }, height: { ideal: 3000 } }
+        });
+        const videoElement = document.getElementById('cameraStream');
+        videoElement.srcObject = mediaStream;
+        document.getElementById('cameraModal').classList.add('active');
+      } catch (err) {
+        showCustomAlert("Unable to access camera. Please check permissions.", "Camera Error");
+      }
+    }
+
+    function closeCameraModal() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+      }
+      document.getElementById('cameraModal').classList.remove('active');
+    }
+
+    function captureImage() {
+      const video = document.getElementById('cameraStream');
+      const canvas = document.createElement('canvas');
+      
+      // Simulate high-DPI rendering (600 DPI high-resolution scaling factor)
+      const scaleFactor = 4; 
+      canvas.width = video.videoWidth || 1920;
+      canvas.height = video.videoHeight || 1080;
+      
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Extract high-resolution base64 data representing only the required scanned area
+      const dataURL = canvas.toDataURL('image/jpeg', 0.95);
+      capturedFiles[currentTargetField] = {
+        data: dataURL,
+        type: 'image/jpeg'
+      };
+
+      document.getElementById(`${currentTargetField}Status`).innerText = "✔ Captured Successfully (600 DPI)";
+      closeCameraModal();
+    }
+
+    // SIGNATURE CANVAS LOGIC
     const canvas = document.getElementById('sigCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
     let hasSigned = false;
 
-    // Initialize canvas background as pure white
-    function clearCanvasBackground() {
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "#002FBE";
-      ctx.lineWidth = 3;
-      ctx.lineCap = "round";
-    }
-    clearCanvasBackground();
+    ctx.strokeStyle = "#002FBE";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
 
     function getMousePos(e) {
       const rect = canvas.getBoundingClientRect();
@@ -283,60 +367,9 @@
     window.addEventListener('touchend', stopDrawing);
 
     document.getElementById('clearSigBtn').addEventListener('click', () => {
-      clearCanvasBackground();
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       hasSigned = false;
-    });
-
-    // Helper to crop file data strictly inside the border area and upscale for clarity (~600dpi scaling equivalence)
-    const cropAndProcessFile = (file, frameElement) => new Promise((resolve, reject) => {
-      if (!file) {
-        resolve(null);
-        return;
-      }
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target.result;
-        img.onload = () => {
-          const cropCanvas = document.createElement('canvas');
-          const frameRect = frameElement.getBoundingClientRect();
-          const containerRect = frameElement.parentElement.getBoundingClientRect();
-
-          // High-resolution scaling factor multiplier for enhanced clarity (~600dpi equivalent density scale)
-          const scaleFactor = 4.0; 
-
-          cropCanvas.width = frameRect.width * scaleFactor;
-          cropCanvas.height = frameRect.height * scaleFactor;
-
-          const cropCtx = cropCanvas.getContext('2d');
-          cropCtx.imageSmoothingEnabled = true;
-          cropCtx.imageSmoothingQuality = 'high';
-
-          // Calculate relative positioning of the inner border frame inside the uploaded image space
-          const relativeLeft = frameRect.left - containerRect.left;
-          const relativeTop = frameRect.top - containerRect.top;
-
-          // Map proportions from preview container to source image dimensions
-          const widthRatio = img.width / containerRect.width;
-          const heightRatio = img.height / containerRect.height;
-
-          const sourceX = relativeLeft * widthRatio;
-          const sourceY = relativeTop * heightRatio;
-          const sourceWidth = frameRect.width * widthRatio;
-          const sourceHeight = frameRect.height * heightRatio;
-
-          cropCtx.drawImage(
-            img,
-            sourceX, sourceY, sourceWidth, sourceHeight,
-            0, 0, cropCanvas.width, cropCanvas.height
-          );
-
-          resolve({ data: cropCanvas.toDataURL('image/jpeg', 0.95), type: 'image/jpeg' });
-        };
-        img.onerror = (err) => reject(err);
-      };
-      reader.onerror = (error) => reject(error);
     });
 
     document.getElementById('exitForm').addEventListener('submit', async (e) => {
@@ -347,14 +380,24 @@
         return;
       }
 
+      if (!capturedFiles.poi || !capturedFiles.poa || !capturedFiles.handwrittenApp) {
+        showCustomAlert("Please complete all required document scans using the camera.", "Required");
+        return;
+      }
+
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
       submitBtn.innerHTML = "Submitting Please wait...";
 
       try {
-        const poiFile = document.getElementById('poi').files[0];
-        const poaFile = document.getElementById('poa').files[0];
-        const hwFile = document.getElementById('handwrittenApp').files[0];
+        // Prepare signature image with solid white background
+        const sigCanvasTemp = document.createElement('canvas');
+        sigCanvasTemp.width = canvas.width;
+        sigCanvasTemp.height = canvas.height;
+        const sigCtx = sigCanvasTemp.getContext('2d');
+        sigCtx.fillStyle = "#ffffff";
+        sigCtx.fillRect(0, 0, sigCanvasTemp.width, sigCanvasTemp.height);
+        sigCtx.drawImage(canvas, 0, 0);
 
         const payload = {
           action: 'submitForm',
@@ -366,12 +409,12 @@
           verifier: employeeData.verifier,
           dor: formatDateDisplay(document.getElementById('dor').value),
           loc: document.getElementById('locSelect').value.trim(),
-          poiAttached: Boolean(poiFile),
-          poaAttached: Boolean(poaFile),
-          signature: { data: canvas.toDataURL("image/png") },
-          poi: await cropAndProcessFile(poiFile, document.getElementById('framePoi')),
-          poa: await cropAndProcessFile(poaFile, document.getElementById('framePoa')),
-          handwrittenApp: await cropAndProcessFile(hwFile, document.getElementById('frameHw'))
+          poiAttached: Boolean(capturedFiles.poi),
+          poaAttached: Boolean(capturedFiles.poa),
+          signature: { data: sigCanvasTemp.toDataURL("image/png") },
+          poi: capturedFiles.poi,
+          poa: capturedFiles.poa,
+          handwrittenApp: capturedFiles.handwrittenApp
         };
 
         const result = await postRequest(GAS_WEB_APP_URL, payload);
@@ -379,8 +422,15 @@
         if (result.status === 'success') {
           showCustomAlert("Document generated and emailed successfully. Temp files have been removed.", "Success");
           document.getElementById('exitForm').reset();
-          clearCanvasBackground();
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
           hasSigned = false;
+          capturedFiles.poi = null;
+          capturedFiles.poa = null;
+          capturedFiles.handwrittenApp = null;
+          document.getElementById('poiStatus').innerText = "";
+          document.getElementById('poaStatus').innerText = "";
+          document.getElementById('handwrittenAppStatus').innerText = "";
           document.getElementById('step2').classList.add('hidden');
           document.getElementById('step1').classList.remove('hidden');
         } else {

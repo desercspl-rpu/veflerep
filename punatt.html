@@ -19,45 +19,9 @@
     .modal.active { display: flex; align-items: center; justify-content: center; }
     .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; }
 
-    /* Scan Frame Overlays */
+    /* Hidden Scan Containers to keep UI clean */
     .scan-container {
-      position: relative;
-      background: #eef2ff;
-      border: 2px dashed #002FBE;
-      border-radius: 6px;
-      padding: 15px;
-      text-align: center;
-      margin-top: 5px;
-    }
-
-    .frame-box {
-      margin: 10px auto;
-      border: 3px dashed #002FBE;
-      background: rgba(0, 47, 190, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #002FBE;
-      border-radius: 6px;
-    }
-
-    /* Landscape scanning frame for ID cards */
-    .frame-landscape {
-      width: 260px;
-      height: 160px;
-    }
-
-    /* Portrait scanning frame for A4 documents */
-    .frame-portrait {
-      width: 170px;
-      height: 240px;
-    }
-
-    .scan-label {
-      font-size: 12px;
-      color: #555;
-      margin-top: 4px;
+      display: none;
     }
   </style>
 </head>
@@ -106,34 +70,22 @@
         </datalist>
       </div>
 
-      <!-- POI Attachment (Landscape Scan Visual Guide) -->
+      <!-- POI Attachment -->
       <div class="form-group">
-        <label for="poi">Attachment: ID_POI (Rear Camera Scan)</label>
-        <div class="scan-container">
-          <div class="frame-box frame-landscape">📷 LANDSCAPE SCAN (ID CARD)</div>
-          <p class="scan-label">Align ID horizontally inside camera frame</p>
-          <input type="file" id="poi" accept="image/*" capture="environment">
-        </div>
+        <label for="poi">Attachment: ID_POI</label>
+        <input type="file" id="poi" accept="image/*" capture="environment">
       </div>
 
-      <!-- POA Attachment (Landscape Scan Visual Guide) -->
+      <!-- POA Attachment -->
       <div class="form-group">
-        <label for="poa">Attachment: ID_POA (Rear Camera Scan)</label>
-        <div class="scan-container">
-          <div class="frame-box frame-landscape">📷 LANDSCAPE SCAN (ID CARD)</div>
-          <p class="scan-label">Align ID horizontally inside camera frame</p>
-          <input type="file" id="poa" accept="image/*" capture="environment">
-        </div>
+        <label for="poa">Attachment: ID_POA</label>
+        <input type="file" id="poa" accept="image/*" capture="environment">
       </div>
 
-      <!-- Handwritten Application (Portrait Scan Visual Guide) -->
+      <!-- Handwritten Application -->
       <div class="form-group">
         <label for="handwrittenApp">Handwritten Application (A4 Scan - Mandatory) *</label>
-        <div class="scan-container">
-          <div class="frame-box frame-portrait">📄 PORTRAIT SCAN (A4 PAGE)</div>
-          <p class="scan-label">Align A4 sheet vertically inside camera frame</p>
-          <input type="file" id="handwrittenApp" accept="image/*" capture="environment" required>
-        </div>
+        <input type="file" id="handwrittenApp" accept="image/*" capture="environment" required>
       </div>
 
       <div class="form-group">

@@ -19,39 +19,15 @@
     .modal.active { display: flex; align-items: center; justify-content: center; }
     .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; }
 
-    /* Scan Frame Overlays */
+    /* Scan Container (No Frame on main HTML page) */
     .scan-container {
       position: relative;
       background: #fff;
-      border: 2px dashed #002FBE;
+      border: 1px solid #ccc;
       border-radius: 6px;
       padding: 15px;
       text-align: center;
       margin-top: 5px;
-    }
-
-    .frame-box {
-      margin: 10px auto;
-      border: 3px solid #002FBE;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #002FBE;
-      border-radius: 6px;
-    }
-
-    /* Landscape scanning frame for ID cards (Aspect Ratio approx 85.6 : 54) */
-    .frame-landscape {
-      width: 2026px;
-      height: 1276px;
-    }
-
-    /* Landscape scanning frame for A4 documents (Aspect Ratio 297 : 210) */
-    .frame-a4-landscape {
-      width: 4960px;
-      height: 7016px;
     }
 
     .scan-label {
@@ -66,11 +42,46 @@
       background: #111;
       color: #fff;
     }
+    
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     #cameraStream {
       width: 100%;
       max-height: 350px;
       object-fit: cover;
       border-radius: 4px;
+    }
+
+    /* Frame Overlay shown ONLY inside Camera Modal */
+    .modal-frame-box {
+      position: absolute;
+      border: 3px solid #002FBE;
+      background: rgba(255, 255, 255, 0.15);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 3px #000;
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    .modal-frame-landscape {
+      width: 260px;
+      height: 164px;
+    }
+
+    .modal-frame-a4-landscape {
+      width: 280px;
+      height: 198px;
     }
   </style>
 </head>
@@ -123,8 +134,7 @@
       <div class="form-group">
         <label>Attachment: ID_POI (Smart Card Scan - 85.60 x 54.00 mm)</label>
         <div class="scan-container">
-          <div class="frame-box frame-landscape">ID CARD FRAME</div>
-          <p class="scan-label">Capture inside border area only (Landscape)</p>
+          <p class="scan-label">Click below to open camera scan</p>
           <button type="button" onclick="openCameraCapture('poi', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
           <span id="poiStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
@@ -134,8 +144,7 @@
       <div class="form-group">
         <label>Attachment: ID_POA (Smart Card Scan - 85.60 x 54.00 mm)</label>
         <div class="scan-container">
-          <div class="frame-box frame-landscape">ID CARD FRAME</div>
-          <p class="scan-label">Capture inside border area only (Landscape)</p>
+          <p class="scan-label">Click below to open camera scan</p>
           <button type="button" onclick="openCameraCapture('poa', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
           <span id="poaStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
@@ -145,8 +154,7 @@
       <div class="form-group">
         <label>Handwritten Application (A4 Scan - 210 x 297 mm) *</label>
         <div class="scan-container">
-          <div class="frame-box frame-a4-landscape">A4 SIZE FRAME</div>
-          <p class="scan-label">Capture inside border area only (Landscape)</p>
+          <p class="scan-label">Click below to open camera scan</p>
           <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', '210 x 297 mm A4 Document')">Open Camera Scan</button>
           <span id="handwrittenAppStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
@@ -175,8 +183,11 @@
   <div id="cameraModal" class="modal">
     <div class="modal-content">
       <h3 id="camModalTitle">Live Camera Capture</h3>
-      <div style="position:relative; width:100%; overflow:hidden;">
+      <div class="video-wrapper">
         <video id="cameraStream" autoplay playsinline></video>
+        <!-- Frames appear only inside the camera modal -->
+        <div id="modalFrameLandscape" class="modal-frame-box modal-frame-landscape">ID CARD FRAME</div>
+        <div id="modalFrameA4" class="modal-frame-box modal-frame-a4-landscape">A4 SIZE FRAME</div>
       </div>
       <p id="camInstructions" style="font-size:12px; margin:10px 0; color:#ccc;"></p>
       <div style="display:flex; justify-content:space-between; margin-top:15px;">
@@ -278,6 +289,16 @@
       document.getElementById('camModalTitle').innerText = `Scan: ${labelDesc}`;
       document.getElementById('camInstructions').innerText = `Align content inside the border area in landscape mode. High-DPI (600 DPI equivalent) capture enabled.`;
       
+      // Control frame visibility based on document type inside the modal
+      document.getElementById('modalFrameLandscape').style.display = 'none';
+      document.getElementById('modalFrameA4').style.display = 'none';
+
+      if (mode === 'landscape') {
+        document.getElementById('modalFrameLandscape').style.display = 'flex';
+      } else if (mode === 'a4') {
+        document.getElementById('modalFrameA4').style.display = 'flex';
+      }
+
       try {
         mediaStream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'environment', width: { ideal: 4000 }, height: { ideal: 3000 } }

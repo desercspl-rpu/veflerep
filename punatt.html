@@ -18,6 +18,47 @@
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
     .modal.active { display: flex; align-items: center; justify-content: center; }
     .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; }
+
+    /* Scan Frame Overlays */
+    .scan-container {
+      position: relative;
+      background: #eef2ff;
+      border: 2px dashed #002FBE;
+      border-radius: 6px;
+      padding: 15px;
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    .frame-box {
+      margin: 10px auto;
+      border: 3px dashed #002FBE;
+      background: rgba(0, 47, 190, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #002FBE;
+      border-radius: 6px;
+    }
+
+    /* Landscape scanning frame for ID cards */
+    .frame-landscape {
+      width: 260px;
+      height: 160px;
+    }
+
+    /* Portrait scanning frame for A4 documents */
+    .frame-portrait {
+      width: 170px;
+      height: 240px;
+    }
+
+    .scan-label {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -43,7 +84,6 @@
       <p><strong>Name:</strong> <span id="dispName"></span></p>
       <p><strong>DOJ:</strong> <span id="dispDoj"></span></p>
       <p><strong>DOL:</strong> <span id="dispDol"></span></p>
-      <p><strong>Penal Cycle Month:</strong> <span id="dispPenalMonth"></span></p>
       <p><strong>Designation:</strong> <span id="dispDesig"></span></p>
       <p><strong>Assigned Verifier:</strong> <span id="dispVer"></span></p>
     </div>
@@ -66,19 +106,34 @@
         </datalist>
       </div>
 
+      <!-- POI Attachment (Landscape Scan Visual Guide) -->
       <div class="form-group">
         <label for="poi">Attachment: ID_POI (Rear Camera Scan)</label>
-        <input type="file" id="poi" accept="image/*" capture="environment">
+        <div class="scan-container">
+          <div class="frame-box frame-landscape">📷 LANDSCAPE SCAN (ID CARD)</div>
+          <p class="scan-label">Align ID horizontally inside camera frame</p>
+          <input type="file" id="poi" accept="image/*" capture="environment">
+        </div>
       </div>
 
+      <!-- POA Attachment (Landscape Scan Visual Guide) -->
       <div class="form-group">
         <label for="poa">Attachment: ID_POA (Rear Camera Scan)</label>
-        <input type="file" id="poa" accept="image/*" capture="environment">
+        <div class="scan-container">
+          <div class="frame-box frame-landscape">📷 LANDSCAPE SCAN (ID CARD)</div>
+          <p class="scan-label">Align ID horizontally inside camera frame</p>
+          <input type="file" id="poa" accept="image/*" capture="environment">
+        </div>
       </div>
 
+      <!-- Handwritten Application (Portrait Scan Visual Guide) -->
       <div class="form-group">
         <label for="handwrittenApp">Handwritten Application (A4 Scan - Mandatory) *</label>
-        <input type="file" id="handwrittenApp" accept="image/*" capture="environment" required>
+        <div class="scan-container">
+          <div class="frame-box frame-portrait">📄 PORTRAIT SCAN (A4 PAGE)</div>
+          <p class="scan-label">Align A4 sheet vertically inside camera frame</p>
+          <input type="file" id="handwrittenApp" accept="image/*" capture="environment" required>
+        </div>
       </div>
 
       <div class="form-group">
@@ -100,7 +155,7 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbySY_vPLf3U62L2x4HZajL38hFGbBFIi-f8x1H6Xa-1lG0Do6H8gTiSDgU70nZNYhcZ/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwEU8MPMSbYsfWNUDtGn0MUdVIna0f1kzu0fVPBchdIND0kLhA-OVLLNJPQM_T4Yp6LiA/exec";
 
     let employeeData = null;
 
@@ -162,7 +217,6 @@
           document.getElementById('dispName').innerText = employeeData.name;
           document.getElementById('dispDoj').innerText = employeeData.doj;
           document.getElementById('dispDol').innerText = employeeData.dol;
-          document.getElementById('dispPenalMonth').innerText = employeeData.penalMonth;
           document.getElementById('dispDesig').innerText = employeeData.desig;
           document.getElementById('dispVer').innerText = employeeData.verifier;
 
@@ -260,7 +314,6 @@
           dol: employeeData.dol,
           desig: employeeData.desig,
           verifier: employeeData.verifier,
-          penalMonth: employeeData.penalMonth,
           dor: formatDateDisplay(document.getElementById('dor').value),
           loc: document.getElementById('locSelect').value.trim(),
           poiAttached: Boolean(poiFile),

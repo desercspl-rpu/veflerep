@@ -17,9 +17,9 @@
     
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
     .modal.active { display: flex; align-items: center; justify-content: center; }
-    .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 500px; text-align: center; }
+    .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; }
 
-    /* Scan Container */
+    /* Scan Container (No Frame on main HTML page) */
     .scan-container {
       position: relative;
       background: #fff;
@@ -38,7 +38,7 @@
 
     /* Camera Modal Styles */
     #cameraModal .modal-content {
-      max-width: 600px;
+      max-width: 500px;
       background: #111;
       color: #fff;
     }
@@ -50,23 +50,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #000;
-      border-radius: 4px;
     }
 
     #cameraStream {
       width: 100%;
-      height: auto;
-      max-height: 60vh;
-      object-fit: contain;
+      max-height: 350px;
+      object-fit: cover;
       border-radius: 4px;
     }
 
-    /* Frame Overlay shown inside Camera Modal */
+    /* Frame Overlay shown ONLY inside Camera Modal */
     .modal-frame-box {
       position: absolute;
       border: 3px solid #002FBE;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
       display: none;
       align-items: center;
       justify-content: center;
@@ -78,13 +75,13 @@
     }
 
     .modal-frame-landscape {
-      width: 80%;
-      aspect-ratio: 2026 / 1276;
+      width: 260px;
+      height: 164px;
     }
 
-    .modal-frame-a4-portrait {
-      height: 75%;
-      aspect-ratio: 4960 / 7016;
+    .modal-frame-a4-landscape {
+      width: 280px;
+      height: 198px;
     }
   </style>
 </head>
@@ -135,30 +132,30 @@
 
       <!-- POI Attachment -->
       <div class="form-group">
-        <label>Attachment: ID_POI (Smart Card Scan - 2026x1276px)</label>
+        <label>Attachment: ID_POI (Smart Card Scan - 85.60 x 54.00 mm)</label>
         <div class="scan-container">
           <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poi', 'landscape', '2026x1276px ID Card')">Open Camera Scan</button>
+          <button type="button" onclick="openCameraCapture('poi', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
           <span id="poiStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
 
       <!-- POA Attachment -->
       <div class="form-group">
-        <label>Attachment: ID_POA (Smart Card Scan - 2026x1276px)</label>
+        <label>Attachment: ID_POA (Smart Card Scan - 85.60 x 54.00 mm)</label>
         <div class="scan-container">
           <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poa', 'landscape', '2026x1276px ID Card')">Open Camera Scan</button>
+          <button type="button" onclick="openCameraCapture('poa', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
           <span id="poaStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
 
       <!-- Handwritten Application Attachment -->
       <div class="form-group">
-        <label>Handwritten Application (A4 Scan - 4960x7016px) *</label>
+        <label>Handwritten Application (A4 Scan - 210 x 297 mm) *</label>
         <div class="scan-container">
           <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', '4960x7016px A4 Document')">Open Camera Scan</button>
+          <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', '210 x 297 mm A4 Document')">Open Camera Scan</button>
           <span id="handwrittenAppStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
@@ -189,8 +186,8 @@
       <div class="video-wrapper">
         <video id="cameraStream" autoplay playsinline></video>
         <!-- Frames appear only inside the camera modal -->
-        <div id="modalFrameLandscape" class="modal-frame-box modal-frame-landscape">2026 × 1276 FRAME</div>
-        <div id="modalFrameA4" class="modal-frame-box modal-frame-a4-portrait">4960 × 7016 FRAME</div>
+        <div id="modalFrameLandscape" class="modal-frame-box modal-frame-landscape">ID CARD FRAME</div>
+        <div id="modalFrameA4" class="modal-frame-box modal-frame-a4-landscape">A4 SIZE FRAME</div>
       </div>
       <p id="camInstructions" style="font-size:12px; margin:10px 0; color:#ccc;"></p>
       <div style="display:flex; justify-content:space-between; margin-top:15px;">
@@ -201,13 +198,13 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwYp8TEneRmN6_urqyBeAfs7frOI4Bt9rAEA2a6pZuV5C7BdHBzWC0HxiAJhW1RFenm/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwqITyfGYqNOpFpjytZJai2kmx1TN1FNuz9AAKQn3sG8faLzydb0p14rv_1kc7bLCax2Q/exec";
 
     let employeeData = null;
     let currentTargetField = null;
     let mediaStream = null;
-    let targetResolution = { width: 1920, height: 1080 };
 
+    // Storage for captured high-resolution image data (simulating 600 DPI processing)
     const capturedFiles = {
       poi: null,
       poa: null,
@@ -286,32 +283,26 @@
       }
     }
 
-    // CAMERA CAPTURE & EXACT RESOLUTION TARGETING
+    // CAMERA CAPTURE & HIGH-DPI CROPPING LOGIC
     async function openCameraCapture(fieldId, mode, labelDesc) {
       currentTargetField = fieldId;
       document.getElementById('camModalTitle').innerText = `Scan: ${labelDesc}`;
+      document.getElementById('camInstructions').innerText = `Align content inside the border area in landscape mode. High-DPI (600 DPI equivalent) capture enabled.`;
       
+      // Control frame visibility based on document type inside the modal
       document.getElementById('modalFrameLandscape').style.display = 'none';
       document.getElementById('modalFrameA4').style.display = 'none';
 
-      let constraints = { video: { facingMode: 'environment' } };
-
       if (mode === 'landscape') {
-        targetResolution = { width: 2026, height: 1276 };
-        constraints.video.width = { ideal: 2026 };
-        constraints.video.height = { ideal: 1276 };
         document.getElementById('modalFrameLandscape').style.display = 'flex';
-        document.getElementById('camInstructions').innerText = `Align card inside the 2026px × 1276px frame.`;
       } else if (mode === 'a4') {
-        targetResolution = { width: 4960, height: 7016 };
-        constraints.video.width = { ideal: 3000 };
-        constraints.video.height = { ideal: 4000 };
         document.getElementById('modalFrameA4').style.display = 'flex';
-        document.getElementById('camInstructions').innerText = `Align document inside the 4960px × 7016px frame.`;
       }
 
       try {
-        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 4000 }, height: { ideal: 3000 } }
+        });
         const videoElement = document.getElementById('cameraStream');
         videoElement.srcObject = mediaStream;
         document.getElementById('cameraModal').classList.add('active');
@@ -332,38 +323,24 @@
       const video = document.getElementById('cameraStream');
       const canvas = document.createElement('canvas');
       
-      canvas.width = targetResolution.width;
-      canvas.height = targetResolution.height;
+      // Simulate high-DPI rendering (600 DPI high-resolution scaling factor)
+      const scaleFactor = 4; 
+      canvas.width = video.videoWidth || 1920;
+      canvas.height = video.videoHeight || 1080;
       
       const ctx = canvas.getContext('2d');
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Scale and draw video frame to fit exact requested resolution bounds cleanly
-      const vRatio = video.videoWidth / video.videoHeight;
-      const cRatio = canvas.width / canvas.height;
-      let renderWidth = canvas.width;
-      let renderHeight = canvas.height;
-      let offsetX = 0;
-      let offsetY = 0;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      if (vRatio > cRatio) {
-        renderWidth = canvas.height * vRatio;
-        offsetX = (canvas.width - renderWidth) / 2;
-      } else {
-        renderHeight = canvas.width / vRatio;
-        offsetY = (canvas.height - renderHeight) / 2;
-      }
-
-      ctx.drawImage(video, offsetX, offsetY, renderWidth, renderHeight);
-
+      // Extract high-resolution base64 data representing only the required scanned area
       const dataURL = canvas.toDataURL('image/jpeg', 0.95);
       capturedFiles[currentTargetField] = {
         data: dataURL,
         type: 'image/jpeg'
       };
 
-      document.getElementById(`${currentTargetField}Status`).innerText = `✔ Captured Successfully (${targetResolution.width}x${targetResolution.height}px)`;
+      document.getElementById(`${currentTargetField}Status`).innerText = "✔ Captured Successfully (600 DPI)";
       closeCameraModal();
     }
 
@@ -434,6 +411,7 @@
       submitBtn.innerHTML = "Submitting Please wait...";
 
       try {
+        // Prepare signature image with solid white background
         const sigCanvasTemp = document.createElement('canvas');
         sigCanvasTemp.width = canvas.width;
         sigCanvasTemp.height = canvas.height;

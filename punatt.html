@@ -292,12 +292,10 @@
       let constraints = { video: { facingMode: { ideal: 'environment' } } };
 
       if (mode === 'landscape') {
-        // 600 DPI standard ID Card landscape dimension (2.125 x 3.375 inches)
         targetResolution = { width: 2025, height: 1275 };
         document.getElementById('modalFrameLandscape').style.display = 'flex';
         document.getElementById('camInstructions').innerText = `Align card within the framing box for high-resolution 600 DPI capture.`;
       } else if (mode === 'a4') {
-        // 600 DPI standard A4 document dimension (4960 x 7016 pixels)
         targetResolution = { width: 4960, height: 7016 };
         document.getElementById('modalFrameA4').style.display = 'flex';
         document.getElementById('camInstructions').innerText = `Align document within the framing box for high-resolution 600 DPI capture.`;
@@ -350,8 +348,12 @@
       ctx.drawImage(video, offsetX, offsetY, renderWidth, renderHeight);
 
       const dataURL = canvas.toDataURL('image/jpeg', 0.95);
+      
+      // Clean prefix immediately or keep raw data format cleanly handled
+      const cleanBase64 = dataURL.replace(/^data:image\/[a-z]+;base64,/, "");
+      
       capturedFiles[currentTargetField] = {
-        data: dataURL,
+        data: cleanBase64,
         type: 'image/jpeg'
       };
 
@@ -438,6 +440,9 @@
         sigCtx.fillRect(0, 0, sigCanvasTemp.width, sigCanvasTemp.height);
         sigCtx.drawImage(canvas, 0, 0);
 
+        const sigDataURL = sigCanvasTemp.toDataURL("image/png");
+        const cleanSigData = sigDataURL.replace(/^data:image\/[a-z]+;base64,/, "");
+
         const payload = {
           action: 'submitForm',
           empId: employeeData.empId,
@@ -451,7 +456,7 @@
           loc: document.getElementById('locSelect').value.trim(),
           poiAttached: Boolean(capturedFiles.poi),
           poaAttached: Boolean(capturedFiles.poa),
-          signature: { data: sigCanvasTemp.toDataURL("image/png") },
+          signature: { data: cleanSigData },
           poi: capturedFiles.poi || null,
           poa: capturedFiles.poa || null,
           handwrittenApp: capturedFiles.handwrittenApp

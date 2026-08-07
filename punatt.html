@@ -17,9 +17,8 @@
     
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
     .modal.active { display: flex; align-items: center; justify-content: center; }
-    .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; }
+    .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 500px; text-align: center; }
 
-    /* Scan Container (No Frame on main HTML page) */
     .scan-container {
       position: relative;
       background: #fff;
@@ -36,9 +35,8 @@
       margin-top: 4px;
     }
 
-    /* Camera Modal Styles */
     #cameraModal .modal-content {
-      max-width: 500px;
+      max-width: 600px;
       background: #111;
       color: #fff;
     }
@@ -50,20 +48,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background: #000;
+      border-radius: 4px;
     }
 
     #cameraStream {
       width: 100%;
-      max-height: 350px;
-      object-fit: cover;
+      height: auto;
+      max-height: 60vh;
+      object-fit: contain;
       border-radius: 4px;
     }
 
-    /* Frame Overlay shown ONLY inside Camera Modal */
     .modal-frame-box {
       position: absolute;
       border: 3px solid #002FBE;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
       display: none;
       align-items: center;
       justify-content: center;
@@ -75,13 +75,13 @@
     }
 
     .modal-frame-landscape {
-      width: 260px;
-      height: 164px;
+      width: 80%;
+      aspect-ratio: 2026 / 1276;
     }
 
-    .modal-frame-a4-landscape {
-      width: 280px;
-      height: 198px;
+    .modal-frame-a4-portrait {
+      height: 75%;
+      aspect-ratio: 4960 / 7016;
     }
   </style>
 </head>
@@ -93,8 +93,8 @@
   <div id="step1" class="card">
     <h3>Verify Employee Record</h3>
     <div class="form-group">
-      <label for="aadharInput">Enter ID / Registration Number</label>
-      <input type="text" id="aadharInput" placeholder="Enter 12-digit number" maxlength="12">
+      <label for="aadharInput">Enter Search Key / Registration Number</label>
+      <input type="text" id="aadharInput" placeholder="Enter Registration / ID Number">
     </div>
     <button id="verifyBtn" onclick="verifyAadhar()">Verify</button>
   </div>
@@ -130,32 +130,32 @@
         </datalist>
       </div>
 
-      <!-- POI Attachment -->
+      <!-- POI Attachment (Optional) -->
       <div class="form-group">
-        <label>Attachment: ID_POI (Smart Card Scan - 85.60 x 54.00 mm)</label>
+        <label>Attachment: ID_POI (Smart Card Scan) - *Optional*</label>
         <div class="scan-container">
           <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poi', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
+          <button type="button" onclick="openCameraCapture('poi', 'landscape', 'ID Card')">Open Camera Scan</button>
           <span id="poiStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
 
-      <!-- POA Attachment -->
+      <!-- POA Attachment (Optional) -->
       <div class="form-group">
-        <label>Attachment: ID_POA (Smart Card Scan - 85.60 x 54.00 mm)</label>
+        <label>Attachment: ID_POA (Smart Card Scan) - *Optional*</label>
         <div class="scan-container">
           <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poa', 'landscape', '85.60 x 54.00 mm ID Card')">Open Camera Scan</button>
+          <button type="button" onclick="openCameraCapture('poa', 'landscape', 'ID Card')">Open Camera Scan</button>
           <span id="poaStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
 
-      <!-- Handwritten Application Attachment -->
+      <!-- Handwritten Application Attachment (Mandatory) -->
       <div class="form-group">
-        <label>Handwritten Application (A4 Scan - 210 x 297 mm) *</label>
+        <label>Handwritten Application (A4 Document Scan) *</label>
         <div class="scan-container">
           <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', '210 x 297 mm A4 Document')">Open Camera Scan</button>
+          <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', 'A4 Document')">Open Camera Scan</button>
           <span id="handwrittenAppStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
         </div>
       </div>
@@ -185,9 +185,8 @@
       <h3 id="camModalTitle">Live Camera Capture</h3>
       <div class="video-wrapper">
         <video id="cameraStream" autoplay playsinline></video>
-        <!-- Frames appear only inside the camera modal -->
-        <div id="modalFrameLandscape" class="modal-frame-box modal-frame-landscape">ID CARD FRAME</div>
-        <div id="modalFrameA4" class="modal-frame-box modal-frame-a4-landscape">A4 SIZE FRAME</div>
+        <div id="modalFrameLandscape" class="modal-frame-box modal-frame-landscape">FRAME OVERLAY</div>
+        <div id="modalFrameA4" class="modal-frame-box modal-frame-a4-portrait">FRAME OVERLAY</div>
       </div>
       <p id="camInstructions" style="font-size:12px; margin:10px 0; color:#ccc;"></p>
       <div style="display:flex; justify-content:space-between; margin-top:15px;">
@@ -198,13 +197,13 @@
   </div>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxdLV4UHziUNCaQK-eycY8jrSuA-QrrjaumU3WAputiO7o6-4ejSaCt6cajhdsrnFKc/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwfh0uosa3Vskpdayj8FzDsZiYILtMFemiuRSFvm2PRl6SNg14xMXCxs6NgJ5eUwqx-/exec";
 
     let employeeData = null;
     let currentTargetField = null;
     let mediaStream = null;
+    let targetResolution = { width: 1280, height: 720 };
 
-    // Storage for captured high-resolution image data (simulating 600 DPI processing)
     const capturedFiles = {
       poi: null,
       poa: null,
@@ -242,14 +241,14 @@
       try {
         return JSON.parse(responseText);
       } catch (err) {
-        throw new Error("Server authorization error. Ensure 'Who has access' is set to 'Anyone' in deployment settings.");
+        throw new Error("Server authorization error or invalid JSON response.");
       }
     }
 
     async function verifyAadhar() {
-      const aadhar = document.getElementById('aadharInput').value.trim();
-      if (!aadhar) {
-        showCustomAlert("Please enter a valid identification number.", "Required");
+      const searchVal = document.getElementById('aadharInput').value.trim();
+      if (!searchVal) {
+        showCustomAlert("Please enter a valid search ID number.", "Required");
         return;
       }
 
@@ -258,7 +257,7 @@
       btn.innerText = "Verifying...";
 
       try {
-        const result = await postRequest(GAS_WEB_APP_URL, { action: 'verifyAadhar', aadharNumber: aadhar });
+        const result = await postRequest(GAS_WEB_APP_URL, { action: 'verifyAadhar', aadharNumber: searchVal });
 
         if (result.status === 'success') {
           employeeData = result.employee;
@@ -283,31 +282,32 @@
       }
     }
 
-    // CAMERA CAPTURE & HIGH-DPI CROPPING LOGIC
     async function openCameraCapture(fieldId, mode, labelDesc) {
       currentTargetField = fieldId;
       document.getElementById('camModalTitle').innerText = `Scan: ${labelDesc}`;
-      document.getElementById('camInstructions').innerText = `Align content inside the border area in landscape mode. High-DPI (600 DPI equivalent) capture enabled.`;
       
-      // Control frame visibility based on document type inside the modal
       document.getElementById('modalFrameLandscape').style.display = 'none';
       document.getElementById('modalFrameA4').style.display = 'none';
 
+      let constraints = { video: { facingMode: { ideal: 'environment' } } };
+
       if (mode === 'landscape') {
+        targetResolution = { width: 1280, height: 800 };
         document.getElementById('modalFrameLandscape').style.display = 'flex';
+        document.getElementById('camInstructions').innerText = `Align card within the framing box.`;
       } else if (mode === 'a4') {
+        targetResolution = { width: 1240, height: 1754 };
         document.getElementById('modalFrameA4').style.display = 'flex';
+        document.getElementById('camInstructions').innerText = `Align document within the framing box.`;
       }
 
       try {
-        mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment', width: { ideal: 4000 }, height: { ideal: 3000 } }
-        });
+        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
         const videoElement = document.getElementById('cameraStream');
         videoElement.srcObject = mediaStream;
         document.getElementById('cameraModal').classList.add('active');
       } catch (err) {
-        showCustomAlert("Unable to access camera. Please check permissions.", "Camera Error");
+        showCustomAlert("Unable to access camera. Please verify permissions.", "Camera Error");
       }
     }
 
@@ -323,36 +323,54 @@
       const video = document.getElementById('cameraStream');
       const canvas = document.createElement('canvas');
       
-      // Simulate high-DPI rendering (600 DPI high-resolution scaling factor)
-      const scaleFactor = 4; 
-      canvas.width = video.videoWidth || 1920;
-      canvas.height = video.videoHeight || 1080;
+      canvas.width = targetResolution.width;
+      canvas.height = targetResolution.height;
       
       const ctx = canvas.getContext('2d');
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      const vRatio = video.videoWidth / video.videoHeight;
+      const cRatio = canvas.width / canvas.height;
+      let renderWidth = canvas.width;
+      let renderHeight = canvas.height;
+      let offsetX = 0;
+      let offsetY = 0;
 
-      // Extract high-resolution base64 data representing only the required scanned area
-      const dataURL = canvas.toDataURL('image/jpeg', 0.95);
+      if (vRatio > cRatio) {
+        renderWidth = canvas.height * vRatio;
+        offsetX = (canvas.width - renderWidth) / 2;
+      } else {
+        renderHeight = canvas.width / vRatio;
+        offsetY = (canvas.height - renderHeight) / 2;
+      }
+
+      ctx.drawImage(video, offsetX, offsetY, renderWidth, renderHeight);
+
+      const dataURL = canvas.toDataURL('image/jpeg', 0.80);
       capturedFiles[currentTargetField] = {
         data: dataURL,
         type: 'image/jpeg'
       };
 
-      document.getElementById(`${currentTargetField}Status`).innerText = "✔ Captured Successfully (600 DPI)";
+      document.getElementById(`${currentTargetField}Status`).innerText = `✔ Image Captured Successfully`;
       closeCameraModal();
     }
 
-    // SIGNATURE CANVAS LOGIC
+    // SIGNATURE CANVAS SETUP
     const canvas = document.getElementById('sigCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
     let hasSigned = false;
 
-    ctx.strokeStyle = "#002FBE";
-    ctx.lineWidth = 3;
-    ctx.lineCap = "round";
+    function resetCanvas() {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = "#002FBE";
+      ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+    }
+    resetCanvas();
 
     function getMousePos(e) {
       const rect = canvas.getBoundingClientRect();
@@ -388,8 +406,7 @@
     window.addEventListener('touchend', stopDrawing);
 
     document.getElementById('clearSigBtn').addEventListener('click', () => {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      resetCanvas();
       hasSigned = false;
     });
 
@@ -397,21 +414,20 @@
       e.preventDefault();
 
       if (!hasSigned) {
-        showCustomAlert("Please capture your signature.", "Required");
+        showCustomAlert("Please add your signature.", "Required");
         return;
       }
 
-      if (!capturedFiles.poi || !capturedFiles.poa || !capturedFiles.handwrittenApp) {
-        showCustomAlert("Please complete all required document scans using the camera.", "Required");
+      if (!capturedFiles.handwrittenApp) {
+        showCustomAlert("Please attach the Handwritten Application scan.", "Required");
         return;
       }
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
-      submitBtn.innerHTML = "Submitting Please wait...";
+      submitBtn.innerHTML = "Submitting, please wait...";
 
       try {
-        // Prepare signature image with solid white background
         const sigCanvasTemp = document.createElement('canvas');
         sigCanvasTemp.width = canvas.width;
         sigCanvasTemp.height = canvas.height;
@@ -428,23 +444,23 @@
           dol: employeeData.dol,
           desig: employeeData.desig,
           verifier: employeeData.verifier,
+          penalMonth: employeeData.penalMonth,
           dor: formatDateDisplay(document.getElementById('dor').value),
           loc: document.getElementById('locSelect').value.trim(),
           poiAttached: Boolean(capturedFiles.poi),
           poaAttached: Boolean(capturedFiles.poa),
           signature: { data: sigCanvasTemp.toDataURL("image/png") },
-          poi: capturedFiles.poi,
-          poa: capturedFiles.poa,
+          poi: capturedFiles.poi || null,
+          poa: capturedFiles.poa || null,
           handwrittenApp: capturedFiles.handwrittenApp
         };
 
         const result = await postRequest(GAS_WEB_APP_URL, payload);
 
         if (result.status === 'success') {
-          showCustomAlert("Document generated and emailed successfully. Temp files have been removed.", "Success");
+          showCustomAlert("Document generated and emailed successfully.", "Success");
           document.getElementById('exitForm').reset();
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          resetCanvas();
           hasSigned = false;
           capturedFiles.poi = null;
           capturedFiles.poa = null;

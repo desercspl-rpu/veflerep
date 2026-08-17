@@ -1,500 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Exit Portal</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f6f9; color: #333; }
-    .card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; }
-    input[type="text"], input[type="date"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-    button { background-color: #002FBE; color: white; border: none; padding: 10px 18px; font-size: 15px; border-radius: 4px; cursor: pointer; }
-    button:disabled { background-color: #999; cursor: not-allowed; }
-    canvas { background: #ffffff; touch-action: none; border-radius: 4px; margin-top: 5px; display: block; }
-    .hidden { display: none; }
-    
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-    .modal.active { display: flex; align-items: center; justify-content: center; }
-    .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 500px; text-align: center; }
-
-    .scan-container {
-      position: relative;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 15px;
-      text-align: center;
-      margin-top: 5px;
-    }
-
-    .scan-label {
-      font-size: 12px;
-      color: #555;
-      margin-top: 4px;
-    }
-
-    #cameraModal .modal-content {
-      max-width: 600px;
-      background: #111;
-      color: #fff;
-    }
-    
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #000;
-      border-radius: 4px;
-    }
-
-    #cameraStream {
-      width: 100%;
-      height: auto;
-      max-height: 60vh;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-
-    .modal-frame-box {
-      position: absolute;
-      border: 3px solid #002FBE;
-      background: rgba(255, 255, 255, 0.1);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 0 0 3px #000;
-      border-radius: 6px;
-      pointer-events: none;
-    }
-
-    .modal-frame-landscape {
-      width: 80%;
-      aspect-ratio: 2026 / 1276;
-    }
-
-    .modal-frame-a4-portrait {
-      height: 75%;
-      aspect-ratio: 4960 / 7016;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera ID Scanner & Auto-Fill</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tesseract.js CDN for OCR -->
+    <script src="https://unpkg.com/tesseract.js@v4.0.2/dist/tesseract.min.js"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
-  <h2>Employee Exit Verification & Submission</h2>
+    <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Live Camera ID Scanner</h2>
 
-  <!-- STEP 1: VERIFICATION -->
-  <div id="step1" class="card">
-    <h3>Verify Employee Record</h3>
-    <div class="form-group">
-      <label for="aadharInput">Enter Search Key / Registration Number</label>
-      <input type="text" id="aadharInput" placeholder="Enter Registration / ID Number">
-    </div>
-    <button id="verifyBtn" onclick="verifyAadhar()">Verify</button>
-  </div>
-
-  <!-- STEP 2: DETAILS & FORM SUBMISSION -->
-  <div id="step2" class="card hidden">
-    <h3>Employee Information</h3>
-    <div style="background: #eef2ff; padding: 15px; border-radius: 5px; margin-bottom: 15px; color: #333;">
-      <p><strong>Today's Date (Auto):</strong> <span id="dispCurrentDate"></span></p>
-      <p><strong>Employee ID:</strong> <span id="dispEmpId"></span></p>
-      <p><strong>Name:</strong> <span id="dispName"></span></p>
-      <p><strong>DOJ:</strong> <span id="dispDoj"></span></p>
-      <p><strong>DOL:</strong> <span id="dispDol"></span></p>
-      <p><strong>Designation:</strong> <span id="dispDesig"></span></p>
-      <p><strong>Assigned Verifier:</strong> <span id="dispVer"></span></p>
-    </div>
-
-    <form id="exitForm">
-      <div class="form-group">
-        <label for="dor">DOR (Date of Resignation) *</label>
-        <input type="date" id="dor" required>
-      </div>
-
-      <div class="form-group">
-        <label for="locSelect">Location (Loc) *</label>
-        <input type="text" id="locSelect" list="locationOptions" placeholder="Select or type location" required>
-        <datalist id="locationOptions">
-          <option value="Mumbai Headquarters">
-          <option value="Delhi Regional Office">
-          <option value="Bangalore Tech Park">
-          <option value="Pune Branch">
-          <option value="Hyderabad Facility">
-        </datalist>
-      </div>
-
-      <!-- POI Attachment (Optional) -->
-      <div class="form-group">
-        <label>Attachment: ID_POI (Smart Card Scan) - *Optional*</label>
-        <div class="scan-container">
-          <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poi', 'landscape', 'ID Card')">Open Camera Scan</button>
-          <span id="poiStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
+        <!-- Camera Preview Section -->
+        <div class="relative bg-black rounded-lg overflow-hidden mb-4 flex items-center justify-center h-64">
+            <video id="videoElement" autoplay playsinline class="w-full h-full object-cover"></video>
+            <canvas id="canvasElement" class="hidden"></canvas>
+            <div id="loadingOverlay" class="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-white hidden">
+                <svg class="animate-spin h-8 w-8 text-white mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                <span id="loadingText" class="text-sm font-medium">Processing OCR...</span>
+            </div>
         </div>
-      </div>
 
-      <!-- POA Attachment (Optional) -->
-      <div class="form-group">
-        <label>Attachment: ID_POA (Smart Card Scan) - *Optional*</label>
-        <div class="scan-container">
-          <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poa', 'landscape', 'ID Card')">Open Camera Scan</button>
-          <span id="poaStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
+        <!-- Camera Controls -->
+        <div class="flex gap-2 mb-6">
+            <button id="startCamBtn" onclick="startCamera()" class="flex-1 bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-900 transition">
+                Start Camera
+            </button>
+            <button id="captureBtn" onclick="captureAndScan()" disabled class="flex-1 bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                Capture & Scan
+            </button>
         </div>
-      </div>
 
-      <!-- Handwritten Application Attachment (Mandatory) -->
-      <div class="form-group">
-        <label>Handwritten Application (A4 Document Scan) *</label>
-        <div class="scan-container">
-          <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', 'A4 Document')">Open Camera Scan</button>
-          <span id="handwrittenAppStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
-        </div>
-      </div>
+        <!-- Auto-Fill Form -->
+        <form class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Extracted Name</label>
+                <input type="text" id="fullName" placeholder="Will be filled automatically" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50">
+            </div>
 
-      <div class="form-group">
-        <label>Employee Signature *</label>
-        <canvas id="sigCanvas" width="320" height="150" style="background:#ffffff; border:2px solid #002FBE;"></canvas>
-        <button type="button" id="clearSigBtn" style="margin-top:8px; background-color:#666;">Clear Signature</button>
-      </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth (DOB)</label>
+                <input type="text" id="dob" placeholder="DD/MM/YYYY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50">
+            </div>
 
-      <button type="submit" id="submitBtn" style="width:100%; padding:12px; margin-top:15px;">Submit Application</button>
-    </form>
-  </div>
-
-  <!-- CUSTOM ALERT MODAL -->
-  <div id="customAlert" class="modal">
-    <div class="modal-content" style="color:#333;">
-      <h3 id="alertTitle">Notification</h3>
-      <p id="alertMessage"></p>
-      <button onclick="closeCustomAlert()">OK</button>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">ID Number / Reference</label>
+                <input type="text" id="idNumber" placeholder="[ID Redacted / Placeholder]" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50">
+            </div>
+        </form>
     </div>
-  </div>
 
-  <!-- CAMERA CAPTURE MODAL -->
-  <div id="cameraModal" class="modal">
-    <div class="modal-content">
-      <h3 id="camModalTitle">Live Camera Capture</h3>
-      <div class="video-wrapper">
-        <video id="cameraStream" autoplay playsinline></video>
-        <div id="modalFrameLandscape" class="modal-frame-box modal-frame-landscape">FRAME OVERLAY</div>
-        <div id="modalFrameA4" class="modal-frame-box modal-frame-a4-portrait">FRAME OVERLAY</div>
-      </div>
-      <p id="camInstructions" style="font-size:12px; margin:10px 0; color:#ccc;"></p>
-      <div style="display:flex; justify-content:space-between; margin-top:15px;">
-        <button type="button" onclick="captureImage()" style="background-color: #28a745;">Capture & Process</button>
-        <button type="button" onclick="closeCameraModal()" style="background-color: #dc3545;">Cancel</button>
-      </div>
-    </div>
-  </div>
+    <!-- JavaScript Logic -->
+    <script>
+        const video = document.getElementById('videoElement');
+        const canvas = document.getElementById('canvasElement');
+        const captureBtn = document.getElementById('captureBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        let currentStream = null;
 
-  <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwxAFYg66443rLhB01IbEQ30qUHkSWuCxuDRU6Df8S-s3Fr9FX86ngoMf53vx25dV8b/exec";
+        // Rear camera access function
+        async function startCamera() {
+            try {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                }
 
-    let employeeData = null;
-    let currentTargetField = null;
-    let mediaStream = null;
-    
-    // Increased target resolution for maximum clarity / pseudo-high DPI rendering
-    let targetResolution = { width: 2480, height: 1754 }; // Higher default layout
+                const constraints = {
+                    video: {
+                        facingMode: { exact: "environment" } // Forces rear camera
+                    }
+                };
 
-    const capturedFiles = {
-      poi: null,
-      poa: null,
-      handwrittenApp: null
-    };
-
-    function formatDateDisplay(dateInput) {
-      if (!dateInput) return '';
-      const parts = String(dateInput).split('-');
-      if (parts.length === 3 && parts[0].length === 4) {
-        const d = new Date(parts[0], parts[1] - 1, parts[2]);
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
-      }
-      return dateInput;
-    }
-
-    function showCustomAlert(message, title = "Notification") {
-      document.getElementById('alertTitle').innerText = title;
-      document.getElementById('alertMessage').innerText = message;
-      document.getElementById('customAlert').classList.add('active');
-    }
-
-    function closeCustomAlert() {
-      document.getElementById('customAlert').classList.remove('active');
-    }
-
-    async function postRequest(url, bodyData) {
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(bodyData)
-      });
-      const responseText = await resp.text();
-      try {
-        return JSON.parse(responseText);
-      } catch (err) {
-        throw new Error("Server authorization error or invalid JSON response.");
-      }
-    }
-
-    async function verifyAadhar() {
-      const searchVal = document.getElementById('aadharInput').value.trim();
-      if (!searchVal) {
-        showCustomAlert("Please enter a valid search ID number.", "Required");
-        return;
-      }
-
-      const btn = document.getElementById('verifyBtn');
-      btn.disabled = true;
-      btn.innerText = "Verifying...";
-
-      try {
-        const result = await postRequest(GAS_WEB_APP_URL, { action: 'verifyAadhar', aadharNumber: searchVal });
-
-        if (result.status === 'success') {
-          employeeData = result.employee;
-          document.getElementById('dispCurrentDate').innerText = formatDateDisplay(new Date().toISOString().split('T')[0]);
-          document.getElementById('dispEmpId').innerText = employeeData.empId;
-          document.getElementById('dispName').innerText = employeeData.name;
-          document.getElementById('dispDoj').innerText = employeeData.doj;
-          document.getElementById('dispDol').innerText = employeeData.dol;
-          document.getElementById('dispDesig').innerText = employeeData.desig;
-          document.getElementById('dispVer').innerText = employeeData.verifier;
-
-          document.getElementById('step1').classList.add('hidden');
-          document.getElementById('step2').classList.remove('hidden');
-        } else {
-          showCustomAlert(result.message, "Verification Failed");
+                currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = currentStream;
+                captureBtn.disabled = false;
+            } catch (err) {
+                // Fallback agar exact environment camera na mile toh koi bhi available camera khol de
+                try {
+                    const fallbackConstraints = { video: true };
+                    currentStream = await navigator.mediaDevices.getUserMedia(fallbackConstraints);
+                    video.srcObject = currentStream;
+                    captureBtn.disabled = false;
+                } catch (fallbackErr) {
+                    alert("Camera access denied or not supported on this device/browser.");
+                    console.error(fallbackErr);
+                }
+            }
         }
-      } catch (err) {
-        showCustomAlert(err.message, "Connection Error");
-      } finally {
-        btn.disabled = false;
-        btn.innerText = "Verify";
-      }
-    }
 
-    async function openCameraCapture(fieldId, mode, labelDesc) {
-      currentTargetField = fieldId;
-      document.getElementById('camModalTitle').innerText = `Scan: ${labelDesc}`;
-      
-      document.getElementById('modalFrameLandscape').style.display = 'none';
-      document.getElementById('modalFrameA4').style.display = 'none';
+        // Capture image from video stream and run OCR
+        function captureAndScan() {
+            if (!video.srcObject) return;
 
-      // Request highest possible camera resolution from device hardware
-      let constraints = { 
-        video: { 
-          facingMode: { ideal: 'environment' },
-          width: { ideal: 3840 },
-          height: { ideal: 2160 }
-        } 
-      };
+            // Set canvas dimensions to match video stream
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      if (mode === 'landscape') {
-        // High resolution landscape aspect ratio for ID cards
-        targetResolution = { width: 2560, height: 1600 };
-        document.getElementById('modalFrameLandscape').style.display = 'flex';
-        document.getElementById('camInstructions').innerText = `Align card within the framing box clearly.`;
-      } else if (mode === 'a4') {
-        // High resolution A4 portrait aspect ratio for application docs
-        targetResolution = { width: 2480, height: 3508 };
-        document.getElementById('modalFrameA4').style.display = 'flex';
-        document.getElementById('camInstructions').innerText = `Align document fully within the framing box.`;
-      }
+            // Convert canvas image to Data URL
+            const imageDataUrl = canvas.toDataURL('image/png');
 
-      try {
-        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-        const videoElement = document.getElementById('cameraStream');
-        videoElement.srcObject = mediaStream;
-        document.getElementById('cameraModal').classList.add('active');
-      } catch (err) {
-        showCustomAlert("Unable to access high-res camera. Please verify permissions.", "Camera Error");
-      }
-    }
+            // Show Loading Spinner
+            loadingOverlay.classList.remove('hidden');
+            loadingText.innerText = "Recognizing text...";
 
-    function closeCameraModal() {
-      if (mediaStream) {
-        mediaStream.getTracks().forEach(track => track.stop());
-        mediaStream = null;
-      }
-      document.getElementById('cameraModal').classList.remove('active');
-    }
-
-    function captureImage() {
-      const video = document.getElementById('cameraStream');
-      const canvas = document.createElement('canvas');
-      
-      canvas.width = targetResolution.width;
-      canvas.height = targetResolution.height;
-      
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      const vRatio = video.videoWidth / video.videoHeight;
-      const cRatio = canvas.width / canvas.height;
-      let renderWidth = canvas.width;
-      let renderHeight = canvas.height;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (vRatio > cRatio) {
-        renderWidth = canvas.height * vRatio;
-        offsetX = (canvas.width - renderWidth) / 2;
-      } else {
-        renderHeight = canvas.width / vRatio;
-        offsetY = (canvas.height - renderHeight) / 2;
-      }
-
-      // Draw image with crisp smoothing enabled
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(video, offsetX, offsetY, renderWidth, renderHeight);
-
-      // Export at 0.95 quality for maximum clarity without heavy compression artifacts
-      const dataURL = canvas.toDataURL('image/jpeg', 0.95);
-      capturedFiles[currentTargetField] = {
-        data: dataURL,
-        type: 'image/jpeg'
-      };
-
-      document.getElementById(`${currentTargetField}Status`).innerText = `✔ High-Resolution Image Captured`;
-      closeCameraModal();
-    }
-
-    // SIGNATURE CANVAS SETUP
-    const canvas = document.getElementById('sigCanvas');
-    const ctx = canvas.getContext('2d');
-    let isDrawing = false;
-    let hasSigned = false;
-
-    function resetCanvas() {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "#002FBE";
-      ctx.lineWidth = 3;
-      ctx.lineCap = "round";
-    }
-    resetCanvas();
-
-    function getMousePos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return { x: clientX - rect.left, y: clientY - rect.top };
-    }
-
-    function startDrawing(e) {
-      isDrawing = true;
-      hasSigned = true;
-      const pos = getMousePos(e);
-      ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
-      if (e.cancelable) e.preventDefault();
-    }
-
-    function draw(e) {
-      if (!isDrawing) return;
-      const pos = getMousePos(e);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-      if (e.cancelable) e.preventDefault();
-    }
-
-    function stopDrawing() { isDrawing = false; }
-
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    window.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('touchstart', startDrawing, { passive: false });
-    canvas.addEventListener('touchmove', draw, { passive: false });
-    window.addEventListener('touchend', stopDrawing);
-
-    document.getElementById('clearSigBtn').addEventListener('click', () => {
-      resetCanvas();
-      hasSigned = false;
-    });
-
-    document.getElementById('exitForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (!hasSigned) {
-        showCustomAlert("Please add your signature.", "Required");
-        return;
-      }
-
-      if (!capturedFiles.handwrittenApp) {
-        showCustomAlert("Please attach the Handwritten Application scan.", "Required");
-        return;
-      }
-
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = "Submitting, please wait...";
-
-      try {
-        const sigCanvasTemp = document.createElement('canvas');
-        sigCanvasTemp.width = canvas.width;
-        sigCanvasTemp.height = canvas.height;
-        const sigCtx = sigCanvasTemp.getContext('2d');
-        sigCtx.fillStyle = "#ffffff";
-        sigCtx.fillRect(0, 0, sigCanvasTemp.width, sigCanvasTemp.height);
-        sigCtx.drawImage(canvas, 0, 0);
-
-        const payload = {
-          action: 'submitForm',
-          empId: employeeData.empId,
-          empName: employeeData.name,
-          doj: employeeData.doj,
-          dol: employeeData.dol,
-          desig: employeeData.desig,
-          verifier: employeeData.verifier,
-          penalMonth: employeeData.penalMonth,
-          dor: formatDateDisplay(document.getElementById('dor').value),
-          loc: document.getElementById('locSelect').value.trim(),
-          poiAttached: Boolean(capturedFiles.poi),
-          poaAttached: Boolean(capturedFiles.poa),
-          signature: { data: sigCanvasTemp.toDataURL("image/png") },
-          poi: capturedFiles.poi || null,
-          poa: capturedFiles.poa || null,
-          handwrittenApp: capturedFiles.handwrittenApp
-        };
-
-        const result = await postRequest(GAS_WEB_APP_URL, payload);
-
-        if (result.status === 'success') {
-          showCustomAlert("You Application Submitted successfully.", "Success");
-          document.getElementById('exitForm').reset();
-          resetCanvas();
-          hasSigned = false;
-          capturedFiles.poi = null;
-          capturedFiles.poa = null;
-          capturedFiles.handwrittenApp = null;
-          document.getElementById('poiStatus').innerText = "";
-          document.getElementById('poaStatus').innerText = "";
-          document.getElementById('handwrittenAppStatus').innerText = "";
-          document.getElementById('step2').classList.add('hidden');
-          document.getElementById('step1').classList.remove('hidden');
-        } else {
-          showCustomAlert("Error: " + result.message, "Error");
+            // Run Tesseract OCR on captured image
+            Tesseract.recognize(
+                imageDataUrl,
+                'eng',
+                {
+                    logger: m => {
+                        if (m.status === 'recognizing text') {
+                            const progress = Math.round(m.progress * 100);
+                            loadingText.innerText = `Scanning... ${progress}%`;
+                        }
+                    }
+                }
+            ).then(({ data: { text } }) => {
+                loadingOverlay.classList.add('hidden');
+                console.log("Raw OCR Text:", text);
+                
+                // Parse extracted text
+                parseText(text);
+            }).catch(err => {
+                loadingOverlay.classList.add('hidden');
+                console.error(err);
+                alert("Error during OCR processing.");
+            });
         }
-      } catch (err) {
-        showCustomAlert(err.message, "Submission Error");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = "Submit Application";
-      }
-    });
-  </script>
+
+        // Parse extracted text using Regex to find Name and DOB
+        function parseText(text) {
+            // 1. DOB Regex search (matches formats like DD/MM/YYYY, DD-MM-YYYY)
+            const dobRegex = /\b(0[1-9]|[12][0-9]|3[01])[\/\-](0[1-9]|1[012])[\/\-](19|20)\d\d\b/;
+            const dobMatch = text.match(dobRegex);
+            if (dobMatch) {
+                document.getElementById('dob').value = dobMatch[0];
+            }
+
+            // 2. Simple heuristic parsing or fallback cleaning can be added here for names
+            // Note: Real-world card layouts vary, so regex matching for names depends heavily on clean framing.
+            const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 2);
+            if (lines.length > 0) {
+                // Assuming one of the first readable clean lines is the name
+                document.getElementById('fullName').value = lines[0]; 
+            }
+        }
+    </script>
 </body>
 </html>

@@ -4,253 +4,244 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Asset Management - User Portal</title>
+<title>IT Asset Management</title>
 
 <style>
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-    margin:0;
     font-family:Arial,Helvetica,sans-serif;
     background:#f4f6f9;
     color:#1f2937;
 }
 
-.hidden{
-    display:none!important;
-}
+/* ================= LOGIN ================= */
 
-/* LOGIN */
-
-.login-page{
+#loginPage{
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
+    background:#f4f6f9;
     padding:20px;
 }
 
-.login-box{
+.login-card{
     width:100%;
-    max-width:400px;
+    max-width:420px;
     background:#fff;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 5px 25px rgba(0,0,0,.10);
+    padding:35px;
+    border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.12);
 }
 
-.login-box h1{
-    margin:0 0 8px;
-    font-size:24px;
+.login-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:8px;
 }
 
-.login-box p{
+.login-subtitle{
+    text-align:center;
     color:#6b7280;
-    margin-bottom:25px;
+    margin-bottom:28px;
 }
 
 .form-group{
-    margin-bottom:16px;
+    margin-bottom:18px;
 }
 
-label{
+.form-group label{
     display:block;
-    margin-bottom:6px;
-    font-size:13px;
+    font-size:14px;
     font-weight:600;
+    margin-bottom:7px;
 }
 
-input,
-select,
-textarea{
+.form-group input{
     width:100%;
-    padding:11px 12px;
+    padding:13px 14px;
     border:1px solid #d1d5db;
-    border-radius:7px;
-    font-size:14px;
+    border-radius:8px;
+    font-size:15px;
     outline:none;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
+.form-group input:focus{
     border-color:#2563eb;
 }
 
-textarea{
-    resize:vertical;
-    min-height:80px;
-}
-
-button{
-    border:0;
-    border-radius:7px;
-    padding:10px 16px;
-    cursor:pointer;
-    font-size:14px;
-    color:#fff;
-    background:#2563eb;
-}
-
-button:hover{
-    opacity:.9;
-}
-
-button.danger{
-    background:#dc2626;
-}
-
-button.secondary{
-    background:#4b5563;
-}
-
-button.success{
-    background:#16a34a;
-}
-
-.full-btn{
+.login-btn{
     width:100%;
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:13px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
 }
 
-.message{
+.login-btn:hover{
+    background:#1d4ed8;
+}
+
+.login-btn:disabled{
+    background:#9ca3af;
+    cursor:not-allowed;
+}
+
+.login-error{
+    display:none;
+    margin-top:15px;
     padding:11px;
     border-radius:7px;
-    margin-bottom:15px;
-    font-size:13px;
-    display:none;
-}
-
-.error{
     background:#fee2e2;
-    color:#991b1b;
+    color:#b91c1c;
+    font-size:14px;
 }
 
-.success-msg{
-    background:#dcfce7;
-    color:#166534;
+/* ================= APPLICATION ================= */
+
+#appPage{
+    display:none;
+    min-height:100vh;
 }
 
-
-/* APP */
-
-.header{
-    background:#1f2937;
+.topbar{
+    background:#111827;
     color:#fff;
-    padding:15px 25px;
+    padding:15px 22px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     gap:15px;
 }
 
-.header-title{
-    font-size:20px;
-    font-weight:600;
+.brand{
+    font-size:21px;
+    font-weight:700;
 }
 
-.user-info{
-    font-size:13px;
-    text-align:right;
-}
-
-.logout{
-    margin-left:10px;
-    background:#dc2626;
-    padding:7px 12px;
-}
-
-
-/* NAV */
-
-.nav{
-    background:#fff;
-    border-bottom:1px solid #e5e7eb;
-    padding:10px 20px;
+.user-area{
     display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+    align-items:center;
+    gap:14px;
 }
 
-.nav button{
-    background:#f3f4f6;
-    color:#374151;
+.user-name{
+    font-size:14px;
 }
 
-.nav button.active{
-    background:#2563eb;
+.logout-btn{
+    border:1px solid #6b7280;
+    background:transparent;
     color:#fff;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
 }
 
-
-/* CONTAINER */
+.logout-btn:hover{
+    background:#374151;
+}
 
 .container{
-    max-width:1450px;
-    margin:20px auto;
-    padding:0 15px;
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:25px;
 }
 
+/* ================= CARDS ================= */
 
-/* CARDS */
-
-.cards{
+.dashboard-grid{
     display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:15px;
-    margin-bottom:20px;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:25px;
 }
 
-.card{
-    background:#fff;
-    padding:18px;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.07);
-}
-
-.card-label{
-    font-size:13px;
-    color:#6b7280;
-}
-
-.card-value{
-    font-size:27px;
-    font-weight:700;
-    margin-top:7px;
-}
-
-
-/* PANEL */
-
-.panel{
+.stat-card{
     background:#fff;
     padding:20px;
     border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.07);
-    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
-.panel h2{
-    margin-top:0;
+.stat-title{
+    color:#6b7280;
+    font-size:14px;
+    margin-bottom:10px;
 }
 
+.stat-value{
+    font-size:28px;
+    font-weight:700;
+}
 
-/* TABLE */
+/* ================= ASSET SECTION ================= */
 
-.table-wrap{
+.asset-section{
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    padding:20px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.section-title{
+    font-size:20px;
+    font-weight:700;
+}
+
+.search-box{
+    width:300px;
+    max-width:100%;
+    padding:10px 13px;
+    border:1px solid #d1d5db;
+    border-radius:7px;
+    outline:none;
+}
+
+.search-box:focus{
+    border-color:#2563eb;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrapper{
+    width:100%;
     overflow-x:auto;
 }
 
 table{
     width:100%;
-    min-width:1250px;
     border-collapse:collapse;
+    min-width:1000px;
+}
+
+thead{
+    background:#f3f4f6;
 }
 
 th,
 td{
-    padding:10px;
+    padding:12px 10px;
     border-bottom:1px solid #e5e7eb;
     text-align:left;
     font-size:13px;
@@ -258,112 +249,156 @@ td{
 }
 
 th{
+    font-weight:700;
+}
+
+tbody tr:hover{
     background:#f9fafb;
 }
 
-.action-btn{
-    padding:6px 10px;
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
     font-size:12px;
-    margin-right:4px;
+    font-weight:600;
 }
 
+/* ================= STATUS ================= */
 
-/* FORM GRID */
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
+.status-available{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.form-full{
-    grid-column:1/-1;
+.status-assigned{
+    background:#dbeafe;
+    color:#1d4ed8;
 }
 
-.form-actions{
-    margin-top:20px;
-    display:flex;
-    gap:10px;
+.status-maintenance{
+    background:#fef3c7;
+    color:#92400e;
 }
 
+.status-damaged{
+    background:#fee2e2;
+    color:#b91c1c;
+}
 
-/* MODAL */
+.status-lost{
+    background:#f3e8ff;
+    color:#7e22ce;
+}
 
-.modal{
+.status-retired{
+    background:#e5e7eb;
+    color:#374151;
+}
+
+.status-disposed{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.status-default{
+    background:#f3f4f6;
+    color:#374151;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    padding:35px;
+    color:#6b7280;
+}
+
+.empty{
+    text-align:center;
+    padding:35px;
+    color:#6b7280;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
     position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
+    right:20px;
+    bottom:20px;
+    min-width:280px;
+    max-width:400px;
+    padding:14px 18px;
+    border-radius:8px;
+    color:#fff;
+    background:#111827;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
     display:none;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    z-index:999;
+    z-index:9999;
 }
 
-.modal.show{
-    display:flex;
+.toast.error{
+    background:#dc2626;
 }
 
-.modal-box{
-    background:#fff;
-    width:100%;
-    max-width:900px;
-    max-height:90vh;
-    overflow:auto;
-    border-radius:12px;
-    padding:22px;
+.toast.success{
+    background:#16a34a;
 }
 
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.modal-header h2{
-    margin:0;
-}
-
-
-/* MOBILE */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:1000px){
 
-    .cards{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .form-grid{
+    .dashboard-grid{
         grid-template-columns:repeat(2,1fr);
     }
 }
 
-@media(max-width:650px){
+@media(max-width:600px){
 
-    .header{
-        padding:13px;
+    .topbar{
+        padding:13px 15px;
     }
 
-    .user-info{
-        font-size:11px;
+    .brand{
+        font-size:17px;
     }
 
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-        gap:10px;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
+    .user-name{
+        display:none;
     }
 
     .container{
-        padding:0 10px;
+        padding:15px;
     }
 
-    .panel{
+    .dashboard-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat-card{
+        padding:15px;
+    }
+
+    .stat-value{
+        font-size:23px;
+    }
+
+    .asset-section{
         padding:14px;
+    }
+
+    .section-header{
+        align-items:stretch;
+    }
+
+    .search-box{
+        width:100%;
+    }
+
+    .login-card{
+        padding:25px;
     }
 }
 </style>
@@ -371,679 +406,470 @@ th{
 
 <body>
 
+<!-- =========================================================
+     LOGIN PAGE
+========================================================= -->
 
-<!-- =====================================================
-     LOGIN
-====================================================== -->
+<div id="loginPage">
 
-<div id="loginPage" class="login-page">
+    <div class="login-card">
 
-    <div class="login-box">
-
-        <h1>Asset Management</h1>
-
-        <p>User Login</p>
-
-        <div id="loginError"
-             class="message error"></div>
-
-        <div class="form-group">
-
-            <label>User ID</label>
-
-            <input
-                type="text"
-                id="loginUser"
-                autocomplete="username"
-                placeholder="Enter User ID">
-
+        <div class="login-title">
+            IT Asset Management
         </div>
 
-
-        <div class="form-group">
-
-            <label>Password</label>
-
-            <input
-                type="password"
-                id="loginPassword"
-                autocomplete="current-password"
-                placeholder="Enter Password">
-
+        <div class="login-subtitle">
+            User Login
         </div>
 
+        <form id="loginForm">
 
-        <button
-            class="full-btn"
-            onclick="loginUser()">
+            <div class="form-group">
 
-            Login
+                <label for="username">
+                    User ID
+                </label>
 
-        </button>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter User ID"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginBtn"
+            >
+                Login
+            </button>
+
+        </form>
+
+        <div
+            class="login-error"
+            id="loginError"
+        ></div>
 
     </div>
 
 </div>
 
 
+<!-- =========================================================
+     APPLICATION PAGE
+========================================================= -->
 
-<!-- =====================================================
-     MAIN APPLICATION
-====================================================== -->
+<div id="appPage">
 
-<div id="appPage" class="hidden">
+    <div class="topbar">
 
-
-    <!-- HEADER -->
-
-    <div class="header">
-
-        <div class="header-title">
-            Asset Management System
+        <div class="brand">
+            IT Asset Management
         </div>
 
-        <div class="user-info">
+        <div class="user-area">
 
-            <span id="loggedUser"></span>
+            <div
+                class="user-name"
+                id="loggedUser"
+            >
+                User
+            </div>
 
             <button
-                class="logout"
-                onclick="logout()">
-
+                class="logout-btn"
+                onclick="logoutUser()"
+            >
                 Logout
-
             </button>
 
         </div>
-
-    </div>
-
-
-    <!-- NAVIGATION -->
-
-    <div class="nav">
-
-        <button
-            id="navDashboard"
-            class="active"
-            onclick="showSection('dashboard')">
-
-            Dashboard
-
-        </button>
-
-        <button
-            id="navAssets"
-            onclick="showSection('assets')">
-
-            Assets
-
-        </button>
-
-        <button
-            id="navAdd"
-            onclick="openAddAsset()">
-
-            Add Asset
-
-        </button>
 
     </div>
 
 
     <div class="container">
 
+        <!-- ================= DASHBOARD ================= -->
 
-        <!-- =================================================
-             DASHBOARD
-        ================================================== -->
+        <div class="dashboard-grid">
 
-        <section
-            id="dashboardSection">
+            <div class="stat-card">
 
-            <div class="cards">
-
-                <div class="card">
-                    <div class="card-label">
-                        Total Assets
-                    </div>
-
-                    <div
-                        id="totalAssets"
-                        class="card-value">
-                        0
-                    </div>
+                <div class="stat-title">
+                    Total Assets
                 </div>
 
-
-                <div class="card">
-                    <div class="card-label">
-                        Available
-                    </div>
-
-                    <div
-                        id="availableAssets"
-                        class="card-value">
-                        0
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-label">
-                        Assigned
-                    </div>
-
-                    <div
-                        id="assignedAssets"
-                        class="card-value">
-                        0
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-label">
-                        Under Maintenance
-                    </div>
-
-                    <div
-                        id="maintenanceAssets"
-                        class="card-value">
-                        0
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-label">
-                        Damaged
-                    </div>
-
-                    <div
-                        id="damagedAssets"
-                        class="card-value">
-                        0
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-label">
-                        Lost
-                    </div>
-
-                    <div
-                        id="lostAssets"
-                        class="card-value">
-                        0
-                    </div>
+                <div
+                    class="stat-value"
+                    id="totalAssets"
+                >
+                    0
                 </div>
 
             </div>
 
 
-            <div class="panel">
+            <div class="stat-card">
 
-                <h2>Asset Summary</h2>
-
-                <p>
-                    Use the Assets section to view,
-                    update or remove assets.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             ASSETS
-        ================================================== -->
-
-        <section
-            id="assetsSection"
-            class="hidden">
-
-            <div class="panel">
-
-                <h2>Asset Directory</h2>
-
-                <div class="form-group">
-
-                    <input
-                        id="assetSearch"
-                        type="text"
-                        placeholder="Search Asset ID, Tag, Brand, Model, Serial Number..."
-                        oninput="filterAssets()">
-
+                <div class="stat-title">
+                    Available
                 </div>
 
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>Asset ID</th>
-                                <th>Asset Tag</th>
-                                <th>Brand</th>
-                                <th>Model</th>
-                                <th>Serial Number</th>
-                                <th>Status</th>
-                                <th>Condition</th>
-                                <th>Category</th>
-                                <th>Location</th>
-                                <th>Vendor</th>
-                                <th>Department</th>
-                                <th>Action</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody
-                            id="assetTableBody">
-
-                        </tbody>
-
-                    </table>
-
+                <div
+                    class="stat-value"
+                    id="availableAssets"
+                >
+                    0
                 </div>
 
             </div>
 
-        </section>
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Assigned
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="assignedAssets"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Under Maintenance
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="maintenanceAssets"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Damaged
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="damagedAssets"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Lost
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="lostAssets"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Retired
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="retiredAssets"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Disposed
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="disposedAssets"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ASSET TABLE ================= -->
+
+        <div class="asset-section">
+
+            <div class="section-header">
+
+                <div class="section-title">
+                    Asset Register
+                </div>
+
+                <input
+                    type="text"
+                    id="searchBox"
+                    class="search-box"
+                    placeholder="Search Asset ID, Tag, Brand, Model..."
+                    oninput="filterAssets()"
+                >
+
+            </div>
+
+
+            <div
+                id="assetLoading"
+                class="loading"
+            >
+                Loading assets...
+            </div>
+
+
+            <div
+                id="assetEmpty"
+                class="empty"
+                style="display:none;"
+            >
+                No assets found.
+            </div>
+
+
+            <div
+                class="table-wrapper"
+                id="assetTableWrapper"
+                style="display:none;"
+            >
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Asset ID</th>
+                            <th>Asset Tag</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Serial Number</th>
+                            <th>Purchase Date</th>
+                            <th>Purchase Cost</th>
+                            <th>Warranty Start</th>
+                            <th>Warranty End</th>
+                            <th>Status</th>
+                            <th>Condition</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Vendor</th>
+                            <th>Department</th>
+                            <th>Remarks</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="assetTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
 
-
-<!-- =====================================================
-     ADD / UPDATE MODAL
-====================================================== -->
+<!-- =========================================================
+     TOAST
+========================================================= -->
 
 <div
-    id="assetModal"
-    class="modal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2 id="modalTitle">
-                Add Asset
-            </h2>
-
-            <button
-                class="secondary"
-                onclick="closeAssetModal()">
-
-                X
-
-            </button>
-
-        </div>
-
-
-        <div
-            id="assetMessage"
-            class="message"></div>
-
-
-        <input
-            type="hidden"
-            id="editAssetID">
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label>Asset ID</label>
-
-                <input
-                    id="assetID"
-                    placeholder="AST-0001">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Asset Tag</label>
-
-                <input
-                    id="assetTag"
-                    placeholder="IT-LAP-0001">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Brand</label>
-
-                <input
-                    id="brand"
-                    placeholder="Dell">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Model</label>
-
-                <input
-                    id="model"
-                    placeholder="Latitude 5440">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Serial Number</label>
-
-                <input
-                    id="serialNumber">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Purchase Date</label>
-
-                <input
-                    type="date"
-                    id="purchaseDate">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Purchase Cost</label>
-
-                <input
-                    type="number"
-                    id="purchaseCost">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Warranty Start</label>
-
-                <input
-                    type="date"
-                    id="warrantyStart">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Warranty End</label>
-
-                <input
-                    type="date"
-                    id="warrantyEnd">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Status</label>
-
-                <select id="status">
-
-                    <option value="Available">
-                        Available
-                    </option>
-
-                    <option value="Assigned">
-                        Assigned
-                    </option>
-
-                    <option value="Under Maintenance">
-                        Under Maintenance
-                    </option>
-
-                    <option value="Damaged">
-                        Damaged
-                    </option>
-
-                    <option value="Lost">
-                        Lost
-                    </option>
-
-                    <option value="Retired">
-                        Retired
-                    </option>
-
-                    <option value="Disposed">
-                        Disposed
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Condition</label>
-
-                <select id="condition">
-
-                    <option value="New">
-                        New
-                    </option>
-
-                    <option value="Good">
-                        Good
-                    </option>
-
-                    <option value="Fair">
-                        Fair
-                    </option>
-
-                    <option value="Damaged">
-                        Damaged
-                    </option>
-
-                    <option value="Critical">
-                        Critical
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Category</label>
-
-                <input
-                    id="category"
-                    value="Laptop">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Location</label>
-
-                <input
-                    id="location"
-                    value="Head Office">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Vendor</label>
-
-                <input
-                    id="vendor"
-                    value="ABC IT Solutions">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Department</label>
-
-                <input
-                    id="department"
-                    value="Information Technology">
-
-            </div>
-
-
-            <div class="form-group form-full">
-
-                <label>Remarks</label>
-
-                <textarea
-                    id="remarks"></textarea>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-actions">
-
-            <button
-                class="success"
-                onclick="saveAsset()">
-
-                Save Asset
-
-            </button>
-
-            <button
-                class="secondary"
-                onclick="closeAssetModal()">
-
-                Cancel
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
+    id="toast"
+    class="toast"
+></div>
 
 
 <script>
 
 /* =========================================================
-   API URLS
+   POWER AUTOMATE URLS
+=========================================================
+
+   IMPORTANT:
+   Replace these with your CURRENT Power Automate
+   HTTP POST URLs.
+
 ========================================================= */
-
-/*
-   Put your NEW Power Automate URLs here.
-
-   Do NOT put passwords or Microsoft tokens here.
-*/
 
 const LOGIN_API_URL =
     "https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/16/workflows/382c1f3775a94fbcb1ab9874e2fab95f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=msJRa_nx4WGByT8aJNQoi-a3j1818bl_vVC_xV1H_mE";
 
-
 const GET_ASSETS_API_URL =
-    "PASTE_GET_ASSETS_API_URL_HERE";
-
-
-const ADD_ASSET_API_URL =
-    "PASTE_ADD_ASSET_API_URL_HERE";
-
-
-const UPDATE_ASSET_API_URL =
-    "PASTE_UPDATE_ASSET_API_URL_HERE";
-
-
-const DELETE_ASSET_API_URL =
-    "PASTE_DELETE_ASSET_API_URL_HERE";
-
+    "PASTE_GET_ASSETS_FLOW_HTTP_POST_URL_HERE";
 
 
 /* =========================================================
-   GLOBAL
+   GLOBAL VARIABLES
 ========================================================= */
 
 let currentUser = null;
-
 let allAssets = [];
 
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const savedUser =
+            sessionStorage.getItem("assetUser");
+
+        if(savedUser){
+
+            try{
+
+                currentUser =
+                    JSON.parse(savedUser);
+
+                showApplication();
+
+            }catch(error){
+
+                sessionStorage.removeItem("assetUser");
+
+                showLogin();
+
+            }
+
+        }else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SHOW LOGIN
+========================================================= */
+
+function showLogin(){
+
+    document
+        .getElementById("loginPage")
+        .style.display = "flex";
+
+    document
+        .getElementById("appPage")
+        .style.display = "none";
+}
 
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
-async function loginUser(){
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        loginUser
+    );
+
+
+async function loginUser(event){
+
+    event.preventDefault();
 
     const username =
-        document.getElementById(
-            "loginUser"
-        ).value.trim();
-
+        document
+        .getElementById("username")
+        .value
+        .trim();
 
     const password =
-        document.getElementById(
-            "loginPassword"
-        ).value;
+        document
+        .getElementById("password")
+        .value;
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const loginError =
+        document.getElementById("loginError");
 
 
-    const error =
-        document.getElementById(
-            "loginError"
-        );
-
-
-    error.style.display =
-        "none";
-
+    loginError.style.display = "none";
+    loginError.innerText = "";
 
     if(!username || !password){
 
-        error.innerText =
-            "Enter User ID and Password.";
-
-        error.style.display =
-            "block";
+        showLoginError(
+            "Please enter User ID and Password."
+        );
 
         return;
-
     }
 
 
-    /*
-      Login API will be connected
-      after Power Automate login flow
-      is created.
-    */
+    loginBtn.disabled = true;
+    loginBtn.innerText = "Checking...";
+
 
     try{
 
@@ -1051,12 +877,11 @@ async function loginUser(){
             await fetch(
                 LOGIN_API_URL,
                 {
-
                     method:"POST",
 
                     headers:{
-                        "Content-Type":
-                            "application/json"
+                        "Content-Type":"application/json",
+                        "Accept":"application/json"
                     },
 
                     body:JSON.stringify({
@@ -1068,91 +893,146 @@ async function loginUser(){
                         password:password
 
                     })
-
                 }
             );
 
 
-        if(!response.ok){
+        let result = null;
 
-            throw new Error(
-                "Login API Error: " +
-                response.status
-            );
+        try{
+
+            result =
+                await response.json();
+
+        }catch(jsonError){
+
+            result = null;
 
         }
 
 
-        const result =
-            await response.json();
-
+        console.log(
+            "Login HTTP Status:",
+            response.status
+        );
 
         console.log(
-            "LOGIN RESULT:",
+            "Login Response:",
             result
         );
 
 
-        /*
-          Expected:
+        if(!response.ok){
 
-          {
-             success:true,
-             user:{
-                UserID:"...",
-                Name:"..."
-             }
-          }
-        */
+            const message =
+                result?.message ||
+                result?.error ||
+                `Login API Error: ${response.status}`;
+
+            throw new Error(message);
+
+        }
+
 
         if(
-            !result.success
+            !result ||
+            result.success !== true
         ){
 
             throw new Error(
-                result.message ||
-                "Invalid login."
+                result?.message ||
+                "Invalid User ID or Password."
             );
 
         }
 
 
-        currentUser =
-            result.user;
+        /*
+          Handle different possible Power Automate
+          response structures safely.
+        */
+
+        const returnedUser =
+            result.user ||
+            result.User ||
+            result.data?.user ||
+            result.data ||
+            null;
+
+
+        currentUser = {
+
+            UserID:
+                returnedUser?.UserID ||
+                returnedUser?.UserId ||
+                returnedUser?.userID ||
+                returnedUser?.username ||
+                username,
+
+            Name:
+                returnedUser?.Name ||
+                returnedUser?.UserName ||
+                returnedUser?.DisplayName ||
+                returnedUser?.name ||
+                username,
+
+            Email:
+                returnedUser?.Email ||
+                returnedUser?.email ||
+                "",
+
+            Role:
+                returnedUser?.Role ||
+                returnedUser?.role ||
+                "User"
+
+        };
 
 
         sessionStorage.setItem(
             "assetUser",
-            JSON.stringify(
-                currentUser
-            )
+            JSON.stringify(currentUser)
         );
 
 
         showApplication();
 
 
-    }
-    catch(error){
+    }catch(error){
 
-        console.error(error);
+        console.error(
+            "Login Error:",
+            error
+        );
 
-        error =
-            document.getElementById(
-                "loginError"
-            );
-
-        error.innerText =
+        showLoginError(
             error.message ||
-            "Login failed.";
+            "Login failed. Please try again."
+        );
 
-        error.style.display =
-            "block";
+    }finally{
+
+        loginBtn.disabled = false;
+        loginBtn.innerText = "Login";
 
     }
 
 }
 
+
+/* =========================================================
+   LOGIN ERROR
+========================================================= */
+
+function showLoginError(message){
+
+    const box =
+        document.getElementById("loginError");
+
+    box.innerText = message;
+
+    box.style.display = "block";
+}
 
 
 /* =========================================================
@@ -1161,147 +1041,29 @@ async function loginUser(){
 
 function showApplication(){
 
-    document.getElementById(
-        "loginPage"
-    ).classList.add(
-        "hidden"
-    );
+    document
+        .getElementById("loginPage")
+        .style.display = "none";
+
+    document
+        .getElementById("appPage")
+        .style.display = "block";
 
 
-    document.getElementById(
-        "appPage"
-    ).classList.remove(
-        "hidden"
-    );
+    const userName =
+        currentUser?.Name ||
+        currentUser?.UserName ||
+        currentUser?.UserID ||
+        "User";
 
 
-    document.getElementById(
-        "loggedUser"
-    ).innerText =
-        currentUser.Name ||
-        currentUser.UserID ||
-        "";
+    document
+        .getElementById("loggedUser")
+        .innerText = userName;
 
 
     loadAssets();
-
 }
-
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-function logout(){
-
-    sessionStorage.removeItem(
-        "assetUser"
-    );
-
-
-    currentUser = null;
-
-
-    document.getElementById(
-        "appPage"
-    ).classList.add(
-        "hidden"
-    );
-
-
-    document.getElementById(
-        "loginPage"
-    ).classList.remove(
-        "hidden"
-    );
-
-
-    document.getElementById(
-        "loginPassword"
-    ).value = "";
-
-}
-
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function showSection(
-    section
-){
-
-    document.getElementById(
-        "dashboardSection"
-    ).classList.add(
-        "hidden"
-    );
-
-
-    document.getElementById(
-        "assetsSection"
-    ).classList.add(
-        "hidden"
-    );
-
-
-    document.getElementById(
-        "navDashboard"
-    ).classList.remove(
-        "active"
-    );
-
-
-    document.getElementById(
-        "navAssets"
-    ).classList.remove(
-        "active"
-    );
-
-
-    if(
-        section === "dashboard"
-    ){
-
-        document.getElementById(
-            "dashboardSection"
-        ).classList.remove(
-            "hidden"
-        );
-
-
-        document.getElementById(
-            "navDashboard"
-        ).classList.add(
-            "active"
-        );
-
-    }
-
-
-    if(
-        section === "assets"
-    ){
-
-        document.getElementById(
-            "assetsSection"
-        ).classList.remove(
-            "hidden"
-        );
-
-
-        document.getElementById(
-            "navAssets"
-        ).classList.add(
-            "active"
-        );
-
-    }
-
-}
-
 
 
 /* =========================================================
@@ -1310,104 +1072,160 @@ function showSection(
 
 async function loadAssets(){
 
+    const loading =
+        document.getElementById(
+            "assetLoading"
+        );
+
+    const empty =
+        document.getElementById(
+            "assetEmpty"
+        );
+
+    const wrapper =
+        document.getElementById(
+            "assetTableWrapper"
+        );
+
+    loading.style.display = "block";
+    empty.style.display = "none";
+    wrapper.style.display = "none";
+
+
     try{
 
         const response =
             await fetch(
                 GET_ASSETS_API_URL,
                 {
-
                     method:"POST",
 
                     headers:{
-                        "Content-Type":
-                            "application/json"
+                        "Content-Type":"application/json",
+                        "Accept":"application/json"
                     },
 
                     body:JSON.stringify({
-                        action:"getAssets"
-                    })
 
+                        action:"getAssets"
+
+                    })
                 }
             );
+
+
+        let result = null;
+
+        try{
+
+            result =
+                await response.json();
+
+        }catch(error){
+
+            result = null;
+
+        }
+
+
+        console.log(
+            "Assets HTTP Status:",
+            response.status
+        );
+
+        console.log(
+            "Assets Response:",
+            result
+        );
 
 
         if(!response.ok){
 
             throw new Error(
-                "Asset API Error: " +
-                response.status
+                result?.message ||
+                result?.error ||
+                `API Error: ${response.status}`
             );
 
         }
 
 
-        const result =
-            await response.json();
+        /*
+          Your current Power Automate response is:
+
+          {
+             success:true,
+             data:[ ... ]
+          }
+
+          This code also handles a few alternate structures.
+        */
+
+        let assets = [];
+
+        if(Array.isArray(result)){
+
+            assets = result;
+
+        }else if(
+            Array.isArray(result?.data)
+        ){
+
+            assets = result.data;
+
+        }else if(
+            Array.isArray(result?.body?.data)
+        ){
+
+            assets = result.body.data;
+
+        }else if(
+            Array.isArray(result?.body?.value)
+        ){
+
+            assets = result.body.value;
+
+        }else if(
+            Array.isArray(result?.value)
+        ){
+
+            assets = result.value;
+
+        }
 
 
-        console.log(
-            "ASSET API:",
-            result
+        allAssets = assets;
+
+
+        updateDashboard(
+            allAssets
         );
 
-
-        if(
-            result.body &&
-            Array.isArray(
-                result.body.data
-            )
-        ){
-
-            allAssets =
-                result.body.data;
-
-        }
-
-        else if(
-            Array.isArray(
-                result.data
-            )
-        ){
-
-            allAssets =
-                result.data;
-
-        }
-
-        else if(
-            Array.isArray(result)
-        ){
-
-            allAssets =
-                result;
-
-        }
-
-        else{
-
-            allAssets = [];
-
-        }
-
-
-        updateDashboard();
 
         renderAssets(
             allAssets
         );
 
 
-    }
-    catch(error){
+    }catch(error){
 
         console.error(
-            "LOAD ASSETS ERROR:",
+            "loadAssets Error:",
             error
         );
 
-        alert(
-            error.message
+        loading.style.display = "none";
+
+        empty.style.display = "block";
+
+        empty.innerText =
+            "Unable to load assets: " +
+            error.message;
+
+        showToast(
+            "Unable to load assets: " +
+            error.message,
+            "error"
         );
 
     }
@@ -1415,160 +1233,159 @@ async function loadAssets(){
 }
 
 
-
 /* =========================================================
-   DASHBOARD
+   UPDATE DASHBOARD
 ========================================================= */
 
-function updateDashboard(){
+function updateDashboard(assets){
+
+    const countStatus =
+        function(status){
+
+            return assets.filter(
+                asset =>
+                    getChoiceValue(
+                        asset.Status
+                    ).toLowerCase() ===
+                    status.toLowerCase()
+            ).length;
+
+        };
+
 
     document.getElementById(
         "totalAssets"
-    ).innerText =
-        allAssets.length;
+    ).innerText = assets.length;
 
 
     document.getElementById(
         "availableAssets"
     ).innerText =
-        countStatus(
-            "Available"
-        );
+        countStatus("Available");
 
 
     document.getElementById(
         "assignedAssets"
     ).innerText =
-        countStatus(
-            "Assigned"
-        );
+        countStatus("Assigned");
 
 
     document.getElementById(
         "maintenanceAssets"
     ).innerText =
-        countStatus(
-            "Under Maintenance"
-        );
+        countStatus("Under Maintenance");
 
 
     document.getElementById(
         "damagedAssets"
     ).innerText =
-        countStatus(
-            "Damaged"
-        );
+        countStatus("Damaged");
 
 
     document.getElementById(
         "lostAssets"
     ).innerText =
-        countStatus(
-            "Lost"
-        );
+        countStatus("Lost");
+
+
+    document.getElementById(
+        "retiredAssets"
+    ).innerText =
+        countStatus("Retired");
+
+
+    document.getElementById(
+        "disposedAssets"
+    ).innerText =
+        countStatus("Disposed");
 
 }
-
-
-
-function countStatus(
-    status
-){
-
-    return allAssets.filter(
-        asset =>
-            getLookupValue(
-                asset.Status
-            ) === status
-    ).length;
-
-}
-
-
-
-/* =========================================================
-   LOOKUP
-========================================================= */
-
-function getLookupValue(
-    value
-){
-
-    if(
-        value === null ||
-        value === undefined
-    ){
-
-        return "";
-
-    }
-
-
-    if(
-        typeof value === "object"
-    ){
-
-        if(
-            value.Value !== undefined
-        ){
-
-            return value.Value;
-
-        }
-
-
-        if(
-            value.DisplayName !== undefined
-        ){
-
-            return value.DisplayName;
-
-        }
-
-
-        if(
-            value.Title !== undefined
-        ){
-
-            return value.Title;
-
-        }
-
-
-        return "";
-
-    }
-
-
-    return String(value);
-
-}
-
 
 
 /* =========================================================
    RENDER ASSETS
 ========================================================= */
 
-function renderAssets(
-    assets
-){
+function renderAssets(assets){
 
-    const body =
+    const loading =
+        document.getElementById(
+            "assetLoading"
+        );
+
+    const empty =
+        document.getElementById(
+            "assetEmpty"
+        );
+
+    const wrapper =
+        document.getElementById(
+            "assetTableWrapper"
+        );
+
+    const tbody =
         document.getElementById(
             "assetTableBody"
         );
 
 
-    body.innerHTML = "";
+    loading.style.display = "none";
+
+    tbody.innerHTML = "";
+
+
+    if(
+        !Array.isArray(assets) ||
+        assets.length === 0
+    ){
+
+        wrapper.style.display = "none";
+        empty.style.display = "block";
+
+        return;
+
+    }
+
+
+    wrapper.style.display = "block";
+    empty.style.display = "none";
 
 
     assets.forEach(
-        asset => {
+        function(asset){
 
             const row =
-                document.createElement(
-                    "tr"
+                document.createElement("tr");
+
+
+            const status =
+                getChoiceValue(
+                    asset.Status
+                );
+
+            const condition =
+                getChoiceValue(
+                    asset.Condition
+                );
+
+            const category =
+                getChoiceValue(
+                    asset.AssetCategory
+                );
+
+            const location =
+                getChoiceValue(
+                    asset.AssetLocation
+                );
+
+            const vendor =
+                getChoiceValue(
+                    asset.AssetVendor
+                );
+
+            const department =
+                getChoiceValue(
+                    asset.AssetDepartment
                 );
 
 
@@ -1595,86 +1412,58 @@ function renderAssets(
                 </td>
 
                 <td>
-                    ${safe(
-                        getLookupValue(
-                            asset.Status
-                        )
-                    )}
+                    ${formatDate(asset.PurchaseDate)}
                 </td>
 
                 <td>
-                    ${safe(
-                        getLookupValue(
-                            asset.Condition
-                        )
-                    )}
+                    ${formatCurrency(asset.PurchaseCost)}
                 </td>
 
                 <td>
-                    ${safe(
-                        getLookupValue(
-                            asset.AssetCategory
-                        )
-                    )}
+                    ${formatDate(asset.WarrantyStart)}
                 </td>
 
                 <td>
-                    ${safe(
-                        getLookupValue(
-                            asset.AssetLocation
-                        )
-                    )}
+                    ${formatDate(asset.WarrantyEnd)}
                 </td>
 
                 <td>
-                    ${safe(
-                        getLookupValue(
-                            asset.AssetVendor
-                        )
-                    )}
+                    ${statusBadge(status)}
                 </td>
 
                 <td>
-                    ${safe(
-                        getLookupValue(
-                            asset.AssetDepartment
-                        )
-                    )}
+                    ${safe(condition)}
                 </td>
 
                 <td>
+                    ${safe(category)}
+                </td>
 
-                    <button
-                        class="action-btn"
-                        onclick="editAsset('${safeJs(asset.AssetID)}')">
+                <td>
+                    ${safe(location)}
+                </td>
 
-                        Edit
+                <td>
+                    ${safe(vendor)}
+                </td>
 
-                    </button>
+                <td>
+                    ${safe(department)}
+                </td>
 
-
-                    <button
-                        class="action-btn danger"
-                        onclick="deleteAsset('${safeJs(asset.AssetID)}')">
-
-                        Delete
-
-                    </button>
-
+                <td>
+                    ${safe(asset.Remarks)}
                 </td>
 
             `;
 
 
-            body.appendChild(
-                row
-            );
+            tbody.appendChild(row);
 
         }
     );
 
 }
-
 
 
 /* =========================================================
@@ -1684,11 +1473,11 @@ function renderAssets(
 function filterAssets(){
 
     const query =
-        document.getElementById(
-            "assetSearch"
-        ).value
-        .toLowerCase()
-        .trim();
+        document
+        .getElementById("searchBox")
+        .value
+        .trim()
+        .toLowerCase();
 
 
     if(!query){
@@ -1704,7 +1493,7 @@ function filterAssets(){
 
     const filtered =
         allAssets.filter(
-            asset => {
+            function(asset){
 
                 const text = [
 
@@ -1718,25 +1507,31 @@ function filterAssets(){
 
                     asset.SerialNumber,
 
-                    getLookupValue(
+                    getChoiceValue(
                         asset.Status
                     ),
 
-                    getLookupValue(
+                    getChoiceValue(
+                        asset.Condition
+                    ),
+
+                    getChoiceValue(
                         asset.AssetCategory
                     ),
 
-                    getLookupValue(
+                    getChoiceValue(
                         asset.AssetLocation
                     ),
 
-                    getLookupValue(
+                    getChoiceValue(
                         asset.AssetVendor
                     ),
 
-                    getLookupValue(
+                    getChoiceValue(
                         asset.AssetDepartment
-                    )
+                    ),
+
+                    asset.Remarks
 
                 ]
                 .join(" ")
@@ -1758,717 +1553,296 @@ function filterAssets(){
 }
 
 
-
 /* =========================================================
-   ADD ASSET
+   SHAREPOINT CHOICE VALUE
 ========================================================= */
 
-function openAddAsset(){
+function getChoiceValue(value){
 
-    clearForm();
+    if(value === null || value === undefined){
 
-
-    document.getElementById(
-        "modalTitle"
-    ).innerText =
-        "Add Asset";
-
-
-    document.getElementById(
-        "assetModal"
-    ).classList.add(
-        "show"
-    );
-
-}
-
-
-
-function clearForm(){
-
-    document.getElementById(
-        "editAssetID"
-    ).value = "";
-
-
-    document.getElementById(
-        "assetID"
-    ).value = "";
-
-
-    document.getElementById(
-        "assetTag"
-    ).value = "";
-
-
-    document.getElementById(
-        "brand"
-    ).value = "";
-
-
-    document.getElementById(
-        "model"
-    ).value = "";
-
-
-    document.getElementById(
-        "serialNumber"
-    ).value = "";
-
-
-    document.getElementById(
-        "purchaseDate"
-    ).value = "";
-
-
-    document.getElementById(
-        "purchaseCost"
-    ).value = "";
-
-
-    document.getElementById(
-        "warrantyStart"
-    ).value = "";
-
-
-    document.getElementById(
-        "warrantyEnd"
-    ).value = "";
-
-
-    document.getElementById(
-        "status"
-    ).value =
-        "Available";
-
-
-    document.getElementById(
-        "condition"
-    ).value =
-        "New";
-
-
-    document.getElementById(
-        "category"
-    ).value = "";
-
-
-    document.getElementById(
-        "location"
-    ).value = "";
-
-
-    document.getElementById(
-        "vendor"
-    ).value = "";
-
-
-    document.getElementById(
-        "department"
-    ).value = "";
-
-
-    document.getElementById(
-        "remarks"
-    ).value = "";
-
-}
-
-
-
-/* =========================================================
-   EDIT ASSET
-========================================================= */
-
-function editAsset(
-    assetID
-){
-
-    const asset =
-        allAssets.find(
-            item =>
-                item.AssetID ===
-                assetID
-        );
-
-
-    if(!asset){
-
-        alert(
-            "Asset not found."
-        );
-
-        return;
+        return "";
 
     }
 
 
-    document.getElementById(
-        "modalTitle"
-    ).innerText =
-        "Update Asset";
+    if(typeof value === "string"){
+
+        return value;
+
+    }
 
 
-    document.getElementById(
-        "editAssetID"
-    ).value =
-        asset.AssetID;
+    if(typeof value === "object"){
 
-
-    document.getElementById(
-        "assetID"
-    ).value =
-        asset.AssetID || "";
-
-
-    document.getElementById(
-        "assetTag"
-    ).value =
-        asset.AssetTag || "";
-
-
-    document.getElementById(
-        "brand"
-    ).value =
-        asset.Brand || "";
-
-
-    document.getElementById(
-        "model"
-    ).value =
-        asset.Model || "";
-
-
-    document.getElementById(
-        "serialNumber"
-    ).value =
-        asset.SerialNumber || "";
-
-
-    document.getElementById(
-        "purchaseDate"
-    ).value =
-        asset.PurchaseDate || "";
-
-
-    document.getElementById(
-        "purchaseCost"
-    ).value =
-        asset.PurchaseCost || "";
-
-
-    document.getElementById(
-        "warrantyStart"
-    ).value =
-        asset.WarrantyStart || "";
-
-
-    document.getElementById(
-        "warrantyEnd"
-    ).value =
-        asset.WarrantyEnd || "";
-
-
-    document.getElementById(
-        "status"
-    ).value =
-        getLookupValue(
-            asset.Status
+        return (
+            value.Value ||
+            value.value ||
+            value.Title ||
+            value.Name ||
+            ""
         );
 
-
-    document.getElementById(
-        "condition"
-    ).value =
-        getLookupValue(
-            asset.Condition
-        );
+    }
 
 
-    document.getElementById(
-        "category"
-    ).value =
-        getLookupValue(
-            asset.AssetCategory
-        );
-
-
-    document.getElementById(
-        "location"
-    ).value =
-        getLookupValue(
-            asset.AssetLocation
-        );
-
-
-    document.getElementById(
-        "vendor"
-    ).value =
-        getLookupValue(
-            asset.AssetVendor
-        );
-
-
-    document.getElementById(
-        "department"
-    ).value =
-        getLookupValue(
-            asset.AssetDepartment
-        );
-
-
-    document.getElementById(
-        "remarks"
-    ).value =
-        asset.Remarks || "";
-
-
-    document.getElementById(
-        "assetModal"
-    ).classList.add(
-        "show"
-    );
+    return String(value);
 
 }
 
 
-
 /* =========================================================
-   SAVE ASSET
+   STATUS BADGE
 ========================================================= */
 
-async function saveAsset(){
+function statusBadge(status){
 
-    const editID =
-        document.getElementById(
-            "editAssetID"
-        ).value;
+    const normalized =
+        status
+        .toLowerCase()
+        .replace(/\s+/g,"-");
 
 
-    const asset = {
+    let css =
+        "status-default";
 
-        AssetID:
-            document.getElementById(
-                "assetID"
-            ).value.trim(),
-
-        AssetTag:
-            document.getElementById(
-                "assetTag"
-            ).value.trim(),
-
-        Brand:
-            document.getElementById(
-                "brand"
-            ).value.trim(),
-
-        Model:
-            document.getElementById(
-                "model"
-            ).value.trim(),
-
-        SerialNumber:
-            document.getElementById(
-                "serialNumber"
-            ).value.trim(),
-
-        PurchaseDate:
-            document.getElementById(
-                "purchaseDate"
-            ).value,
-
-        PurchaseCost:
-            document.getElementById(
-                "purchaseCost"
-            ).value,
-
-        WarrantyStart:
-            document.getElementById(
-                "warrantyStart"
-            ).value,
-
-        WarrantyEnd:
-            document.getElementById(
-                "warrantyEnd"
-            ).value,
-
-        Status:
-            document.getElementById(
-                "status"
-            ).value,
-
-        Condition:
-            document.getElementById(
-                "condition"
-            ).value,
-
-        AssetCategory:
-            document.getElementById(
-                "category"
-            ).value.trim(),
-
-        AssetLocation:
-            document.getElementById(
-                "location"
-            ).value.trim(),
-
-        AssetVendor:
-            document.getElementById(
-                "vendor"
-            ).value.trim(),
-
-        AssetDepartment:
-            document.getElementById(
-                "department"
-            ).value.trim(),
-
-        Remarks:
-            document.getElementById(
-                "remarks"
-            ).value.trim(),
-
-        PerformedBy:
-            currentUser
-                ? (
-                    currentUser.Name ||
-                    currentUser.UserID
-                )
-                : ""
-
-    };
-
-
-    if(!asset.AssetID){
-
-        alert(
-            "Asset ID is required."
-        );
-
-        return;
-
-    }
-
-
-    const isUpdate =
-        editID !== "";
-
-
-    const API =
-        isUpdate
-            ? UPDATE_ASSET_API_URL
-            : ADD_ASSET_API_URL;
-
-
-    const action =
-        isUpdate
-            ? "updateAsset"
-            : "addAsset";
-
-
-    try{
-
-        const response =
-            await fetch(
-                API,
-                {
-
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:JSON.stringify({
-
-                        action:action,
-
-                        asset:asset
-
-                    })
-
-                }
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Save API Error: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        console.log(
-            "SAVE RESULT:",
-            result
-        );
-
-
-        if(
-            result.success === false
-        ){
-
-            throw new Error(
-                result.message ||
-                "Asset could not be saved."
-            );
-
-        }
-
-
-        closeAssetModal();
-
-
-        await loadAssets();
-
-
-        alert(
-            isUpdate
-                ? "Asset updated successfully."
-                : "Asset added successfully."
-        );
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            error.message
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   DELETE ASSET
-========================================================= */
-
-async function deleteAsset(
-    assetID
-){
 
     if(
-        !confirm(
-            "Are you sure you want to remove asset " +
-            assetID +
-            "?"
-        )
+        normalized === "available"
     ){
 
-        return;
+        css =
+            "status-available";
+
+    }else if(
+        normalized === "assigned"
+    ){
+
+        css =
+            "status-assigned";
+
+    }else if(
+        normalized === "under-maintenance"
+    ){
+
+        css =
+            "status-maintenance";
+
+    }else if(
+        normalized === "damaged"
+    ){
+
+        css =
+            "status-damaged";
+
+    }else if(
+        normalized === "lost"
+    ){
+
+        css =
+            "status-lost";
+
+    }else if(
+        normalized === "retired"
+    ){
+
+        css =
+            "status-retired";
+
+    }else if(
+        normalized === "disposed"
+    ){
+
+        css =
+            "status-disposed";
 
     }
 
 
-    try{
-
-        const response =
-            await fetch(
-                DELETE_ASSET_API_URL,
-                {
-
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:JSON.stringify({
-
-                        action:"deleteAsset",
-
-                        AssetID:assetID,
-
-                        PerformedBy:
-                            currentUser
-                                ? (
-                                    currentUser.Name ||
-                                    currentUser.UserID
-                                )
-                                : ""
-
-                    })
-
-                }
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Delete API Error: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        console.log(
-            "DELETE RESULT:",
-            result
-        );
-
-
-        if(
-            result.success === false
-        ){
-
-            throw new Error(
-                result.message ||
-                "Asset could not be removed."
-            );
-
-        }
-
-
-        await loadAssets();
-
-
-        alert(
-            "Asset removed successfully."
-        );
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            error.message
-        );
-
-    }
+    return `
+        <span class="status ${css}">
+            ${safe(status)}
+        </span>
+    `;
 
 }
-
-
-
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
-
-function closeAssetModal(){
-
-    document.getElementById(
-        "assetModal"
-    ).classList.remove(
-        "show"
-    );
-
-}
-
 
 
 /* =========================================================
    SAFE HTML
 ========================================================= */
 
-function safe(
-    value
-){
+function safe(value){
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
-
-
-
-function safeJs(
-    value
-){
-
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-    .replace(
-        /'/g,
-        "\\'"
-    );
-
-}
-
 
 
 /* =========================================================
-   SESSION
+   DATE
 ========================================================= */
 
-window.addEventListener(
-    "DOMContentLoaded",
-    function(){
+function formatDate(value){
 
-        const savedUser =
-            sessionStorage.getItem(
-                "assetUser"
-            );
+    if(!value){
 
-
-        if(savedUser){
-
-            try{
-
-                currentUser =
-                    JSON.parse(
-                        savedUser
-                    );
-
-                showApplication();
-
-            }
-            catch(e){
-
-                sessionStorage.removeItem(
-                    "assetUser"
-                );
-
-            }
-
-        }
+        return "";
 
     }
-);
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return safe(value);
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CURRENCY
+========================================================= */
+
+function formatCurrency(value){
+
+    if(
+        value === null ||
+        value === undefined ||
+        value === ""
+    ){
+
+        return "";
+
+    }
+
+
+    const number =
+        Number(value);
+
+
+    if(Number.isNaN(number)){
+
+        return safe(value);
+
+    }
+
+
+    return "₹ " +
+        number.toLocaleString(
+            "en-IN",
+            {
+                minimumFractionDigits:0,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logoutUser(){
+
+    currentUser = null;
+    allAssets = [];
+
+    sessionStorage.removeItem(
+        "assetUser"
+    );
+
+
+    document.getElementById(
+        "username"
+    ).value = "";
+
+    document.getElementById(
+        "password"
+    ).value = "";
+
+
+    document.getElementById(
+        "searchBox"
+    ).value = "";
+
+
+    showLogin();
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+    message,
+    type = ""
+){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.innerText =
+        message;
+
+    toast.className =
+        "toast " + type;
+
+    toast.style.display =
+        "block";
+
+
+    setTimeout(
+        function(){
+
+            toast.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
 
 </script>
 

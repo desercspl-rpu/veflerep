@@ -1,1422 +1,2476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Asset Management System</title>
+<title>Asset Management - User Portal</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f9;
+    color:#1f2937;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* LOGIN */
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:400px;
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 25px rgba(0,0,0,.10);
+}
+
+.login-box h1{
+    margin:0 0 8px;
+    font-size:24px;
+}
+
+.login-box p{
+    color:#6b7280;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    font-size:13px;
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #d1d5db;
+    border-radius:7px;
+    font-size:14px;
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#2563eb;
+}
+
+textarea{
+    resize:vertical;
+    min-height:80px;
+}
+
+button{
+    border:0;
+    border-radius:7px;
+    padding:10px 16px;
+    cursor:pointer;
+    font-size:14px;
+    color:#fff;
+    background:#2563eb;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button.danger{
+    background:#dc2626;
+}
+
+button.secondary{
+    background:#4b5563;
+}
+
+button.success{
+    background:#16a34a;
+}
+
+.full-btn{
+    width:100%;
+}
+
+.message{
+    padding:11px;
+    border-radius:7px;
+    margin-bottom:15px;
+    font-size:13px;
+    display:none;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.success-msg{
+    background:#dcfce7;
+    color:#166534;
+}
+
+
+/* APP */
+
+.header{
+    background:#1f2937;
+    color:#fff;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.header-title{
+    font-size:20px;
+    font-weight:600;
+}
+
+.user-info{
+    font-size:13px;
+    text-align:right;
+}
+
+.logout{
+    margin-left:10px;
+    background:#dc2626;
+    padding:7px 12px;
+}
+
+
+/* NAV */
+
+.nav{
+    background:#fff;
+    border-bottom:1px solid #e5e7eb;
+    padding:10px 20px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.nav button{
+    background:#f3f4f6;
+    color:#374151;
+}
+
+.nav button.active{
+    background:#2563eb;
+    color:#fff;
+}
+
+
+/* CONTAINER */
+
+.container{
+    max-width:1450px;
+    margin:20px auto;
+    padding:0 15px;
+}
+
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:#fff;
+    padding:18px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+
+.card-label{
+    font-size:13px;
+    color:#6b7280;
+}
+
+.card-value{
+    font-size:27px;
+    font-weight:700;
+    margin-top:7px;
+}
+
+
+/* PANEL */
+
+.panel{
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
+    margin-bottom:20px;
+}
+
+.panel h2{
+    margin-top:0;
+}
+
+
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:1250px;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+th{
+    background:#f9fafb;
+}
+
+.action-btn{
+    padding:6px 10px;
+    font-size:12px;
+    margin-right:4px;
+}
+
+
+/* FORM GRID */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.form-full{
+    grid-column:1/-1;
+}
+
+.form-actions{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+}
+
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:999;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:#fff;
+    width:100%;
+    max-width:900px;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:12px;
+    padding:22px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-header h2{
+    margin:0;
+}
+
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+    .cards{
+        grid-template-columns:repeat(3,1fr);
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fa;
-      color: #1f2937;
+    .form-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+
+    .header{
+        padding:13px;
     }
 
-    .header {
-      background: #1f2937;
-      color: #ffffff;
-      padding: 18px 25px;
+    .user-info{
+        font-size:11px;
     }
 
-    .header h1 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 600;
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
     }
 
-    .header p {
-      margin: 5px 0 0;
-      font-size: 13px;
-      opacity: 0.8;
+    .form-grid{
+        grid-template-columns:1fr;
     }
 
-    .container {
-      max-width: 1400px;
-      margin: 25px auto;
-      padding: 0 15px;
+    .container{
+        padding:0 10px;
     }
 
-    /* =========================
-       DASHBOARD CARDS
-    ========================= */
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(130px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
+    .panel{
+        padding:14px;
     }
-
-    .card {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 18px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .card .label {
-      font-size: 13px;
-      color: #6b7280;
-    }
-
-    .card .value {
-      font-size: 28px;
-      font-weight: 700;
-      margin-top: 8px;
-    }
-
-    /* =========================
-       PANEL
-    ========================= */
-
-    .panel {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .panel-header h2 {
-      margin: 0;
-      font-size: 19px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      background: #2563eb;
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    button.secondary {
-      background: #4b5563;
-    }
-
-    /* =========================
-       SEARCH
-    ========================= */
-
-    .search-box {
-      margin-bottom: 15px;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 11px 13px;
-      border: 1px solid #d1d5db;
-      border-radius: 7px;
-      outline: none;
-      font-size: 14px;
-    }
-
-    .search-box input:focus {
-      border-color: #2563eb;
-    }
-
-    /* =========================
-       TABLE
-    ========================= */
-
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 1300px;
-    }
-
-    th,
-    td {
-      padding: 11px 10px;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    th {
-      background: #f9fafb;
-      font-weight: 600;
-      color: #374151;
-    }
-
-    tbody tr:hover {
-      background: #f9fafb;
-    }
-
-    /* =========================
-       STATUS
-    ========================= */
-
-    .status {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .Available {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .Assigned {
-      background: #dbeafe;
-      color: #1e40af;
-    }
-
-    .UnderMaintenance {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .Damaged {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .Lost {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .Retired {
-      background: #e5e7eb;
-      color: #374151;
-    }
-
-    /* =========================
-       MESSAGE
-    ========================= */
-
-    .message {
-      padding: 14px;
-      border-radius: 7px;
-      margin-bottom: 15px;
-      display: none;
-      font-size: 14px;
-    }
-
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .success {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #6b7280;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 30px;
-      color: #6b7280;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media (max-width: 1100px) {
-      .cards {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    @media (max-width: 700px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .header {
-        padding: 15px;
-      }
-
-      .container {
-        margin-top: 15px;
-      }
-
-      .panel {
-        padding: 14px;
-      }
-
-      .card .value {
-        font-size: 23px;
-      }
-    }
-
-    @media (max-width: 430px) {
-      .cards {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      .card {
-        padding: 14px;
-      }
-
-      .card .label {
-        font-size: 12px;
-      }
-
-      .card .value {
-        font-size: 21px;
-      }
-
-      .panel-header {
-        align-items: stretch;
-      }
-
-      .actions {
-        width: 100%;
-      }
-
-      .actions button {
-        flex: 1;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================== -->
 
-  <div class="header">
-    <h1>Asset Management System</h1>
-    <p>External Hosted Asset Portal</p>
-  </div>
+<!-- =====================================================
+     LOGIN
+====================================================== -->
 
+<div id="loginPage" class="login-page">
 
-  <div class="container">
+    <div class="login-box">
 
-    <!-- =========================
-         MESSAGES
-    ========================== -->
+        <h1>Asset Management</h1>
 
-    <div id="errorBox" class="message error"></div>
+        <p>User Login</p>
 
-    <div id="successBox" class="message success"></div>
+        <div id="loginError"
+             class="message error"></div>
 
+        <div class="form-group">
 
-    <!-- =========================
-         DASHBOARD
-    ========================== -->
+            <label>User ID</label>
 
-    <div class="cards">
+            <input
+                type="text"
+                id="loginUser"
+                autocomplete="username"
+                placeholder="Enter User ID">
 
-      <div class="card">
-        <div class="label">Total Assets</div>
-        <div class="value" id="totalAssets">0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Available</div>
-        <div class="value" id="availableAssets">0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Assigned</div>
-        <div class="value" id="assignedAssets">0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Under Maintenance</div>
-        <div class="value" id="maintenanceAssets">0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Damaged</div>
-        <div class="value" id="damagedAssets">0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Lost</div>
-        <div class="value" id="lostAssets">0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Retired</div>
-        <div class="value" id="retiredAssets">0</div>
-      </div>
-
-    </div>
-
-
-    <!-- =========================
-         ASSET TABLE
-    ========================== -->
-
-    <div class="panel">
-
-      <div class="panel-header">
-
-        <h2>IT Assets</h2>
-
-        <div class="actions">
-          <button onclick="loadAssets()">
-            Refresh
-          </button>
-
-          <button
-            class="secondary"
-            onclick="clearSearch()">
-            Clear Search
-          </button>
         </div>
 
-      </div>
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                autocomplete="current-password"
+                placeholder="Enter Password">
+
+        </div>
 
 
-      <!-- SEARCH -->
+        <button
+            class="full-btn"
+            onclick="loginUser()">
 
-      <div class="search-box">
+            Login
 
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search Asset ID, Asset Tag, Brand, Model, Serial Number..."
-          oninput="searchAssets()">
-
-      </div>
-
-
-      <!-- LOADING -->
-
-      <div
-        id="loading"
-        class="loading">
-
-        Loading assets...
-
-      </div>
-
-
-      <!-- TABLE -->
-
-      <div
-        id="emptyMessage"
-        class="empty"
-        style="display:none;">
-
-        No assets found.
-
-      </div>
-
-
-      <div
-        id="tableContainer"
-        class="table-wrap"
-        style="display:none;">
-
-        <table>
-
-          <thead>
-
-            <tr>
-
-              <th>Asset ID</th>
-              <th>Asset Tag</th>
-              <th>Asset Type</th>
-              <th>Brand</th>
-              <th>Model</th>
-              <th>Serial Number</th>
-              <th>Purchase Date</th>
-              <th>Purchase Cost</th>
-              <th>Warranty Start</th>
-              <th>Warranty End</th>
-              <th>Status</th>
-              <th>Condition</th>
-              <th>Category</th>
-              <th>Location</th>
-              <th>Vendor</th>
-              <th>Department</th>
-              <th>Remarks</th>
-
-            </tr>
-
-          </thead>
-
-          <tbody id="assetBody"></tbody>
-
-        </table>
-
-      </div>
+        </button>
 
     </div>
 
-  </div>
+</div>
 
 
-  <script>
 
-    /* =====================================================
-       POWER AUTOMATE API
-    ===================================================== */
+<!-- =====================================================
+     MAIN APPLICATION
+====================================================== -->
+
+<div id="appPage" class="hidden">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-title">
+            Asset Management System
+        </div>
+
+        <div class="user-info">
+
+            <span id="loggedUser"></span>
+
+            <button
+                class="logout"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="nav">
+
+        <button
+            id="navDashboard"
+            class="active"
+            onclick="showSection('dashboard')">
+
+            Dashboard
+
+        </button>
+
+        <button
+            id="navAssets"
+            onclick="showSection('assets')">
+
+            Assets
+
+        </button>
+
+        <button
+            id="navAdd"
+            onclick="openAddAsset()">
+
+            Add Asset
+
+        </button>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
+
+        <section
+            id="dashboardSection">
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-label">
+                        Total Assets
+                    </div>
+
+                    <div
+                        id="totalAssets"
+                        class="card-value">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-label">
+                        Available
+                    </div>
+
+                    <div
+                        id="availableAssets"
+                        class="card-value">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-label">
+                        Assigned
+                    </div>
+
+                    <div
+                        id="assignedAssets"
+                        class="card-value">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-label">
+                        Under Maintenance
+                    </div>
+
+                    <div
+                        id="maintenanceAssets"
+                        class="card-value">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-label">
+                        Damaged
+                    </div>
+
+                    <div
+                        id="damagedAssets"
+                        class="card-value">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-label">
+                        Lost
+                    </div>
+
+                    <div
+                        id="lostAssets"
+                        class="card-value">
+                        0
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h2>Asset Summary</h2>
+
+                <p>
+                    Use the Assets section to view,
+                    update or remove assets.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ASSETS
+        ================================================== -->
+
+        <section
+            id="assetsSection"
+            class="hidden">
+
+            <div class="panel">
+
+                <h2>Asset Directory</h2>
+
+                <div class="form-group">
+
+                    <input
+                        id="assetSearch"
+                        type="text"
+                        placeholder="Search Asset ID, Tag, Brand, Model, Serial Number..."
+                        oninput="filterAssets()">
+
+                </div>
+
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Asset ID</th>
+                                <th>Asset Tag</th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                                <th>Serial Number</th>
+                                <th>Status</th>
+                                <th>Condition</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Vendor</th>
+                                <th>Department</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody
+                            id="assetTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ADD / UPDATE MODAL
+====================================================== -->
+
+<div
+    id="assetModal"
+    class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add Asset
+            </h2>
+
+            <button
+                class="secondary"
+                onclick="closeAssetModal()">
+
+                X
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="assetMessage"
+            class="message"></div>
+
+
+        <input
+            type="hidden"
+            id="editAssetID">
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label>Asset ID</label>
+
+                <input
+                    id="assetID"
+                    placeholder="AST-0001">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Asset Tag</label>
+
+                <input
+                    id="assetTag"
+                    placeholder="IT-LAP-0001">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Brand</label>
+
+                <input
+                    id="brand"
+                    placeholder="Dell">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Model</label>
+
+                <input
+                    id="model"
+                    placeholder="Latitude 5440">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Serial Number</label>
+
+                <input
+                    id="serialNumber">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Purchase Date</label>
+
+                <input
+                    type="date"
+                    id="purchaseDate">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Purchase Cost</label>
+
+                <input
+                    type="number"
+                    id="purchaseCost">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Warranty Start</label>
+
+                <input
+                    type="date"
+                    id="warrantyStart">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Warranty End</label>
+
+                <input
+                    type="date"
+                    id="warrantyEnd">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Status</label>
+
+                <select id="status">
+
+                    <option value="Available">
+                        Available
+                    </option>
+
+                    <option value="Assigned">
+                        Assigned
+                    </option>
+
+                    <option value="Under Maintenance">
+                        Under Maintenance
+                    </option>
+
+                    <option value="Damaged">
+                        Damaged
+                    </option>
+
+                    <option value="Lost">
+                        Lost
+                    </option>
+
+                    <option value="Retired">
+                        Retired
+                    </option>
+
+                    <option value="Disposed">
+                        Disposed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Condition</label>
+
+                <select id="condition">
+
+                    <option value="New">
+                        New
+                    </option>
+
+                    <option value="Good">
+                        Good
+                    </option>
+
+                    <option value="Fair">
+                        Fair
+                    </option>
+
+                    <option value="Damaged">
+                        Damaged
+                    </option>
+
+                    <option value="Critical">
+                        Critical
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Category</label>
+
+                <input
+                    id="category"
+                    value="Laptop">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Location</label>
+
+                <input
+                    id="location"
+                    value="Head Office">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Vendor</label>
+
+                <input
+                    id="vendor"
+                    value="ABC IT Solutions">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Department</label>
+
+                <input
+                    id="department"
+                    value="Information Technology">
+
+            </div>
+
+
+            <div class="form-group form-full">
+
+                <label>Remarks</label>
+
+                <textarea
+                    id="remarks"></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="success"
+                onclick="saveAsset()">
+
+                Save Asset
+
+            </button>
+
+            <button
+                class="secondary"
+                onclick="closeAssetModal()">
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   API URLS
+========================================================= */
+
+/*
+   Put your NEW Power Automate URLs here.
+
+   Do NOT put passwords or Microsoft tokens here.
+*/
+
+const LOGIN_API_URL =
+    "https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/16/workflows/382c1f3775a94fbcb1ab9874e2fab95f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=msJRa_nx4WGByT8aJNQoi-a3j1818bl_vVC_xV1H_mE";
+
+
+const GET_ASSETS_API_URL =
+    "PASTE_GET_ASSETS_API_URL_HERE";
+
+
+const ADD_ASSET_API_URL =
+    "PASTE_ADD_ASSET_API_URL_HERE";
+
+
+const UPDATE_ASSET_API_URL =
+    "PASTE_UPDATE_ASSET_API_URL_HERE";
+
+
+const DELETE_ASSET_API_URL =
+    "PASTE_DELETE_ASSET_API_URL_HERE";
+
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+let currentUser = null;
+
+let allAssets = [];
+
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function loginUser(){
+
+    const username =
+        document.getElementById(
+            "loginUser"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    const error =
+        document.getElementById(
+            "loginError"
+        );
+
+
+    error.style.display =
+        "none";
+
+
+    if(!username || !password){
+
+        error.innerText =
+            "Enter User ID and Password.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
 
     /*
-      IMPORTANT:
-      Replace this with your NEW / regenerated
-      Power Automate HTTP trigger URL.
+      Login API will be connected
+      after Power Automate login flow
+      is created.
     */
 
-    const API_URL =
-      "https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/15/workflows/46efdd64086b4ddf9cd9e341b13bb880/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oRsQsA92R3Ajybn3NQGPNnyWB3JaOEeGnX6qDCAhSb8";
+    try{
+
+        const response =
+            await fetch(
+                LOGIN_API_URL,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        action:"login",
+
+                        username:username,
+
+                        password:password
+
+                    })
+
+                }
+            );
 
 
-    /* =====================================================
-       GLOBAL DATA
-    ===================================================== */
+        if(!response.ok){
 
-    let allAssets = [];
-
-
-    /* =====================================================
-       LOAD ASSETS
-    ===================================================== */
-
-    async function loadAssets() {
-
-      const loading =
-        document.getElementById("loading");
-
-      const tableContainer =
-        document.getElementById("tableContainer");
-
-      const emptyMessage =
-        document.getElementById("emptyMessage");
-
-      const errorBox =
-        document.getElementById("errorBox");
-
-
-      loading.style.display = "block";
-
-      tableContainer.style.display = "none";
-
-      emptyMessage.style.display = "none";
-
-      errorBox.style.display = "none";
-
-
-      try {
-
-        /*
-          Power Automate HTTP trigger
-        */
-
-        const response = await fetch(API_URL, {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            action: "getAssets"
-          })
-
-        });
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "API Error: " + response.status
-          );
+            throw new Error(
+                "Login API Error: " +
+                response.status
+            );
 
         }
 
 
         const result =
-          await response.json();
+            await response.json();
 
 
         console.log(
-          "Power Automate Response:",
-          result
+            "LOGIN RESULT:",
+            result
         );
 
 
         /*
-          Expected response:
+          Expected:
 
           {
-            success: true,
-            data: [...]
+             success:true,
+             user:{
+                UserID:"...",
+                Name:"..."
+             }
           }
-
-          OR directly:
-
-          [...]
         */
 
+        if(
+            !result.success
+        ){
 
-        if (Array.isArray(result)) {
-
-          allAssets = result;
-
-        }
-
-        else if (
-          result &&
-          Array.isArray(result.data)
-        ) {
-
-          allAssets = result.data;
-
-        }
-
-        else if (
-          result &&
-          Array.isArray(result.value)
-        ) {
-
-          allAssets = result.value;
-
-        }
-
-        else {
-
-          allAssets = [];
+            throw new Error(
+                result.message ||
+                "Invalid login."
+            );
 
         }
 
 
-        /*
-          Update dashboard
-        */
-
-        updateDashboard(allAssets);
+        currentUser =
+            result.user;
 
 
-        /*
-          Render table
-        */
-
-        renderAssets(allAssets);
-
-
-        loading.style.display = "none";
+        sessionStorage.setItem(
+            "assetUser",
+            JSON.stringify(
+                currentUser
+            )
+        );
 
 
-      }
+        showApplication();
 
-      catch (error) {
+
+    }
+    catch(error){
 
         console.error(error);
 
+        error =
+            document.getElementById(
+                "loginError"
+            );
 
-        loading.style.display = "none";
+        error.innerText =
+            error.message ||
+            "Login failed.";
 
-
-        errorBox.innerText =
-          "Unable to load assets. " +
-          error.message;
-
-
-        errorBox.style.display = "block";
-
-      }
+        error.style.display =
+            "block";
 
     }
 
+}
 
-    /* =====================================================
-       DASHBOARD
-    ===================================================== */
 
-    function updateDashboard(assets) {
 
-      document.getElementById(
-        "totalAssets"
-      ).innerText = assets.length;
+/* =========================================================
+   SHOW APPLICATION
+========================================================= */
 
+function showApplication(){
 
-      document.getElementById(
-        "availableAssets"
-      ).innerText =
-        countStatus(
-          assets,
-          "Available"
-        );
-
-
-      document.getElementById(
-        "assignedAssets"
-      ).innerText =
-        countStatus(
-          assets,
-          "Assigned"
-        );
-
-
-      document.getElementById(
-        "maintenanceAssets"
-      ).innerText =
-        countStatus(
-          assets,
-          "Under Maintenance"
-        );
-
-
-      document.getElementById(
-        "damagedAssets"
-      ).innerText =
-        countStatus(
-          assets,
-          "Damaged"
-        );
-
-
-      document.getElementById(
-        "lostAssets"
-      ).innerText =
-        countStatus(
-          assets,
-          "Lost"
-        );
-
-
-      document.getElementById(
-        "retiredAssets"
-      ).innerText =
-        countStatus(
-          assets,
-          "Retired"
-        );
-
-    }
-
-
-    /* =====================================================
-       STATUS COUNTER
-    ===================================================== */
-
-    function countStatus(
-      assets,
-      status
-    ) {
-
-      return assets.filter(
-        asset => {
-
-          return getLookupValue(
-            asset.Status
-          ) === status;
-
-        }
-      ).length;
-
-    }
-
-
-    /* =====================================================
-       SHAREPOINT LOOKUP VALUE
-    ===================================================== */
-
-    function getLookupValue(value) {
-
-      if (
-        value === null ||
-        value === undefined
-      ) {
-
-        return "";
-
-      }
-
-
-      /*
-        Choice / Lookup:
-
-        {
-          Id: 1,
-          Value: "Available"
-        }
-      */
-
-      if (
-        typeof value === "object"
-      ) {
-
-        if (
-          value.Value !== undefined
-        ) {
-
-          return String(
-            value.Value
-          );
-
-        }
-
-
-        if (
-          value.Title !== undefined
-        ) {
-
-          return String(
-            value.Title
-          );
-
-        }
-
-
-        if (
-          value.DisplayName !== undefined
-        ) {
-
-          return String(
-            value.DisplayName
-          );
-
-        }
-
-
-        return "";
-
-      }
-
-
-      return String(value);
-
-    }
-
-
-    /* =====================================================
-       NORMAL FIELD VALUE
-    ===================================================== */
-
-    function getField(
-      asset,
-      fieldName
-    ) {
-
-      if (!asset) {
-        return "";
-      }
-
-
-      const value =
-        asset[fieldName];
-
-
-      if (
-        value === null ||
-        value === undefined
-      ) {
-
-        return "";
-
-      }
-
-
-      if (
-        typeof value === "object"
-      ) {
-
-        return getLookupValue(
-          value
-        );
-
-      }
-
-
-      return String(value);
-
-    }
-
-
-    /* =====================================================
-       FORMAT DATE
-    ===================================================== */
-
-    function formatDate(value) {
-
-      if (!value) {
-        return "";
-      }
-
-
-      const date =
-        new Date(value);
-
-
-      if (
-        isNaN(date.getTime())
-      ) {
-
-        return value;
-
-      }
-
-
-      return date.toLocaleDateString(
-        "en-IN",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric"
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       FORMAT CURRENCY
-    ===================================================== */
-
-    function formatCurrency(value) {
-
-      if (
-        value === null ||
-        value === undefined ||
-        value === ""
-      ) {
-
-        return "";
-
-      }
-
-
-      const number =
-        Number(value);
-
-
-      if (
-        isNaN(number)
-      ) {
-
-        return value;
-
-      }
-
-
-      return "₹ " +
-        number.toLocaleString(
-          "en-IN"
-        );
-
-    }
-
-
-    /* =====================================================
-       STATUS CLASS
-    ===================================================== */
-
-    function getStatusClass(status) {
-
-      return status
-        .replace(/\s+/g, "");
-
-    }
-
-
-    /* =====================================================
-       RENDER ASSETS
-    ===================================================== */
-
-    function renderAssets(
-      assets
-    ) {
-
-      const body =
-        document.getElementById(
-          "assetBody"
-        );
-
-      const tableContainer =
-        document.getElementById(
-          "tableContainer"
-        );
-
-      const emptyMessage =
-        document.getElementById(
-          "emptyMessage"
-        );
-
-
-      body.innerHTML = "";
-
-
-      if (
-        !assets ||
-        assets.length === 0
-      ) {
-
-        tableContainer.style.display =
-          "none";
-
-        emptyMessage.style.display =
-          "block";
-
-        return;
-
-      }
-
-
-      emptyMessage.style.display =
-        "none";
-
-      tableContainer.style.display =
-        "block";
-
-
-      assets.forEach(
-        asset => {
-
-          const assetId =
-            getField(
-              asset,
-              "AssetID"
-            );
-
-
-          const assetTag =
-            getField(
-              asset,
-              "AssetTag"
-            );
-
-
-          /*
-            Your current SharePoint output
-            does not contain AssetType.
-
-            So this will remain blank
-            until AssetType is added.
-          */
-
-          const assetType =
-            getField(
-              asset,
-              "AssetType"
-            );
-
-
-          const brand =
-            getField(
-              asset,
-              "Brand"
-            );
-
-
-          const model =
-            getField(
-              asset,
-              "Model"
-            );
-
-
-          const serialNumber =
-            getField(
-              asset,
-              "SerialNumber"
-            );
-
-
-          const purchaseDate =
-            formatDate(
-              getField(
-                asset,
-                "PurchaseDate"
-              )
-            );
-
-
-          const purchaseCost =
-            formatCurrency(
-              getField(
-                asset,
-                "PurchaseCost"
-              )
-            );
-
-
-          const warrantyStart =
-            formatDate(
-              getField(
-                asset,
-                "WarrantyStart"
-              )
-            );
-
-
-          const warrantyEnd =
-            formatDate(
-              getField(
-                asset,
-                "WarrantyEnd"
-              )
-            );
-
-
-          /*
-            Choice field
-          */
-
-          const status =
-            getLookupValue(
-              asset.Status
-            );
-
-
-          const condition =
-            getLookupValue(
-              asset.Condition
-            );
-
-
-          /*
-            Lookup fields
-          */
-
-          const category =
-            getLookupValue(
-              asset.AssetCategory
-            );
-
-
-          const location =
-            getLookupValue(
-              asset.AssetLocation
-            );
-
-
-          const vendor =
-            getLookupValue(
-              asset.AssetVendor
-            );
-
-
-          const department =
-            getLookupValue(
-              asset.AssetDepartment
-            );
-
-
-          const remarks =
-            getField(
-              asset,
-              "Remarks"
-            );
-
-
-          const statusClass =
-            getStatusClass(
-              status
-            );
-
-
-          const row =
-            document.createElement(
-              "tr"
-            );
-
-
-          row.innerHTML = `
-
-            <td>
-              ${escapeHtml(assetId)}
-            </td>
-
-            <td>
-              ${escapeHtml(assetTag)}
-            </td>
-
-            <td>
-              ${escapeHtml(assetType)}
-            </td>
-
-            <td>
-              ${escapeHtml(brand)}
-            </td>
-
-            <td>
-              ${escapeHtml(model)}
-            </td>
-
-            <td>
-              ${escapeHtml(serialNumber)}
-            </td>
-
-            <td>
-              ${escapeHtml(purchaseDate)}
-            </td>
-
-            <td>
-              ${escapeHtml(purchaseCost)}
-            </td>
-
-            <td>
-              ${escapeHtml(warrantyStart)}
-            </td>
-
-            <td>
-              ${escapeHtml(warrantyEnd)}
-            </td>
-
-            <td>
-
-              <span
-                class="status ${statusClass}">
-
-                ${escapeHtml(status)}
-
-              </span>
-
-            </td>
-
-            <td>
-              ${escapeHtml(condition)}
-            </td>
-
-            <td>
-              ${escapeHtml(category)}
-            </td>
-
-            <td>
-              ${escapeHtml(location)}
-            </td>
-
-            <td>
-              ${escapeHtml(vendor)}
-            </td>
-
-            <td>
-              ${escapeHtml(department)}
-            </td>
-
-            <td>
-              ${escapeHtml(remarks)}
-            </td>
-
-          `;
-
-
-          body.appendChild(
-            row
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       SEARCH
-    ===================================================== */
-
-    function searchAssets() {
-
-      const searchInput =
-        document.getElementById(
-          "searchInput"
-        );
-
-
-      const search =
-        searchInput.value
-          .trim()
-          .toLowerCase();
-
-
-      if (!search) {
-
-        renderAssets(
-          allAssets
-        );
-
-        return;
-
-      }
-
-
-      const filtered =
-        allAssets.filter(
-          asset => {
-
-            const searchableText = [
-
-              getField(
-                asset,
-                "AssetID"
-              ),
-
-              getField(
-                asset,
-                "AssetTag"
-              ),
-
-              getField(
-                asset,
-                "Brand"
-              ),
-
-              getField(
-                asset,
-                "Model"
-              ),
-
-              getField(
-                asset,
-                "SerialNumber"
-              ),
-
-              getLookupValue(
-                asset.Status
-              ),
-
-              getLookupValue(
-                asset.AssetCategory
-              ),
-
-              getLookupValue(
-                asset.AssetLocation
-              ),
-
-              getLookupValue(
-                asset.AssetVendor
-              ),
-
-              getLookupValue(
-                asset.AssetDepartment
-              )
-
-            ]
-              .join(" ")
-              .toLowerCase();
-
-
-            return searchableText
-              .includes(search);
-
-          }
-        );
-
-
-      renderAssets(
-        filtered
-      );
-
-    }
-
-
-    /* =====================================================
-       CLEAR SEARCH
-    ===================================================== */
-
-    function clearSearch() {
-
-      document.getElementById(
-        "searchInput"
-      ).value = "";
-
-
-      renderAssets(
-        allAssets
-      );
-
-    }
-
-
-    /* =====================================================
-       ESCAPE HTML
-    ===================================================== */
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(
-        value ?? ""
-      )
-
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-
-        .replace(
-          /</g,
-          "&lt;"
-        )
-
-        .replace(
-          />/g,
-          "&gt;"
-        )
-
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
-    }
-
-
-    /* =====================================================
-       PAGE LOAD
-    ===================================================== */
-
-    window.addEventListener(
-      "DOMContentLoaded",
-      function() {
-
-        loadAssets();
-
-      }
+    document.getElementById(
+        "loginPage"
+    ).classList.add(
+        "hidden"
     );
 
-  </script>
+
+    document.getElementById(
+        "appPage"
+    ).classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "loggedUser"
+    ).innerText =
+        currentUser.Name ||
+        currentUser.UserID ||
+        "";
+
+
+    loadAssets();
+
+}
+
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "assetUser"
+    );
+
+
+    currentUser = null;
+
+
+    document.getElementById(
+        "appPage"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "loginPage"
+    ).classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "loginPassword"
+    ).value = "";
+
+}
+
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showSection(
+    section
+){
+
+    document.getElementById(
+        "dashboardSection"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "assetsSection"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "navDashboard"
+    ).classList.remove(
+        "active"
+    );
+
+
+    document.getElementById(
+        "navAssets"
+    ).classList.remove(
+        "active"
+    );
+
+
+    if(
+        section === "dashboard"
+    ){
+
+        document.getElementById(
+            "dashboardSection"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "navDashboard"
+        ).classList.add(
+            "active"
+        );
+
+    }
+
+
+    if(
+        section === "assets"
+    ){
+
+        document.getElementById(
+            "assetsSection"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "navAssets"
+        ).classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   LOAD ASSETS
+========================================================= */
+
+async function loadAssets(){
+
+    try{
+
+        const response =
+            await fetch(
+                GET_ASSETS_API_URL,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        action:"getAssets"
+                    })
+
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Asset API Error: " +
+                response.status
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "ASSET API:",
+            result
+        );
+
+
+        if(
+            result.body &&
+            Array.isArray(
+                result.body.data
+            )
+        ){
+
+            allAssets =
+                result.body.data;
+
+        }
+
+        else if(
+            Array.isArray(
+                result.data
+            )
+        ){
+
+            allAssets =
+                result.data;
+
+        }
+
+        else if(
+            Array.isArray(result)
+        ){
+
+            allAssets =
+                result;
+
+        }
+
+        else{
+
+            allAssets = [];
+
+        }
+
+
+        updateDashboard();
+
+        renderAssets(
+            allAssets
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "LOAD ASSETS ERROR:",
+            error
+        );
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function updateDashboard(){
+
+    document.getElementById(
+        "totalAssets"
+    ).innerText =
+        allAssets.length;
+
+
+    document.getElementById(
+        "availableAssets"
+    ).innerText =
+        countStatus(
+            "Available"
+        );
+
+
+    document.getElementById(
+        "assignedAssets"
+    ).innerText =
+        countStatus(
+            "Assigned"
+        );
+
+
+    document.getElementById(
+        "maintenanceAssets"
+    ).innerText =
+        countStatus(
+            "Under Maintenance"
+        );
+
+
+    document.getElementById(
+        "damagedAssets"
+    ).innerText =
+        countStatus(
+            "Damaged"
+        );
+
+
+    document.getElementById(
+        "lostAssets"
+    ).innerText =
+        countStatus(
+            "Lost"
+        );
+
+}
+
+
+
+function countStatus(
+    status
+){
+
+    return allAssets.filter(
+        asset =>
+            getLookupValue(
+                asset.Status
+            ) === status
+    ).length;
+
+}
+
+
+
+/* =========================================================
+   LOOKUP
+========================================================= */
+
+function getLookupValue(
+    value
+){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+
+    if(
+        typeof value === "object"
+    ){
+
+        if(
+            value.Value !== undefined
+        ){
+
+            return value.Value;
+
+        }
+
+
+        if(
+            value.DisplayName !== undefined
+        ){
+
+            return value.DisplayName;
+
+        }
+
+
+        if(
+            value.Title !== undefined
+        ){
+
+            return value.Title;
+
+        }
+
+
+        return "";
+
+    }
+
+
+    return String(value);
+
+}
+
+
+
+/* =========================================================
+   RENDER ASSETS
+========================================================= */
+
+function renderAssets(
+    assets
+){
+
+    const body =
+        document.getElementById(
+            "assetTableBody"
+        );
+
+
+    body.innerHTML = "";
+
+
+    assets.forEach(
+        asset => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${safe(asset.AssetID)}
+                </td>
+
+                <td>
+                    ${safe(asset.AssetTag)}
+                </td>
+
+                <td>
+                    ${safe(asset.Brand)}
+                </td>
+
+                <td>
+                    ${safe(asset.Model)}
+                </td>
+
+                <td>
+                    ${safe(asset.SerialNumber)}
+                </td>
+
+                <td>
+                    ${safe(
+                        getLookupValue(
+                            asset.Status
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${safe(
+                        getLookupValue(
+                            asset.Condition
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${safe(
+                        getLookupValue(
+                            asset.AssetCategory
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${safe(
+                        getLookupValue(
+                            asset.AssetLocation
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${safe(
+                        getLookupValue(
+                            asset.AssetVendor
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${safe(
+                        getLookupValue(
+                            asset.AssetDepartment
+                        )
+                    )}
+                </td>
+
+                <td>
+
+                    <button
+                        class="action-btn"
+                        onclick="editAsset('${safeJs(asset.AssetID)}')">
+
+                        Edit
+
+                    </button>
+
+
+                    <button
+                        class="action-btn danger"
+                        onclick="deleteAsset('${safeJs(asset.AssetID)}')">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            body.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function filterAssets(){
+
+    const query =
+        document.getElementById(
+            "assetSearch"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    if(!query){
+
+        renderAssets(
+            allAssets
+        );
+
+        return;
+
+    }
+
+
+    const filtered =
+        allAssets.filter(
+            asset => {
+
+                const text = [
+
+                    asset.AssetID,
+
+                    asset.AssetTag,
+
+                    asset.Brand,
+
+                    asset.Model,
+
+                    asset.SerialNumber,
+
+                    getLookupValue(
+                        asset.Status
+                    ),
+
+                    getLookupValue(
+                        asset.AssetCategory
+                    ),
+
+                    getLookupValue(
+                        asset.AssetLocation
+                    ),
+
+                    getLookupValue(
+                        asset.AssetVendor
+                    ),
+
+                    getLookupValue(
+                        asset.AssetDepartment
+                    )
+
+                ]
+                .join(" ")
+                .toLowerCase();
+
+
+                return text.includes(
+                    query
+                );
+
+            }
+        );
+
+
+    renderAssets(
+        filtered
+    );
+
+}
+
+
+
+/* =========================================================
+   ADD ASSET
+========================================================= */
+
+function openAddAsset(){
+
+    clearForm();
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        "Add Asset";
+
+
+    document.getElementById(
+        "assetModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+
+function clearForm(){
+
+    document.getElementById(
+        "editAssetID"
+    ).value = "";
+
+
+    document.getElementById(
+        "assetID"
+    ).value = "";
+
+
+    document.getElementById(
+        "assetTag"
+    ).value = "";
+
+
+    document.getElementById(
+        "brand"
+    ).value = "";
+
+
+    document.getElementById(
+        "model"
+    ).value = "";
+
+
+    document.getElementById(
+        "serialNumber"
+    ).value = "";
+
+
+    document.getElementById(
+        "purchaseDate"
+    ).value = "";
+
+
+    document.getElementById(
+        "purchaseCost"
+    ).value = "";
+
+
+    document.getElementById(
+        "warrantyStart"
+    ).value = "";
+
+
+    document.getElementById(
+        "warrantyEnd"
+    ).value = "";
+
+
+    document.getElementById(
+        "status"
+    ).value =
+        "Available";
+
+
+    document.getElementById(
+        "condition"
+    ).value =
+        "New";
+
+
+    document.getElementById(
+        "category"
+    ).value = "";
+
+
+    document.getElementById(
+        "location"
+    ).value = "";
+
+
+    document.getElementById(
+        "vendor"
+    ).value = "";
+
+
+    document.getElementById(
+        "department"
+    ).value = "";
+
+
+    document.getElementById(
+        "remarks"
+    ).value = "";
+
+}
+
+
+
+/* =========================================================
+   EDIT ASSET
+========================================================= */
+
+function editAsset(
+    assetID
+){
+
+    const asset =
+        allAssets.find(
+            item =>
+                item.AssetID ===
+                assetID
+        );
+
+
+    if(!asset){
+
+        alert(
+            "Asset not found."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        "Update Asset";
+
+
+    document.getElementById(
+        "editAssetID"
+    ).value =
+        asset.AssetID;
+
+
+    document.getElementById(
+        "assetID"
+    ).value =
+        asset.AssetID || "";
+
+
+    document.getElementById(
+        "assetTag"
+    ).value =
+        asset.AssetTag || "";
+
+
+    document.getElementById(
+        "brand"
+    ).value =
+        asset.Brand || "";
+
+
+    document.getElementById(
+        "model"
+    ).value =
+        asset.Model || "";
+
+
+    document.getElementById(
+        "serialNumber"
+    ).value =
+        asset.SerialNumber || "";
+
+
+    document.getElementById(
+        "purchaseDate"
+    ).value =
+        asset.PurchaseDate || "";
+
+
+    document.getElementById(
+        "purchaseCost"
+    ).value =
+        asset.PurchaseCost || "";
+
+
+    document.getElementById(
+        "warrantyStart"
+    ).value =
+        asset.WarrantyStart || "";
+
+
+    document.getElementById(
+        "warrantyEnd"
+    ).value =
+        asset.WarrantyEnd || "";
+
+
+    document.getElementById(
+        "status"
+    ).value =
+        getLookupValue(
+            asset.Status
+        );
+
+
+    document.getElementById(
+        "condition"
+    ).value =
+        getLookupValue(
+            asset.Condition
+        );
+
+
+    document.getElementById(
+        "category"
+    ).value =
+        getLookupValue(
+            asset.AssetCategory
+        );
+
+
+    document.getElementById(
+        "location"
+    ).value =
+        getLookupValue(
+            asset.AssetLocation
+        );
+
+
+    document.getElementById(
+        "vendor"
+    ).value =
+        getLookupValue(
+            asset.AssetVendor
+        );
+
+
+    document.getElementById(
+        "department"
+    ).value =
+        getLookupValue(
+            asset.AssetDepartment
+        );
+
+
+    document.getElementById(
+        "remarks"
+    ).value =
+        asset.Remarks || "";
+
+
+    document.getElementById(
+        "assetModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+
+/* =========================================================
+   SAVE ASSET
+========================================================= */
+
+async function saveAsset(){
+
+    const editID =
+        document.getElementById(
+            "editAssetID"
+        ).value;
+
+
+    const asset = {
+
+        AssetID:
+            document.getElementById(
+                "assetID"
+            ).value.trim(),
+
+        AssetTag:
+            document.getElementById(
+                "assetTag"
+            ).value.trim(),
+
+        Brand:
+            document.getElementById(
+                "brand"
+            ).value.trim(),
+
+        Model:
+            document.getElementById(
+                "model"
+            ).value.trim(),
+
+        SerialNumber:
+            document.getElementById(
+                "serialNumber"
+            ).value.trim(),
+
+        PurchaseDate:
+            document.getElementById(
+                "purchaseDate"
+            ).value,
+
+        PurchaseCost:
+            document.getElementById(
+                "purchaseCost"
+            ).value,
+
+        WarrantyStart:
+            document.getElementById(
+                "warrantyStart"
+            ).value,
+
+        WarrantyEnd:
+            document.getElementById(
+                "warrantyEnd"
+            ).value,
+
+        Status:
+            document.getElementById(
+                "status"
+            ).value,
+
+        Condition:
+            document.getElementById(
+                "condition"
+            ).value,
+
+        AssetCategory:
+            document.getElementById(
+                "category"
+            ).value.trim(),
+
+        AssetLocation:
+            document.getElementById(
+                "location"
+            ).value.trim(),
+
+        AssetVendor:
+            document.getElementById(
+                "vendor"
+            ).value.trim(),
+
+        AssetDepartment:
+            document.getElementById(
+                "department"
+            ).value.trim(),
+
+        Remarks:
+            document.getElementById(
+                "remarks"
+            ).value.trim(),
+
+        PerformedBy:
+            currentUser
+                ? (
+                    currentUser.Name ||
+                    currentUser.UserID
+                )
+                : ""
+
+    };
+
+
+    if(!asset.AssetID){
+
+        alert(
+            "Asset ID is required."
+        );
+
+        return;
+
+    }
+
+
+    const isUpdate =
+        editID !== "";
+
+
+    const API =
+        isUpdate
+            ? UPDATE_ASSET_API_URL
+            : ADD_ASSET_API_URL;
+
+
+    const action =
+        isUpdate
+            ? "updateAsset"
+            : "addAsset";
+
+
+    try{
+
+        const response =
+            await fetch(
+                API,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        action:action,
+
+                        asset:asset
+
+                    })
+
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Save API Error: " +
+                response.status
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "SAVE RESULT:",
+            result
+        );
+
+
+        if(
+            result.success === false
+        ){
+
+            throw new Error(
+                result.message ||
+                "Asset could not be saved."
+            );
+
+        }
+
+
+        closeAssetModal();
+
+
+        await loadAssets();
+
+
+        alert(
+            isUpdate
+                ? "Asset updated successfully."
+                : "Asset added successfully."
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   DELETE ASSET
+========================================================= */
+
+async function deleteAsset(
+    assetID
+){
+
+    if(
+        !confirm(
+            "Are you sure you want to remove asset " +
+            assetID +
+            "?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                DELETE_ASSET_API_URL,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        action:"deleteAsset",
+
+                        AssetID:assetID,
+
+                        PerformedBy:
+                            currentUser
+                                ? (
+                                    currentUser.Name ||
+                                    currentUser.UserID
+                                )
+                                : ""
+
+                    })
+
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Delete API Error: " +
+                response.status
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "DELETE RESULT:",
+            result
+        );
+
+
+        if(
+            result.success === false
+        ){
+
+            throw new Error(
+                result.message ||
+                "Asset could not be removed."
+            );
+
+        }
+
+
+        await loadAssets();
+
+
+        alert(
+            "Asset removed successfully."
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closeAssetModal(){
+
+    document.getElementById(
+        "assetModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function safe(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+function safeJs(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    );
+
+}
+
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const savedUser =
+            sessionStorage.getItem(
+                "assetUser"
+            );
+
+
+        if(savedUser){
+
+            try{
+
+                currentUser =
+                    JSON.parse(
+                        savedUser
+                    );
+
+                showApplication();
+
+            }
+            catch(e){
+
+                sessionStorage.removeItem(
+                    "assetUser"
+                );
+
+            }
+
+        }
+
+    }
+);
+
+</script>
 
 </body>
 </html>

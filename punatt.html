@@ -3,498 +3,556 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Exit Portal</title>
+
+  <title>Asset Management</title>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f6f9; color: #333; }
-    .card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; }
-    input[type="text"], input[type="date"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-    button { background-color: #002FBE; color: white; border: none; padding: 10px 18px; font-size: 15px; border-radius: 4px; cursor: pointer; }
-    button:disabled { background-color: #999; cursor: not-allowed; }
-    canvas { background: #ffffff; touch-action: none; border-radius: 4px; margin-top: 5px; display: block; }
-    .hidden { display: none; }
-    
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-    .modal.active { display: flex; align-items: center; justify-content: center; }
-    .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 500px; text-align: center; }
-
-    .scan-container {
-      position: relative;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 15px;
-      text-align: center;
-      margin-top: 5px;
+    * {
+      box-sizing: border-box;
     }
 
-    .scan-label {
-      font-size: 12px;
-      color: #555;
-      margin-top: 4px;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #1f2937;
     }
 
-    #cameraModal .modal-content {
-      max-width: 600px;
-      background: #111;
-      color: #fff;
-    }
-    
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #000;
-      border-radius: 4px;
+    .header {
+      background: #1f2937;
+      color: white;
+      padding: 18px 25px;
     }
 
-    #cameraStream {
-      width: 100%;
-      height: auto;
-      max-height: 60vh;
-      object-fit: contain;
-      border-radius: 4px;
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
     }
 
-    .modal-frame-box {
-      position: absolute;
-      border: 3px solid #002FBE;
-      background: rgba(255, 255, 255, 0.1);
-      display: none;
-      align-items: center;
-      justify-content: center;
+    .container {
+      max-width: 1200px;
+      margin: 25px auto;
+      padding: 0 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .card .label {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .card .value {
+      font-size: 28px;
       font-weight: bold;
-      color: #fff;
-      text-shadow: 0 0 3px #000;
+      margin-top: 8px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    button {
+      border: 0;
+      padding: 10px 15px;
       border-radius: 6px;
-      pointer-events: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
     }
 
-    .modal-frame-landscape {
-      width: 80%;
-      aspect-ratio: 2026 / 1276;
+    button:hover {
+      opacity: .9;
     }
 
-    .modal-frame-a4-portrait {
-      height: 75%;
-      aspect-ratio: 4960 / 7016;
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    th,
+    td {
+      padding: 11px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f9fafb;
+      font-weight: 600;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .Available {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .Assigned {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .UnderMaintenance {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .Damaged,
+    .Lost {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .Retired {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 7px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        padding: 15px;
+      }
+
+      .container {
+        margin-top: 15px;
+      }
+
+      .card .value {
+        font-size: 23px;
+      }
+
+      .panel {
+        padding: 14px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <h2>Digital Clearance Verification & Submission</h2>
-
-  <!-- STEP 1: VERIFICATION -->
-  <div id="step1" class="card">
-    <h3>Verify Employee Record</h3>
-    <div class="form-group">
-      <label for="aadharInput">Enter your Aadhar Number</label>
-      <input type="text" id="aadharInput" placeholder="Aadhar Number">
-    </div>
-    <button id="verifyBtn" onclick="verifyAadhar()">Verify</button>
+  <div class="header">
+    <h1>Asset Management System</h1>
   </div>
 
-  <!-- STEP 2: DETAILS & FORM SUBMISSION -->
-  <div id="step2" class="card hidden">
-    <h3>Employee Information</h3>
-    <div style="background: #eef2ff; padding: 15px; border-radius: 5px; margin-bottom: 15px; color: #333;">
-      <p><strong>Today's Date (Auto):</strong> <span id="dispCurrentDate"></span></p>
-      <p><strong>Employee ID:</strong> <span id="dispEmpId"></span></p>
-      <p><strong>Name:</strong> <span id="dispName"></span></p>
-      <p><strong>DOJ:</strong> <span id="dispDoj"></span></p>
-      <p><strong>DOL:</strong> <span id="dispDol"></span></p>
-      <p><strong>Designation:</strong> <span id="dispDesig"></span></p>
-      <p><strong>Assigned Verifier:</strong> <span id="dispVer"></span></p>
-    </div>
+  <div class="container">
 
-    <form id="exitForm">
-      <div class="form-group">
-        <label for="dor">DOR (Date of Resignation) *</label>
-        <input type="date" id="dor" required>
+    <div id="errorBox" class="message error"></div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="label">Total Assets</div>
+        <div class="value" id="totalAssets">0</div>
       </div>
 
-      <div class="form-group">
-        <label for="locSelect">Location (Loc) *</label>
-        <input type="text" id="locSelect" list="locationOptions" placeholder="Select or type location" required>
-        <datalist id="locationOptions">
-          <option value="Mumbai Headquarters">
-          <option value="Delhi Regional Office">
-          <option value="Bangalore Tech Park">
-          <option value="Pune Branch">
-          <option value="Hyderabad Facility">
-        </datalist>
+      <div class="card">
+        <div class="label">Available</div>
+        <div class="value" id="availableAssets">0</div>
       </div>
 
-      <!-- POI Attachment (Optional) -->
-      <div class="form-group">
-        <label>Attachment: ID_POI (Smart Card Scan) - *Optional*</label>
-        <div class="scan-container">
-          <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poi', 'landscape', 'ID Card')">Open Camera Scan</button>
-          <span id="poiStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
-        </div>
+      <div class="card">
+        <div class="label">Assigned</div>
+        <div class="value" id="assignedAssets">0</div>
       </div>
 
-      <!-- POA Attachment (Optional) -->
-      <div class="form-group">
-        <label>Attachment: ID_POA (Smart Card Scan) - *Optional*</label>
-        <div class="scan-container">
-          <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('poa', 'landscape', 'ID Card')">Open Camera Scan</button>
-          <span id="poaStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
-        </div>
+      <div class="card">
+        <div class="label">Under Maintenance</div>
+        <div class="value" id="maintenanceAssets">0</div>
       </div>
 
-      <!-- Handwritten Application Attachment (Mandatory) -->
-      <div class="form-group">
-        <label>Handwritten Application (A4 Document Scan) *</label>
-        <div class="scan-container">
-          <p class="scan-label">Click below to open camera scan</p>
-          <button type="button" onclick="openCameraCapture('handwrittenApp', 'a4', 'A4 Document')">Open Camera Scan</button>
-          <span id="handwrittenAppStatus" style="display:block; margin-top:5px; font-size:12px; color:green;"></span>
-        </div>
+      <div class="card">
+        <div class="label">Damaged</div>
+        <div class="value" id="damagedAssets">0</div>
       </div>
 
-      <div class="form-group">
-        <label>Employee Signature *</label>
-        <canvas id="sigCanvas" width="320" height="150" style="background:#ffffff; border:2px solid #002FBE;"></canvas>
-        <button type="button" id="clearSigBtn" style="margin-top:8px; background-color:#666;">Clear Signature</button>
+      <div class="card">
+        <div class="label">Lost</div>
+        <div class="value" id="lostAssets">0</div>
       </div>
 
-      <button type="submit" id="submitBtn" style="width:100%; padding:12px; margin-top:15px;">Submit Application</button>
-    </form>
-  </div>
-
-  <!-- CUSTOM ALERT MODAL -->
-  <div id="customAlert" class="modal">
-    <div class="modal-content" style="color:#333;">
-      <h3 id="alertTitle">Notification</h3>
-      <p id="alertMessage"></p>
-      <button onclick="closeCustomAlert()">OK</button>
-    </div>
-  </div>
-
-  <!-- CAMERA CAPTURE MODAL -->
-  <div id="cameraModal" class="modal">
-    <div class="modal-content">
-      <h3 id="camModalTitle">Live Camera Capture</h3>
-      <div class="video-wrapper">
-        <video id="cameraStream" autoplay playsinline></video>
-        <div id="modalFrameLandscape" class="modal-frame-box modal-frame-landscape">FRAME OVERLAY</div>
-        <div id="modalFrameA4" class="modal-frame-box modal-frame-a4-portrait">FRAME OVERLAY</div>
-      </div>
-      <p id="camInstructions" style="font-size:12px; margin:10px 0; color:#ccc;"></p>
-      <div style="display:flex; justify-content:space-between; margin-top:15px;">
-        <button type="button" onclick="captureImage()" style="background-color: #28a745;">Capture & Process</button>
-        <button type="button" onclick="closeCameraModal()" style="background-color: #dc3545;">Cancel</button>
+      <div class="card">
+        <div class="label">Retired</div>
+        <div class="value" id="retiredAssets">0</div>
       </div>
     </div>
+
+    <div class="panel">
+
+      <div class="panel-header">
+        <h2>IT Assets</h2>
+        <button onclick="loadAssets()">Refresh</button>
+      </div>
+
+      <div id="loading" class="loading">
+        Loading assets...
+      </div>
+
+      <div class="table-wrap">
+        <table id="assetTable" style="display:none;">
+          <thead>
+            <tr>
+              <th>Asset ID</th>
+              <th>Asset Tag</th>
+              <th>Asset Type</th>
+              <th>Brand</th>
+              <th>Model</th>
+              <th>Serial Number</th>
+              <th>Status</th>
+              <th>Location</th>
+              <th>Department</th>
+            </tr>
+          </thead>
+
+          <tbody id="assetBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+
   </div>
+
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwxAFYg66443rLhB01IbEQ30qUHkSWuCxuDRU6Df8S-s3Fr9FX86ngoMf53vx25dV8b/exec";
 
-    let employeeData = null;
-    let currentTargetField = null;
-    let mediaStream = null;
-    
-    // Increased target resolution for maximum clarity / pseudo-high DPI rendering
-    let targetResolution = { width: 2480, height: 1754 }; // Higher default layout
+    /*
+      IMPORTANT:
+      Replace this URL with your Power Automate HTTP trigger URL.
+    */
 
-    const capturedFiles = {
-      poi: null,
-      poa: null,
-      handwrittenApp: null
-    };
+    const API_URL = "https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/15/workflows/46efdd64086b4ddf9cd9e341b13bb880/triggers/manual/paths/invoke?api-version=1";
 
-    function formatDateDisplay(dateInput) {
-      if (!dateInput) return '';
-      const parts = String(dateInput).split('-');
-      if (parts.length === 3 && parts[0].length === 4) {
-        const d = new Date(parts[0], parts[1] - 1, parts[2]);
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
+
+    async function loadAssets() {
+
+      const loading = document.getElementById("loading");
+      const table = document.getElementById("assetTable");
+      const body = document.getElementById("assetBody");
+      const errorBox = document.getElementById("errorBox");
+
+      loading.style.display = "block";
+      table.style.display = "none";
+      errorBox.style.display = "none";
+
+      body.innerHTML = "";
+
+      try {
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            action: "getAssets"
+          })
+        });
+
+
+        if (!response.ok) {
+          throw new Error(
+            "API Error: " + response.status
+          );
+        }
+
+
+        const result = await response.json();
+
+        console.log("API Response:", result);
+
+
+        /*
+          Power Automate response expected:
+
+          {
+            success: true,
+            data: [...]
+          }
+        */
+
+        const assets = result.data || [];
+
+
+        updateDashboard(assets);
+
+        renderAssets(assets);
+
+
+        loading.style.display = "none";
+        table.style.display = "table";
+
       }
-      return dateInput;
+
+      catch (error) {
+
+        console.error(error);
+
+        loading.style.display = "none";
+
+        errorBox.innerText =
+          "Unable to load assets. Please check the API connection.";
+
+        errorBox.style.display = "block";
+      }
     }
 
-    function showCustomAlert(message, title = "Notification") {
-      document.getElementById('alertTitle').innerText = title;
-      document.getElementById('alertMessage').innerText = message;
-      document.getElementById('customAlert').classList.add('active');
+
+    function updateDashboard(assets) {
+
+      document.getElementById("totalAssets").innerText =
+        assets.length;
+
+
+      document.getElementById("availableAssets").innerText =
+        countStatus(assets, "Available");
+
+
+      document.getElementById("assignedAssets").innerText =
+        countStatus(assets, "Assigned");
+
+
+      document.getElementById("maintenanceAssets").innerText =
+        countStatus(assets, "Under Maintenance");
+
+
+      document.getElementById("damagedAssets").innerText =
+        countStatus(assets, "Damaged");
+
+
+      document.getElementById("lostAssets").innerText =
+        countStatus(assets, "Lost");
+
+
+      document.getElementById("retiredAssets").innerText =
+        countStatus(assets, "Retired");
     }
 
-    function closeCustomAlert() {
-      document.getElementById('customAlert').classList.remove('active');
+
+    function countStatus(assets, status) {
+
+      return assets.filter(asset => {
+
+        return getField(asset, "Status") === status;
+
+      }).length;
     }
 
-    async function postRequest(url, bodyData) {
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(bodyData)
+
+    function renderAssets(assets) {
+
+      const body = document.getElementById("assetBody");
+
+      body.innerHTML = "";
+
+
+      if (!assets.length) {
+
+        body.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align:center;">
+              No assets found
+            </td>
+          </tr>
+        `;
+
+        return;
+      }
+
+
+      assets.forEach(asset => {
+
+        const assetId =
+          getField(asset, "Asset ID");
+
+        const assetTag =
+          getField(asset, "Asset Tag");
+
+        const assetType =
+          getField(asset, "Asset Type");
+
+        const brand =
+          getField(asset, "Brand");
+
+        const model =
+          getField(asset, "Model");
+
+        const serial =
+          getField(asset, "Serial Number");
+
+        const status =
+          getField(asset, "Status");
+
+        const location =
+          getField(asset, "Asset Location") ||
+          getField(asset, "Location");
+
+        const department =
+          getField(asset, "Asset Department") ||
+          getField(asset, "Department");
+
+
+        const statusClass =
+          status.replace(/\s/g, "");
+
+
+        const row = document.createElement("tr");
+
+
+        row.innerHTML = `
+
+          <td>${escapeHtml(assetId)}</td>
+
+          <td>${escapeHtml(assetTag)}</td>
+
+          <td>${escapeHtml(assetType)}</td>
+
+          <td>${escapeHtml(brand)}</td>
+
+          <td>${escapeHtml(model)}</td>
+
+          <td>${escapeHtml(serial)}</td>
+
+          <td>
+            <span class="status ${statusClass}">
+              ${escapeHtml(status)}
+            </span>
+          </td>
+
+          <td>${escapeHtml(location)}</td>
+
+          <td>${escapeHtml(department)}</td>
+
+        `;
+
+
+        body.appendChild(row);
+
       });
-      const responseText = await resp.text();
-      try {
-        return JSON.parse(responseText);
-      } catch (err) {
-        throw new Error("Server authorization error or invalid JSON response.");
-      }
     }
 
-    async function verifyAadhar() {
-      const searchVal = document.getElementById('aadharInput').value.trim();
-      if (!searchVal) {
-        showCustomAlert("Please enter a valid search ID number.", "Required");
-        return;
+
+    function getField(asset, fieldName) {
+
+      /*
+        Supports normal SharePoint
+        Power Automate JSON objects.
+      */
+
+      if (!asset) return "";
+
+      if (asset[fieldName] !== undefined) {
+
+        return formatValue(asset[fieldName]);
       }
 
-      const btn = document.getElementById('verifyBtn');
-      btn.disabled = true;
-      btn.innerText = "Verifying...";
+      return "";
+    }
 
-      try {
-        const result = await postRequest(GAS_WEB_APP_URL, { action: 'verifyAadhar', aadharNumber: searchVal });
 
-        if (result.status === 'success') {
-          employeeData = result.employee;
-          document.getElementById('dispCurrentDate').innerText = formatDateDisplay(new Date().toISOString().split('T')[0]);
-          document.getElementById('dispEmpId').innerText = employeeData.empId;
-          document.getElementById('dispName').innerText = employeeData.name;
-          document.getElementById('dispDoj').innerText = employeeData.doj;
-          document.getElementById('dispDol').innerText = employeeData.dol;
-          document.getElementById('dispDesig').innerText = employeeData.desig;
-          document.getElementById('dispVer').innerText = employeeData.verifier;
+    function formatValue(value) {
 
-          document.getElementById('step1').classList.add('hidden');
-          document.getElementById('step2').classList.remove('hidden');
-        } else {
-          showCustomAlert(result.message, "Verification Failed");
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      if (typeof value === "object") {
+
+        if (value.Value !== undefined) {
+          return value.Value;
         }
-      } catch (err) {
-        showCustomAlert(err.message, "Connection Error");
-      } finally {
-        btn.disabled = false;
-        btn.innerText = "Verify";
-      }
-    }
 
-    async function openCameraCapture(fieldId, mode, labelDesc) {
-      currentTargetField = fieldId;
-      document.getElementById('camModalTitle').innerText = `Scan: ${labelDesc}`;
-      
-      document.getElementById('modalFrameLandscape').style.display = 'none';
-      document.getElementById('modalFrameA4').style.display = 'none';
-
-      // Request highest possible camera resolution from device hardware
-      let constraints = { 
-        video: { 
-          facingMode: { ideal: 'environment' },
-          width: { ideal: 3840 },
-          height: { ideal: 2160 }
-        } 
-      };
-
-      if (mode === 'landscape') {
-        // High resolution landscape aspect ratio for ID cards
-        targetResolution = { width: 2560, height: 1600 };
-        document.getElementById('modalFrameLandscape').style.display = 'flex';
-        document.getElementById('camInstructions').innerText = `Align card within the framing box clearly.`;
-      } else if (mode === 'a4') {
-        // High resolution A4 portrait aspect ratio for application docs
-        targetResolution = { width: 2480, height: 3508 };
-        document.getElementById('modalFrameA4').style.display = 'flex';
-        document.getElementById('camInstructions').innerText = `Align document fully within the framing box.`;
-      }
-
-      try {
-        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-        const videoElement = document.getElementById('cameraStream');
-        videoElement.srcObject = mediaStream;
-        document.getElementById('cameraModal').classList.add('active');
-      } catch (err) {
-        showCustomAlert("Unable to access high-res camera. Please verify permissions.", "Camera Error");
-      }
-    }
-
-    function closeCameraModal() {
-      if (mediaStream) {
-        mediaStream.getTracks().forEach(track => track.stop());
-        mediaStream = null;
-      }
-      document.getElementById('cameraModal').classList.remove('active');
-    }
-
-    function captureImage() {
-      const video = document.getElementById('cameraStream');
-      const canvas = document.createElement('canvas');
-      
-      canvas.width = targetResolution.width;
-      canvas.height = targetResolution.height;
-      
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      const vRatio = video.videoWidth / video.videoHeight;
-      const cRatio = canvas.width / canvas.height;
-      let renderWidth = canvas.width;
-      let renderHeight = canvas.height;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (vRatio > cRatio) {
-        renderWidth = canvas.height * vRatio;
-        offsetX = (canvas.width - renderWidth) / 2;
-      } else {
-        renderHeight = canvas.width / vRatio;
-        offsetY = (canvas.height - renderHeight) / 2;
-      }
-
-      // Draw image with crisp smoothing enabled
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(video, offsetX, offsetY, renderWidth, renderHeight);
-
-      // Export at 0.95 quality for maximum clarity without heavy compression artifacts
-      const dataURL = canvas.toDataURL('image/jpeg', 0.95);
-      capturedFiles[currentTargetField] = {
-        data: dataURL,
-        type: 'image/jpeg'
-      };
-
-      document.getElementById(`${currentTargetField}Status`).innerText = `✔ High-Resolution Image Captured`;
-      closeCameraModal();
-    }
-
-    // SIGNATURE CANVAS SETUP
-    const canvas = document.getElementById('sigCanvas');
-    const ctx = canvas.getContext('2d');
-    let isDrawing = false;
-    let hasSigned = false;
-
-    function resetCanvas() {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "#002FBE";
-      ctx.lineWidth = 3;
-      ctx.lineCap = "round";
-    }
-    resetCanvas();
-
-    function getMousePos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return { x: clientX - rect.left, y: clientY - rect.top };
-    }
-
-    function startDrawing(e) {
-      isDrawing = true;
-      hasSigned = true;
-      const pos = getMousePos(e);
-      ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
-      if (e.cancelable) e.preventDefault();
-    }
-
-    function draw(e) {
-      if (!isDrawing) return;
-      const pos = getMousePos(e);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-      if (e.cancelable) e.preventDefault();
-    }
-
-    function stopDrawing() { isDrawing = false; }
-
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    window.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('touchstart', startDrawing, { passive: false });
-    canvas.addEventListener('touchmove', draw, { passive: false });
-    window.addEventListener('touchend', stopDrawing);
-
-    document.getElementById('clearSigBtn').addEventListener('click', () => {
-      resetCanvas();
-      hasSigned = false;
-    });
-
-    document.getElementById('exitForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (!hasSigned) {
-        showCustomAlert("Please add your signature.", "Required");
-        return;
-      }
-
-      if (!capturedFiles.handwrittenApp) {
-        showCustomAlert("Please attach the Handwritten Application scan.", "Required");
-        return;
-      }
-
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = "Submitting, please wait...";
-
-      try {
-        const sigCanvasTemp = document.createElement('canvas');
-        sigCanvasTemp.width = canvas.width;
-        sigCanvasTemp.height = canvas.height;
-        const sigCtx = sigCanvasTemp.getContext('2d');
-        sigCtx.fillStyle = "#ffffff";
-        sigCtx.fillRect(0, 0, sigCanvasTemp.width, sigCanvasTemp.height);
-        sigCtx.drawImage(canvas, 0, 0);
-
-        const payload = {
-          action: 'submitForm',
-          empId: employeeData.empId,
-          empName: employeeData.name,
-          doj: employeeData.doj,
-          dol: employeeData.dol,
-          desig: employeeData.desig,
-          verifier: employeeData.verifier,
-          penalMonth: employeeData.penalMonth,
-          dor: formatDateDisplay(document.getElementById('dor').value),
-          loc: document.getElementById('locSelect').value.trim(),
-          poiAttached: Boolean(capturedFiles.poi),
-          poaAttached: Boolean(capturedFiles.poa),
-          signature: { data: sigCanvasTemp.toDataURL("image/png") },
-          poi: capturedFiles.poi || null,
-          poa: capturedFiles.poa || null,
-          handwrittenApp: capturedFiles.handwrittenApp
-        };
-
-        const result = await postRequest(GAS_WEB_APP_URL, payload);
-
-        if (result.status === 'success') {
-          showCustomAlert("You Application Submitted successfully.", "Success");
-          document.getElementById('exitForm').reset();
-          resetCanvas();
-          hasSigned = false;
-          capturedFiles.poi = null;
-          capturedFiles.poa = null;
-          capturedFiles.handwrittenApp = null;
-          document.getElementById('poiStatus').innerText = "";
-          document.getElementById('poaStatus').innerText = "";
-          document.getElementById('handwrittenAppStatus').innerText = "";
-          document.getElementById('step2').classList.add('hidden');
-          document.getElementById('step1').classList.remove('hidden');
-        } else {
-          showCustomAlert("Error: " + result.message, "Error");
+        if (value.Title !== undefined) {
+          return value.Title;
         }
-      } catch (err) {
-        showCustomAlert(err.message, "Submission Error");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = "Submit Application";
+
+        return JSON.stringify(value);
       }
-    });
+
+      return String(value);
+    }
+
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    /*
+      Load assets when page opens.
+    */
+
+    window.addEventListener(
+      "DOMContentLoaded",
+      loadAssets
+    );
+
   </script>
+
 </body>
 </html>

@@ -3,67 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>IT Asset Management</title>
 
 <style>
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    background:#f4f6f9;
-    color:#1f2937;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f4f6;
+    color:#111827;
 }
 
 .hidden{
-    display:none!important;
+    display:none !important;
+}
+
+button{
+    cursor:pointer;
 }
 
 .header{
     background:#111827;
-    color:#fff;
+    color:white;
     padding:15px 22px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
-.header h1{
-    font-size:20px;
+.header-title{
+    font-size:21px;
+    font-weight:bold;
 }
 
-.user-area{
+.user-info{
     display:flex;
     align-items:center;
     gap:12px;
 }
 
 .container{
-    max-width:1450px;
+    max-width:1500px;
     margin:auto;
+    padding:20px;
+}
+
+/* LOGIN */
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     padding:20px;
 }
 
 .login-box{
     width:400px;
-    max-width:94%;
-    margin:80px auto;
-    background:#fff;
+    max-width:100%;
+    background:white;
     padding:30px;
-    border-radius:12px;
-    box-shadow:0 5px 25px rgba(0,0,0,.10);
+    border-radius:14px;
+    box-shadow:0 10px 35px rgba(0,0,0,.12);
 }
 
 .login-box h2{
     text-align:center;
-    margin-bottom:25px;
+    margin:0 0 25px;
 }
 
 .form-group{
-    margin-bottom:14px;
+    margin-bottom:15px;
 }
 
 label{
@@ -77,11 +91,12 @@ input,
 select,
 textarea{
     width:100%;
-    padding:10px 11px;
+    padding:10px 12px;
     border:1px solid #d1d5db;
     border-radius:7px;
+    font-size:14px;
     outline:none;
-    background:#fff;
+    background:white;
 }
 
 input:focus,
@@ -99,8 +114,33 @@ textarea{
     border:0;
     border-radius:7px;
     padding:10px 15px;
-    cursor:pointer;
     font-weight:bold;
+    font-size:13px;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-warning{
+    background:#d97706;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.btn-secondary{
+    background:#6b7280;
+    color:white;
 }
 
 .btn:disabled{
@@ -108,59 +148,42 @@ textarea{
     cursor:not-allowed;
 }
 
-.btn-primary{
-    background:#2563eb;
-    color:#fff;
-}
-
-.btn-success{
-    background:#16a34a;
-    color:#fff;
-}
-
-.btn-warning{
-    background:#d97706;
-    color:#fff;
-}
-
-.btn-danger{
-    background:#dc2626;
-    color:#fff;
-}
-
-.btn-secondary{
-    background:#6b7280;
-    color:#fff;
-}
-
 .login-btn{
     width:100%;
-    margin-top:8px;
+    margin-top:5px;
 }
 
 .error{
     color:#dc2626;
+    margin-top:12px;
     font-size:13px;
-    margin-top:10px;
 }
 
-.dashboard-title{
+.success{
+    color:#15803d;
+    margin-top:12px;
+    font-size:13px;
+}
+
+/* DASHBOARD */
+
+.page-title{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:15px;
     flex-wrap:wrap;
-    gap:10px;
     margin-bottom:20px;
 }
 
-.dashboard-title h2{
-    font-size:22px;
+.page-title h2{
+    margin:0;
 }
 
-.dashboard-title p{
+.page-title p{
+    margin:5px 0 0;
     color:#6b7280;
     font-size:13px;
-    margin-top:4px;
 }
 
 .cards{
@@ -171,10 +194,10 @@ textarea{
 }
 
 .card{
-    background:#fff;
-    padding:20px;
+    background:white;
     border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
 .card-title{
@@ -183,13 +206,15 @@ textarea{
 }
 
 .card-value{
+    margin-top:7px;
     font-size:28px;
     font-weight:bold;
-    margin-top:8px;
 }
 
+/* TOOLBAR */
+
 .toolbar{
-    background:#fff;
+    background:white;
     padding:15px;
     border-radius:10px;
     display:flex;
@@ -203,38 +228,46 @@ textarea{
     min-width:250px;
 }
 
-.table-box{
-    background:#fff;
+/* TABLE */
+
+.table-container{
+    background:white;
     border-radius:10px;
     overflow:auto;
-    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
 table{
     width:100%;
+    min-width:1250px;
     border-collapse:collapse;
-    min-width:1200px;
 }
 
 th,
 td{
     padding:11px;
     border-bottom:1px solid #e5e7eb;
-    font-size:12px;
     text-align:left;
+    font-size:12px;
 }
 
 th{
     background:#f9fafb;
     font-weight:bold;
+    white-space:nowrap;
 }
 
-tr:hover{
-    background:#f9fafb;
+.actions{
+    display:flex;
+    gap:5px;
+}
+
+.small-btn{
+    padding:6px 9px;
+    font-size:11px;
 }
 
 .badge{
-    display:inline-block;
     padding:5px 9px;
     border-radius:20px;
     font-size:11px;
@@ -261,44 +294,36 @@ tr:hover{
     color:#991b1b;
 }
 
-.default-badge{
+.other{
     background:#e5e7eb;
     color:#374151;
 }
 
-.actions{
-    display:flex;
-    gap:5px;
-}
-
-.small{
-    padding:6px 9px;
-    font-size:11px;
-}
-
 .loading{
     text-align:center;
-    padding:30px;
+    padding:35px;
     color:#6b7280;
 }
+
+/* MODAL */
 
 .modal{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.55);
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     padding:15px;
-    z-index:1000;
+    z-index:9999;
 }
 
-.modal-content{
+.modal-box{
+    background:white;
     width:900px;
     max-width:100%;
     max-height:95vh;
     overflow:auto;
-    background:#fff;
     border-radius:12px;
     padding:25px;
 }
@@ -310,19 +335,24 @@ tr:hover{
     margin-bottom:20px;
 }
 
+.modal-header h3{
+    margin:0;
+}
+
 .close{
-    font-size:27px;
+    font-size:28px;
     cursor:pointer;
+    color:#6b7280;
 }
 
 .form-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
 .full{
-    grid-column:1/-1;
+    grid-column:1 / -1;
 }
 
 .modal-footer{
@@ -332,23 +362,25 @@ tr:hover{
     margin-top:20px;
 }
 
+/* MESSAGE */
+
 .message{
     position:fixed;
     right:20px;
     bottom:20px;
+    max-width:350px;
     background:#111827;
-    color:#fff;
+    color:white;
     padding:13px 18px;
     border-radius:8px;
     display:none;
-    z-index:3000;
-    max-width:350px;
+    z-index:20000;
 }
 
-@media(max-width:850px){
+@media(max-width:800px){
 
     .cards{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:1fr 1fr;
     }
 
     .form-grid{
@@ -358,17 +390,10 @@ tr:hover{
     .full{
         grid-column:auto;
     }
+
 }
 
 @media(max-width:550px){
-
-    .cards{
-        grid-template-columns:1fr;
-    }
-
-    .container{
-        padding:10px;
-    }
 
     .header{
         flex-direction:column;
@@ -376,20 +401,30 @@ tr:hover{
         gap:10px;
     }
 
-    .login-box{
-        margin:40px auto;
+    .container{
+        padding:10px;
     }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .login-box{
+        padding:22px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
+
 <!-- =====================================================
-     LOGIN PAGE
+LOGIN
 ===================================================== -->
 
-<div id="loginPage">
+<div id="loginPage" class="login-page">
 
     <div class="login-box">
 
@@ -400,35 +435,39 @@ tr:hover{
             <label>User ID</label>
 
             <input
+                id="userId"
                 type="text"
-                id="loginUserId"
                 placeholder="Enter User ID"
-                autocomplete="username">
+                autocomplete="username"
+            >
 
         </div>
+
 
         <div class="form-group">
 
             <label>Password</label>
 
             <input
+                id="password"
                 type="password"
-                id="loginPassword"
                 placeholder="Enter Password"
-                autocomplete="current-password">
+                autocomplete="current-password"
+            >
 
         </div>
 
+
         <button
-            id="loginButton"
+            id="loginBtn"
             class="btn btn-primary login-btn"
-            onclick="loginUser()">
-
+            onclick="loginUser()"
+        >
             Login
-
         </button>
 
-        <div id="loginMessage"></div>
+
+        <div id="loginError"></div>
 
     </div>
 
@@ -436,25 +475,27 @@ tr:hover{
 
 
 <!-- =====================================================
-     MAIN APPLICATION
+APPLICATION
 ===================================================== -->
 
-<div id="application" class="hidden">
+<div id="app" class="hidden">
 
     <div class="header">
 
-        <h1>IT Asset Management</h1>
+        <div class="header-title">
+            IT Asset Management
+        </div>
 
-        <div class="user-area">
 
-            <span id="loggedUser"></span>
+        <div class="user-info">
+
+            <span id="userName"></span>
 
             <button
                 class="btn btn-danger"
-                onclick="logout()">
-
+                onclick="logout()"
+            >
                 Logout
-
             </button>
 
         </div>
@@ -464,24 +505,27 @@ tr:hover{
 
     <div class="container">
 
-        <div class="dashboard-title">
+
+        <!-- TITLE -->
+
+        <div class="page-title">
 
             <div>
 
                 <h2>Asset Dashboard</h2>
 
                 <p>
-                    Add, update and remove IT assets
+                    Manage IT assets
                 </p>
 
             </div>
 
+
             <button
                 class="btn btn-success"
-                onclick="openAddModal()">
-
+                onclick="openAddAsset()"
+            >
                 + Add Asset
-
             </button>
 
         </div>
@@ -498,11 +542,9 @@ tr:hover{
                 </div>
 
                 <div
-                    class="card-value"
-                    id="totalAssets">
-
+                    id="totalAssets"
+                    class="card-value">
                     0
-
                 </div>
 
             </div>
@@ -515,11 +557,9 @@ tr:hover{
                 </div>
 
                 <div
-                    class="card-value"
-                    id="availableAssets">
-
+                    id="availableAssets"
+                    class="card-value">
                     0
-
                 </div>
 
             </div>
@@ -532,11 +572,9 @@ tr:hover{
                 </div>
 
                 <div
-                    class="card-value"
-                    id="assignedAssets">
-
+                    id="assignedAssets"
+                    class="card-value">
                     0
-
                 </div>
 
             </div>
@@ -549,11 +587,9 @@ tr:hover{
                 </div>
 
                 <div
-                    class="card-value"
-                    id="removedAssets">
-
+                    id="removedAssets"
+                    class="card-value">
                     0
-
                 </div>
 
             </div>
@@ -561,21 +597,22 @@ tr:hover{
         </div>
 
 
-        <!-- SEARCH -->
+        <!-- TOOLBAR -->
 
         <div class="toolbar">
 
             <input
+                id="search"
                 class="search"
-                type="text"
-                id="searchBox"
                 placeholder="Search Asset ID, Tag, Brand, Model, Serial Number..."
-                oninput="filterAssets()">
+                oninput="filterAssets()"
+            >
 
 
             <select
                 id="statusFilter"
-                onchange="filterAssets()">
+                onchange="filterAssets()"
+            >
 
                 <option value="">
                     All Status
@@ -602,10 +639,9 @@ tr:hover{
 
             <button
                 class="btn btn-primary"
-                onclick="loadAssets()">
-
+                onclick="loadAssets()"
+            >
                 Refresh
-
             </button>
 
         </div>
@@ -613,20 +649,20 @@ tr:hover{
 
         <!-- TABLE -->
 
-        <div class="table-box">
+        <div class="table-container">
 
             <div
-                id="tableLoading"
-                class="loading">
-
+                id="loading"
+                class="loading"
+            >
                 Loading assets...
-
             </div>
 
 
             <table
                 id="assetTable"
-                class="hidden">
+                class="hidden"
+            >
 
                 <thead>
 
@@ -643,13 +679,13 @@ tr:hover{
                         <th>Department</th>
                         <th>Status</th>
                         <th>Condition</th>
-                        <th>Action</th>
+                        <th>Actions</th>
 
                     </tr>
 
                 </thead>
 
-                <tbody id="assetTableBody"></tbody>
+                <tbody id="assetBody"></tbody>
 
             </table>
 
@@ -661,27 +697,27 @@ tr:hover{
 
 
 <!-- =====================================================
-     ADD / UPDATE MODAL
+ASSET MODAL
 ===================================================== -->
 
 <div
     id="assetModal"
-    class="modal hidden">
+    class="modal hidden"
+>
 
-    <div class="modal-content">
+    <div class="modal-box">
 
         <div class="modal-header">
 
-            <h2 id="modalTitle">
+            <h3 id="modalTitle">
                 Add Asset
-            </h2>
+            </h3>
 
             <span
                 class="close"
-                onclick="closeModal()">
-
+                onclick="closeAssetModal()"
+            >
                 &times;
-
             </span>
 
         </div>
@@ -689,7 +725,8 @@ tr:hover{
 
         <input
             type="hidden"
-            id="assetID">
+            id="recordId"
+        >
 
 
         <div class="form-grid">
@@ -700,8 +737,9 @@ tr:hover{
                 <label>Asset ID *</label>
 
                 <input
-                    id="assetAssetID"
-                    placeholder="AST-0002">
+                    id="AssetID"
+                    placeholder="AST-0002"
+                >
 
             </div>
 
@@ -711,8 +749,9 @@ tr:hover{
                 <label>Asset Tag *</label>
 
                 <input
-                    id="assetTag"
-                    placeholder="IT-LAP-0002">
+                    id="AssetTag"
+                    placeholder="IT-LAP-0002"
+                >
 
             </div>
 
@@ -722,8 +761,9 @@ tr:hover{
                 <label>Brand *</label>
 
                 <input
-                    id="assetBrand"
-                    placeholder="Dell">
+                    id="Brand"
+                    placeholder="Dell"
+                >
 
             </div>
 
@@ -733,8 +773,9 @@ tr:hover{
                 <label>Model *</label>
 
                 <input
-                    id="assetModel"
-                    placeholder="Latitude 5440">
+                    id="Model"
+                    placeholder="Latitude 5440"
+                >
 
             </div>
 
@@ -744,7 +785,8 @@ tr:hover{
                 <label>Serial Number *</label>
 
                 <input
-                    id="assetSerialNumber">
+                    id="SerialNumber"
+                >
 
             </div>
 
@@ -754,8 +796,9 @@ tr:hover{
                 <label>Purchase Date</label>
 
                 <input
+                    id="PurchaseDate"
                     type="date"
-                    id="assetPurchaseDate">
+                >
 
             </div>
 
@@ -765,8 +808,9 @@ tr:hover{
                 <label>Purchase Cost</label>
 
                 <input
+                    id="PurchaseCost"
                     type="number"
-                    id="assetPurchaseCost">
+                >
 
             </div>
 
@@ -776,8 +820,9 @@ tr:hover{
                 <label>Warranty Start</label>
 
                 <input
+                    id="WarrantyStart"
                     type="date"
-                    id="assetWarrantyStart">
+                >
 
             </div>
 
@@ -787,8 +832,9 @@ tr:hover{
                 <label>Warranty End</label>
 
                 <input
+                    id="WarrantyEnd"
                     type="date"
-                    id="assetWarrantyEnd">
+                >
 
             </div>
 
@@ -797,23 +843,12 @@ tr:hover{
 
                 <label>Status</label>
 
-                <select id="assetStatus">
+                <select id="Status">
 
-                    <option value="Available">
-                        Available
-                    </option>
-
-                    <option value="Assigned">
-                        Assigned
-                    </option>
-
-                    <option value="Returned">
-                        Returned
-                    </option>
-
-                    <option value="Removed">
-                        Removed
-                    </option>
+                    <option>Available</option>
+                    <option>Assigned</option>
+                    <option>Returned</option>
+                    <option>Removed</option>
 
                 </select>
 
@@ -824,23 +859,12 @@ tr:hover{
 
                 <label>Condition</label>
 
-                <select id="assetCondition">
+                <select id="Condition">
 
-                    <option value="New">
-                        New
-                    </option>
-
-                    <option value="Good">
-                        Good
-                    </option>
-
-                    <option value="Fair">
-                        Fair
-                    </option>
-
-                    <option value="Poor">
-                        Poor
-                    </option>
+                    <option>New</option>
+                    <option>Good</option>
+                    <option>Fair</option>
+                    <option>Poor</option>
 
                 </select>
 
@@ -851,39 +875,16 @@ tr:hover{
 
                 <label>Asset Category</label>
 
-                <select id="assetCategory">
+                <select id="AssetCategory">
 
-                    <option value="Laptop">
-                        Laptop
-                    </option>
-
-                    <option value="Desktop">
-                        Desktop
-                    </option>
-
-                    <option value="Monitor">
-                        Monitor
-                    </option>
-
-                    <option value="Printer">
-                        Printer
-                    </option>
-
-                    <option value="Mobile">
-                        Mobile
-                    </option>
-
-                    <option value="Tablet">
-                        Tablet
-                    </option>
-
-                    <option value="Network">
-                        Network
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
+                    <option>Laptop</option>
+                    <option>Desktop</option>
+                    <option>Monitor</option>
+                    <option>Printer</option>
+                    <option>Mobile</option>
+                    <option>Tablet</option>
+                    <option>Network</option>
+                    <option>Other</option>
 
                 </select>
 
@@ -895,8 +896,9 @@ tr:hover{
                 <label>Asset Location</label>
 
                 <input
-                    id="assetLocation"
-                    placeholder="Head Office">
+                    id="AssetLocation"
+                    placeholder="Head Office"
+                >
 
             </div>
 
@@ -906,8 +908,8 @@ tr:hover{
                 <label>Asset Vendor</label>
 
                 <input
-                    id="assetVendor"
-                    placeholder="ABC IT Solutions">
+                    id="AssetVendor"
+                >
 
             </div>
 
@@ -917,8 +919,8 @@ tr:hover{
                 <label>Asset Department</label>
 
                 <input
-                    id="assetDepartment"
-                    placeholder="Information Technology">
+                    id="AssetDepartment"
+                >
 
             </div>
 
@@ -928,8 +930,8 @@ tr:hover{
                 <label>Remarks</label>
 
                 <textarea
-                    id="assetRemarks"
-                    placeholder="Enter remarks"></textarea>
+                    id="Remarks"
+                ></textarea>
 
             </div>
 
@@ -940,20 +942,18 @@ tr:hover{
 
             <button
                 class="btn btn-secondary"
-                onclick="closeModal()">
-
+                onclick="closeAssetModal()"
+            >
                 Cancel
-
             </button>
 
 
             <button
-                id="saveAssetButton"
+                id="saveBtn"
                 class="btn btn-success"
-                onclick="saveAsset()">
-
+                onclick="saveAsset()"
+            >
                 Save Asset
-
             </button>
 
         </div>
@@ -963,17 +963,15 @@ tr:hover{
 </div>
 
 
-<div
-    id="message"
-    class="message">
-</div>
+<div id="message" class="message"></div>
 
 
 <script>
 
-/* =====================================================
-   PUT YOUR POWER AUTOMATE URLS HERE
-===================================================== */
+/* =========================================================
+   POWER AUTOMATE URLs
+   COPY EXACT URLs FROM YOUR EXISTING FLOWS
+========================================================= */
 
 const LOGIN_URL =
 "https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/16/workflows/382c1f3775a94fbcb1ab9874e2fab95f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=msJRa_nx4WGByT8aJNQoi-a3j1818bl_vVC_xV1H_mE";
@@ -994,72 +992,60 @@ const UPDATE_ASSET_URL =
 const REMOVE_ASSET_URL =
 "Phttps://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/17/workflows/344acde135574fabb4a31bc2c445847e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=t-ttWl_mRRYxEC02e-mQAkF9gXPJ_piFrEZlRgxUP_I";
 
+/* =========================================================
+   VARIABLES
+========================================================= */
 
-/* =====================================================
-   GLOBAL VARIABLES
-===================================================== */
+let assets = [];
 
-let allAssets = [];
-
-let currentUser = null;
-
-let editingAsset = null;
+let editMode = false;
 
 
-/* =====================================================
+/* =========================================================
    LOGIN
-===================================================== */
+========================================================= */
 
 async function loginUser(){
 
     const userId =
-        document.getElementById(
-            "loginUserId"
-        ).value.trim();
-
+        document.getElementById("userId").value.trim();
 
     const password =
-        document.getElementById(
-            "loginPassword"
-        ).value;
+        document.getElementById("password").value;
+
+    const btn =
+        document.getElementById("loginBtn");
+
+    const error =
+        document.getElementById("loginError");
 
 
-    const button =
-        document.getElementById(
-            "loginButton"
-        );
-
-
-    const message =
-        document.getElementById(
-            "loginMessage"
-        );
+    error.innerHTML = "";
 
 
     if(!userId || !password){
 
-        message.className = "error";
+        error.className = "error";
 
-        message.innerText =
-            "Enter User ID and Password.";
+        error.innerText =
+            "Please enter User ID and Password.";
 
         return;
-
     }
 
 
-    button.disabled = true;
+    btn.disabled = true;
 
-    button.innerText =
-        "Logging in...";
+    btn.innerText = "Checking...";
 
 
     try{
 
         /*
-         * IMPORTANT:
-         * Existing Login Flow format
-         */
+         IMPORTANT:
+         Keep this request identical to your
+         existing Login Flow contract.
+        */
 
         const response =
             await fetch(
@@ -1068,8 +1054,8 @@ async function loginUser(){
                     method:"POST",
 
                     headers:{
-                        "Content-Type":
-                            "application/json"
+                        "Content-Type":"application/json",
+                        "Accept":"application/json"
                     },
 
                     body:JSON.stringify({
@@ -1085,58 +1071,110 @@ async function loginUser(){
             );
 
 
+        const raw =
+            await response.text();
+
+
+        console.log(
+            "LOGIN STATUS:",
+            response.status
+        );
+
+        console.log(
+            "LOGIN RAW:",
+            raw
+        );
+
+
         if(!response.ok){
 
             throw new Error(
                 "Login HTTP Status: " +
                 response.status
             );
+        }
+
+
+        let result;
+
+        try{
+
+            result =
+                JSON.parse(raw);
+
+        }catch(e){
+
+            throw new Error(
+                "Invalid JSON returned by Login Flow."
+            );
+        }
+
+
+        /*
+         Handles both:
+         {
+            success:true,
+            user:{}
+         }
+
+         and:
+         {
+            body:{
+               success:true,
+               user:{}
+            }
+         }
+        */
+
+        if(
+            result.body &&
+            typeof result.body === "object"
+        ){
+
+            result =
+                result.body;
 
         }
 
 
-        const result =
-            await response.json();
-
-
-        console.log(
-            "LOGIN RESPONSE:",
-            result
-        );
-
-
-        if(result.success !== true){
+        if(
+            result.success !== true
+        ){
 
             throw new Error(
                 result.message ||
-                "Invalid User ID or Password"
+                "Invalid User ID or Password."
             );
-
         }
 
 
-        currentUser =
+        const user =
             result.user ||
             result.data ||
             {};
 
 
-        document
-            .getElementById("loginPage")
-            .classList.add("hidden");
+        document.getElementById(
+            "userName"
+        ).innerText =
+            user.Name ||
+            user.name ||
+            user.UserID ||
+            userId;
 
 
-        document
-            .getElementById("application")
-            .classList.remove("hidden");
+        document.getElementById(
+            "loginPage"
+        ).classList.add(
+            "hidden"
+        );
 
 
-        document
-            .getElementById("loggedUser")
-            .innerText =
-                currentUser.Name ||
-                currentUser.UserID ||
-                userId;
+        document.getElementById(
+            "app"
+        ).classList.remove(
+            "hidden"
+        );
 
 
         await loadAssets();
@@ -1150,38 +1188,45 @@ async function loginUser(){
         );
 
 
-        message.className =
+        error = error.message ||
+                "Login failed.";
+
+
+        const box =
+            document.getElementById(
+                "loginError"
+            );
+
+
+        box.className =
             "error";
 
 
-        message.innerText =
-            error.message ||
-            "Login failed.";
+        box.innerText =
+            error;
 
     }
     finally{
 
-        button.disabled = false;
+        btn.disabled = false;
 
-        button.innerText =
-            "Login";
+        btn.innerText = "Login";
 
     }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    LOAD ASSETS
-===================================================== */
+========================================================= */
 
 async function loadAssets(){
 
     const loading =
         document.getElementById(
-            "tableLoading"
+            "loading"
         );
-
 
     const table =
         document.getElementById(
@@ -1192,7 +1237,6 @@ async function loadAssets(){
     loading.classList.remove(
         "hidden"
     );
-
 
     table.classList.add(
         "hidden"
@@ -1209,6 +1253,9 @@ async function loadAssets(){
 
                     headers:{
                         "Content-Type":
+                            "application/json",
+
+                        "Accept":
                             "application/json"
                     },
 
@@ -1219,104 +1266,98 @@ async function loadAssets(){
             );
 
 
+        const raw =
+            await response.text();
+
+
+        console.log(
+            "ASSET HTTP STATUS:",
+            response.status
+        );
+
+        console.log(
+            "ASSET RESPONSE:",
+            raw
+        );
+
+
         if(!response.ok){
 
             throw new Error(
                 "Assets HTTP Status: " +
                 response.status
             );
+        }
+
+
+        let result =
+            JSON.parse(raw);
+
+
+        /*
+         Your backend currently returns:
+
+         {
+           statusCode:200,
+           body:{
+             success:true,
+             data:[]
+           }
+         }
+
+         This code handles that format.
+        */
+
+        if(
+            result.body &&
+            typeof result.body === "object"
+        ){
+
+            result =
+                result.body;
 
         }
 
 
-        const result =
-            await response.json();
-
-
-        console.log(
-            "ASSETS RESPONSE:",
-            result
-        );
-
-
-        /*
-         * Supports your current response:
-         *
-         * {
-         *   success:true,
-         *   data:[]
-         * }
-         */
-
-
         if(
-            result &&
             result.success === true &&
             Array.isArray(result.data)
         ){
 
-            allAssets =
+            assets =
                 result.data;
 
         }
 
         else if(
-            result &&
             Array.isArray(result.value)
         ){
 
-            allAssets =
+            assets =
                 result.value;
-
-        }
-
-        else if(
-            result &&
-            result.body &&
-            Array.isArray(
-                result.body.data
-            )
-        ){
-
-            allAssets =
-                result.body.data;
-
-        }
-
-        else if(
-            result &&
-            result.body &&
-            Array.isArray(
-                result.body.value
-            )
-        ){
-
-            allAssets =
-                result.body.value;
 
         }
 
         else{
 
-            allAssets = [];
+            assets = [];
 
         }
 
 
         renderAssets(
-            allAssets
+            assets
         );
 
-
-        updateCards(
-            allAssets
+        updateDashboard(
+            assets
         );
 
     }
     catch(error){
 
         console.error(
-            "loadAssets Error:",
+            "loadAssets:",
             error
         );
 
@@ -1342,11 +1383,11 @@ async function loadAssets(){
 }
 
 
-/* =====================================================
-   GET CHOICE VALUE
-===================================================== */
+/* =========================================================
+   SHAREPOINT CHOICE VALUE
+========================================================= */
 
-function getValue(value){
+function valueOf(value){
 
     if(
         value === null ||
@@ -1365,7 +1406,6 @@ function getValue(value){
         return value.Value ||
                value.value ||
                value.Title ||
-               value.Name ||
                "";
 
     }
@@ -1376,35 +1416,34 @@ function getValue(value){
 }
 
 
-/* =====================================================
-   RENDER ASSETS
-===================================================== */
+/* =========================================================
+   RENDER
+========================================================= */
 
 function renderAssets(
-    assets
+    list
 ){
 
-    const tbody =
+    const body =
         document.getElementById(
-            "assetTableBody"
+            "assetBody"
         );
 
 
-    tbody.innerHTML = "";
+    body.innerHTML = "";
 
 
-    if(!assets.length){
+    if(!list.length){
 
-        tbody.innerHTML = `
+        body.innerHTML = `
 
             <tr>
 
                 <td
                     colspan="12"
-                    style="text-align:center;padding:30px;">
-
+                    style="text-align:center;padding:30px"
+                >
                     No assets found
-
                 </td>
 
             </tr>
@@ -1416,50 +1455,48 @@ function renderAssets(
     }
 
 
-    assets.forEach(
+    list.forEach(
         asset => {
 
             const status =
-                getValue(
+                valueOf(
                     asset.Status
                 );
 
 
             const condition =
-                getValue(
+                valueOf(
                     asset.Condition
                 );
 
 
             const category =
-                getValue(
+                valueOf(
                     asset.AssetCategory
                 );
 
 
             const location =
-                getValue(
+                valueOf(
                     asset.AssetLocation
                 );
 
 
             const department =
-                getValue(
+                valueOf(
                     asset.AssetDepartment
                 );
 
 
-            const row =
+            const tr =
                 document.createElement(
                     "tr"
                 );
 
 
-            row.innerHTML = `
+            tr.innerHTML = `
 
-                <td>
-                    ${safe(asset.ID)}
-                </td>
+                <td>${safe(asset.ID)}</td>
 
                 <td>
                     <strong>
@@ -1508,20 +1545,18 @@ function renderAssets(
                     <div class="actions">
 
                         <button
-                            class="btn btn-warning small"
-                            onclick="editAsset(${Number(asset.ID)})">
-
+                            class="btn btn-warning small-btn"
+                            onclick="editAsset(${Number(asset.ID)})"
+                        >
                             Edit
-
                         </button>
 
 
                         <button
-                            class="btn btn-danger small"
-                            onclick="removeAsset(${Number(asset.ID)})">
-
+                            class="btn btn-danger small-btn"
+                            onclick="removeAsset(${Number(asset.ID)})"
+                        >
                             Remove
-
                         </button>
 
                     </div>
@@ -1531,9 +1566,7 @@ function renderAssets(
             `;
 
 
-            tbody.appendChild(
-                row
-            );
+            body.appendChild(tr);
 
         }
     );
@@ -1541,9 +1574,9 @@ function renderAssets(
 }
 
 
-/* =====================================================
-   STATUS BADGE
-===================================================== */
+/* =========================================================
+   STATUS
+========================================================= */
 
 function statusBadge(
     status
@@ -1554,58 +1587,52 @@ function statusBadge(
         .toLowerCase();
 
 
-    let cls =
-        "default-badge";
+    let cls = "other";
 
 
     if(s === "available")
         cls = "available";
 
-    else if(s === "assigned")
+    if(s === "assigned")
         cls = "assigned";
 
-    else if(s === "returned")
+    if(s === "returned")
         cls = "returned";
 
-    else if(s === "removed")
+    if(s === "removed")
         cls = "removed";
 
 
     return `
-
         <span class="badge ${cls}">
-
             ${safe(status)}
-
         </span>
-
     `;
 
 }
 
 
-/* =====================================================
-   DASHBOARD CARDS
-===================================================== */
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
-function updateCards(
-    assets
+function updateDashboard(
+    list
 ){
 
     document.getElementById(
         "totalAssets"
     ).innerText =
-        assets.length;
+        list.length;
 
 
     document.getElementById(
         "availableAssets"
     ).innerText =
-        assets.filter(
-            a =>
-                getValue(
-                    a.Status
-                ).toLowerCase()
+        list.filter(
+            x =>
+                valueOf(x.Status)
+                .toLowerCase()
                 === "available"
         ).length;
 
@@ -1613,11 +1640,10 @@ function updateCards(
     document.getElementById(
         "assignedAssets"
     ).innerText =
-        assets.filter(
-            a =>
-                getValue(
-                    a.Status
-                ).toLowerCase()
+        list.filter(
+            x =>
+                valueOf(x.Status)
+                .toLowerCase()
                 === "assigned"
         ).length;
 
@@ -1625,28 +1651,26 @@ function updateCards(
     document.getElementById(
         "removedAssets"
     ).innerText =
-        assets.filter(
-            a =>
-                getValue(
-                    a.Status
-                ).toLowerCase()
+        list.filter(
+            x =>
+                valueOf(x.Status)
+                .toLowerCase()
                 === "removed"
         ).length;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SEARCH
-===================================================== */
+========================================================= */
 
 function filterAssets(){
 
     const search =
         document.getElementById(
-            "searchBox"
-        )
-        .value
+            "search"
+        ).value
         .toLowerCase()
         .trim();
 
@@ -1658,54 +1682,34 @@ function filterAssets(){
 
 
     const filtered =
-        allAssets.filter(
+        assets.filter(
             asset => {
 
                 const text = [
 
                     asset.AssetID,
-
                     asset.AssetTag,
-
                     asset.Brand,
-
                     asset.Model,
-
                     asset.SerialNumber,
-
-                    getValue(
-                        asset.AssetCategory
-                    ),
-
-                    getValue(
-                        asset.AssetLocation
-                    ),
-
-                    getValue(
-                        asset.AssetDepartment
-                    )
+                    valueOf(asset.AssetCategory),
+                    valueOf(asset.AssetLocation),
+                    valueOf(asset.AssetDepartment)
 
                 ]
                 .join(" ")
                 .toLowerCase();
 
 
-                const searchOK =
-                    text.includes(
-                        search
-                    );
-
-
-                const statusOK =
-                    !status ||
-                    getValue(
-                        asset.Status
-                    ) === status;
-
-
                 return (
-                    searchOK &&
-                    statusOK
+                    text.includes(search)
+                    &&
+                    (
+                        !status ||
+                        valueOf(
+                            asset.Status
+                        ) === status
+                    )
                 );
 
             }
@@ -1719,13 +1723,13 @@ function filterAssets(){
 }
 
 
-/* =====================================================
-   OPEN ADD
-===================================================== */
+/* =========================================================
+   ADD
+========================================================= */
 
-function openAddModal(){
+function openAddAsset(){
 
-    editingAsset = null;
+    editMode = false;
 
 
     document.getElementById(
@@ -1735,7 +1739,7 @@ function openAddModal(){
 
 
     document.getElementById(
-        "saveAssetButton"
+        "saveBtn"
     ).innerText =
         "Save Asset";
 
@@ -1743,27 +1747,27 @@ function openAddModal(){
     clearForm();
 
 
-    document
-        .getElementById("assetModal")
-        .classList.remove(
-            "hidden"
-        );
+    document.getElementById(
+        "assetModal"
+    ).classList.remove(
+        "hidden"
+    );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    EDIT
-===================================================== */
+========================================================= */
 
 function editAsset(
     id
 ){
 
     const asset =
-        allAssets.find(
-            a =>
-                Number(a.ID) ===
+        assets.find(
+            x =>
+                Number(x.ID) ===
                 Number(id)
         );
 
@@ -1780,8 +1784,7 @@ function editAsset(
     }
 
 
-    editingAsset =
-        asset;
+    editMode = true;
 
 
     document.getElementById(
@@ -1791,149 +1794,149 @@ function editAsset(
 
 
     document.getElementById(
-        "saveAssetButton"
+        "saveBtn"
     ).innerText =
         "Update Asset";
 
 
     document.getElementById(
-        "assetID"
+        "recordId"
     ).value =
         asset.ID || "";
 
 
     document.getElementById(
-        "assetAssetID"
+        "AssetID"
     ).value =
         asset.AssetID || "";
 
 
     document.getElementById(
-        "assetTag"
+        "AssetTag"
     ).value =
         asset.AssetTag || "";
 
 
     document.getElementById(
-        "assetBrand"
+        "Brand"
     ).value =
         asset.Brand || "";
 
 
     document.getElementById(
-        "assetModel"
+        "Model"
     ).value =
         asset.Model || "";
 
 
     document.getElementById(
-        "assetSerialNumber"
+        "SerialNumber"
     ).value =
         asset.SerialNumber || "";
 
 
     document.getElementById(
-        "assetPurchaseDate"
+        "PurchaseDate"
     ).value =
-        formatDate(
+        dateOnly(
             asset.PurchaseDate
         );
 
 
     document.getElementById(
-        "assetPurchaseCost"
+        "PurchaseCost"
     ).value =
         asset.PurchaseCost || "";
 
 
     document.getElementById(
-        "assetWarrantyStart"
+        "WarrantyStart"
     ).value =
-        formatDate(
+        dateOnly(
             asset.WarrantyStart
         );
 
 
     document.getElementById(
-        "assetWarrantyEnd"
+        "WarrantyEnd"
     ).value =
-        formatDate(
+        dateOnly(
             asset.WarrantyEnd
         );
 
 
     document.getElementById(
-        "assetStatus"
+        "Status"
     ).value =
-        getValue(
+        valueOf(
             asset.Status
-        ) || "Available";
+        );
 
 
     document.getElementById(
-        "assetCondition"
+        "Condition"
     ).value =
-        getValue(
+        valueOf(
             asset.Condition
-        ) || "New";
+        );
 
 
     document.getElementById(
-        "assetCategory"
+        "AssetCategory"
     ).value =
-        getValue(
+        valueOf(
             asset.AssetCategory
-        ) || "Laptop";
+        );
 
 
     document.getElementById(
-        "assetLocation"
+        "AssetLocation"
     ).value =
-        getValue(
+        valueOf(
             asset.AssetLocation
         );
 
 
     document.getElementById(
-        "assetVendor"
+        "AssetVendor"
     ).value =
-        getValue(
+        valueOf(
             asset.AssetVendor
         );
 
 
     document.getElementById(
-        "assetDepartment"
+        "AssetDepartment"
     ).value =
-        getValue(
+        valueOf(
             asset.AssetDepartment
         );
 
 
     document.getElementById(
-        "assetRemarks"
+        "Remarks"
     ).value =
         asset.Remarks || "";
 
 
-    document
-        .getElementById("assetModal")
-        .classList.remove(
-            "hidden"
-        );
+    document.getElementById(
+        "assetModal"
+    ).classList.remove(
+        "hidden"
+    );
 
 }
 
 
-/* =====================================================
-   ADD / UPDATE
-===================================================== */
+/* =========================================================
+   SAVE / UPDATE
+========================================================= */
 
 async function saveAsset(){
 
-    const button =
+    const btn =
         document.getElementById(
-            "saveAssetButton"
+            "saveBtn"
         );
 
 
@@ -1941,89 +1944,87 @@ async function saveAsset(){
 
         ID:
             document.getElementById(
-                "assetID"
+                "recordId"
             ).value,
 
         AssetID:
             document.getElementById(
-                "assetAssetID"
+                "AssetID"
             ).value.trim(),
 
         AssetTag:
             document.getElementById(
-                "assetTag"
+                "AssetTag"
             ).value.trim(),
 
         Brand:
             document.getElementById(
-                "assetBrand"
+                "Brand"
             ).value.trim(),
 
         Model:
             document.getElementById(
-                "assetModel"
+                "Model"
             ).value.trim(),
 
         SerialNumber:
             document.getElementById(
-                "assetSerialNumber"
+                "SerialNumber"
             ).value.trim(),
 
         PurchaseDate:
             document.getElementById(
-                "assetPurchaseDate"
+                "PurchaseDate"
             ).value,
 
         PurchaseCost:
-            Number(
-                document.getElementById(
-                    "assetPurchaseCost"
-                ).value || 0
-            ),
+            document.getElementById(
+                "PurchaseCost"
+            ).value,
 
         WarrantyStart:
             document.getElementById(
-                "assetWarrantyStart"
+                "WarrantyStart"
             ).value,
 
         WarrantyEnd:
             document.getElementById(
-                "assetWarrantyEnd"
+                "WarrantyEnd"
             ).value,
 
         Status:
             document.getElementById(
-                "assetStatus"
+                "Status"
             ).value,
 
         Condition:
             document.getElementById(
-                "assetCondition"
+                "Condition"
             ).value,
 
         AssetCategory:
             document.getElementById(
-                "assetCategory"
+                "AssetCategory"
             ).value,
 
         AssetLocation:
             document.getElementById(
-                "assetLocation"
+                "AssetLocation"
             ).value.trim(),
 
         AssetVendor:
             document.getElementById(
-                "assetVendor"
+                "AssetVendor"
             ).value.trim(),
 
         AssetDepartment:
             document.getElementById(
-                "assetDepartment"
+                "AssetDepartment"
             ).value.trim(),
 
         Remarks:
             document.getElementById(
-                "assetRemarks"
+                "Remarks"
             ).value.trim()
 
     };
@@ -2038,7 +2039,7 @@ async function saveAsset(){
     ){
 
         showMessage(
-            "Please fill all required fields.",
+            "Fill all required fields.",
             true
         );
 
@@ -2047,29 +2048,27 @@ async function saveAsset(){
     }
 
 
-    button.disabled = true;
+    btn.disabled = true;
 
 
     try{
 
         const url =
-            editingAsset
+            editMode
             ? UPDATE_ASSET_URL
             : ADD_ASSET_URL;
 
 
-        const body =
-            editingAsset
+        const request = {
 
-            ? {
-                action:"updateAsset",
-                ...data
-            }
+            action:
+                editMode
+                ? "updateAsset"
+                : "addAsset",
 
-            : {
-                action:"addAsset",
-                ...data
-            };
+            ...data
+
+        };
 
 
         const response =
@@ -2080,21 +2079,35 @@ async function saveAsset(){
 
                     headers:{
                         "Content-Type":
+                            "application/json",
+
+                        "Accept":
                             "application/json"
                     },
 
                     body:
                         JSON.stringify(
-                            body
+                            request
                         )
                 }
             );
 
 
+        const raw =
+            await response.text();
+
+
+        console.log(
+            "SAVE RESPONSE:",
+            response.status,
+            raw
+        );
+
+
         if(!response.ok){
 
             throw new Error(
-                "HTTP Status: " +
+                "Asset operation HTTP Status: " +
                 response.status
             );
 
@@ -2102,13 +2115,26 @@ async function saveAsset(){
 
 
         const result =
-            await response.json();
+            JSON.parse(raw);
 
 
-        console.log(
-            "ADD/UPDATE RESPONSE:",
-            result
-        );
+        if(
+            result.body &&
+            typeof result.body === "object"
+        ){
+
+            if(
+                result.body.success === false
+            ){
+
+                throw new Error(
+                    result.body.message ||
+                    "Operation failed."
+                );
+
+            }
+
+        }
 
 
         if(
@@ -2124,13 +2150,13 @@ async function saveAsset(){
 
 
         showMessage(
-            editingAsset
+            editMode
             ? "Asset updated successfully."
             : "Asset added successfully."
         );
 
 
-        closeModal();
+        closeAssetModal();
 
 
         await loadAssets();
@@ -2139,39 +2165,38 @@ async function saveAsset(){
     catch(error){
 
         console.error(
+            "Save Asset:",
             error
         );
 
 
         showMessage(
-            error.message ||
-            "Operation failed.",
+            error.message,
             true
         );
 
     }
     finally{
 
-        button.disabled =
-            false;
+        btn.disabled = false;
 
     }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    REMOVE
-===================================================== */
+========================================================= */
 
 async function removeAsset(
     id
 ){
 
     const asset =
-        allAssets.find(
-            a =>
-                Number(a.ID) ===
+        assets.find(
+            x =>
+                Number(x.ID) ===
                 Number(id)
         );
 
@@ -2188,30 +2213,17 @@ async function removeAsset(
     }
 
 
-    const confirmed =
-        confirm(
-            "Remove " +
-            (
-                asset.AssetID ||
-                "Asset ID " + id
-            ) +
+    if(
+        !confirm(
+            "Are you sure you want to remove " +
+            (asset.AssetID || id) +
             "?"
-        );
+        )
+    ){
 
-
-    if(!confirmed)
         return;
 
-
-    const reason =
-        prompt(
-            "Enter removal reason:",
-            "Asset removed"
-        );
-
-
-    if(reason === null)
-        return;
+    }
 
 
     try{
@@ -2224,6 +2236,9 @@ async function removeAsset(
 
                     headers:{
                         "Content-Type":
+                            "application/json",
+
+                        "Accept":
                             "application/json"
                     },
 
@@ -2233,14 +2248,23 @@ async function removeAsset(
                             action:
                                 "removeAsset",
 
-                            ID:id,
-
-                            Remarks:
-                                reason
+                            ID:
+                                id
 
                         })
                 }
             );
+
+
+        const raw =
+            await response.text();
+
+
+        console.log(
+            "REMOVE RESPONSE:",
+            response.status,
+            raw
+        );
 
 
         if(!response.ok){
@@ -2254,13 +2278,20 @@ async function removeAsset(
 
 
         const result =
-            await response.json();
+            JSON.parse(raw);
 
 
-        console.log(
-            "REMOVE RESPONSE:",
-            result
-        );
+        if(
+            result.body &&
+            result.body.success === false
+        ){
+
+            throw new Error(
+                result.body.message ||
+                "Remove failed."
+            );
+
+        }
 
 
         if(
@@ -2286,13 +2317,13 @@ async function removeAsset(
     catch(error){
 
         console.error(
+            "Remove Asset:",
             error
         );
 
 
         showMessage(
-            error.message ||
-            "Remove failed.",
+            error.message,
             true
         );
 
@@ -2301,33 +2332,44 @@ async function removeAsset(
 }
 
 
-/* =====================================================
-   CLEAR FORM
-===================================================== */
+/* =========================================================
+   CLOSE
+========================================================= */
+
+function closeAssetModal(){
+
+    document.getElementById(
+        "assetModal"
+    ).classList.add(
+        "hidden"
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
 
 function clearForm(){
 
-    const ids = [
-
-        "assetID",
-        "assetAssetID",
-        "assetTag",
-        "assetBrand",
-        "assetModel",
-        "assetSerialNumber",
-        "assetPurchaseDate",
-        "assetPurchaseCost",
-        "assetWarrantyStart",
-        "assetWarrantyEnd",
-        "assetLocation",
-        "assetVendor",
-        "assetDepartment",
-        "assetRemarks"
-
-    ];
-
-
-    ids.forEach(
+    [
+        "recordId",
+        "AssetID",
+        "AssetTag",
+        "Brand",
+        "Model",
+        "SerialNumber",
+        "PurchaseDate",
+        "PurchaseCost",
+        "WarrantyStart",
+        "WarrantyEnd",
+        "AssetLocation",
+        "AssetVendor",
+        "AssetDepartment",
+        "Remarks"
+    ]
+    .forEach(
         id => {
 
             document.getElementById(
@@ -2339,91 +2381,64 @@ function clearForm(){
 
 
     document.getElementById(
-        "assetStatus"
+        "Status"
     ).value =
         "Available";
 
 
     document.getElementById(
-        "assetCondition"
+        "Condition"
     ).value =
         "New";
 
 
     document.getElementById(
-        "assetCategory"
+        "AssetCategory"
     ).value =
         "Laptop";
 
 }
 
 
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
-
-function closeModal(){
-
-    document
-        .getElementById(
-            "assetModal"
-        )
-        .classList.add(
-            "hidden"
-        );
-
-
-    editingAsset = null;
-
-}
-
-
-/* =====================================================
+/* =========================================================
    LOGOUT
-===================================================== */
+========================================================= */
 
 function logout(){
 
-    currentUser = null;
+    assets = [];
 
-    allAssets = [];
-
-
-    document
-        .getElementById(
-            "application"
-        )
-        .classList.add(
-            "hidden"
-        );
-
-
-    document
-        .getElementById(
-            "loginPage"
-        )
-        .classList.remove(
-            "hidden"
-        );
+    document.getElementById(
+        "app"
+    ).classList.add(
+        "hidden"
+    );
 
 
     document.getElementById(
-        "loginUserId"
+        "loginPage"
+    ).classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "userId"
     ).value = "";
 
 
     document.getElementById(
-        "loginPassword"
+        "password"
     ).value = "";
 
 }
 
 
-/* =====================================================
+/* =========================================================
    HELPERS
-===================================================== */
+========================================================= */
 
-function formatDate(
+function dateOnly(
     value
 ){
 
@@ -2451,33 +2466,18 @@ function safe(
 
 
     return String(value)
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
 }
 
 
 function showMessage(
     text,
-    error=false
+    isError=false
 ){
 
     const box =
@@ -2491,7 +2491,7 @@ function showMessage(
 
 
     box.style.background =
-        error
+        isError
         ? "#dc2626"
         : "#15803d";
 
@@ -2501,7 +2501,7 @@ function showMessage(
 
 
     setTimeout(
-        () => {
+        function(){
 
             box.style.display =
                 "none";
@@ -2513,20 +2513,16 @@ function showMessage(
 }
 
 
-/* =====================================================
-   ENTER KEY LOGIN
-===================================================== */
+/* ENTER TO LOGIN */
 
 document
-    .getElementById(
-        "loginPassword"
-    )
+    .getElementById("password")
     .addEventListener(
         "keydown",
-        function(e){
+        function(event){
 
             if(
-                e.key === "Enter"
+                event.key === "Enter"
             ){
 
                 loginUser();

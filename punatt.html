@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Asset Management</title>
+  <title>Asset Management System</title>
 
   <style>
     * {
@@ -13,40 +13,51 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: #f5f7fa;
       color: #1f2937;
     }
 
     .header {
       background: #1f2937;
-      color: white;
+      color: #ffffff;
       padding: 18px 25px;
     }
 
     .header h1 {
       margin: 0;
       font-size: 22px;
+      font-weight: 600;
+    }
+
+    .header p {
+      margin: 5px 0 0;
+      font-size: 13px;
+      opacity: 0.8;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 25px auto;
       padding: 0 15px;
     }
 
+    /* =========================
+       DASHBOARD CARDS
+    ========================= */
+
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(7, minmax(130px, 1fr));
       gap: 15px;
       margin-bottom: 25px;
     }
 
     .card {
-      background: white;
+      background: #ffffff;
       border-radius: 10px;
       padding: 18px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     .card .label {
@@ -56,65 +67,117 @@
 
     .card .value {
       font-size: 28px;
-      font-weight: bold;
+      font-weight: 700;
       margin-top: 8px;
     }
 
+    /* =========================
+       PANEL
+    ========================= */
+
     .panel {
-      background: white;
+      background: #ffffff;
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     .panel-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 15px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
     .panel-header h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 19px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     button {
-      border: 0;
-      padding: 10px 15px;
+      border: none;
+      padding: 10px 16px;
       border-radius: 6px;
       background: #2563eb;
       color: white;
       cursor: pointer;
+      font-size: 14px;
     }
 
     button:hover {
-      opacity: .9;
+      opacity: 0.9;
     }
 
+    button.secondary {
+      background: #4b5563;
+    }
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-box {
+      margin-bottom: 15px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search-box input:focus {
+      border-color: #2563eb;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
     .table-wrap {
+      width: 100%;
       overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 800px;
+      min-width: 1300px;
     }
 
     th,
     td {
-      padding: 11px;
+      padding: 11px 10px;
       border-bottom: 1px solid #e5e7eb;
       text-align: left;
-      font-size: 14px;
+      font-size: 13px;
+      white-space: nowrap;
     }
 
     th {
       background: #f9fafb;
       font-weight: 600;
+      color: #374151;
     }
+
+    tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    /* =========================
+       STATUS
+    ========================= */
 
     .status {
       display: inline-block;
@@ -139,7 +202,11 @@
       color: #92400e;
     }
 
-    .Damaged,
+    .Damaged {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
     .Lost {
       background: #fee2e2;
       color: #991b1b;
@@ -150,16 +217,26 @@
       color: #374151;
     }
 
+    /* =========================
+       MESSAGE
+    ========================= */
+
     .message {
-      padding: 15px;
+      padding: 14px;
       border-radius: 7px;
       margin-bottom: 15px;
       display: none;
+      font-size: 14px;
     }
 
     .error {
       background: #fee2e2;
       color: #991b1b;
+    }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
     }
 
     .loading {
@@ -168,7 +245,27 @@
       color: #6b7280;
     }
 
-    @media (max-width: 600px) {
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1100px) {
+      .cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
       .header {
         padding: 15px;
       }
@@ -177,12 +274,43 @@
         margin-top: 15px;
       }
 
+      .panel {
+        padding: 14px;
+      }
+
       .card .value {
         font-size: 23px;
       }
+    }
 
-      .panel {
+    @media (max-width: 430px) {
+      .cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .card {
         padding: 14px;
+      }
+
+      .card .label {
+        font-size: 12px;
+      }
+
+      .card .value {
+        font-size: 21px;
+      }
+
+      .panel-header {
+        align-items: stretch;
+      }
+
+      .actions {
+        width: 100%;
+      }
+
+      .actions button {
+        flex: 1;
       }
     }
   </style>
@@ -190,15 +318,33 @@
 
 <body>
 
+  <!-- =========================
+       HEADER
+  ========================== -->
+
   <div class="header">
     <h1>Asset Management System</h1>
+    <p>External Hosted Asset Portal</p>
   </div>
+
 
   <div class="container">
 
+    <!-- =========================
+         MESSAGES
+    ========================== -->
+
     <div id="errorBox" class="message error"></div>
 
+    <div id="successBox" class="message success"></div>
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
     <div class="cards">
+
       <div class="card">
         <div class="label">Total Assets</div>
         <div class="value" id="totalAssets">0</div>
@@ -233,37 +379,108 @@
         <div class="label">Retired</div>
         <div class="value" id="retiredAssets">0</div>
       </div>
+
     </div>
+
+
+    <!-- =========================
+         ASSET TABLE
+    ========================== -->
 
     <div class="panel">
 
       <div class="panel-header">
+
         <h2>IT Assets</h2>
-        <button onclick="loadAssets()">Refresh</button>
+
+        <div class="actions">
+          <button onclick="loadAssets()">
+            Refresh
+          </button>
+
+          <button
+            class="secondary"
+            onclick="clearSearch()">
+            Clear Search
+          </button>
+        </div>
+
       </div>
 
-      <div id="loading" class="loading">
+
+      <!-- SEARCH -->
+
+      <div class="search-box">
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search Asset ID, Asset Tag, Brand, Model, Serial Number..."
+          oninput="searchAssets()">
+
+      </div>
+
+
+      <!-- LOADING -->
+
+      <div
+        id="loading"
+        class="loading">
+
         Loading assets...
+
       </div>
 
-      <div class="table-wrap">
-        <table id="assetTable" style="display:none;">
+
+      <!-- TABLE -->
+
+      <div
+        id="emptyMessage"
+        class="empty"
+        style="display:none;">
+
+        No assets found.
+
+      </div>
+
+
+      <div
+        id="tableContainer"
+        class="table-wrap"
+        style="display:none;">
+
+        <table>
+
           <thead>
+
             <tr>
+
               <th>Asset ID</th>
               <th>Asset Tag</th>
               <th>Asset Type</th>
               <th>Brand</th>
               <th>Model</th>
               <th>Serial Number</th>
+              <th>Purchase Date</th>
+              <th>Purchase Cost</th>
+              <th>Warranty Start</th>
+              <th>Warranty End</th>
               <th>Status</th>
+              <th>Condition</th>
+              <th>Category</th>
               <th>Location</th>
+              <th>Vendor</th>
               <th>Department</th>
+              <th>Remarks</th>
+
             </tr>
+
           </thead>
 
           <tbody id="assetBody"></tbody>
+
         </table>
+
       </div>
 
     </div>
@@ -273,30 +490,63 @@
 
   <script>
 
+    /* =====================================================
+       POWER AUTOMATE API
+    ===================================================== */
+
     /*
       IMPORTANT:
-      Replace this URL with your Power Automate HTTP trigger URL.
+      Replace this with your NEW / regenerated
+      Power Automate HTTP trigger URL.
     */
 
-    const API_URL = "https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/15/workflows/46efdd64086b4ddf9cd9e341b13bb880/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oRsQsA92R3Ajybn3NQGPNnyWB3JaOEeGnX6qDCAhSb8";
+    const API_URL =
+      "https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/15/workflows/46efdd64086b4ddf9cd9e341b13bb880/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oRsQsA92R3Ajybn3NQGPNnyWB3JaOEeGnX6qDCAhSb8";
 
+
+    /* =====================================================
+       GLOBAL DATA
+    ===================================================== */
+
+    let allAssets = [];
+
+
+    /* =====================================================
+       LOAD ASSETS
+    ===================================================== */
 
     async function loadAssets() {
 
-      const loading = document.getElementById("loading");
-      const table = document.getElementById("assetTable");
-      const body = document.getElementById("assetBody");
-      const errorBox = document.getElementById("errorBox");
+      const loading =
+        document.getElementById("loading");
+
+      const tableContainer =
+        document.getElementById("tableContainer");
+
+      const emptyMessage =
+        document.getElementById("emptyMessage");
+
+      const errorBox =
+        document.getElementById("errorBox");
+
 
       loading.style.display = "block";
-      table.style.display = "none";
+
+      tableContainer.style.display = "none";
+
+      emptyMessage.style.display = "none";
+
       errorBox.style.display = "none";
 
-      body.innerHTML = "";
 
       try {
 
+        /*
+          Power Automate HTTP trigger
+        */
+
         const response = await fetch(API_URL, {
+
           method: "POST",
 
           headers: {
@@ -306,40 +556,90 @@
           body: JSON.stringify({
             action: "getAssets"
           })
+
         });
 
 
         if (!response.ok) {
+
           throw new Error(
             "API Error: " + response.status
           );
+
         }
 
 
-        const result = await response.json();
+        const result =
+          await response.json();
 
-        console.log("API Response:", result);
+
+        console.log(
+          "Power Automate Response:",
+          result
+        );
 
 
         /*
-          Power Automate response expected:
+          Expected response:
 
           {
             success: true,
             data: [...]
           }
+
+          OR directly:
+
+          [...]
         */
 
-        const assets = result.data || [];
+
+        if (Array.isArray(result)) {
+
+          allAssets = result;
+
+        }
+
+        else if (
+          result &&
+          Array.isArray(result.data)
+        ) {
+
+          allAssets = result.data;
+
+        }
+
+        else if (
+          result &&
+          Array.isArray(result.value)
+        ) {
+
+          allAssets = result.value;
+
+        }
+
+        else {
+
+          allAssets = [];
+
+        }
 
 
-        updateDashboard(assets);
+        /*
+          Update dashboard
+        */
 
-        renderAssets(assets);
+        updateDashboard(allAssets);
+
+
+        /*
+          Render table
+        */
+
+        renderAssets(allAssets);
 
 
         loading.style.display = "none";
-        table.style.display = "table";
+
 
       }
 
@@ -347,209 +647,773 @@
 
         console.error(error);
 
+
         loading.style.display = "none";
 
+
         errorBox.innerText =
-          "Unable to load assets. Please check the API connection.";
+          "Unable to load assets. " +
+          error.message;
+
 
         errorBox.style.display = "block";
+
       }
+
     }
 
+
+    /* =====================================================
+       DASHBOARD
+    ===================================================== */
 
     function updateDashboard(assets) {
 
-      document.getElementById("totalAssets").innerText =
-        assets.length;
+      document.getElementById(
+        "totalAssets"
+      ).innerText = assets.length;
 
 
-      document.getElementById("availableAssets").innerText =
-        countStatus(assets, "Available");
+      document.getElementById(
+        "availableAssets"
+      ).innerText =
+        countStatus(
+          assets,
+          "Available"
+        );
 
 
-      document.getElementById("assignedAssets").innerText =
-        countStatus(assets, "Assigned");
+      document.getElementById(
+        "assignedAssets"
+      ).innerText =
+        countStatus(
+          assets,
+          "Assigned"
+        );
 
 
-      document.getElementById("maintenanceAssets").innerText =
-        countStatus(assets, "Under Maintenance");
+      document.getElementById(
+        "maintenanceAssets"
+      ).innerText =
+        countStatus(
+          assets,
+          "Under Maintenance"
+        );
 
 
-      document.getElementById("damagedAssets").innerText =
-        countStatus(assets, "Damaged");
+      document.getElementById(
+        "damagedAssets"
+      ).innerText =
+        countStatus(
+          assets,
+          "Damaged"
+        );
 
 
-      document.getElementById("lostAssets").innerText =
-        countStatus(assets, "Lost");
+      document.getElementById(
+        "lostAssets"
+      ).innerText =
+        countStatus(
+          assets,
+          "Lost"
+        );
 
 
-      document.getElementById("retiredAssets").innerText =
-        countStatus(assets, "Retired");
+      document.getElementById(
+        "retiredAssets"
+      ).innerText =
+        countStatus(
+          assets,
+          "Retired"
+        );
+
     }
 
 
-    function countStatus(assets, status) {
+    /* =====================================================
+       STATUS COUNTER
+    ===================================================== */
 
-      return assets.filter(asset => {
+    function countStatus(
+      assets,
+      status
+    ) {
 
-        return getField(asset, "Status") === status;
+      return assets.filter(
+        asset => {
 
-      }).length;
+          return getLookupValue(
+            asset.Status
+          ) === status;
+
+        }
+      ).length;
+
     }
 
 
-    function renderAssets(assets) {
+    /* =====================================================
+       SHAREPOINT LOOKUP VALUE
+    ===================================================== */
 
-      const body = document.getElementById("assetBody");
+    function getLookupValue(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return "";
+
+      }
+
+
+      /*
+        Choice / Lookup:
+
+        {
+          Id: 1,
+          Value: "Available"
+        }
+      */
+
+      if (
+        typeof value === "object"
+      ) {
+
+        if (
+          value.Value !== undefined
+        ) {
+
+          return String(
+            value.Value
+          );
+
+        }
+
+
+        if (
+          value.Title !== undefined
+        ) {
+
+          return String(
+            value.Title
+          );
+
+        }
+
+
+        if (
+          value.DisplayName !== undefined
+        ) {
+
+          return String(
+            value.DisplayName
+          );
+
+        }
+
+
+        return "";
+
+      }
+
+
+      return String(value);
+
+    }
+
+
+    /* =====================================================
+       NORMAL FIELD VALUE
+    ===================================================== */
+
+    function getField(
+      asset,
+      fieldName
+    ) {
+
+      if (!asset) {
+        return "";
+      }
+
+
+      const value =
+        asset[fieldName];
+
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return "";
+
+      }
+
+
+      if (
+        typeof value === "object"
+      ) {
+
+        return getLookupValue(
+          value
+        );
+
+      }
+
+
+      return String(value);
+
+    }
+
+
+    /* =====================================================
+       FORMAT DATE
+    ===================================================== */
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "";
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        isNaN(date.getTime())
+      ) {
+
+        return value;
+
+      }
+
+
+      return date.toLocaleDateString(
+        "en-IN",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       FORMAT CURRENCY
+    ===================================================== */
+
+    function formatCurrency(value) {
+
+      if (
+        value === null ||
+        value === undefined ||
+        value === ""
+      ) {
+
+        return "";
+
+      }
+
+
+      const number =
+        Number(value);
+
+
+      if (
+        isNaN(number)
+      ) {
+
+        return value;
+
+      }
+
+
+      return "₹ " +
+        number.toLocaleString(
+          "en-IN"
+        );
+
+    }
+
+
+    /* =====================================================
+       STATUS CLASS
+    ===================================================== */
+
+    function getStatusClass(status) {
+
+      return status
+        .replace(/\s+/g, "");
+
+    }
+
+
+    /* =====================================================
+       RENDER ASSETS
+    ===================================================== */
+
+    function renderAssets(
+      assets
+    ) {
+
+      const body =
+        document.getElementById(
+          "assetBody"
+        );
+
+      const tableContainer =
+        document.getElementById(
+          "tableContainer"
+        );
+
+      const emptyMessage =
+        document.getElementById(
+          "emptyMessage"
+        );
+
 
       body.innerHTML = "";
 
 
-      if (!assets.length) {
+      if (
+        !assets ||
+        assets.length === 0
+      ) {
 
-        body.innerHTML = `
-          <tr>
-            <td colspan="9" style="text-align:center;">
-              No assets found
-            </td>
-          </tr>
-        `;
+        tableContainer.style.display =
+          "none";
+
+        emptyMessage.style.display =
+          "block";
 
         return;
+
       }
 
 
-      assets.forEach(asset => {
+      emptyMessage.style.display =
+        "none";
 
-        const assetId =
-          getField(asset, "Asset ID");
-
-        const assetTag =
-          getField(asset, "Asset Tag");
-
-        const assetType =
-          getField(asset, "Asset Type");
-
-        const brand =
-          getField(asset, "Brand");
-
-        const model =
-          getField(asset, "Model");
-
-        const serial =
-          getField(asset, "Serial Number");
-
-        const status =
-          getField(asset, "Status");
-
-        const location =
-          getField(asset, "Asset Location") ||
-          getField(asset, "Location");
-
-        const department =
-          getField(asset, "Asset Department") ||
-          getField(asset, "Department");
+      tableContainer.style.display =
+        "block";
 
 
-        const statusClass =
-          status.replace(/\s/g, "");
+      assets.forEach(
+        asset => {
+
+          const assetId =
+            getField(
+              asset,
+              "AssetID"
+            );
 
 
-        const row = document.createElement("tr");
+          const assetTag =
+            getField(
+              asset,
+              "AssetTag"
+            );
 
 
-        row.innerHTML = `
+          /*
+            Your current SharePoint output
+            does not contain AssetType.
 
-          <td>${escapeHtml(assetId)}</td>
+            So this will remain blank
+            until AssetType is added.
+          */
 
-          <td>${escapeHtml(assetTag)}</td>
-
-          <td>${escapeHtml(assetType)}</td>
-
-          <td>${escapeHtml(brand)}</td>
-
-          <td>${escapeHtml(model)}</td>
-
-          <td>${escapeHtml(serial)}</td>
-
-          <td>
-            <span class="status ${statusClass}">
-              ${escapeHtml(status)}
-            </span>
-          </td>
-
-          <td>${escapeHtml(location)}</td>
-
-          <td>${escapeHtml(department)}</td>
-
-        `;
+          const assetType =
+            getField(
+              asset,
+              "AssetType"
+            );
 
 
-        body.appendChild(row);
-
-      });
-    }
-
-
-    function getField(asset, fieldName) {
-
-      /*
-        Supports normal SharePoint
-        Power Automate JSON objects.
-      */
-
-      if (!asset) return "";
-
-      if (asset[fieldName] !== undefined) {
-
-        return formatValue(asset[fieldName]);
-      }
-
-      return "";
-    }
+          const brand =
+            getField(
+              asset,
+              "Brand"
+            );
 
 
-    function formatValue(value) {
+          const model =
+            getField(
+              asset,
+              "Model"
+            );
 
-      if (value === null || value === undefined) {
-        return "";
-      }
 
-      if (typeof value === "object") {
+          const serialNumber =
+            getField(
+              asset,
+              "SerialNumber"
+            );
 
-        if (value.Value !== undefined) {
-          return value.Value;
+
+          const purchaseDate =
+            formatDate(
+              getField(
+                asset,
+                "PurchaseDate"
+              )
+            );
+
+
+          const purchaseCost =
+            formatCurrency(
+              getField(
+                asset,
+                "PurchaseCost"
+              )
+            );
+
+
+          const warrantyStart =
+            formatDate(
+              getField(
+                asset,
+                "WarrantyStart"
+              )
+            );
+
+
+          const warrantyEnd =
+            formatDate(
+              getField(
+                asset,
+                "WarrantyEnd"
+              )
+            );
+
+
+          /*
+            Choice field
+          */
+
+          const status =
+            getLookupValue(
+              asset.Status
+            );
+
+
+          const condition =
+            getLookupValue(
+              asset.Condition
+            );
+
+
+          /*
+            Lookup fields
+          */
+
+          const category =
+            getLookupValue(
+              asset.AssetCategory
+            );
+
+
+          const location =
+            getLookupValue(
+              asset.AssetLocation
+            );
+
+
+          const vendor =
+            getLookupValue(
+              asset.AssetVendor
+            );
+
+
+          const department =
+            getLookupValue(
+              asset.AssetDepartment
+            );
+
+
+          const remarks =
+            getField(
+              asset,
+              "Remarks"
+            );
+
+
+          const statusClass =
+            getStatusClass(
+              status
+            );
+
+
+          const row =
+            document.createElement(
+              "tr"
+            );
+
+
+          row.innerHTML = `
+
+            <td>
+              ${escapeHtml(assetId)}
+            </td>
+
+            <td>
+              ${escapeHtml(assetTag)}
+            </td>
+
+            <td>
+              ${escapeHtml(assetType)}
+            </td>
+
+            <td>
+              ${escapeHtml(brand)}
+            </td>
+
+            <td>
+              ${escapeHtml(model)}
+            </td>
+
+            <td>
+              ${escapeHtml(serialNumber)}
+            </td>
+
+            <td>
+              ${escapeHtml(purchaseDate)}
+            </td>
+
+            <td>
+              ${escapeHtml(purchaseCost)}
+            </td>
+
+            <td>
+              ${escapeHtml(warrantyStart)}
+            </td>
+
+            <td>
+              ${escapeHtml(warrantyEnd)}
+            </td>
+
+            <td>
+
+              <span
+                class="status ${statusClass}">
+
+                ${escapeHtml(status)}
+
+              </span>
+
+            </td>
+
+            <td>
+              ${escapeHtml(condition)}
+            </td>
+
+            <td>
+              ${escapeHtml(category)}
+            </td>
+
+            <td>
+              ${escapeHtml(location)}
+            </td>
+
+            <td>
+              ${escapeHtml(vendor)}
+            </td>
+
+            <td>
+              ${escapeHtml(department)}
+            </td>
+
+            <td>
+              ${escapeHtml(remarks)}
+            </td>
+
+          `;
+
+
+          body.appendChild(
+            row
+          );
+
         }
+      );
 
-        if (value.Title !== undefined) {
-          return value.Title;
-        }
+    }
 
-        return JSON.stringify(value);
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    function searchAssets() {
+
+      const searchInput =
+        document.getElementById(
+          "searchInput"
+        );
+
+
+      const search =
+        searchInput.value
+          .trim()
+          .toLowerCase();
+
+
+      if (!search) {
+
+        renderAssets(
+          allAssets
+        );
+
+        return;
+
       }
 
-      return String(value);
+
+      const filtered =
+        allAssets.filter(
+          asset => {
+
+            const searchableText = [
+
+              getField(
+                asset,
+                "AssetID"
+              ),
+
+              getField(
+                asset,
+                "AssetTag"
+              ),
+
+              getField(
+                asset,
+                "Brand"
+              ),
+
+              getField(
+                asset,
+                "Model"
+              ),
+
+              getField(
+                asset,
+                "SerialNumber"
+              ),
+
+              getLookupValue(
+                asset.Status
+              ),
+
+              getLookupValue(
+                asset.AssetCategory
+              ),
+
+              getLookupValue(
+                asset.AssetLocation
+              ),
+
+              getLookupValue(
+                asset.AssetVendor
+              ),
+
+              getLookupValue(
+                asset.AssetDepartment
+              )
+
+            ]
+              .join(" ")
+              .toLowerCase();
+
+
+            return searchableText
+              .includes(search);
+
+          }
+        );
+
+
+      renderAssets(
+        filtered
+      );
+
     }
 
 
-    function escapeHtml(value) {
+    /* =====================================================
+       CLEAR SEARCH
+    ===================================================== */
 
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    function clearSearch() {
+
+      document.getElementById(
+        "searchInput"
+      ).value = "";
+
+
+      renderAssets(
+        allAssets
+      );
+
     }
 
 
-    /*
-      Load assets when page opens.
-    */
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =====================================================
+       PAGE LOAD
+    ===================================================== */
 
     window.addEventListener(
       "DOMContentLoaded",
-      loadAssets
+      function() {
+
+        loadAssets();
+
+      }
     );
 
   </script>

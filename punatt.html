@@ -1,2538 +1,1357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>IT Asset Management</title>
-
-<style>
-*{
-    box-sizing:border-box;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CSPL Application Form</title>
+	<style>
+:root {
+    --primary-color: #002FBE;
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --border-color: #cccccc;
 }
 
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f4f6;
-    color:#111827;
+body {
+    font-family: Arial, sans-serif, system-ui;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.hidden{
-    display:none !important;
+.form-container {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    flex: 1;
+    background: var(--card-bg);
+    padding: 12px 12px 90px 12px;
+    box-sizing: border-box;
 }
 
-button{
-    cursor:pointer;
+/* Wizard Indicators */
+.wizard-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    background: #e9ecef;
+    padding: 8px;
+    border-radius: 6px;
 }
 
-.header{
-    background:#111827;
-    color:white;
-    padding:15px 22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.step-indicator {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: #6c757d;
 }
 
-.header-title{
-    font-size:21px;
-    font-weight:bold;
+.step-indicator.active {
+    color: var(--primary-color);
+    text-decoration: underline;
 }
 
-.user-info{
-    display:flex;
-    align-items:center;
-    gap:12px;
+.step-content {
+    display: none;
 }
 
-.container{
-    max-width:1500px;
-    margin:auto;
-    padding:20px;
+.step-content.active {
+    display: block;
 }
 
-/* LOGIN */
-
-.login-page{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+.form-window {
+    background: #fafbfc;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 14px;
 }
 
-.login-box{
-    width:400px;
-    max-width:100%;
-    background:white;
-    padding:30px;
-    border-radius:14px;
-    box-shadow:0 10px 35px rgba(0,0,0,.12);
+h2 {
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 1.25rem;
+    margin-top: 4px;
+    margin-bottom: 10px;
 }
 
-.login-box h2{
-    text-align:center;
-    margin:0 0 25px;
+h3 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 4px;
+    margin-top: 0;
+    font-size: 1rem;
 }
 
-.form-group{
-    margin-bottom:15px;
+h4 {
+    color: #495057;
+    margin: 10px 0 6px 0;
+    font-size: 0.95rem;
 }
 
-label{
-    display:block;
-    font-size:13px;
-    font-weight:bold;
-    margin-bottom:6px;
+.form-group {
+    margin-bottom: 12px;
 }
 
-input,
-select,
-textarea{
-    width:100%;
-    padding:10px 12px;
-    border:1px solid #d1d5db;
-    border-radius:7px;
-    font-size:14px;
-    outline:none;
-    background:white;
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 13px;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:#2563eb;
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #ffffff;
 }
 
-textarea{
-    min-height:80px;
-    resize:vertical;
+input:focus, select:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }
 
-.btn{
-    border:0;
-    border-radius:7px;
-    padding:10px 15px;
-    font-weight:bold;
-    font-size:13px;
+/* Responsive Grid Systems */
+.grid-2, .grid-3 {
+    display: grid;
+    gap: 10px;
 }
 
-.btn-primary{
-    background:#2563eb;
-    color:white;
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+.grid-3-dob {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1.2fr;
+    gap: 6px;
 }
 
-.btn-success{
-    background:#16a34a;
-    color:white;
-}
-
-.btn-warning{
-    background:#d97706;
-    color:white;
-}
-
-.btn-danger{
-    background:#dc2626;
-    color:white;
-}
-
-.btn-secondary{
-    background:#6b7280;
-    color:white;
-}
-
-.btn:disabled{
-    opacity:.6;
-    cursor:not-allowed;
-}
-
-.login-btn{
-    width:100%;
-    margin-top:5px;
-}
-
-.error{
-    color:#dc2626;
-    margin-top:12px;
-    font-size:13px;
-}
-
-.success{
-    color:#15803d;
-    margin-top:12px;
-    font-size:13px;
-}
-
-/* DASHBOARD */
-
-.page-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
-}
-
-.page-title h2{
-    margin:0;
-}
-
-.page-title p{
-    margin:5px 0 0;
-    color:#6b7280;
-    font-size:13px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.card{
-    background:white;
-    border-radius:10px;
-    padding:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.06);
-}
-
-.card-title{
-    color:#6b7280;
-    font-size:13px;
-}
-
-.card-value{
-    margin-top:7px;
-    font-size:28px;
-    font-weight:bold;
-}
-
-/* TOOLBAR */
-
-.toolbar{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
-}
-
-.search{
-    flex:1;
-    min-width:250px;
-}
-
-/* TABLE */
-
-.table-container{
-    background:white;
-    border-radius:10px;
-    overflow:auto;
-    box-shadow:0 2px 8px rgba(0,0,0,.06);
-}
-
-table{
-    width:100%;
-    min-width:1250px;
-    border-collapse:collapse;
-}
-
-th,
-td{
-    padding:11px;
-    border-bottom:1px solid #e5e7eb;
-    text-align:left;
-    font-size:12px;
-}
-
-th{
-    background:#f9fafb;
-    font-weight:bold;
-    white-space:nowrap;
-}
-
-.actions{
-    display:flex;
-    gap:5px;
-}
-
-.small-btn{
-    padding:6px 9px;
-    font-size:11px;
-}
-
-.badge{
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
-}
-
-.available{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.assigned{
-    background:#dbeafe;
-    color:#1e40af;
-}
-
-.returned{
-    background:#fef3c7;
-    color:#92400e;
-}
-
-.removed{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-.other{
-    background:#e5e7eb;
-    color:#374151;
-}
-
-.loading{
-    text-align:center;
-    padding:35px;
-    color:#6b7280;
-}
-
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:15px;
-    z-index:9999;
-}
-
-.modal-box{
-    background:white;
-    width:900px;
-    max-width:100%;
-    max-height:95vh;
-    overflow:auto;
-    border-radius:12px;
-    padding:25px;
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.modal-header h3{
-    margin:0;
-}
-
-.close{
-    font-size:28px;
-    cursor:pointer;
-    color:#6b7280;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.full{
-    grid-column:1 / -1;
-}
-
-.modal-footer{
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:20px;
-}
-
-/* MESSAGE */
-
-.message{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    max-width:350px;
-    background:#111827;
-    color:white;
-    padding:13px 18px;
-    border-radius:8px;
-    display:none;
-    z-index:20000;
-}
-
-@media(max-width:800px){
-
-    .cards{
-        grid-template-columns:1fr 1fr;
+@media (max-width: 600px) {
+    .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
     }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .full{
-        grid-column:auto;
-    }
-
 }
 
-@media(max-width:550px){
+.checkbox-group {
+    display: flex;
+    gap: 15px;
+    margin: 6px 0;
+}
 
-    .header{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:10px;
-    }
+.checkbox-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
-    .container{
-        padding:10px;
-    }
+/* Upload Component Layout */
+.upload-field-group {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
 
-    .cards{
-        grid-template-columns:1fr;
-    }
+.upload-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
 
-    .login-box{
-        padding:22px;
-    }
+.action-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+}
 
+.cam-btn {
+    background-color: #2b6cb0;
+    color: white;
+}
+
+.file-btn {
+    background-color: #4a5568;
+    color: white;
+}
+
+.preview-tag {
+    font-size: 11px;
+    color: #718096;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.preview-tag.success {
+    color: #2f855a;
+    font-weight: bold;
+}
+
+/* Live Camera Capture Modal UI */
+.camera-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.camera-window {
+    background: #1a202c;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.camera-header {
+    background: #2d3748;
+    color: white;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.cam-close-btn {
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Guide Frame Ratios */
+.guide-frame {
+    position: absolute;
+    border: 2px dashed #00ffcc;
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+.guide-frame.portrait-35-45 {
+    width: 175px;
+    height: 225px;
+}
+
+.guide-frame.landscape-id {
+    width: 280px;
+    height: 176px;
+}
+
+.guide-frame.manual-a4 {
+    width: 240px;
+    height: 340px;
+}
+
+.camera-footer {
+    padding: 15px;
+    background: #2d3748;
+    text-align: center;
+}
+
+.capture-trigger-btn {
+    background: #48bb78;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Sticky Bottom Navigation Controls for Mobile Thumb Zone */
+.wizard-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    padding: 12px 16px;
+    box-shadow: 0 -3px 12px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 12px;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+.nav-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
+
+.prev-btn {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.next-btn, .submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.signature-wrapper {
+    border: 2px dashed var(--primary-color);
+    border-radius: 6px;
+    background: #fff;
+    touch-action: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+canvas {
+    width: 100% !important;
+    height: 140px;
+    display: block;
+}
+
+.clear-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 6px;
+    font-size: 12px;
+}
+
+/* Custom Modal Alert */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.modal-overlay.active {
+    display: flex !important;
+}
+
+.modal-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.modal-message {
+    font-size: 0.95rem;
+    color: #4a5568;
+    margin-bottom: 15px;
+}
+
+.modal-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100%;
 }
 </style>
 </head>
-
 <body>
 
-
-<!-- =====================================================
-LOGIN
-===================================================== -->
-
-<div id="loginPage" class="login-page">
-
-    <div class="login-box">
-
-        <h2>IT Asset Management</h2>
-
-        <div class="form-group">
-
-            <label>User ID</label>
-
-            <input
-                id="userId"
-                type="text"
-                placeholder="Enter User ID"
-                autocomplete="username"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Password</label>
-
-            <input
-                id="password"
-                type="password"
-                placeholder="Enter Password"
-                autocomplete="current-password"
-            >
-
-        </div>
-
-
-        <button
-            id="loginBtn"
-            class="btn btn-primary login-btn"
-            onclick="loginUser()"
-        >
-            Login
-        </button>
-
-
-        <div id="loginError"></div>
-
+<div class="form-container">
+    <h2>✍️ CSPL Application & Document Upload</h2>
+    
+    <!-- Wizard Progress Bar -->
+    <div class="wizard-steps">
+        <span class="step-indicator active" id="ind-0">1. Personal</span>
+        <span class="step-indicator" id="ind-1">2. Job & Address</span>
+        <span class="step-indicator" id="ind-2">3. Family & Work</span>
+        <span class="step-indicator" id="ind-3">4. Financial & Docs</span>
     </div>
 
+    <form id="appForm">
+        
+        <!-- STEP 1: Personal Details -->
+        <div class="step-content active" id="step-0">
+            <div class="form-window">
+                <h3>Personal Details</h3>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="currentDate">Current Date:</label>
+                        <input type="date" id="currentDate" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="branchName">Branch Name</label>
+                        <select id="branchName" required>
+                            <option value="" disabled selected>Select a branch</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Goa">Goa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="middleName">Middle Name (Optional)</label>
+                        <input type="text" id="middleName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    </div>
+                </div>
+
+                <!-- Birth Date Custom Dropdowns (DD / MM / YYYY) -->
+                <div class="form-group">
+                    <label>Birth Date (Must be 18+ years)</label>
+                    <div class="grid-3-dob">
+                        <select id="dobDay" onchange="calculateAge()" required>
+                            <option value="" disabled selected>Day</option>
+                        </select>
+                        <select id="dobMonth" onchange="calculateAge()" required>
+                            <option value="" disabled selected>Month</option>
+                            <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                            <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                            <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                            <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                        </select>
+                        <select id="dobYear" onchange="calculateAge()" required>
+                            <option value="" disabled selected>Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="text" id="age" readonly placeholder="Auto-calculated Age">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" required>
+                            <option value="" selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="uan">UAN</label>
+                        <input type="number" id="uan" pattern="\d{12}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);" title="UAN must be exactly 12 numeric digits" maxlength="12" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="esic">ESIC</label>
+                        <input type="number" id="esic" pattern="\d{10}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" title="ESIC must be numeric digits">
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="maritalStatus">Marital Status</label>
+                        <select id="maritalStatus" required>
+                            <option value="" selected>Select Status</option>
+                            <option value="Married">Married</option>
+                            <option value="Unmarried">Unmarried</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="educationSelect">Education</label>
+                        <select id="educationSelect" required>
+                            <option value="" disabled selected>Select education level</option>
+                            <option value="bachelors">Bachelor's Degree</option>
+                            <option value="Higher Secondary School">(HSC) Secondary School</option>
+                            <option value="high-school">(SSC) High School</option>
+                            <option value="9th">9th</option><option value="8th">8th</option><option value="7th">7th</option>
+                            <option value="6th">6th</option><option value="5th">5th</option><option value="4th">4th</option>
+                            <option value="3rd">3rd</option><option value="2nd">2nd</option><option value="1st">1st</option>
+                            <option value="NA">NA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group</label>
+                        <select id="bloodGroup">
+                            <option value="" selected>Select Blood Group</option>
+                            <option value="A+">A+</option><option value="A-">A-</option>
+                            <option value="B+">B+</option><option value="B-">B-</option>
+                            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                            <option value="O+">O+</option><option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Languages Known</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="languages" value="Marathi"> Marathi</label>
+                        <label><input type="checkbox" name="languages" value="Hindi"> Hindi</label>
+                        <label><input type="checkbox" name="languages" value="English"> English</label>
+                    </div>
+                    <input type="text" id="otherLanguage" placeholder="Other Manual Typing (Optional)" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)">
+                </div>
+
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="characterCert">Character / Conduct Certificate</label>
+                        <input type="text" id="characterCert" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)">
+                    </div>
+                    <div class="form-group">
+                        <label for="medicalCategory">Medical Fitness Category</label>
+                        <input type="text" id="medicalCategory" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)">
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Experience (in years)</label>
+                        <input type="number" id="experience" min="0" step="0.5" max="40">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="relationType">Relationship Type</label>
+                        <select id="relationType" required>
+                            <option value="" selected>Select Option</option>
+                            <option value="S">Father</option>
+                            <option value="W">Husband</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="relationName">Father / Husband Name</label>
+                        <input type="text" id="relationName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: Employee Details & Address -->
+        <div class="step-content" id="step-1">
+            <div class="form-window">
+                <h3>Employee Details</h3>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="designation">Designation</label>
+                        <select id="designation" required>
+                            <option value="">Select Designation</option>
+                            <option value="BC">Bouncer</option>
+                            <option value="FSup">Facility Supervisor</option>
+                            <option value="FA">Facility Attendance</option>
+                            <option value="SSup">Security Supervisor</option>
+                            <option value="SG/LSG">Security Guard</option>
+                            <option value="HK Sup">Housekeeping Supervisor</option>
+                            <option value="HK">House Keeping</option>
+                            <option value="OB">Office Boy</option>
+                            <option value="PB">Pantry Boy</option>
+                            <option value="GMan">Gunman</option>
+                            <option value="CP/CA">Cash Peon / Assistant</option>
+                            <option value="DRV">Driver</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gunman">Gunman</label>
+                        <input type="text" id="gunman" placeholder="Gun License Number">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="gunValidity">Validity (Gun / License)</label>
+                        <input type="date" id="gunValidity">
+                    </div>
+                    <div class="form-group">
+                        <label for="pvStatus">Police Verification</label>
+                        <select id="pvStatus">
+                            <option value="">Select Status</option>
+                            <option value="Applied">Applied</option>
+                            <option value="Valid">Valid</option>
+                        </select>
+                        <input type="date" id="pvDate" style="margin-top: 8px; display: none;">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="interviewedBy">Interviewed By</label>
+                        <select id="interviewedBy" required>
+                            <option value="">Select Interviewer</option>
+                            <option value="Atul Thombre">Mr Atul Thombre</option>
+                            <option value="Babaram Surve">Mr Babaram Surve</option>
+                            <option value="Balaji Ghodake">Mr Balaji Ghodake</option>
+                            <option value="Govind Prasad">Mr Govind Prasad</option>
+                            <option value="Kaushik Acharya">Mr Kaushik Acharya</option>
+                            <option value="Manoj Palande">Mr Manoj Palande</option>
+                            <option value="Ramchandra Painkara">Mr Ramchandra Painkara</option>
+                            <option value="Sagar Navale">Mr Sagar Navale</option>
+                            <option value="Shivling Khabile">Mr Shivling Khabile</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="doj">Date of Joining</label>
+                        <input type="date" id="doj" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-window">
+                <h3>Address</h3>
+                <h4>Permanent Address</h4>
+                <div class="grid-3">
+                    <div class="form-group"><label for="pVillage">Village:</label><input type="text" id="pVillage" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group"><label for="pPost">Post:</label><input type="text" id="pPost" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group"><label for="pTaluka">Taluka:</label><input type="text" id="pTaluka" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group"><label for="pDistrict">District:</label><input type="text" id="pDistrict" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group"><label for="pState">State:</label><input type="text" id="pState" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group"><label for="pPin">Pin Code:</label><input type="number" id="pPin" pattern="\d{6}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);" required></div>
+                </div>
+                <div class="form-group">
+                    <label for="pContact">Contact Number</label>
+                    <input type="number" id="pContact" pattern="\d{10}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" title="Contact number must be exactly 10 digits" required>
+                </div>
+
+                <div class="form-group" style="margin: 20px 0;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold;">
+                        <input type="checkbox" id="sameAddressToggle" onclick="syncAddresses()">
+                        Local address is the same as permanent address
+                    </label>
+                </div>
+
+                <div id="localAddressWindow">
+                    <hr style="border:0; border-top: 1px dashed #e2e8f0; margin: 16px 0;">
+                    <h4>Local Address</h4>
+                    <div class="grid-3">
+                        <div class="form-group"><label for="lVillage">Village:</label><input type="text" id="lVillage" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                        <div class="form-group"><label for="lPost">Post:</label><input type="text" id="lPost" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                        <div class="form-group"><label for="lTaluka">Taluka:</label><input type="text" id="lTaluka" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="form-group"><label for="lDistrict">District:</label><input type="text" id="lDistrict" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                        <div class="form-group"><label for="lState">State:</label><input type="text" id="lState" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                        <div class="form-group"><label for="lPin">Pin Code:</label><input type="number" id="lPin" pattern="\d{6}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lContact">Contact Number:</label>
+                        <input type="number" id="lContact" pattern="\d{10}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" title="Contact number must be exactly 10 digits">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Guarantor, Family & Previous Employment -->
+        <div class="step-content" id="step-2">
+            <div class="form-window">
+                <h3>Guarantor & Family Details</h3>
+                <h4>Guarantors</h4>
+                <div class="grid-2">
+                    <div class="form-group"><label for="gName1">Name:</label><input type="text" id="gName1" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group"><label for="gOcc1">Occupation:</label><input type="text" id="gOcc1" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label for="gName2">Name:</label><input type="text" id="gName2" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group"><label for="gOcc2">Occupation:</label><input type="text" id="gOcc2" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                </div>
+
+                <h4>Family Details</h4>
+                <!-- Family Member 1 -->
+                <div class="grid-3">
+                    <div class="form-group"><label for="fName1">First Name:</label><input type="text" id="fName1" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group">
+                        <label>Birth Date:</label>
+                        <div class="grid-3-dob">
+                            <select id="f1Day" onchange="validateFamilyDob(1)" required><option value="" disabled selected>D</option></select>
+                            <select id="f1Month" onchange="validateFamilyDob(1)" required><option value="" disabled selected>M</option></select>
+                            <select id="f1Year" onchange="validateFamilyDob(1)" required><option value="" disabled selected>Y</option></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fRel1">Relation:</label>
+                        <select id="fRel1" onchange="validateFamilyDob(1)" required>
+                            <option value="">Select Relation</option>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Spouse">Spouse (Husband/Wife)</option>
+                            <option value="Son">Son</option>
+                            <option value="Daughter">Daughter</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Grandfather">Grandfather</option>
+                            <option value="Grandmother">Grandmother</option>
+                            <option value="Guardian">Legal Guardian</option>
+                            <option value="Uncle">Uncle</option>
+                            <option value="Aunt">Aunt</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Family Member 2 -->
+                <div class="grid-3" style="margin-top: 12px;">
+                    <div class="form-group"><label for="fName2">First Name:</label><input type="text" id="fName2" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+                    <div class="form-group">
+                        <label>Birth Date:</label>
+                        <div class="grid-3-dob">
+                            <select id="f2Day" onchange="validateFamilyDob(2)" required><option value="" disabled selected>D</option></select>
+                            <select id="f2Month" onchange="validateFamilyDob(2)" required><option value="" disabled selected>M</option></select>
+                            <select id="f2Year" onchange="validateFamilyDob(2)" required><option value="" disabled selected>Y</option></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fRel2">Relation:</label>
+                        <select id="fRel2" onchange="validateFamilyDob(2)" required>
+                            <option value="">Select Relation</option>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Spouse">Spouse (Husband/Wife)</option>
+                            <option value="Son">Son</option>
+                            <option value="Daughter">Daughter</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Grandfather">Grandfather</option>
+                            <option value="Grandmother">Grandmother</option>
+                            <option value="Guardian">Legal Guardian</option>
+                            <option value="Uncle">Uncle</option>
+                            <option value="Aunt">Aunt</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-window">
+                <h3>Previous Employment History</h3>
+                <h4>Company 1</h4>
+                <div class="grid-3">
+                    <div class="form-group"><label for="prevName1">Company Name:</label><input type="text" id="prevName1" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                    <div class="form-group"><label for="prevDoj1">Date of Joining:</label><input type="date" id="prevDoj1"></div>
+                    <div class="form-group"><label for="prevDoe1">Date of Exit:</label><input type="date" id="prevDoe1"></div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label for="prevReason1">Reason for Leaving:</label><input type="text" id="prevReason1" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                    <div class="form-group"><label for="prevRemark1">Remarks:</label><input type="text" id="prevRemark1" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                </div>
+
+                <h4>Company 2</h4>
+                <div class="grid-3">
+                    <div class="form-group"><label for="prevName2">Company Name:</label><input type="text" id="prevName2" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                    <div class="form-group"><label for="prevDoj2">Date of Joining:</label><input type="date" id="prevDoj2"></div>
+                    <div class="form-group"><label for="prevDoe2">Date of Exit:</label><input type="date" id="prevDoe2"></div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label for="prevReason2">Reason for Leaving:</label><input type="text" id="prevReason2" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                    <div class="form-group"><label for="prevRemark2">Remarks:</label><input type="text" id="prevRemark2" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: Financial, Identification & Attachments -->
+        <div class="step-content" id="step-3">
+            <div class="form-window">
+                <h3>Financial & Identification Details</h3>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="aadharNumber">Aadhaar Number</label>
+                        <input type="number" id="aadharNumber" pattern="\d{12}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);" maxlength="12" title="Aadhaar Number must be exactly 12 digits" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aadharName">Name as per Aadhaar</label>
+                        <input type="text" id="aadharName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="panNumber">PAN Number</label>
+                        <input type="text" id="panNumber" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10" title="PAN must be exactly 10 characters (e.g. ABCDE1234F)" oninput="this.value = this.value.toUpperCase();" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="panName">Name as per PAN Card</label>
+                        <input type="text" id="panName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    </div>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="bankAccount">Bank Account Number</label>
+                        <input type="number" id="bankAccount" pattern="\d{9,18}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 18) this.value = this.value.slice(0, 18);" title="Please enter a valid bank account number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ifscCode">IFSC Code</label>
+                        <input type="text" id="ifscCode" pattern="[A-Z]{4}0[A-Z0-9]{6}" maxlength="11" title="IFSC Code must be 11 characters" oninput="this.value = this.value.toUpperCase();" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bankingName">Banking Name</label>
+                        <input type="text" id="bankingName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-window">
+                <h3>Signature & Attachments</h3>
+                <div class="form-group">
+                    <label>Draw Your Signature Below:</label>
+                    <div class="signature-wrapper">
+                        <canvas id="sigCanvas" width="540" height="150"></canvas>
+                    </div>
+                    <button type="button" class="clear-btn" id="clearSigBtn">Clear Signature</button>
+                </div>
+
+                <!-- Attachment Fields with Dual Options (Camera / File) -->
+                <div class="upload-field-group" data-doc="photo" data-facing="user" data-ratio="portrait-35-45" data-bg="true">
+                    <label>Passport Size Photo (Front Camera, 35×45mm Portrait, Clean BG):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('photo', 'user', 'portrait-35-45', true)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('photoInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="handleFileSelected('photo', this)" required>
+                    <div class="preview-tag" id="photoPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="poi" data-facing="environment" data-ratio="landscape-id" data-bg="true">
+                    <label>Aadhaar Front (Rear Camera, 85.6×54mm Landscape, Clean BG):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('poi', 'environment', 'landscape-id', true)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('poiInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="poiInput" accept="image/*" style="display:none;" onchange="handleFileSelected('poi', this)" required>
+                    <div class="preview-tag" id="poiPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="poa" data-facing="environment" data-ratio="landscape-id" data-bg="true">
+                    <label>Aadhaar Back (Rear Camera, 85.6×54mm Landscape, Clean BG):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('poa', 'environment', 'landscape-id', true)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('poaInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="poaInput" accept="image/*" style="display:none;" onchange="handleFileSelected('poa', this)" required>
+                    <div class="preview-tag" id="poaPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="pan" data-facing="environment" data-ratio="landscape-id" data-bg="true">
+                    <label>PAN Card (Rear Camera, 85.6×54mm Landscape, Clean BG):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('pan', 'environment', 'landscape-id', true)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('panInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="panInput" accept="image/*" style="display:none;" onchange="handleFileSelected('pan', this)" required>
+                    <div class="preview-tag" id="panPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="passbook" data-facing="environment" data-ratio="manual-a4" data-bg="false">
+                    <label>Bank Passbook / Chequebook / Statement (Manual Crop / Default A4 210×297mm):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('passbook', 'environment', 'manual-a4', false)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('passbookInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="passbookInput" accept="image/*" style="display:none;" onchange="handleFileSelected('passbook', this)" required>
+                    <div class="preview-tag" id="passbookPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="pv" data-facing="environment" data-ratio="manual-a4" data-bg="false">
+                    <label>Police Verification (A4 Size 210×297mm):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('pv', 'environment', 'manual-a4', false)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('pvInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="pvInput" accept="image/*" style="display:none;" onchange="handleFileSelected('pv', this)">
+                    <div class="preview-tag" id="pvPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="gunLc" data-facing="environment" data-ratio="manual-a4" data-bg="false">
+                    <label>DL / Gun License (A4 Size 210×297mm):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('gunLc', 'environment', 'manual-a4', false)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('gunLcInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="gunLcInput" accept="image/*" style="display:none;" onchange="handleFileSelected('gunLc', this)">
+                    <div class="preview-tag" id="gunLcPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="education" data-facing="environment" data-ratio="manual-a4" data-bg="false">
+                    <label>Highest Education (A4 Size 210×297mm):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('education', 'environment', 'manual-a4', false)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('educationInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="educationInput" accept="image/*" style="display:none;" onchange="handleFileSelected('education', this)">
+                    <div class="preview-tag" id="educationPreviewStatus">No file chosen</div>
+                </div>
+
+                <div class="upload-field-group" data-doc="medical" data-facing="environment" data-ratio="manual-a4" data-bg="false">
+                    <label>Medical Certificate (A4 Size 210×297mm):</label>
+                    <div class="upload-buttons">
+                        <button type="button" class="action-btn cam-btn" onclick="openCaptureModal('medical', 'environment', 'manual-a4', false)">📸 Camera</button>
+                        <button type="button" class="action-btn file-btn" onclick="triggerFileInput('medicalInput')">📁 Choose File</button>
+                    </div>
+                    <input type="file" id="medicalInput" accept="image/*" style="display:none;" onchange="handleFileSelected('medical', this)">
+                    <div class="preview-tag" id="medicalPreviewStatus">No file chosen</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Bottom Navigation Bar for Mobile Thumb-Reach -->
+        <div class="wizard-nav">
+            <button type="button" class="nav-btn prev-btn" id="prevBtn" onclick="nextPrev(-1)" style="display:none;">Back</button>
+            <button type="button" class="nav-btn next-btn" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            <button type="submit" class="nav-btn submit-btn" id="submitBtn" style="display:none;">Submit Application</button>
+        </div>
+    </form>
 </div>
 
-
-<!-- =====================================================
-APPLICATION
-===================================================== -->
-
-<div id="app" class="hidden">
-
-    <div class="header">
-
-        <div class="header-title">
-            IT Asset Management
+<!-- Live Camera Capture Overlay Modal -->
+<div class="camera-modal" id="cameraModal" style="display:none;">
+    <div class="camera-window">
+        <div class="camera-header">
+            <span id="camWindowTitle">Capture Document</span>
+            <button type="button" class="cam-close-btn" onclick="closeCameraModal()">✕</button>
         </div>
-
-
-        <div class="user-info">
-
-            <span id="userName"></span>
-
-            <button
-                class="btn btn-danger"
-                onclick="logout()"
-            >
-                Logout
-            </button>
-
+        <div class="video-container">
+            <video id="cameraStream" autoplay playsinline></video>
+            <!-- Overlay Guide Frame matching target ratios -->
+            <div id="captureGuideFrame" class="guide-frame"></div>
         </div>
-
+        <div class="camera-footer">
+            <button type="button" class="capture-trigger-btn" onclick="takeSnapshot()">🟢 Capture Photo</button>
+        </div>
     </div>
-
-
-    <div class="container">
-
-
-        <!-- TITLE -->
-
-        <div class="page-title">
-
-            <div>
-
-                <h2>Asset Dashboard</h2>
-
-                <p>
-                    Manage IT assets
-                </p>
-
-            </div>
-
-
-            <button
-                class="btn btn-success"
-                onclick="openAddAsset()"
-            >
-                + Add Asset
-            </button>
-
-        </div>
-
-
-        <!-- CARDS -->
-
-        <div class="cards">
-
-            <div class="card">
-
-                <div class="card-title">
-                    Total Assets
-                </div>
-
-                <div
-                    id="totalAssets"
-                    class="card-value">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-title">
-                    Available
-                </div>
-
-                <div
-                    id="availableAssets"
-                    class="card-value">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-title">
-                    Assigned
-                </div>
-
-                <div
-                    id="assignedAssets"
-                    class="card-value">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-title">
-                    Removed
-                </div>
-
-                <div
-                    id="removedAssets"
-                    class="card-value">
-                    0
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- TOOLBAR -->
-
-        <div class="toolbar">
-
-            <input
-                id="search"
-                class="search"
-                placeholder="Search Asset ID, Tag, Brand, Model, Serial Number..."
-                oninput="filterAssets()"
-            >
-
-
-            <select
-                id="statusFilter"
-                onchange="filterAssets()"
-            >
-
-                <option value="">
-                    All Status
-                </option>
-
-                <option value="Available">
-                    Available
-                </option>
-
-                <option value="Assigned">
-                    Assigned
-                </option>
-
-                <option value="Returned">
-                    Returned
-                </option>
-
-                <option value="Removed">
-                    Removed
-                </option>
-
-            </select>
-
-
-            <button
-                class="btn btn-primary"
-                onclick="loadAssets()"
-            >
-                Refresh
-            </button>
-
-        </div>
-
-
-        <!-- TABLE -->
-
-        <div class="table-container">
-
-            <div
-                id="loading"
-                class="loading"
-            >
-                Loading assets...
-            </div>
-
-
-            <table
-                id="assetTable"
-                class="hidden"
-            >
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-                        <th>Asset ID</th>
-                        <th>Asset Tag</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Serial Number</th>
-                        <th>Category</th>
-                        <th>Location</th>
-                        <th>Department</th>
-                        <th>Status</th>
-                        <th>Condition</th>
-                        <th>Actions</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="assetBody"></tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
 </div>
 
-
-<!-- =====================================================
-ASSET MODAL
-===================================================== -->
-
-<div
-    id="assetModal"
-    class="modal hidden"
->
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h3 id="modalTitle">
-                Add Asset
-            </h3>
-
-            <span
-                class="close"
-                onclick="closeAssetModal()"
-            >
-                &times;
-            </span>
-
-        </div>
-
-
-        <input
-            type="hidden"
-            id="recordId"
-        >
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label>Asset ID *</label>
-
-                <input
-                    id="AssetID"
-                    placeholder="AST-0002"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Asset Tag *</label>
-
-                <input
-                    id="AssetTag"
-                    placeholder="IT-LAP-0002"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Brand *</label>
-
-                <input
-                    id="Brand"
-                    placeholder="Dell"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Model *</label>
-
-                <input
-                    id="Model"
-                    placeholder="Latitude 5440"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Serial Number *</label>
-
-                <input
-                    id="SerialNumber"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Purchase Date</label>
-
-                <input
-                    id="PurchaseDate"
-                    type="date"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Purchase Cost</label>
-
-                <input
-                    id="PurchaseCost"
-                    type="number"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Warranty Start</label>
-
-                <input
-                    id="WarrantyStart"
-                    type="date"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Warranty End</label>
-
-                <input
-                    id="WarrantyEnd"
-                    type="date"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Status</label>
-
-                <select id="Status">
-
-                    <option>Available</option>
-                    <option>Assigned</option>
-                    <option>Returned</option>
-                    <option>Removed</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Condition</label>
-
-                <select id="Condition">
-
-                    <option>New</option>
-                    <option>Good</option>
-                    <option>Fair</option>
-                    <option>Poor</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Asset Category</label>
-
-                <select id="AssetCategory">
-
-                    <option>Laptop</option>
-                    <option>Desktop</option>
-                    <option>Monitor</option>
-                    <option>Printer</option>
-                    <option>Mobile</option>
-                    <option>Tablet</option>
-                    <option>Network</option>
-                    <option>Other</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Asset Location</label>
-
-                <input
-                    id="AssetLocation"
-                    placeholder="Head Office"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Asset Vendor</label>
-
-                <input
-                    id="AssetVendor"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Asset Department</label>
-
-                <input
-                    id="AssetDepartment"
-                >
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label>Remarks</label>
-
-                <textarea
-                    id="Remarks"
-                ></textarea>
-
-            </div>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button
-                class="btn btn-secondary"
-                onclick="closeAssetModal()"
-            >
-                Cancel
-            </button>
-
-
-            <button
-                id="saveBtn"
-                class="btn btn-success"
-                onclick="saveAsset()"
-            >
-                Save Asset
-            </button>
-
-        </div>
-
+<!-- Custom Mobile Pop-Up Modal -->
+<div class="modal-overlay" id="customAlert" style="display:none;">
+    <div class="modal-card">
+        <div class="modal-title" id="alertTitle">Notification</div>
+        <div class="modal-message" id="alertMessage">Message content goes here.</div>
+        <button type="button" class="modal-btn" onclick="closeCustomAlert()">OK</button>
     </div>
-
 </div>
-
-
-<div id="message" class="message"></div>
-
 
 <script>
+// --- INITIALIZE DROPDOWNS & DATES ---
+document.addEventListener("DOMContentLoaded", () => {
+    setInitialDates();
+    populateDobDropdowns();
+});
 
-/* =========================================================
-   POWER AUTOMATE URLs
-   COPY EXACT URLs FROM YOUR EXISTING FLOWS
-========================================================= */
+function setInitialDates() {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const dateField = document.getElementById('currentDate');
+    if (dateField && !dateField.value) dateField.value = todayStr;
+    const dojInput = document.getElementById('doj');
+    if (dojInput && !dojInput.value) dojInput.value = todayStr;
+}
 
-const LOGIN_URL =
-"https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/16/workflows/382c1f3775a94fbcb1ab9874e2fab95f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=msJRa_nx4WGByT8aJNQoi-a3j1818bl_vVC_xV1H_mE";
+function populateDobDropdowns() {
+    const currentYear = new Date().getFullYear();
+    const minYear = currentYear - 100;
 
+    // Populate Employee DOB Dropdowns
+    const dDay = document.getElementById('dobDay');
+    const dMonth = document.getElementById('dobMonth');
+    const dYear = document.getElementById('dobYear');
 
-const GET_ASSETS_URL =
-"https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/15/workflows/46efdd64086b4ddf9cd9e341b13bb880/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oRsQsA92R3Ajybn3NQGPNnyWB3JaOEeGnX6qDCAhSb8";
+    for (let i = 1; i <= 31; i++) dDay.innerHTML += `<option value="${i}">${i}</option>`;
+    for (let y = currentYear; y >= minYear; y--) dYear.innerHTML += `<option value="${y}">${y}</option>`;
 
+    // Populate Family Member 1 & 2 Dropdowns
+    for (let f = 1; f <= 2; f++) {
+        const fDay = document.getElementById(`f${f}Day`);
+        const fMon = document.getElementById(`f${f}Month`);
+        const fYr = document.getElementById(`f${f}Year`);
 
-const ADD_ASSET_URL =
-"https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/15/workflows/8eaed4c3a0f54577952bfe9b97c87968/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vxFwTKRoT9eyLNAzb_J_FXnYXqlMtm1cCEGjSU-LeXw";
+        for (let i = 1; i <= 31; i++) fDay.innerHTML += `<option value="${i}">${i}</option>`;
+        for (let m = 1; m <= 12; m++) fMon.innerHTML += `<option value="${m}">${m}</option>`;
+        for (let y = currentYear; y >= minYear; y--) fYr.innerHTML += `<option value="${y}">${y}</option>`;
+    }
+}
 
+// --- WIZARD STEP NAVIGATION LOGIC ---
+let currentStep = 0;
+showStep(currentStep);
 
-const UPDATE_ASSET_URL =
-"https://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/26/workflows/e6151d7a9a4747789d0b8913069569e3/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=yUZy7wczskVTlLFrzin7jlVD07-lgOc9sh6sYZ9Wu6w";
+function showStep(n) {
+    const steps = document.querySelectorAll(".step-content");
+    const indicators = document.querySelectorAll(".step-indicator");
+    
+    steps.forEach((s, idx) => {
+        s.classList.toggle("active", idx === n);
+        indicators[idx].classList.toggle("active", idx === n);
+    });
 
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
 
-const REMOVE_ASSET_URL =
-"Phttps://default7055ba6336ec48e083eb932bb1602d.a1.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/17/workflows/344acde135574fabb4a31bc2c445847e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=t-ttWl_mRRYxEC02e-mQAkF9gXPJ_piFrEZlRgxUP_I";
+    prevBtn.style.display = n === 0 ? "none" : "block";
+    
+    if (n === steps.length - 1) {
+        nextBtn.style.display = "none";
+        submitBtn.style.display = "block";
+    } else {
+        nextBtn.style.display = "block";
+        submitBtn.style.display = "none";
+    }
+}
 
-/* =========================================================
-   VARIABLES
-========================================================= */
+function nextPrev(n) {
+    const steps = document.querySelectorAll(".step-content");
+    
+    if (n === 1 && !validateStepFields(currentStep)) return;
 
-let assets = [];
+    currentStep += n;
+    
+    if (currentStep >= steps.length) {
+        currentStep = steps.length - 1;
+        return;
+    }
+    
+    showStep(currentStep);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-let editMode = false;
+function validateStepFields(stepIndex) {
+    const activeStepEl = document.querySelectorAll(".step-content")[stepIndex];
+    const requiredInputs = activeStepEl.querySelectorAll("[required]");
+    let valid = true;
+    
+    requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+            input.style.borderColor = "#dc3545";
+            valid = false;
+        } else {
+            input.style.borderColor = "#cccccc";
+        }
+    });
 
+    if (stepIndex === 0) {
+        const ageVal = parseInt(document.getElementById('age').value);
+        if (isNaN(ageVal) || ageVal < 18) {
+            showCustomAlert("Applicant must be at least 18 years of age.", "Age Restriction");
+            return false;
+        }
+    }
 
-/* =========================================================
-   LOGIN
-========================================================= */
+    if (!valid) {
+        showCustomAlert("Please complete all required fields in this section before proceeding.", "Required Fields");
+    }
+    return valid;
+}
 
-async function loginUser(){
+// --- MODAL CONTROLS ---
+function showCustomAlert(message, title = "Notification") {
+    document.getElementById('alertTitle').innerText = title;
+    document.getElementById('alertMessage').innerText = message;
+    document.getElementById('customAlert').classList.add('active');
+}
 
-    const userId =
-        document.getElementById("userId").value.trim();
+function closeCustomAlert() {
+    document.getElementById('customAlert').classList.remove('active');
+}
 
-    const password =
-        document.getElementById("password").value;
+// --- EMPLOYEE 18+ AGE CALCULATION LOGIC ---
+function calculateAge() {
+    const day = document.getElementById('dobDay').value;
+    const month = document.getElementById('dobMonth').value;
+    const year = document.getElementById('dobYear').value;
 
-    const btn =
-        document.getElementById("loginBtn");
+    if (!day || !month || !year) return;
 
-    const error =
-        document.getElementById("loginError");
+    const birthDate = new Date(year, month - 1, day);
+    const todayDate = new Date();
+    
+    let age = todayDate.getFullYear() - birthDate.getFullYear();
+    const m = todayDate.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && todayDate.getDate() < birthDate.getDate())) {
+        age--;
+    }
 
+    document.getElementById('age').value = age;
 
-    error.innerHTML = "";
+    if (age < 18) {
+        showCustomAlert("Applicants under 18 years of age are not allowed to apply.", "Underage Warning");
+    }
+}
 
+// --- FAMILY MEMBER DOB VALIDATION LOGIC ---
+function validateFamilyDob(index) {
+    const relation = document.getElementById(`fRel${index}`).value;
+    const day = document.getElementById(`f${index}Day`).value;
+    const month = document.getElementById(`f${index}Month`).value;
+    const year = document.getElementById(`f${index}Year`).value;
 
-    if(!userId || !password){
+    const empDay = document.getElementById('dobDay').value;
+    const empMonth = document.getElementById('dobMonth').value;
+    const empYear = document.getElementById('dobYear').value;
 
-        error.className = "error";
-
-        error.innerText =
-            "Please enter User ID and Password.";
-
+    if (!empDay || !empMonth || !empYear) {
+        if (relation === 'Father' || relation === 'Mother') {
+            showCustomAlert("Please enter your own Date of Birth first.", "Warning");
+            document.getElementById(`fRel${index}`).value = "";
+        }
         return;
     }
 
+    if (!day || !month || !year || !relation) return;
 
-    btn.disabled = true;
+    const empDob = new Date(empYear, empMonth - 1, empDay);
+    const famDob = new Date(year, month - 1, day);
 
-    btn.innerText = "Checking...";
+    if ((relation === 'Father' || relation === 'Mother') && famDob >= empDob) {
+        showCustomAlert("Invalid Family Birth Date: A Father or Mother cannot have a birth date on or after the employee's birth date.", "Validation Error");
+        document.getElementById(`f${index}Day`).value = "";
+        document.getElementById(`f${index}Month`).value = "";
+        document.getElementById(`f${index}Year`).value = "";
+    }
+}
 
+// --- POLICE VERIFICATION DATE TOGGLE ---
+document.getElementById('pvStatus').addEventListener('change', function() {
+    const pvDateInput = document.getElementById('pvDate');
+    if (this.value === 'Valid') {
+        pvDateInput.style.display = 'block';
+        pvDateInput.required = true;
+    } else {
+        pvDateInput.style.display = 'none';
+        pvDateInput.required = false;
+        pvDateInput.value = '';
+    }
+});
 
-    try{
+// --- ADDRESS SYNCHRONIZATION ---
+function syncAddresses() {
+    const isChecked = document.getElementById("sameAddressToggle").checked;
+    const localWindow = document.getElementById("localAddressWindow");
 
-        /*
-         IMPORTANT:
-         Keep this request identical to your
-         existing Login Flow contract.
-        */
+    const fields = [
+        ['pVillage', 'lVillage'], ['pPost', 'lPost'], ['pTaluka', 'lTaluka'],
+        ['pDistrict', 'lDistrict'], ['pState', 'lState'], ['pPin', 'lPin'], ['pContact', 'lContact']
+    ];
 
-        const response =
-            await fetch(
-                LOGIN_URL,
-                {
-                    method:"POST",
+    if (isChecked) {
+        fields.forEach(([permId, localId]) => {
+            document.getElementById(localId).value = document.getElementById(permId).value;
+        });
+        localWindow.style.display = "none";
+    } else {
+        localWindow.style.display = "block";
+        fields.forEach(([_, localId]) => { document.getElementById(localId).value = ""; });
+    }
+}
 
-                    headers:{
-                        "Content-Type":"application/json",
-                        "Accept":"application/json"
-                    },
+// --- SIGNATURE PAD ---
+const canvas = document.getElementById('sigCanvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+let hasSigned = false;
 
-                    body:JSON.stringify({
+ctx.strokeStyle = "#002FBE";
+ctx.lineWidth = 3;
+ctx.lineCap = "round";
 
-                        action:"login",
+function getMousePos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: clientX - rect.left, y: clientY - rect.top };
+}
 
-                        UserID:userId,
+function startDrawing(e) {
+    isDrawing = true;
+    hasSigned = true;
+    const pos = getMousePos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    if (e.cancelable) e.preventDefault();
+}
 
-                        Password:password
+function draw(e) {
+    if (!isDrawing) return;
+    const pos = getMousePos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    if (e.cancelable) e.preventDefault();
+}
 
-                    })
-                }
-            );
+function stopDrawing() { isDrawing = false; }
 
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+window.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('touchstart', startDrawing, { passive: false });
+canvas.addEventListener('touchmove', draw, { passive: false });
+window.addEventListener('touchend', stopDrawing);
 
-        const raw =
-            await response.text();
+document.getElementById('clearSigBtn').addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasSigned = false;
+});
 
+// --- ATTACHMENT & LIVE CAMERA CAPTURE LOGIC ---
+let activeCaptureDocKey = null;
+let activeBackgroundRemoval = false;
+let mediaStream = null;
 
-        console.log(
-            "LOGIN STATUS:",
-            response.status
-        );
+function triggerFileInput(inputId) {
+    document.getElementById(inputId).click();
+}
 
-        console.log(
-            "LOGIN RAW:",
-            raw
-        );
+function handleFileSelected(docKey, inputElement) {
+    const statusEl = document.getElementById(`${docKey}PreviewStatus`);
+    if (inputElement.files && inputElement.files[0]) {
+        statusEl.innerText = `Selected: ${inputElement.files[0].name}`;
+        statusEl.className = "preview-tag success";
+    }
+}
 
+async function openCaptureModal(docKey, facingMode, ratioClass, removeBackground) {
+    activeCaptureDocKey = docKey;
+    activeBackgroundRemoval = removeBackground;
 
-        if(!response.ok){
+    const modal = document.getElementById('cameraModal');
+    const videoEl = document.getElementById('cameraStream');
+    const guideFrame = document.getElementById('captureGuideFrame');
 
-            throw new Error(
-                "Login HTTP Status: " +
-                response.status
-            );
+    guideFrame.className = `guide-frame ${ratioClass}`;
+    modal.style.display = 'flex';
+
+    try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { exact: facingMode } },
+            audio: false
+        });
+    } catch (err) {
+        // Fallback to standard camera stream if exact facing constraint is unavailable
+        try {
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: false
+            });
+        } catch (fallbackErr) {
+            showCustomAlert("Unable to access camera. Please check device permissions.", "Camera Error");
+            closeCameraModal();
+            return;
         }
+    }
+    videoEl.srcObject = mediaStream;
+}
 
+function closeCameraModal() {
+    const modal = document.getElementById('cameraModal');
+    modal.style.display = 'none';
 
-        let result;
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+    }
+}
 
-        try{
+function takeSnapshot() {
+    const videoEl = document.getElementById('cameraStream');
+    const canvasEl = document.createElement('canvas');
+    canvasEl.width = videoEl.videoWidth || 1280;
+    canvasEl.height = videoEl.videoHeight || 720;
+    const ctx = canvasEl.getContext('2d');
 
-            result =
-                JSON.parse(raw);
+    ctx.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
 
-        }catch(e){
-
-            throw new Error(
-                "Invalid JSON returned by Login Flow."
-            );
-        }
-
-
-        /*
-         Handles both:
-         {
-            success:true,
-            user:{}
-         }
-
-         and:
-         {
-            body:{
-               success:true,
-               user:{}
+    // Apply background whitening/cleaning filter if requested
+    if (activeBackgroundRemoval) {
+        const imgData = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            let r = data[i], g = data[i + 1], b = data[i + 2];
+            // Enhance near-white backgrounds to solid white
+            if (r > 200 && g > 200 && b > 200) {
+                data[i] = 255;
+                data[i + 1] = 255;
+                data[i + 2] = 255;
             }
-         }
-        */
-
-        if(
-            result.body &&
-            typeof result.body === "object"
-        ){
-
-            result =
-                result.body;
-
         }
-
-
-        if(
-            result.success !== true
-        ){
-
-            throw new Error(
-                result.message ||
-                "Invalid User ID or Password."
-            );
-        }
-
-
-        const user =
-            result.user ||
-            result.data ||
-            {};
-
-
-        document.getElementById(
-            "userName"
-        ).innerText =
-            user.Name ||
-            user.name ||
-            user.UserID ||
-            userId;
-
-
-        document.getElementById(
-            "loginPage"
-        ).classList.add(
-            "hidden"
-        );
-
-
-        document.getElementById(
-            "app"
-        ).classList.remove(
-            "hidden"
-        );
-
-
-        await loadAssets();
-
-    }
-    catch(error){
-
-        console.error(
-            "Login Error:",
-            error
-        );
-
-
-        error = error.message ||
-                "Login failed.";
-
-
-        const box =
-            document.getElementById(
-                "loginError"
-            );
-
-
-        box.className =
-            "error";
-
-
-        box.innerText =
-            error;
-
-    }
-    finally{
-
-        btn.disabled = false;
-
-        btn.innerText = "Login";
-
+        ctx.putImageData(imgData, 0, 0);
     }
 
+    canvasEl.toBlob((blob) => {
+        const file = new File([blob], `${activeCaptureDocKey}_capture.jpg`, { type: "image/jpeg" });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+
+        const fileInput = document.getElementById(`${activeCaptureDocKey}Input`);
+        fileInput.files = dataTransfer.files;
+
+        const statusEl = document.getElementById(`${activeCaptureDocKey}PreviewStatus`);
+        statusEl.innerText = `Captured via Camera (${file.name})`;
+        statusEl.className = "preview-tag success";
+
+        closeCameraModal();
+    }, 'image/jpeg', 0.90);
 }
 
-
-/* =========================================================
-   LOAD ASSETS
-========================================================= */
-
-async function loadAssets(){
-
-    const loading =
-        document.getElementById(
-            "loading"
-        );
-
-    const table =
-        document.getElementById(
-            "assetTable"
-        );
-
-
-    loading.classList.remove(
-        "hidden"
-    );
-
-    table.classList.add(
-        "hidden"
-    );
-
-
-    try{
-
-        const response =
-            await fetch(
-                GET_ASSETS_URL,
-                {
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json",
-
-                        "Accept":
-                            "application/json"
-                    },
-
-                    body:JSON.stringify({
-                        action:"getAssets"
-                    })
-                }
-            );
-
-
-        const raw =
-            await response.text();
-
-
-        console.log(
-            "ASSET HTTP STATUS:",
-            response.status
-        );
-
-        console.log(
-            "ASSET RESPONSE:",
-            raw
-        );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Assets HTTP Status: " +
-                response.status
-            );
-        }
-
-
-        let result =
-            JSON.parse(raw);
-
-
-        /*
-         Your backend currently returns:
-
-         {
-           statusCode:200,
-           body:{
-             success:true,
-             data:[]
-           }
-         }
-
-         This code handles that format.
-        */
-
-        if(
-            result.body &&
-            typeof result.body === "object"
-        ){
-
-            result =
-                result.body;
-
-        }
-
-
-        if(
-            result.success === true &&
-            Array.isArray(result.data)
-        ){
-
-            assets =
-                result.data;
-
-        }
-
-        else if(
-            Array.isArray(result.value)
-        ){
-
-            assets =
-                result.value;
-
-        }
-
-        else{
-
-            assets = [];
-
-        }
-
-
-        renderAssets(
-            assets
-        );
-
-        updateDashboard(
-            assets
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "loadAssets:",
-            error
-        );
-
-
-        showMessage(
-            error.message,
-            true
-        );
-
-    }
-    finally{
-
-        loading.classList.add(
-            "hidden"
-        );
-
-        table.classList.remove(
-            "hidden"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SHAREPOINT CHOICE VALUE
-========================================================= */
-
-function valueOf(value){
-
-    if(
-        value === null ||
-        value === undefined
-    ){
-
-        return "";
-
-    }
-
-
-    if(
-        typeof value === "object"
-    ){
-
-        return value.Value ||
-               value.value ||
-               value.Title ||
-               "";
-
-    }
-
-
-    return value;
-
-}
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function renderAssets(
-    list
-){
-
-    const body =
-        document.getElementById(
-            "assetBody"
-        );
-
-
-    body.innerHTML = "";
-
-
-    if(!list.length){
-
-        body.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="12"
-                    style="text-align:center;padding:30px"
-                >
-                    No assets found
-                </td>
-
-            </tr>
-
-        `;
-
+// --- SUBMISSION HANDLING ---
+document.getElementById('appForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    if (!hasSigned) {
+        showCustomAlert("Please draw your signature before submitting.", "Signature Required");
         return;
-
     }
 
-
-    list.forEach(
-        asset => {
-
-            const status =
-                valueOf(
-                    asset.Status
-                );
-
-
-            const condition =
-                valueOf(
-                    asset.Condition
-                );
-
-
-            const category =
-                valueOf(
-                    asset.AssetCategory
-                );
-
-
-            const location =
-                valueOf(
-                    asset.AssetLocation
-                );
-
-
-            const department =
-                valueOf(
-                    asset.AssetDepartment
-                );
-
-
-            const tr =
-                document.createElement(
-                    "tr"
-                );
-
-
-            tr.innerHTML = `
-
-                <td>${safe(asset.ID)}</td>
-
-                <td>
-                    <strong>
-                        ${safe(asset.AssetID)}
-                    </strong>
-                </td>
-
-                <td>
-                    ${safe(asset.AssetTag)}
-                </td>
-
-                <td>
-                    ${safe(asset.Brand)}
-                </td>
-
-                <td>
-                    ${safe(asset.Model)}
-                </td>
-
-                <td>
-                    ${safe(asset.SerialNumber)}
-                </td>
-
-                <td>
-                    ${safe(category)}
-                </td>
-
-                <td>
-                    ${safe(location)}
-                </td>
-
-                <td>
-                    ${safe(department)}
-                </td>
-
-                <td>
-                    ${statusBadge(status)}
-                </td>
-
-                <td>
-                    ${safe(condition)}
-                </td>
-
-                <td>
-
-                    <div class="actions">
-
-                        <button
-                            class="btn btn-warning small-btn"
-                            onclick="editAsset(${Number(asset.ID)})"
-                        >
-                            Edit
-                        </button>
-
-
-                        <button
-                            class="btn btn-danger small-btn"
-                            onclick="removeAsset(${Number(asset.ID)})"
-                        >
-                            Remove
-                        </button>
-
-                    </div>
-
-                </td>
-
-            `;
-
-
-            body.appendChild(tr);
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function statusBadge(
-    status
-){
-
-    const s =
-        String(status || "")
-        .toLowerCase();
-
-
-    let cls = "other";
-
-
-    if(s === "available")
-        cls = "available";
-
-    if(s === "assigned")
-        cls = "assigned";
-
-    if(s === "returned")
-        cls = "returned";
-
-    if(s === "removed")
-        cls = "removed";
-
-
-    return `
-        <span class="badge ${cls}">
-            ${safe(status)}
-        </span>
-    `;
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-function updateDashboard(
-    list
-){
-
-    document.getElementById(
-        "totalAssets"
-    ).innerText =
-        list.length;
-
-
-    document.getElementById(
-        "availableAssets"
-    ).innerText =
-        list.filter(
-            x =>
-                valueOf(x.Status)
-                .toLowerCase()
-                === "available"
-        ).length;
-
-
-    document.getElementById(
-        "assignedAssets"
-    ).innerText =
-        list.filter(
-            x =>
-                valueOf(x.Status)
-                .toLowerCase()
-                === "assigned"
-        ).length;
-
-
-    document.getElementById(
-        "removedAssets"
-    ).innerText =
-        list.filter(
-            x =>
-                valueOf(x.Status)
-                .toLowerCase()
-                === "removed"
-        ).length;
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-function filterAssets(){
-
-    const search =
-        document.getElementById(
-            "search"
-        ).value
-        .toLowerCase()
-        .trim();
-
-
-    const status =
-        document.getElementById(
-            "statusFilter"
-        ).value;
-
-
-    const filtered =
-        assets.filter(
-            asset => {
-
-                const text = [
-
-                    asset.AssetID,
-                    asset.AssetTag,
-                    asset.Brand,
-                    asset.Model,
-                    asset.SerialNumber,
-                    valueOf(asset.AssetCategory),
-                    valueOf(asset.AssetLocation),
-                    valueOf(asset.AssetDepartment)
-
-                ]
-                .join(" ")
-                .toLowerCase();
-
-
-                return (
-                    text.includes(search)
-                    &&
-                    (
-                        !status ||
-                        valueOf(
-                            asset.Status
-                        ) === status
-                    )
-                );
-
-            }
-        );
-
-
-    renderAssets(
-        filtered
-    );
-
-}
-
-
-/* =========================================================
-   ADD
-========================================================= */
-
-function openAddAsset(){
-
-    editMode = false;
-
-
-    document.getElementById(
-        "modalTitle"
-    ).innerText =
-        "Add Asset";
-
-
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
-        "Save Asset";
-
-
-    clearForm();
-
-
-    document.getElementById(
-        "assetModal"
-    ).classList.remove(
-        "hidden"
-    );
-
-}
-
-
-/* =========================================================
-   EDIT
-========================================================= */
-
-function editAsset(
-    id
-){
-
-    const asset =
-        assets.find(
-            x =>
-                Number(x.ID) ===
-                Number(id)
-        );
-
-
-    if(!asset){
-
-        showMessage(
-            "Asset not found.",
-            true
-        );
-
-        return;
-
-    }
-
-
-    editMode = true;
-
-
-    document.getElementById(
-        "modalTitle"
-    ).innerText =
-        "Update Asset";
-
-
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
-        "Update Asset";
-
-
-    document.getElementById(
-        "recordId"
-    ).value =
-        asset.ID || "";
-
-
-    document.getElementById(
-        "AssetID"
-    ).value =
-        asset.AssetID || "";
-
-
-    document.getElementById(
-        "AssetTag"
-    ).value =
-        asset.AssetTag || "";
-
-
-    document.getElementById(
-        "Brand"
-    ).value =
-        asset.Brand || "";
-
-
-    document.getElementById(
-        "Model"
-    ).value =
-        asset.Model || "";
-
-
-    document.getElementById(
-        "SerialNumber"
-    ).value =
-        asset.SerialNumber || "";
-
-
-    document.getElementById(
-        "PurchaseDate"
-    ).value =
-        dateOnly(
-            asset.PurchaseDate
-        );
-
-
-    document.getElementById(
-        "PurchaseCost"
-    ).value =
-        asset.PurchaseCost || "";
-
-
-    document.getElementById(
-        "WarrantyStart"
-    ).value =
-        dateOnly(
-            asset.WarrantyStart
-        );
-
-
-    document.getElementById(
-        "WarrantyEnd"
-    ).value =
-        dateOnly(
-            asset.WarrantyEnd
-        );
-
-
-    document.getElementById(
-        "Status"
-    ).value =
-        valueOf(
-            asset.Status
-        );
-
-
-    document.getElementById(
-        "Condition"
-    ).value =
-        valueOf(
-            asset.Condition
-        );
-
-
-    document.getElementById(
-        "AssetCategory"
-    ).value =
-        valueOf(
-            asset.AssetCategory
-        );
-
-
-    document.getElementById(
-        "AssetLocation"
-    ).value =
-        valueOf(
-            asset.AssetLocation
-        );
-
-
-    document.getElementById(
-        "AssetVendor"
-    ).value =
-        valueOf(
-            asset.AssetVendor
-        );
-
-
-    document.getElementById(
-        "AssetDepartment"
-    ).value =
-        valueOf(
-            asset.AssetDepartment
-        );
-
-
-    document.getElementById(
-        "Remarks"
-    ).value =
-        asset.Remarks || "";
-
-
-    document.getElementById(
-        "assetModal"
-    ).classList.remove(
-        "hidden"
-    );
-
-}
-
-
-/* =========================================================
-   SAVE / UPDATE
-========================================================= */
-
-async function saveAsset(){
-
-    const btn =
-        document.getElementById(
-            "saveBtn"
-        );
-
-
-    const data = {
-
-        ID:
-            document.getElementById(
-                "recordId"
-            ).value,
-
-        AssetID:
-            document.getElementById(
-                "AssetID"
-            ).value.trim(),
-
-        AssetTag:
-            document.getElementById(
-                "AssetTag"
-            ).value.trim(),
-
-        Brand:
-            document.getElementById(
-                "Brand"
-            ).value.trim(),
-
-        Model:
-            document.getElementById(
-                "Model"
-            ).value.trim(),
-
-        SerialNumber:
-            document.getElementById(
-                "SerialNumber"
-            ).value.trim(),
-
-        PurchaseDate:
-            document.getElementById(
-                "PurchaseDate"
-            ).value,
-
-        PurchaseCost:
-            document.getElementById(
-                "PurchaseCost"
-            ).value,
-
-        WarrantyStart:
-            document.getElementById(
-                "WarrantyStart"
-            ).value,
-
-        WarrantyEnd:
-            document.getElementById(
-                "WarrantyEnd"
-            ).value,
-
-        Status:
-            document.getElementById(
-                "Status"
-            ).value,
-
-        Condition:
-            document.getElementById(
-                "Condition"
-            ).value,
-
-        AssetCategory:
-            document.getElementById(
-                "AssetCategory"
-            ).value,
-
-        AssetLocation:
-            document.getElementById(
-                "AssetLocation"
-            ).value.trim(),
-
-        AssetVendor:
-            document.getElementById(
-                "AssetVendor"
-            ).value.trim(),
-
-        AssetDepartment:
-            document.getElementById(
-                "AssetDepartment"
-            ).value.trim(),
-
-        Remarks:
-            document.getElementById(
-                "Remarks"
-            ).value.trim()
-
-    };
-
-
-    if(
-        !data.AssetID ||
-        !data.AssetTag ||
-        !data.Brand ||
-        !data.Model ||
-        !data.SerialNumber
-    ){
-
-        showMessage(
-            "Fill all required fields.",
-            true
-        );
-
-        return;
-
-    }
-
-
-    btn.disabled = true;
-
-
-    try{
-
-        const url =
-            editMode
-            ? UPDATE_ASSET_URL
-            : ADD_ASSET_URL;
-
-
-        const request = {
-
-            action:
-                editMode
-                ? "updateAsset"
-                : "addAsset",
-
-            ...data
-
-        };
-
-
-        const response =
-            await fetch(
-                url,
-                {
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json",
-
-                        "Accept":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(
-                            request
-                        )
-                }
-            );
-
-
-        const raw =
-            await response.text();
-
-
-        console.log(
-            "SAVE RESPONSE:",
-            response.status,
-            raw
-        );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Asset operation HTTP Status: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            JSON.parse(raw);
-
-
-        if(
-            result.body &&
-            typeof result.body === "object"
-        ){
-
-            if(
-                result.body.success === false
-            ){
-
-                throw new Error(
-                    result.body.message ||
-                    "Operation failed."
-                );
-
-            }
-
-        }
-
-
-        if(
-            result.success === false
-        ){
-
-            throw new Error(
-                result.message ||
-                "Operation failed."
-            );
-
-        }
-
-
-        showMessage(
-            editMode
-            ? "Asset updated successfully."
-            : "Asset added successfully."
-        );
-
-
-        closeAssetModal();
-
-
-        await loadAssets();
-
-    }
-    catch(error){
-
-        console.error(
-            "Save Asset:",
-            error
-        );
-
-
-        showMessage(
-            error.message,
-            true
-        );
-
-    }
-    finally{
-
-        btn.disabled = false;
-
-    }
-
-}
-
-
-/* =========================================================
-   REMOVE
-========================================================= */
-
-async function removeAsset(
-    id
-){
-
-    const asset =
-        assets.find(
-            x =>
-                Number(x.ID) ===
-                Number(id)
-        );
-
-
-    if(!asset){
-
-        showMessage(
-            "Asset not found.",
-            true
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !confirm(
-            "Are you sure you want to remove " +
-            (asset.AssetID || id) +
-            "?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    try{
-
-        const response =
-            await fetch(
-                REMOVE_ASSET_URL,
-                {
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json",
-
-                        "Accept":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            action:
-                                "removeAsset",
-
-                            ID:
-                                id
-
-                        })
-                }
-            );
-
-
-        const raw =
-            await response.text();
-
-
-        console.log(
-            "REMOVE RESPONSE:",
-            response.status,
-            raw
-        );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Remove HTTP Status: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            JSON.parse(raw);
-
-
-        if(
-            result.body &&
-            result.body.success === false
-        ){
-
-            throw new Error(
-                result.body.message ||
-                "Remove failed."
-            );
-
-        }
-
-
-        if(
-            result.success === false
-        ){
-
-            throw new Error(
-                result.message ||
-                "Remove failed."
-            );
-
-        }
-
-
-        showMessage(
-            "Asset removed successfully."
-        );
-
-
-        await loadAssets();
-
-    }
-    catch(error){
-
-        console.error(
-            "Remove Asset:",
-            error
-        );
-
-
-        showMessage(
-            error.message,
-            true
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   CLOSE
-========================================================= */
-
-function closeAssetModal(){
-
-    document.getElementById(
-        "assetModal"
-    ).classList.add(
-        "hidden"
-    );
-
-}
-
-
-/* =========================================================
-   CLEAR
-========================================================= */
-
-function clearForm(){
-
-    [
-        "recordId",
-        "AssetID",
-        "AssetTag",
-        "Brand",
-        "Model",
-        "SerialNumber",
-        "PurchaseDate",
-        "PurchaseCost",
-        "WarrantyStart",
-        "WarrantyEnd",
-        "AssetLocation",
-        "AssetVendor",
-        "AssetDepartment",
-        "Remarks"
-    ]
-    .forEach(
-        id => {
-
-            document.getElementById(
-                id
-            ).value = "";
-
-        }
-    );
-
-
-    document.getElementById(
-        "Status"
-    ).value =
-        "Available";
-
-
-    document.getElementById(
-        "Condition"
-    ).value =
-        "New";
-
-
-    document.getElementById(
-        "AssetCategory"
-    ).value =
-        "Laptop";
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-function logout(){
-
-    assets = [];
-
-    document.getElementById(
-        "app"
-    ).classList.add(
-        "hidden"
-    );
-
-
-    document.getElementById(
-        "loginPage"
-    ).classList.remove(
-        "hidden"
-    );
-
-
-    document.getElementById(
-        "userId"
-    ).value = "";
-
-
-    document.getElementById(
-        "password"
-    ).value = "";
-
-}
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function dateOnly(
-    value
-){
-
-    if(!value)
-        return "";
-
-    return String(value)
-        .substring(0,10);
-
-}
-
-
-function safe(
-    value
-){
-
-    if(
-        value === null ||
-        value === undefined
-    ){
-
-        return "";
-
-    }
-
-
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-
-function showMessage(
-    text,
-    isError=false
-){
-
-    const box =
-        document.getElementById(
-            "message"
-        );
-
-
-    box.innerText =
-        text;
-
-
-    box.style.background =
-        isError
-        ? "#dc2626"
-        : "#15803d";
-
-
-    box.style.display =
-        "block";
-
-
-    setTimeout(
-        function(){
-
-            box.style.display =
-                "none";
-
-        },
-        3500
-    );
-
-}
-
-
-/* ENTER TO LOGIN */
-
-document
-    .getElementById("password")
-    .addEventListener(
-        "keydown",
-        function(event){
-
-            if(
-                event.key === "Enter"
-            ){
-
-                loginUser();
-
-            }
-
-        }
-    );
-
+    showCustomAlert("Application validated successfully and ready for submission!", "Success");
+});
 </script>
-
 </body>
 </html>

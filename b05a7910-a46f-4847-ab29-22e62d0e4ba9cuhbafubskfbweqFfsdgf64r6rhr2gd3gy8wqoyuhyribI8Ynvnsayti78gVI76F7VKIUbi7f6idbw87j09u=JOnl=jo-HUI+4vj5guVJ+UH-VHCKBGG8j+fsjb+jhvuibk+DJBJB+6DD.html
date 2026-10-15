@@ -338,21 +338,21 @@
             <div class="grid-3">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="first_name" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    <input type="text" id="firstName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
                 </div>
                 <div class="form-group">
                     <label for="middleName">Middle Name (Optional)</label>
-                    <input type="text" id="middleName" name="middle_name" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)">
+                    <input type="text" id="middleName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="last_name" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    <input type="text" id="lastName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
                 </div>
             </div>
             <div class="grid-3">
                 <div class="form-group">
                     <label for="birthDate">Birth Date:</label>
-                    <input type="date" id="birthDate" name="dob" required>
+                    <input type="date" id="birthDate" required>
                 </div>
                 <div class="form-group">
                     <label for="age">Age:</label>
@@ -360,7 +360,7 @@
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender</label>
-                    <select id="gender" name="gender" required>
+                    <select id="gender" required>
                         <option value="" selected>Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -528,54 +528,54 @@
         </div>
 
         <!-- Address -->
-        <div class="form-window">
-            <h3>Address</h3>
-            
-            <h4>Permanent Address</h4>
-            <div class="grid-3">
-                <div class="form-group"><label for="pVillage">Village:</label><input type="text" id="pVillage" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
-                <div class="form-group"><label for="pPost">Post:</label><input type="text" id="pPost" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
-                <div class="form-group"><label for="pTaluka">Taluka:</label><input type="text" id="pTaluka" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
-            </div>
-            <div class="grid-3">
-                <div class="form-group"><label for="pDistrict">District:</label><input type="text" id="pDistrict" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
-                <div class="form-group"><label for="pState">State:</label><input type="text" id="pState" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
-                <div class="form-group"><label for="pPin">Pin Code:</label><input type="number" id="pPin" pattern="\d{6}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);" required></div>
-            </div>
-            <div class="form-group">
-                <label for="pContact">Contact Number</label>
-                <input type="number" id="pContact" pattern="\d{10}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" title="Contact number must be exactly 10 digits" required>
-            </div>
+<div class="form-window">
+    <h3>Address</h3>
+    
+    <h4>Permanent Address</h4>
+    <div class="grid-3">
+        <div class="form-group"><label for="pVillage">Village:</label><input type="text" id="pVillage" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+        <div class="form-group"><label for="pPost">Post:</label><input type="text" id="pPost" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+        <div class="form-group"><label for="pTaluka">Taluka:</label><input type="text" id="pTaluka" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+    </div>
+    <div class="grid-3">
+        <div class="form-group"><label for="pDistrict">District:</label><input type="text" id="pDistrict" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+        <div class="form-group"><label for="pState">State:</label><input type="text" id="pState" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required></div>
+        <div class="form-group"><label for="pPin">Pin Code:</label><input type="number" id="pPin" pattern="\d{6}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);" required></div>
+    </div>
+    <div class="form-group">
+        <label for="pContact">Contact Number</label>
+        <input type="number" id="pContact" pattern="\d{10}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" title="Contact number must be exactly 10 digits" required>
+    </div>
 
-            <!-- Same Address Checkbox Toggle Section -->
-            <div class="form-group" style="margin: 20px 0;">
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold;">
-                    <input type="checkbox" id="sameAddressToggle" onclick="syncAddresses()">
-                    Local address is the same as permanent address
-                </label>
-            </div>
+    <!-- Same Address Checkbox Toggle Section -->
+    <div class="form-group" style="margin: 20px 0;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold;">
+            <input type="checkbox" id="sameAddressToggle" onclick="syncAddresses()">
+            Local address is the same as permanent address
+        </label>
+    </div>
 
-            <!-- Local Address Container Window -->
-            <div id="localAddressWindow">
-                <hr style="border:0; border-top: 1px dashed #e2e8f0; margin: 16px 0;">
+    <!-- Local Address Container Window -->
+    <div id="localAddressWindow">
+        <hr style="border:0; border-top: 1px dashed #e2e8f0; margin: 16px 0;">
 
-                <h4>Local Address</h4>
-                <div class="grid-3">
-                    <div class="form-group"><label for="lVillage">Village:</label><input type="text" id="lVillage" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
-                    <div class="form-group"><label for="lPost">Post:</label><input type="text" id="lPost" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
-                    <div class="form-group"><label for="lTaluka">Taluka:</label><input type="text" id="lTaluka" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
-                </div>
-                <div class="grid-3">
-                    <div class="form-group"><label for="lDistrict">District:</label><input type="text" id="lDistrict" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
-                    <div class="form-group"><label for="lState">State:</label><input type="text" id="lState" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
-                    <div class="form-group"><label for="lPin">Pin Code:</label><input type="number" id="lPin" pattern="\d{6}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></div>
-                </div>
-                <div class="form-group">
-                    <label for="lContact">Contact Number:</label>
-                    <input type="number" id="lContact" pattern="\d{10}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" title="Contact number must be exactly 10 digits">
-                </div>
-            </div>
+        <h4>Local Address</h4>
+        <div class="grid-3">
+            <div class="form-group"><label for="lVillage">Village:</label><input type="text" id="lVillage" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+            <div class="form-group"><label for="lPost">Post:</label><input type="text" id="lPost" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+            <div class="form-group"><label for="lTaluka">Taluka:</label><input type="text" id="lTaluka" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
         </div>
+        <div class="grid-3">
+            <div class="form-group"><label for="lDistrict">District:</label><input type="text" id="lDistrict" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+            <div class="form-group"><label for="lState">State:</label><input type="text" id="lState" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)"></div>
+            <div class="form-group"><label for="lPin">Pin Code:</label><input type="number" id="lPin" pattern="\d{6}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></div>
+        </div>
+        <div class="form-group">
+            <label for="lContact">Contact Number:</label>
+            <input type="number" id="lContact" pattern="\d{10}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" title="Contact number must be exactly 10 digits">
+        </div>
+    </div>
+</div>
 
         <!-- Guarantor & Family -->
         <div class="form-window">
@@ -669,36 +669,36 @@
             <h3>Financial & Identification Details</h3>
             <div class="grid-2">
                 <div class="form-group">
-                    <label for="aadharNumber">Aadhaar Number</label>
-                    <input type="number" id="aadharNumber" name="aadhar_number" pattern="\d{12}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);" maxlength="12" title="Aadhaar Number must be exactly 12 digits" required>
+                    <label for="aadharNumber">Aadhar Number</label>
+                    <input type="number" id="aadharNumber" pattern="\d{12}" pattern="\d{12}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);" maxlength="12" title="Aadhar Number must be exactly 12 digits" required>
                 </div>
                 <div class="form-group">
-                    <label for="aadharName">Name as per Aadhaar</label>
-                    <input type="text" id="aadharName" name="full_name" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    <label for="aadharName">Name as per Aadhar</label>
+                    <input type="text" id="aadharName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
                 </div>
             </div>
             <div class="grid-2">
                 <div class="form-group">
                     <label for="panNumber">PAN Number</label>
-                    <input type="text" id="panNumber" name="pan_number" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10" title="PAN must be exactly 10 characters (e.g. ABCDE1234F)" oninput="this.value = this.value.toUpperCase();" required>
+                    <input type="text" id="panNumber" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10" title="PAN must be exactly 10 characters (e.g. ABCDE1234F)" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
                 <div class="form-group">
                     <label for="panName">Name as per PAN Card</label>
-                    <input type="text" id="panName" name="pan_name" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    <input type="text" id="panName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
                 </div>
             </div>
             <div class="grid-3">
                 <div class="form-group">
                     <label for="bankAccount">Bank Account Number</label>
-                    <input type="number" id="bankAccount" name="account_number" pattern="\d{9,18}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 18) this.value = this.value.slice(0, 18);" title="Please enter a valid bank account number (digits only)" required>
+                    <input type="number" id="bankAccount" pattern="\d{9,18}" pattern="\d{12}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="if(this.value.length > 18) this.value = this.value.slice(0, 18);" title="Please enter a valid bank account number (digits only)" required>
                 </div>
                 <div class="form-group">
                     <label for="ifscCode">IFSC Code</label>
-                    <input type="text" id="ifscCode" name="ifsc" pattern="[A-Z]{4}0[A-Z0-9]{6}" maxlength="11" title="IFSC Code must be 11 characters (e.g. SBIN0001234)" oninput="this.value = this.value.toUpperCase();" required>
+                    <input type="text" id="ifscCode" pattern="[A-Z]{4}0[A-Z0-9]{6}" maxlength="11" title="IFSC Code must be 11 characters (e.g. SBIN0001234)" oninput="this.value = this.value.toUpperCase();" required>
                 </div>
                 <div class="form-group">
                     <label for="bankingName">Banking Name</label>
-                    <input type="text" id="bankingName" name="bank_name" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
+                    <input type="text" id="bankingName" oninput="this.value = this.value.toUpperCase();" pattern="[A-Z\s]+" onkeypress="return (event.charCode < 48 || event.charCode > 57)" required>
                 </div>
             </div>
         </div>

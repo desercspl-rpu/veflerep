@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles with Modern UI */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Modern Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+        .hero-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        #datetime {
+            color: #38bdf8;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: rgba(56, 189, 248, 0.1);
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* Glassmorphism Cards Grid */
+        .content-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 30px 20px 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.2);
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+            color: #f1f5f9;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* UI Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
+        }
+
+        /* Dropdown with Smooth Delay Effect */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .dropdown .btn-primary {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dropdown-content {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            bottom: 110%; /* Displays above the button, or set top: 100% to show below */
+            left: 0;
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            z-index: 10;
+            
+            /* TIME DELAY / TRANSITION EFFECT */
+            transform: translateY(10px);
+            transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s, visibility 0s linear 0.5s; 
+        }
+
+        /* On hover, introduce smooth animated entry */
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            transition-delay: 0.15s; /* Short delay before opening */
+        }
+
+        .dropdown-content a {
+            color: #cbd5e1;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <!-- Navigation Bar -->
+        <header class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <h1>Individual</h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="131cfb31-9335-4f91-bb47-bfe821d0ba8ccuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD">Contact Us</a>     
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h2>How can we help you today?</h2>
+                <p id="datetime"></p>
+            </div>
+        </section>
+
+        <!-- Action Cards Grid -->
+        <main class="container content-section">
+            <!-- <div class="card">
+                <h3>CCTV Report</h3>
+                <p>Kindly submit your vehicle’s CCTV report daily.</p>
+                <a href="d8980c07-6f5f-4f57-8035-18cce006c890cuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD" class="btn-primary">Report</a>
+            </div>-->
+
+            <!--<div class="card">
+                <h3>Clearance Submission</h3>
+                <p>Verify and submit your digital clearance here.</p>
+                <a href="clea0f522-3ea8-4c9a-b0e5-b85869db5585cuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD" class="btn-primary">Report</a>
+            </div>-->
+
+            <div class="card">
+                <h3>Police Verification</h3>
+                <p>Kindly verify the police verification from Checkmate Services.</p>
+                <a href="1a795126-cb59-45e2-b373-0ce907844cafcuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6i7fUV7idf5+sf+rgjw-eenjwwd=adskda+dfjdbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+JBVDY23D29E=DJBJB+6DDDJSD++ef-Hfwhv" class="btn-primary">Click here</a>
+            </div>
+
+            <div class="card">
+                <h3>Smart Card</h3>
+                <p>You can apply for a smart ID card.</p>
+                <a href="04f74f9e-17a0-4a9c-a6e3-d9f317177794cuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD" class="btn-primary">Request</a>
+            </div>
+
+            <div class="card">
+                <h3>Attendance</h3>
+                <p>You may upload the attendance here.</p>
+                <a href="https://checkmateindia-my.sharepoint.com/:f:/g/personal/pune_ops_checkmateservices_com/IgAm-QCtbIZ8R64BYJH73MszAe517hBnzWYPdA9i5unmCgc?e=PFleDb" class="btn-primary">Login</a>
+            </div>
+
+            <!-- Joining Application with Delayed Dropdown -->
+            <div class="card">
+                <h3>Joining Application</h3>
+                <p>You may submit your application form for joining here.</p>
+                <div class="dropdown">
+                    <button class="btn-primary">Application</button>
+                    <div class="dropdown-content">
+                        <a href="b05a7910-a46f-4847-ab29-22e62d0e4ba9cuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD">CSPL</a>
+                        <a href="b05a7710-a46f-4847-ab29-22e62d0e4ba9cuhbafubskfbweqFfsdgf64r6rhr2gd3gy8wqoyuhyribI8Ynvnsayti78gVI76F7VKIUbi7f6idbw87j09u=JOnl=jo-HUI+4vj5guVJ+UH-VHCKBGG8j+fsjb+jhvuibk+DJBJB+6DD">CFESPL</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p>&copy; <span id="currentYear"></span> Checkmate Services Private Limited | Help Desk Portal</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDateTime = `Today is: ${now.toLocaleDateString(undefined, options)}, Time: ${now.toLocaleTimeString()}`;
+            document.getElementById("datetime").innerHTML = formattedDateTime;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // Dynamically set current year in footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+    </script>    
+</body>
+</html>

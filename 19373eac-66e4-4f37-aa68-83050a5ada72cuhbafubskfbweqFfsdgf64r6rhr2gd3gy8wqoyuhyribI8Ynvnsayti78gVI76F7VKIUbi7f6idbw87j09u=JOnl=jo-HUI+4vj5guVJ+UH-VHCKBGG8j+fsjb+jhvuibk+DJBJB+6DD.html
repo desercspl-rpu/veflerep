@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Form</title>
+    <style>    
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.inta {
+    margin-bottom: 15px;
+    width: calc(100%);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+
+    <form method="POST" enctype action="https://script.google.com/macros/s/AKfycbyo4Wy5ORj56B80rJbBXlkZfvBQ4O7R0Xtag8Wz8h2uIAF4aRjRuVa5bwYH3ftAloWn/exec">
+        <h3>Submission Form</h3>
+        
+        <label for="text">ID Number</label>
+        <input class="inta" type="text" name="ID Number" placeholder="EMP/PUN/01234" required>
+
+        <label for="text">Full Name</label>
+        <input class="inta" type="text" name="Full Name" placeholder="Your Name" required>
+
+        <label for="text">Email ID</label>
+        <input class="inta" type="email" name="Email ID" placeholder="xyz@gmail.com" required>
+
+        <label for="desig">Designation</label>
+        <input class="inta" type="text" name="Designation" placeholder="Custodian" required>
+
+        <label for="text">Post Name</label>
+        <input class="inta" type="text" name="Post Name" placeholder="RBI Bank" required>
+
+        <label for="text">Subject</label>
+        <input class="inta" type="text" name="Subject" placeholder="What you want" required>
+
+        <label for="text">Remark</label><br>
+        <textarea class="inta" name="Remark" rows="4" cols="50" placeholder="Description etc."></textarea>
+
+        <label for="text">Attachment</label>
+        <input class="inta" type="file" name="Attachment">
+
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fleet Control</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-matrix: #0b0f19;
+      --bg-panel: #141b2d;
+      --bg-input: #1f2942;
+      --neon-glow: #10b981;
+      --neon-active: #10b981;
+      --neon-error: #f43f5e;
+      --text-glow: #e2e8f0;
+      --text-dim: #94a3b8;
+      --border-glow: #2a3b5c;
+      --radius-px: 10px;
+    }
+
+    /* System Fit Formats - Forces Single View Window Optimization */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Consolas', 'Courier New', monospace, system-ui; }
+    html, body { height: 100%; overflow: hidden; background: var(--bg-matrix); color: var(--text-glow); }
+    body { padding: 12px; display: flex; justify-content: center; align-items: center; }
+    
+    .app-shell { 
+      width: 100%; 
+      height: 100%; 
+      max-width: 1100px; 
+      max-height: 800px; 
+      background: var(--bg-panel); 
+      border: 1px solid var(--border-glow); 
+      border-radius: var(--radius-px); 
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.08); 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+    }
+
+    /* Core Application Header Strip */
+    header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 14px 20px; 
+      border-bottom: 1px solid var(--border-glow); 
+      background: rgba(11, 15, 25, 0.5); 
+    }
+    h1 { font-size: 1.1rem; letter-spacing: 2px; color: var(--neon-glow); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    .sys-pulse { width: 8px; height: 8px; background: var(--neon-glow); border-radius: 50%; box-shadow: 0 0 8px var(--neon-glow); animation: pulse 2s infinite; }
+
+    /* Interactive Operational Navigation Elements */
+    .terminal-nav { display: flex; background: #0f1422; border-bottom: 1px solid var(--border-glow); }
+    .nav-tab { 
+      flex: 1; 
+      background: transparent; 
+      border: none; 
+      border-right: 1px solid var(--border-glow); 
+      padding: 12px; 
+      color: var(--text-dim); 
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: all 0.2s; 
+      font-size: 0.85rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+    }
+    .nav-tab:last-child { border-right: none; }
+    .nav-tab.active { background: var(--bg-panel); color: var(--neon-glow); box-shadow: inset 0 3px 0 var(--neon-glow); }
+
+    /* Screen Space Frame Adjustments */
+    .viewport-content { flex: 1; position: relative; overflow: hidden; background: #111625; }
+    .pane { position: absolute; top:0; left:0; width:100%; height:100%; padding: 20px; display: none; overflow-y: auto; }
+    .pane.active { display: flex; flex-direction: column; gap: 14px; }
+
+    /* Universal Control Modules Blocks */
+    .glow-card { background: var(--bg-panel); border: 1px solid var(--border-glow); padding: 18px; border-radius: var(--radius-px); position: relative; }
+    h2 { font-size: 0.95rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+    h2 i { color: var(--neon-glow); }
+
+    /* Forms inputs & Fields components */
+    .group-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .input-cell { margin-bottom: 12px; }
+    label { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; letter-spacing: 0.5px; }
+    input, select, textarea { 
+      width: 100%; 
+      padding: 10px 12px; 
+      background: var(--bg-input); 
+      border: 1px solid var(--border-glow); 
+      border-radius: 6px; 
+      color: #fff; 
+      font-size: 0.9rem; 
+      outline: none; 
+      transition: all 0.2s; 
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--neon-glow); box-shadow: 0 0 6px rgba(16, 185, 129, 0.2); }
+    
+    /* Interactive Actions Elements Buttons */
+    button.neon-action { 
+      background: rgba(16, 185, 129, 0.1); 
+      border: 1px solid var(--neon-glow); 
+      color: var(--neon-glow); 
+      padding: 12px 20px; 
+      border-radius: 6px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      text-transform: uppercase; 
+      font-size: 0.85rem; 
+      letter-spacing: 1px; 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      transition: all 0.2s; 
+    }
+    button.neon-action:hover:not(:disabled) { background: var(--neon-glow); color: #000; box-shadow: 0 0 12px var(--neon-glow); }
+    button.neon-action:disabled { border-color: var(--border-glow); color: var(--text-dim); background: #161e30; cursor: not-allowed; }
+    
+    button.sec-action { background: transparent; border: 1px solid var(--border-glow); color: var(--text-dim); }
+    button.sec-action:hover:not(:disabled) { border-color: var(--text-glow); color: #fff; }
+
+    /* Admin Dual Partitioning Workspace Split Window Grid */
+    .split-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; flex: 1; overflow: hidden; }
+    .panel-block { display: flex; flex-direction: column; overflow: hidden; }
+    .scroll-body { flex: 1; overflow-y: auto; border: 1px solid var(--border-glow); border-radius: 6px; background: #0f1422; }
+
+    /* Cyber Matrix Data Tables Framework styling */
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid rgba(42, 59, 92, 0.4); }
+    th { background: #0b0f19; color: var(--text-dim); font-weight: normal; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 2; }
+    tr:hover td { background: rgba(16, 185, 129, 0.03); }
+    
+    .badge { padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+    .badge.active { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .badge.inactive { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
+    
+    .action-trash { color: var(--text-dim); cursor: pointer; transition: color 0.15s; }
+    .action-trash:hover { color: var(--neon-error); }
+
+    /* ==================== CUSTOM INTELLIGENT ALERT DIALOG OVERLAY ==================== */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(4px);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .alert-box {
+      background: var(--bg-panel); border: 2px solid var(--border-glow);
+      border-radius: var(--radius-px); padding: 24px; max-width: 440px; width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;
+      transform: scale(0.9); transition: transform 0.2s ease;
+    }
+    .modal-overlay.active .alert-box { transform: scale(1); }
+    .alert-icon { font-size: 2.5rem; margin-bottom: 14px; }
+    .alert-box.error .alert-icon { color: var(--neon-error); }
+    .alert-box.error { border-color: var(--neon-error); box-shadow: 0 0 20px rgba(244, 63, 94, 0.15); }
+    .alert-box.success .alert-icon { color: var(--neon-glow); }
+    .alert-box.success { border-color: var(--neon-glow); box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+    .alert-title { font-size: 1.1rem; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; margin-bottom: 8px; }
+    .alert-desc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.4; margin-bottom: 20px; font-family: system-ui, sans-serif; }
+    .alert-btn { width: 100%; padding: 10px; border-radius: 6px; font-weight: bold; text-transform: uppercase; cursor: pointer; border: 1px solid; }
+    .alert-box.error .alert-btn { background: rgba(244, 63, 94, 0.1); color: var(--neon-error); border-color: var(--neon-error); }
+    .alert-box.error .alert-btn:hover { background: var(--neon-error); color: #000; }
+    .alert-box.success .alert-btn { background: rgba(16, 185, 129, 0.1); color: var(--neon-glow); border-color: var(--neon-glow); }
+    .alert-box.success .alert-btn:hover { background: var(--neon-glow); color: #000; }
+
+    /* Mobile Adaptivity Overwrites */
+    @media (max-width: 768px) {
+      body { padding: 0; }
+      .app-shell { border-radius: 0; border: none; height: 100%; }
+      .split-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow-y: auto; }
+      .scroll-body { max-height: 180px; }
+      .group-row { grid-template-columns: 1fr; gap: 0; }
+    }
+
+    @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+  <header>
+    <h1><div class="sys-pulse"></div> Matrix Fleet || RAJMUDRA INDUSTRIAL SERVICES PRIVATE LIMITED</h1>
+    <div id="global-loader" style="display:none; font-size: 0.75rem; color: var(--neon-glow);"><i class="fa-solid fa-circle-notch fa-spin"></i> SYNC...</div>
+  </header>
+
+  <nav class="terminal-nav">
+    <button class="nav-tab active" id="tab-portal" onclick="switchTab('vehicle-portal')"><i class="fa-solid fa-terminal"></i> Fleet Entry</button>
+    <button class="nav-tab" id="tab-admin" onclick="switchTab('admin-portal')"><i class="fa-solid fa-shield-halved"></i> Management</button>
+  </nav>
+
+  <div class="viewport-content">
+
+    <div id="vehicle-portal" class="pane active">
+      <div id="veh-login-box" class="glow-card" style="margin: auto; max-width: 420px; width:100%;">
+        <h2><i class="fa-solid fa-door-open"></i> Login</h2>
+        <div class="input-cell">
+          <label>Vehicle Number:</label>
+          <input type="text" id="veh-id-input" placeholder="Enter Vehicle Number" maxlength="10" oninput="this.value = this.value.toUpperCase();">
+        </div>
+        <button class="neon-action" id="btn-veh-login" onclick="handleVehicleLogin()" style="width: 100%;">Connect System <i class="fa-solid fa-plug"></i></button>
+      </div>
+
+      <div id="veh-action-box" class="glow-card" style="display:none;">
+        <h2><i class="fa-solid fa-compass"></i> Operations Log</h2>
+        <div style="font-size:0.8rem; margin-bottom:14px; color:var(--text-dim);"> ASSET Number: <strong id="active-veh-display" style="color:var(--neon-glow);"></strong></div>
+        
+        <div class="group-row">
+          <div class="input-cell">
+            <label>State Matrix</label>
+            <select id="shift-type">
+              <option value="START">CHECK-OUT [Start]</option>
+              <option value="END">CHECK-IN [END]</option>
+            </select>
+          </div>
+          <div class="input-cell">
+            <label>Odometer Reading (KM)</label>
+            <input type="number" id="shift-km" placeholder="Enter Reading">
+          </div>
+        </div>
+
+        <div class="group-row">
+          <div class="input-cell">
+            <label>Date</label>
+            <input type="date" id="shift-date">
+          </div>
+          <div class="input-cell">
+            <label>Time</label>
+            <input type="time" id="shift-time">
+          </div>
+        </div>
+
+        <div class="input-cell">
+          <label>Remarks</label>
+          <textarea id="shift-remark" rows="2" placeholder="Description"></textarea>
+        </div>
+
+        <div class="btn-group" style="display:flex; gap:10px;">
+          <button class="neon-action" id="btn-shift-submit" onclick="handleShiftSubmit()" style="flex:2;">Save</button>
+          <button class="neon-action sec-action" onclick="logoutVehicle()" style="flex:1;">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-portal" class="pane">
+      <div id="admin-login-box" class="glow-card" style="margin: auto; max-width: 420px; width:100%;">
+        <h2><i class="fa-solid fa-fingerprint"></i> Management Console</h2>
+        <div class="input-cell"><label>Username:</label><input type="text" id="admin-username" placeholder="username"></div>
+        <div class="input-cell"><label>Password:</label><input type="password" id="admin-password" placeholder="••••••••"></div>
+        <button class="neon-action" id="btn-admin-login" onclick="handleAdminLogin()" style="width:100%;">Login</button>
+      </div>
+
+      <div id="admin-dashboard" class="split-layout" style="display:none;">
+        <div class="panel-block" style="gap:14px;">
+          <div class="glow-card">
+            <h2><i class="fa-solid fa-cloud-arrow-down"></i> Backup Offline</h2>
+            <div class="group-row">
+              <div class="input-cell"><label>Target Vehicle</label><input type="text" id="export-vehicle" placeholder="ALL ASSETS"></div>
+              <div class="input-cell"><label>Target Month</label><input type="month" id="export-month"></div>
+            </div>
+            <button class="neon-action" id="btn-csv-download" onclick="triggerCsvDownload()" style="width:100%; margin-top:4px;"><i class="fa-solid fa-file-csv"></i> Download CSV</button>
+          </div>
+
+          <div class="glow-card" style="flex:1; display:flex; flex-direction:column; margin-bottom:2px;">
+            <h2><i class="fa-solid fa-sliders"></i> Vehicle Registry</h2>
+            <div class="input-cell"><label>Target Veicle</label><input type="text" id="crud-veh-id" placeholder="Vehicle Number" pattern="^[A-Za-z]{2}\d{2}[A-Za-z]{2}\d{4}$" oninput="this.value = this.value.toUpperCase();" maxlength="10"></div>
+            <div class="input-cell">
+              <label>State Allocation</label>
+              <select id="crud-veh-status"><option value="Active">ACTIVE</option><option value="Inactive">INACTIVE</option></select>
+            </div>
+            <div class="btn-group" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:auto;">
+              <button class="neon-action" id="btn-veh-add" onclick="mutateVehicle('addVehicle')"><i class="fa-solid fa-square-plus"></i> ADDED</button>
+              <button class="neon-action sec-action" id="btn-veh-update" onclick="mutateVehicle('updateVehicle')"><i class="fa-solid fa-wrench"></i> Modify</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-block glow-card">
+          <h2><i class="fa-solid fa-network-wired"></i> Fleet Cluster</h2>
+          <div class="scroll-body">
+            <table>
+              <thead><tr><th>REGISTERED</th><th>STATE</th><th style="text-align:center;">REMOVE</th></tr></thead>
+              <tbody id="table-vehicles-body"></tbody>
+            </table>
+          </div>
+          <button class="neon-action sec-action" onclick="logoutAdmin()" style="margin-top:12px; width:100%;"><i class="fa-solid fa-lock"></i> LOGOUT</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="custom-alert" class="modal-overlay">
+  <div id="alert-box-card" class="alert-box error">
+    <div class="alert-icon"><i id="alert-icon-graphic" class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="alert-title" id="alert-title-text">System Exception</div>
+    <div class="alert-desc" id="alert-desc-text">An unknown configuration tracking error occurred.</div>
+    <button class="alert-btn" onclick="closeAlert()">OK</button>
+  </div>
+</div>
+
+<script>
+  const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbxDXUOGP8Nv64-G0j_IEON8Sm8oXPxT0nGb0iSWQfKsv67qFnmemKfcgklf3t0XPtN8/exec";
+
+  let currentActiveVehicle = "";
+  let adminAuthorizedToken = false;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const now = new Date();
+    document.getElementById('shift-date').value = now.toISOString().split('T')[0];
+    document.getElementById('shift-time').value = now.toTimeString().slice(0,5);
+  });
+
+  function switchTab(tabId) {
+    document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(c => c.classList.remove('active'));
+    document.getElementById(tabId === 'vehicle-portal' ? 'tab-portal' : 'tab-admin').classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  // --- NEW CUSTOM MODAL ALERT TRIGGER ENGINE ---
+  function showAlert(msg, isError = false) {
+    const overlay = document.getElementById('custom-alert');
+    const card = document.getElementById('alert-box-card');
+    const icon = document.getElementById('alert-icon-graphic');
+    const title = document.getElementById('alert-title-text');
+    const desc = document.getElementById('alert-desc-text');
+
+    desc.innerText = msg;
+    
+    if (isError) {
+      card.className = "alert-box error";
+      icon.className = "fa-solid fa-triangle-exclamation";
+      title.innerText = "Execution Denied";
+    } else {
+      card.className = "alert-box success";
+      icon.className = "fa-solid fa-circle-check";
+      title.innerText = "Process Verified";
+    }
+    overlay.classList.add('active');
+  }
+
+  function closeAlert() {
+    document.getElementById('custom-alert').classList.remove('active');
+  }
+
+  function toggleLoader(show) { document.getElementById('global-loader').style.display = show ? 'block' : 'none'; }
+
+  function setButtonState(buttonId, isLoading, originalHtml) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    if (isLoading) {
+      btn.disabled = true;
+      btn.dataset.originalHtml = btn.innerHTML;
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> RUNNING...`;
+    } else {
+      btn.disabled = false;
+      btn.innerHTML = btn.dataset.originalHtml || originalHtml;
+    }
+  }
+
+  // ==================== VEHICLE DRIVER PORTAL HANDLING ====================
+  async function handleVehicleLogin() {
+    const vNum = document.getElementById('veh-id-input').value.trim();
+    if(!vNum) return showAlert("Required vehicle key variable string omitted.", true);
+    
+    setButtonState('btn-veh-login', true);
+    toggleLoader(true);
+    try {
+      const res = await fetch(`${API_ENDPOINT}?action=vehicleLogin&vehicleNumber=${encodeURIComponent(vNum)}`);
+      const data = await res.json();
+      if(data.success) {
+        currentActiveVehicle = vNum;
+        document.getElementById('active-veh-display').innerText = vNum;
+        document.getElementById('veh-login-box').style.display = "none";
+        document.getElementById('veh-action-box').style.display = "block";
+      } else { showAlert(data.message, true); }
+    } catch(err) { showAlert("Cluster network failed validating pipeline array strings.", true); }
+    toggleLoader(false);
+    setButtonState('btn-veh-login', false, `Connect System <i class="fa-solid fa-plug"></i>`);
+  }
+
+  function logoutVehicle() {
+    currentActiveVehicle = "";
+    document.getElementById('veh-login-box').style.display = "block";
+    document.getElementById('veh-action-box').style.display = "none";
+    document.getElementById('veh-id-input').value = "";
+  }
+
+  async function handleShiftSubmit() {
+    const type = document.getElementById('shift-type').value;
+    const km = document.getElementById('shift-km').value;
+    const date = document.getElementById('shift-date').value;
+    const time = document.getElementById('shift-time').value;
+    const remark = document.getElementById('shift-remark').value;
+
+    if(!km || !date || !time) return showAlert("Incomplete data parameter matrix blocks detected.", true);
+
+    setButtonState('btn-shift-submit', true);
+    toggleLoader(true);
+    let url = `${API_ENDPOINT}?action=submitEntry&vehicleNumber=${encodeURIComponent(currentActiveVehicle)}&type=${type}&km=${km}&date=${date}&time=${time}&remark=${encodeURIComponent(remark)}`;
+    
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if(data.success) {
+        showAlert(data.message, false);
+        document.getElementById('shift-km').value = "";
+        document.getElementById('shift-remark').value = "";
+      } else { showAlert(data.message, true); }
+    } catch(err) { showAlert("Telemetry pipeline failed processing parameters safely.", true); }
+    toggleLoader(false);
+    setButtonState('btn-shift-submit', false, 'Commit Frame');
+  }
+
+  // ==================== ADMIN CORE SUITE HANDLING ====================
+  async function handleAdminLogin() {
+    const user = document.getElementById('admin-username').value.trim();
+    const pass = document.getElementById('admin-password').value.trim();
+    if(!user || !pass) return showAlert("Root authorization strings omitted.", true);
+
+    setButtonState('btn-admin-login', true);
+    toggleLoader(true);
+    try {
+      const res = await fetch(`${API_ENDPOINT}?action=adminLogin&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`);
+      const data = await res.json();
+      if(data.success) {
+        adminAuthorizedToken = true;
+        document.getElementById('admin-login-box').style.display = "none";
+        document.getElementById('admin-dashboard').style.display = "grid";
+        pullVehicleGrid();
+      } else { showAlert(data.message, true); }
+    } catch(err) { showAlert("Identity authentication engine infrastructure failure exception.", true); }
+    toggleLoader(false);
+    setButtonState('btn-admin-login', false, 'Mount Shell');
+  }
+
+  function logoutAdmin() {
+    adminAuthorizedToken = false;
+    document.getElementById('admin-login-box').style.display = "block";
+    document.getElementById('admin-dashboard').style.display = "none";
+    document.getElementById('admin-username').value = "";
+    document.getElementById('admin-password').value = "";
+  }
+
+  async function pullVehicleGrid() {
+    try {
+      const res = await fetch(`${API_ENDPOINT}?action=getVehicles`);
+      const payload = await res.json();
+      if(payload.success) {
+        let html = "";
+        payload.data.forEach(item => {
+          html += `<tr>
+            <td><strong>${item.vehicleNumber}</strong></td>
+            <td><span class="badge ${item.status.toLowerCase() === 'active' ? 'active' : 'inactive'}">${item.status}</span></td>
+            <td style="text-align:center;"><i class="fa-solid fa-square-xmark action-trash" onclick="triggerDeleteVehicle(this, '${item.vehicleNumber}')"></i></td>
+          </tr>`;
+        });
+        document.getElementById('table-vehicles-body').innerHTML = html;
+      }
+    } catch(e) { console.error("Error drawing live active table objects matrix arrays.", e); }
+  }
+
+  async function mutateVehicle(action) {
+    const id = document.getElementById('crud-veh-id').value.trim();
+    const status = document.getElementById('crud-veh-status').value;
+    if(!id) return showAlert("Target object execution index key missing.", true);
+
+    const targetBtnId = action === 'addVehicle' ? 'btn-veh-add' : 'btn-veh-update';
+    const fallbackText = action === 'addVehicle' ? '<i class="fa-solid fa-square-plus"></i> Inject' : '<i class="fa-solid fa-wrench"></i> Modify';
+    
+    setButtonState(targetBtnId, true);
+    toggleLoader(true);
+    try {
+      const res = await fetch(`${API_ENDPOINT}?action=${action}&vehicleNumber=${encodeURIComponent(id)}&status=${status}`);
+      const data = await res.json();
+      if(data.success) {
+        showAlert(data.message, false);
+        document.getElementById('crud-veh-id').value = "";
+        pullVehicleGrid();
+      } else { showAlert(data.message, true); }
+    } catch(e) { showAlert("Schema transformation rule array execution failed.", true); }
+    toggleLoader(false);
+    setButtonState(targetBtnId, false, fallbackText);
+  }
+
+  async function triggerDeleteVehicle(iconElement, id) {
+    if(!confirm(`Authorize irreversible object purge for configuration index: ${id}?`)) return;
+    
+    iconElement.style.opacity = "0.3";
+    toggleLoader(true);
+    try {
+      const res = await fetch(`${API_ENDPOINT}?action=deleteVehicle&vehicleNumber=${encodeURIComponent(id)}`);
+      const data = await res.json();
+      if (data.success) {
+        showAlert(data.message, false);
+        pullVehicleGrid();
+      } else { showAlert(data.message, true); }
+    } catch(e) { 
+      showAlert("Purge execution protocol exception structural bypass block.", true); 
+      iconElement.style.opacity = "1";
+    }
+    toggleLoader(false);
+  }
+
+  // ==================== STABLE CLIENT-SIDE BLOB CSV DOWNLOAD ====================
+  async function triggerCsvDownload() {
+    const vehicle = document.getElementById('export-vehicle').value.trim();
+    const month = document.getElementById('export-month').value;
+
+    let downloadUrl = `${API_ENDPOINT}?action=downloadCSV`;
+    if(vehicle) downloadUrl += `&vehicleNumber=${encodeURIComponent(vehicle)}`;
+    if(month) downloadUrl += `&month=${encodeURIComponent(month)}`;
+
+    setButtonState('btn-csv-download', true);
+    toggleLoader(true);
+
+    try {
+      const response = await fetch(downloadUrl);
+      const csvRawText = await response.text();
+
+      if (csvRawText.startsWith("No data available")) {
+        showAlert(csvRawText, true);
+        toggleLoader(false);
+        setButtonState('btn-csv-download', false, `<i class="fa-solid fa-file-csv"></i> Download Filtered CSV`);
+        return;
+      }
+
+      const blob = new Blob([csvRawText], { type: 'text/csv;charset=utf-8;' });
+      const localBlobUrl = window.URL.createObjectURL(blob);
+      const virtualAnchor = document.createElement('a');
+      virtualAnchor.href = localBlobUrl;
+      
+      let filename = "Telemetry_Export";
+      if(vehicle) filename += "_" + vehicle;
+      if(month) filename += "_" + month;
+      filename += ".csv";
+      
+      virtualAnchor.setAttribute('download', filename);
+      document.body.appendChild(virtualAnchor);
+      virtualAnchor.click();
+      
+      document.body.removeChild(virtualAnchor);
+      window.URL.revokeObjectURL(localBlobUrl);
+      showAlert("Log export structure saved successfully.", false);
+    } catch (error) {
+      showAlert("Client pipeline memory allocation block error during download execution.", true);
+    }
+    toggleLoader(false);
+    setButtonState('btn-csv-download', false, `<i class="fa-solid fa-file-csv"></i> Download Filtered CSV`);
+  }
+</script>
+</body>
+</html>
